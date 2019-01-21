@@ -23,3 +23,14 @@ int         main(int argc, char **argv)
         ft_fprintf("%s\n", 2, line);
     return (0);
 }
+
+// premiere ligne = nb de fourmi
+
+// # commantaire, ignorer
+
+// ## commande start ou end defini la ligne suivante
+// nom_de_salle x_salle y_salle
+
+// nom_de_salle x_salle y_salle
+
+// salle_?-salle? defini les tubes
