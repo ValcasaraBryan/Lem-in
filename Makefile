@@ -12,7 +12,8 @@
 
 NAME = lem-in
 
-SRC =	srcs/main.c
+SRC =	srcs/main.c\
+		srcs/parsing.c
 
 LIB = libft/libft.a
 
