@@ -55,6 +55,7 @@ SRC =	srcs/ft_is/ft_isalnum.c\
 		srcs/ft_put/ft_putstr_fd.c\
 		srcs/ft_put/ft_putstr_len.c\
 		\
+		srcs/ft_str/ft_str_is_digit.c\
 		srcs/ft_str/ft_strcat.c\
 		srcs/ft_str/ft_strchr.c\
 		srcs/ft_str/ft_strclr.c\
