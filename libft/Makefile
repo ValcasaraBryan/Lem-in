@@ -171,10 +171,6 @@ else
 	@echo "Usage : La variable EXE n'est pas initialisee"
 endif
 
-norm:
-	#------- only ["function"] and ["line has"] -------#
-	@norminette **/*/*.[c.h]
-
 norm_cat: norm 
 	@clear
 	@cat norm.txt

@@ -52,10 +52,7 @@ int         check_nb_char(char *str, int nb, char c)
     while (str[++i])
         if (str[i] == c)
             res++;
-    if (res == nb)
-        return (1);
-    else
-        return (0);
+    return (res == nb);
 }
 
 int         parsing_pipe_line(t_infos *infos,char ***tab)

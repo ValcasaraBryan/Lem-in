@@ -34,8 +34,10 @@ $(NAME) : $(OBJET)
 	@$(CC) $(CFLAGS) $(LIB) $(OBJET) -o $@
 
 exe : $(NAME)
-	@./lem-in < test
-
+	./lem-in < test
+	#./lem-in < srcs
+	#./lem-in < auteur
+	#./lem-in < coucou
 clean :
 	@rm -f $(OBJET)
 	@make clean -C libft
