@@ -199,7 +199,6 @@ int         valeur_pipe(t_infos *infos)
 
 int         step_check(t_infos *infos, t_file *head, int check_order, int commande)
 {
-    
     if ((check_order = init_check_order(infos, check_order)) == -1)
         return (retour_check_file(infos, head, 0));
     if (check_order == 1)
@@ -241,7 +240,7 @@ int         check_file(t_infos *infos)
         check_order = (ft_strcmp(infos->file->line, "##start") == 0 || ft_strcmp(infos->file->line, "##end") == 0) ? 0 : check_order;
         commande = (ft_strcmp(infos->file->line, "##start")) == 0 ? 1 : 0;
         commande = (ft_strcmp(infos->file->line, "##end")) == 0 ? 2 : commande;
-        if (!check_order && infos->file->next)
+        if (!check_order && commande && infos->file->next)
             infos->file = infos->file->next;
         if (infos->file->line && infos->file->line[0] == '#'
             && infos->file->line[1] != '#')
@@ -280,6 +279,78 @@ int         init_data(t_infos *infos)
     return (0);
 }
 
+int         logical_infos_pipe(t_data data)
+{
+    int     i;
+    int     j;
+    char    *tmp;
+
+    if (!data.name_box)
+        return (0);
+    i = -1;
+    while (data.pipe[++i])
+    {
+        j = i;
+        tmp = data.pipe[i]->name_box;
+        while (data.pipe[++j])
+            if (!ft_strcmp(tmp, data.pipe[j]->name_box))
+                return (0);
+    }
+    return (1);
+}
+
+int         check_commandes(t_infos *infos)
+{
+    int     res;
+    int     i;
+
+    if (!infos || !infos->data)
+        return (0);
+    res = 0;
+    i = -1;
+    while (infos->data[++i].name_box)
+        if (infos->data[i].commands == 1)
+            res++;
+        else if (infos->data[i].commands == 2)
+            res++;
+    if (res == 2)
+        return (1);
+    perror("Wrong commands ");
+    return (0);
+}
+
+int         logical_infos_box(t_infos *infos)
+{
+    char    *str;
+    int     x;
+    int     y;
+    int     i;
+    int     j;
+
+    i = -1;
+    if (!infos || !infos->data)
+        return (0);
+    while (infos->data[i + 1].name_box)
+    {
+        j = i + 1;
+        str = infos->data[i].name_box;
+        x = infos->data[i].coor_x;
+        y = infos->data[i].coor_y;
+        if (!(logical_infos_pipe(infos->data[i + 1])))
+            return (0);
+        while (infos->data[j].name_box)
+        {
+            if (!(ft_strcmp(str, infos->data[j].name_box)))
+                return (0);
+            if (x == infos->data[j].coor_x && y == infos->data[j].coor_y)
+                return (0);
+            j++;
+        }
+        i++;
+    }
+    return (1);
+}
+
 int         main(int argc, char **argv)
 {
     t_infos infos;
@@ -299,8 +370,18 @@ int         main(int argc, char **argv)
         return (0);
     }
     if (!(check_file(&infos)))
+    {
         erase_infos(&infos);
-    // ft_put_list(infos.file);
+        return (0);
+    }
+    if (!(check_commandes(&infos)))
+        return (0);
+    if (!(logical_infos_box(&infos)))
+    {
+        erase_infos(&infos);
+        return (0);
+    }
+    ft_put_list(infos.file);
     ft_put_data(&infos);
     ft_fprintf("nb_of_fourmi = %d\n", 2, infos.nb_of_fourmis);
     ft_fprintf("nb_of_box = %d\n", 2, infos.nb_of_box);
