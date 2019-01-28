@@ -243,6 +243,9 @@ int         check_file(t_infos *infos)
         if (!check_order && commande && infos->file->next)
             infos->file = infos->file->next;
         if (infos->file->line && infos->file->line[0] == '#'
+            && infos->file->line[1] == '#' && commande == 0)
+            return (0);
+        if (infos->file->line && infos->file->line[0] == '#'
             && infos->file->line[1] != '#')
                 if (skip_commentaire(infos, head, 1))
                     return (1);
@@ -371,6 +374,7 @@ int         main(int argc, char **argv)
     }
     if (!(check_file(&infos)))
     {
+        perror("ERROR ");
         erase_infos(&infos);
         return (0);
     }
