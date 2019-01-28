@@ -147,7 +147,7 @@ int         valeur_data(t_infos *infos, int commande)
             return (0);
         if (!tmp[0] || !tmp[1] || !tmp[2])
             return (0);
-        infos->data[i].name_box = tmp[0];
+        infos->data[i].name_box = ft_strdup(tmp[0]);
         infos->data[i].n_piece = i;
         infos->data[i].nb_of_link = nb_of_link(infos, infos->data[i].name_box);
         infos->data[i].commands = commande;
@@ -157,15 +157,43 @@ int         valeur_data(t_infos *infos, int commande)
             return (0);
         while (len <= infos->data[i].nb_of_link)
             infos->data[i].pipe[len++] = NULL;
-        free(tmp);
-        tmp = NULL;
+        free_tab_str(&tmp);
+        return (1);
     }
-    return (1);
+    return (0);
 }
 
 int         valeur_pipe(t_infos *infos)
 {
-    (void)infos;
+    int     index_data;
+    int     index_pipe;
+    int     i;
+    char    **tab;
+
+    index_data = -1;
+    index_pipe = -1;
+    i = 0;
+    tab = NULL;
+    if (infos->file && infos->data && infos->data->pipe)
+    {
+        if (!(tab = ft_strsplit(infos->file->line, '-')))
+            return (0);
+        if (!tab || !tab[0] || !tab[1])
+            return (0);
+        while (infos->data[++index_data].name_box)
+            if (!ft_strcmp(infos->data[index_data].name_box, tab[0]))
+                break ;
+        while (infos->data[++index_pipe].name_box)
+            if (!ft_strcmp(infos->data[index_pipe].name_box, tab[1]))
+                break ;
+        free_tab_str(&tab);
+        if (!infos->data[index_data].name_box || !infos->data[index_pipe].name_box)
+            return (0);
+        while (infos->data[index_data].pipe[i])
+            i++;
+        infos->data[index_data].pipe[i] = &infos->data[index_pipe];
+        return (1);
+    }
     return (0);
 }
 
@@ -184,8 +212,12 @@ int         step_check(t_infos *infos, t_file *head, int check_order, int comman
     {
         if (check_nb_char(infos->file->line, 2, ' '))
             return (retour_check_file(infos, head, 0));
-        // valeur_pipe(infos);
         ft_fprintf("check_order = 2 [%s]\n", 2, infos->file->line);
+        if (!(valeur_pipe(infos)))
+        {
+            perror("Error name_box ");
+            return (0);
+        }
         return (2);
     }
     return (0);
