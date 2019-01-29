@@ -50,37 +50,39 @@ else
 	./lem-in < srcs
 	./lem-in < lem-in
 	./lem-in < auteur
+	@read $VAR
 	./lem-in < resources/error_1
 	./lem-in < resources/error_2
 	./lem-in < resources/error_3
 	./lem-in < resources/error_4
-	@read $VAR
 	./lem-in < resources/error_5
+	@read $VAR
 	./lem-in < resources/error_6
 	./lem-in < resources/error_7
 	./lem-in < resources/error_8
 	./lem-in < resources/error_9
-	@read $VAR
 	./lem-in < resources/error_10
+	@read $VAR
 	./lem-in < resources/error_11
 	./lem-in < resources/error_12
 	./lem-in < resources/error_13
 	./lem-in < resources/error_14
-	@read $VAR
 	./lem-in < resources/error_15
+	@read $VAR
 	./lem-in < resources/error_16
 	./lem-in < resources/error_17
 	./lem-in < resources/error_18
 	./lem-in < resources/error_19
-	@read $VAR
 	./lem-in < resources/error_20
+	@read $VAR
 	./lem-in < resources/error_21
 	./lem-in < resources/error_22
 	./lem-in < resources/error_23
 	./lem-in < resources/error_24
-	@read $VAR
 	./lem-in < resources/error_25
+	@read $VAR
 	./lem-in < resources/error_26
+	./lem-in < resources/error_27
 endif
 map :
 	./resources/map_edit $(arg) $(arg_2) resources/$(arg_3)
