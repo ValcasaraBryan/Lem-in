@@ -27,6 +27,10 @@ CFLAGS = -Wall -Wextra -Werror -I $(INCLUDES)
 
 CC = gcc
 
+arg = 0
+arg_2 = 0
+arg_3 = 0
+
 all : $(NAME)
 
 $(OBJET):$(INCLUDES)
@@ -36,11 +40,16 @@ $(NAME) : $(OBJET)
 	@$(CC) $(CFLAGS) $(LIB) $(OBJET) -o $@
 
 exe : $(NAME)
+ifeq ($(arg), correct)
 	./lem-in < resources/correct_1
 	./lem-in < resources/correct_2
 	./lem-in < resources/correct_3
 	./lem-in < resources/correct_4
 	./lem-in < resources/correct_5
+else
+	./lem-in < srcs
+	./lem-in < lem-in
+	./lem-in < auteur
 	./lem-in < resources/error_1
 	./lem-in < resources/error_2
 	./lem-in < resources/error_3
@@ -61,8 +70,16 @@ exe : $(NAME)
 	./lem-in < resources/error_18
 	./lem-in < resources/error_19
 	./lem-in < resources/error_20
-	./lem-in < srcs
-	./lem-in < auteur
+	./lem-in < resources/error_21
+	./lem-in < resources/error_22
+	./lem-in < resources/error_23
+	./lem-in < resources/error_24
+	./lem-in < resources/error_25
+	./lem-in < resources/error_26
+endif
+map :
+	./resources/map_edit $(arg) $(arg_2) resources/$(arg_3)
+
 clean :
 	@rm -f $(OBJET)
 	@make clean -C libft
