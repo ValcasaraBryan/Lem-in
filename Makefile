@@ -36,6 +36,11 @@ $(NAME) : $(OBJET)
 	@$(CC) $(CFLAGS) $(LIB) $(OBJET) -o $@
 
 exe : $(NAME)
+	./lem-in < resources/correct_1
+	./lem-in < resources/correct_2
+	./lem-in < resources/correct_3
+	./lem-in < resources/correct_4
+	./lem-in < resources/correct_5
 	./lem-in < resources/error_1
 	./lem-in < resources/error_2
 	./lem-in < resources/error_3
@@ -51,10 +56,13 @@ exe : $(NAME)
 	./lem-in < resources/error_13
 	./lem-in < resources/error_14
 	./lem-in < resources/error_15
+	./lem-in < resources/error_16
+	./lem-in < resources/error_17
+	./lem-in < resources/error_18
+	./lem-in < resources/error_19
+	./lem-in < resources/error_20
 	./lem-in < srcs
 	./lem-in < auteur
-	./lem-in < resources/correct_1
-	./lem-in < resources/correct_2
 clean :
 	@rm -f $(OBJET)
 	@make clean -C libft
