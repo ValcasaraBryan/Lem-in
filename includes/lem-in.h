@@ -47,9 +47,6 @@ typedef struct          s_infos
 **          main.c
 */
 
-t_file                  *new_file(char *line);
-t_file                  *add_file(t_file *file, char *line);
-void                    ft_put_list(t_file *file);
 int                     check_file(t_infos *infos);
 int                     init_data(t_infos *infos);
 
@@ -62,6 +59,14 @@ int						free_tab_str(char ***str);
 int                     parsing_line(t_infos *infos, char *line, int etapes);
 int                     parsing_pipe_line(t_infos *infos, char ***tab);
 int                     check_nb_char(char *str, int nb, char c);
-
-
+/*
+**          affichage.c
+*/
+void                    ft_put_list(t_file *file);
+void                    ft_put_data(t_infos *infos);
+/*
+**          list_chain.c
+*/
+t_file                  *new_file(char *line);
+t_file                  *add_file(t_file *file, char *line);
 #endif

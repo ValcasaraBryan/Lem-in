@@ -33,6 +33,8 @@ int         parsing_line(t_infos *infos, char *line, int etapes)
         && ft_str_is_digit(tmp[1])
         && ft_str_is_digit(tmp[2]))
     {
+        if (tmp[0][0] == 'L')
+            return (0);
         infos->nb_of_box++;
         free_tab_str(&tmp);
         return (1);

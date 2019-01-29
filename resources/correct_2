@@ -1,0 +1,23 @@
+1
+##start
+coucou 23 3
+##end
+salut 16 7
+toto 16 3
+tutu 16 5
+tata 9 3
+tyty 1 5
+str 4 8
+bouh 9 5
+bouh-tutu
+bouh-tyty
+coucou-toto
+tutu-toto
+tata-salut
+toto-tata
+tutu-salut
+salut-coucou
+str-tyty
+str-salut
+str-tutu
+tyty-tata

@@ -17,7 +17,9 @@ EXE = 0
 ARG = 0
 ARG_2 = 0
 
-SRC =	srcs/ft_is/ft_isalnum.c\
+SRC =	srcs/free/free_tab_str.c\
+		\
+		srcs/ft_is/ft_isalnum.c\
 		srcs/ft_is/ft_isalpha.c\
 		srcs/ft_is/ft_isascii.c\
 		srcs/ft_is/ft_isdigit.c\
