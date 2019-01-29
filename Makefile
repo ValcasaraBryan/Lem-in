@@ -42,9 +42,13 @@ $(NAME) : $(OBJET)
 exe : $(NAME)
 ifeq ($(arg), correct)
 	./lem-in < resources/correct_1
+	@read $VAR
 	./lem-in < resources/correct_2
+	@read $VAR
 	./lem-in < resources/correct_3
+	@read $VAR
 	./lem-in < resources/correct_4
+	@read $VAR
 	./lem-in < resources/correct_5
 else
 	./lem-in < srcs
