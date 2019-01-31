@@ -63,63 +63,42 @@ ifeq ($(arg), correct)
 	./lem-in < resources/correct_5
 else
 	./lem-in < srcs
-	@read $VAR
 	./lem-in < lem-in
-	@read $VAR
 	./lem-in < auteur
 	@read $VAR
 	./lem-in < resources/error_1
-	@read $VAR
 	./lem-in < resources/error_2
-	@read $VAR
 	./lem-in < resources/error_3
-	@read $VAR
 	./lem-in < resources/error_4
-	@read $VAR
 	./lem-in < resources/error_5
 	@read $VAR
 	./lem-in < resources/error_6
-	@read $VAR
 	./lem-in < resources/error_7
-	@read $VAR
 	./lem-in < resources/error_8
-	@read $VAR
 	./lem-in < resources/error_9
-	@read $VAR
 	./lem-in < resources/error_10
 	@read $VAR
 	./lem-in < resources/error_11
-	@read $VAR
 	./lem-in < resources/error_12
-	@read $VAR
 	./lem-in < resources/error_13
-	@read $VAR
 	./lem-in < resources/error_14
-	@read $VAR
 	./lem-in < resources/error_15
 	@read $VAR
 	./lem-in < resources/error_16
-	@read $VAR
 	./lem-in < resources/error_17
-	@read $VAR
 							# valgrind --leak-check=full ./lem-in < resources/error_18
 							# @read $VAR
 							# valgrind --leak-check=full ./lem-in < resources/error_19
 							# @read $VAR
 	./lem-in < resources/error_20
-	@read $VAR
 	./lem-in < resources/error_21
-	@read $VAR
 	./lem-in < resources/error_22
 	@read $VAR
 	./lem-in < resources/error_23
-	@read $VAR
 	./lem-in < resources/error_24
-	@read $VAR
 							# valgrind --leak-check=full ./lem-in < resources/error_25
 							# @read $VAR
 	./lem-in < resources/error_26
-	@read $VAR
 	./lem-in < resources/error_27
 endif
 

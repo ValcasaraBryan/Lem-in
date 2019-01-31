@@ -58,6 +58,7 @@ int                     ft_algo(t_infos *infos);
 int			            check_commandes(t_infos *infos);
 int			            skip_line_fourmi(t_infos *infos);
 int			            init_command(t_infos *infos, int commande);
+int			            norm_check_file(t_infos *infos, t_file *head, int returne);
 /*
 **          check_file.c
 */
@@ -104,6 +105,7 @@ int			            valeur_data(t_infos *infos, int commande);
 /*
 **          valeur_pipe.c
 */
+int			            norm_valeur_pipe(char ***tmp, int returne);
 int			            check_pipe_double(t_infos *infos, char ***tab);
 void		            add_link(t_infos *infos, int index_data, int index_pipe);
 int			            valeur_pipe(t_infos *infos);

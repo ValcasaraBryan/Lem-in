@@ -57,3 +57,9 @@ int			init_command(t_infos *infos, int commande)
 	commande = (ft_strcmp(infos->file->line, "##end")) == 0 ? 2 : commande;
 	return (commande);
 }
+
+int			norm_check_file(t_infos *infos, t_file *head, int returne)
+{
+	infos->file = head;
+	return (returne);
+}

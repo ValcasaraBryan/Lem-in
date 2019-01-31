@@ -61,13 +61,6 @@ int			main(int argc, char **argv)
 	}
 	// ft_algo(&infos);
 	// ft_put_data(&infos);
-	// ft_fprintf("nb_of_fourmi = %d\n", 2, infos.nb_of_fourmis);
-	// ft_fprintf("nb_of_box = %d\n", 2, infos.nb_of_box);
-	// ft_fprintf("nb_of_pipe = %d\n", 2, infos.nb_of_pipe);
-	// ft_fprintf("infos = %p\n", 2, infos);
-	// ft_fprintf("file = %p\n", 2, infos.file);
-	// ft_fprintf("data = %p\n", 2, infos.data);
-	// ft_fprintf("data->pipe = %p\n\n", 2, infos.data->pipe);
 	ft_put_list(infos.file);
 	ft_fprintf("OK\n", 1);
 	ft_fprintf("\\-------------------------------------------/\n\n\n", 2);

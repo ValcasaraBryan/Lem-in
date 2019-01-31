@@ -52,14 +52,10 @@ int			step_check(t_infos *infos, t_file *head,
 		if (check_nb_char(infos->file->line, 2, ' '))
 			return (retour_check_file(infos, head, 0));
 		if (!(valeur_pipe(infos)))
-		{
-			infos->file = head;
-			return (0);
-		}
+			return (norm_check_file(infos, head, 0));
 		return (2);
 	}
-	infos->file = head;
-	return (0);
+	return (norm_check_file(infos, head, 0));
 }
 
 int			check_file(t_infos *infos, int commande, int check_order)
@@ -78,10 +74,7 @@ int			check_file(t_infos *infos, int commande, int check_order)
 			infos->file = infos->file->next;
 		if (infos->file->line && infos->file->line[0] == '#'
 			&& infos->file->line[1] == '#' && commande == 0)
-			{
-				infos->file = head;
-				return (0);
-			}
+			return (norm_check_file(infos, head, 0));
 		if (infos->file->line && infos->file->line[0] == '#'
 			&& infos->file->line[1] != '#')
 			if (skip_commentaire(infos, head, 1))
