@@ -32,9 +32,16 @@ int			check_pipe_double(t_infos *infos, char ***tab)
 			if (!(cmp = ft_strsplit(head->next->line, '-')))
 				return (0);
 			if (!cmp || !cmp[0] || !cmp[1] || !tmp[0] || !tmp[1])
+			{
+				free_tab_str(&cmp);
 				return (0);
+			}
 			if (!(ft_strcmp(cmp[0], tmp[0])) && !(ft_strcmp(cmp[1], tmp[1])))
+			{
+				free_tab_str(&cmp);
 				return (0);
+			}
+			free_tab_str(&cmp);
 		}
 		head = head->next;
 	}
@@ -70,7 +77,10 @@ int			valeur_pipe(t_infos *infos)
 		return (0);
 	if (!tab || !tab[0] || !tab[1] || ft_strcmp(tab[0], tab[1]) == 0
 	|| !(check_pipe_double(infos, &tab)))
+	{
+		free_tab_str(&tab);
 		return (0);
+	}
 	while (infos->data[++index_data].name_box)
 		if (!ft_strcmp(infos->data[index_data].name_box, tab[0]))
 			break ;

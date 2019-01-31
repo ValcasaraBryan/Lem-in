@@ -78,12 +78,12 @@ int			            init_data(t_infos *infos);
 **          liberation.c
 */
 void		            erase_infos(t_infos *infos);
+void		            erase_data(t_infos *infos);
 /*
 **          list_chain.c
 */
 t_file                  *new_file(char *line);
 t_file                  *add_file(t_file *file, char *line);
-
 /*
 **          logical_infos_box.c
 */

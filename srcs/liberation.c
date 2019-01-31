@@ -27,3 +27,31 @@ void		erase_infos(t_infos *infos)
 			infos->file = head;
 		}
 }
+
+void		erase_data(t_infos *infos)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	if (infos->data)
+	{
+		while (i <= infos->nb_of_box)
+		{
+			j = 0;
+			if (infos->data[i].name_box)
+			{
+				free(infos->data[i].name_box);
+				infos->data[i].name_box = NULL;
+			}
+			if (infos->data[i].pipe)
+			{
+				free(infos->data[i].pipe);
+				infos->data[i].pipe = NULL;
+			}
+			i++;
+		}
+		free(infos->data);
+		infos->data = NULL;
+	}
+}

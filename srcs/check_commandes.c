@@ -43,7 +43,7 @@ int			skip_line_fourmi(t_infos *infos)
 	if (infos->file->next && ft_str_is_digit(infos->file->line)
 			&& ft_atoi(infos->file->line) > 0)
 		infos->file = infos->file->next;
-	if (!infos->file->next)
+	if (!(infos->file->next))
 	{
 		infos->file = head;
 		return (0);

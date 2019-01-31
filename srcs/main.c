@@ -24,12 +24,15 @@ int			main(int argc, char **argv)
 	{
 		perror("ERROR ");
 		ft_fprintf("\\-------------------------------------------/\n\n\n\n", 2);
+		erase_infos(&infos);
 		return (0);
 	}
 	if (!(init_data(&infos)))
 	{
 		perror("ERROR ");
 		ft_fprintf("\\-------------------------------------------/\n\n\n\n", 2);
+		erase_infos(&infos);
+		erase_data(&infos);
 		return (0);
 	}
 	if (!(check_file(&infos, 0, 0)))
@@ -37,12 +40,15 @@ int			main(int argc, char **argv)
 		perror("ERROR ");
 		ft_fprintf("\\-------------------------------------------/\n\n\n\n", 2);
 		erase_infos(&infos);
+		erase_data(&infos);
 		return (0);
 	}
 	if (!(check_commandes(&infos)))
 	{
 		perror("ERROR ");
 		ft_fprintf("\\-------------------------------------------/\n\n\n\n", 2);
+		erase_infos(&infos);
+		erase_data(&infos);
 		return (0);
 	}
 	if (!(logical_infos_box(&infos)))
@@ -50,6 +56,7 @@ int			main(int argc, char **argv)
 		perror("ERROR ");
 		ft_fprintf("\\-------------------------------------------/\n\n\n\n", 2);
 		erase_infos(&infos);
+		erase_data(&infos);
 		return (0);
 	}
 	// ft_algo(&infos);
@@ -64,5 +71,7 @@ int			main(int argc, char **argv)
 	ft_put_list(infos.file);
 	ft_fprintf("OK\n", 1);
 	ft_fprintf("\\-------------------------------------------/\n\n\n", 2);
+	erase_infos(&infos);
+	erase_data(&infos);
 	return (0);
 }

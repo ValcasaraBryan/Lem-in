@@ -52,9 +52,13 @@ int			step_check(t_infos *infos, t_file *head,
 		if (check_nb_char(infos->file->line, 2, ' '))
 			return (retour_check_file(infos, head, 0));
 		if (!(valeur_pipe(infos)))
+		{
+			infos->file = head;
 			return (0);
+		}
 		return (2);
 	}
+	infos->file = head;
 	return (0);
 }
 
@@ -62,9 +66,9 @@ int			check_file(t_infos *infos, int commande, int check_order)
 {
 	t_file	*head;
 
+	head = infos->file;
 	if (!(skip_line_fourmi(infos)))
 		return (0);
-	head = infos->file;
 	while (infos->file)
 	{
 		check_order = (ft_strcmp(infos->file->line, "##start") == 0
@@ -74,7 +78,10 @@ int			check_file(t_infos *infos, int commande, int check_order)
 			infos->file = infos->file->next;
 		if (infos->file->line && infos->file->line[0] == '#'
 			&& infos->file->line[1] == '#' && commande == 0)
-			return (0);
+			{
+				infos->file = head;
+				return (0);
+			}
 		if (infos->file->line && infos->file->line[0] == '#'
 			&& infos->file->line[1] != '#')
 			if (skip_commentaire(infos, head, 1))
