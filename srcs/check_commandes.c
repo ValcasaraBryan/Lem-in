@@ -32,3 +32,28 @@ int			check_commandes(t_infos *infos)
 		return (1);
 	return (0);
 }
+
+int			skip_line_fourmi(t_infos *infos)
+{
+	t_file	*head;
+
+	if (!infos->file)
+		return (0);
+	head = infos->file;
+	if (infos->file->next && ft_str_is_digit(infos->file->line)
+			&& ft_atoi(infos->file->line) > 0)
+		infos->file = infos->file->next;
+	if (!infos->file->next)
+	{
+		infos->file = head;
+		return (0);
+	}
+	return (1);
+}
+
+int			init_command(t_infos *infos, int commande)
+{
+	commande = (ft_strcmp(infos->file->line, "##start")) == 0 ? 1 : 0;
+	commande = (ft_strcmp(infos->file->line, "##end")) == 0 ? 2 : commande;
+	return (commande);
+}

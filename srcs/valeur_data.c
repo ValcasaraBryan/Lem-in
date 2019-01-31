@@ -27,7 +27,7 @@ int			nb_of_link(t_infos *infos, char *str)
 			return (0);
 		if (!tmp[0] || !tmp[1])
 			free_tab_str(&tmp);
-		if (tmp && ft_strcmp(str, tmp[0]) == 0)
+		if (tmp && (ft_strcmp(str, tmp[0]) == 0 || ft_strcmp(str, tmp[1]) == 0))
 			i++;
 		free_tab_str(&tmp);
 		head = head->next;

@@ -32,7 +32,7 @@ int			main(int argc, char **argv)
 		ft_fprintf("\\-------------------------------------------/\n\n\n\n", 2);
 		return (0);
 	}
-	if (!(check_file(&infos)))
+	if (!(check_file(&infos, 0, 0)))
 	{
 		perror("ERROR ");
 		ft_fprintf("\\-------------------------------------------/\n\n\n\n", 2);

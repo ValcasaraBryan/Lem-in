@@ -56,6 +56,8 @@ int                     ft_algo(t_infos *infos);
 **          check_commandes.c
 */
 int			            check_commandes(t_infos *infos);
+int			            skip_line_fourmi(t_infos *infos);
+int			            init_command(t_infos *infos, int commande);
 /*
 **          check_file.c
 */
@@ -63,7 +65,7 @@ int			            retour_check_file(t_infos *infos, t_file *head, int retour);
 int			            skip_commentaire(t_infos *infos, t_file *head, int retour);
 int			            init_check_order(t_infos *infos, int check_order);
 int			            step_check(t_infos *infos, t_file *head, int check_order, int commande);
-int			            check_file(t_infos *infos);
+int			            check_file(t_infos *infos, int commande, int check_order);
 /*
 **          get_file.c
 */
@@ -102,5 +104,6 @@ int			            valeur_data(t_infos *infos, int commande);
 **          valeur_pipe.c
 */
 int			            check_pipe_double(t_infos *infos, char ***tab);
+void		            add_link(t_infos *infos, int index_data, int index_pipe);
 int			            valeur_pipe(t_infos *infos);
 #endif
