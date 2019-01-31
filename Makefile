@@ -13,9 +13,19 @@
 NAME = lem-in
 
 SRC =	srcs/main.c\
-		srcs/parsing.c\
 		srcs/affichage.c\
-		srcs/list_chain.c
+		srcs/algo.c\
+		srcs/check_commandes.c\
+		srcs/check_file.c\
+		srcs/get_file.c\
+		srcs/init_data.c\
+		srcs/liberation.c\
+		srcs/list_chain.c\
+		srcs/logical_infos_box.c\
+		srcs/parsing.c\
+		srcs/valeur_data.c\
+		srcs/valeur_pipe.c
+		
 
 LIB = libft/libft.a
 
@@ -33,7 +43,7 @@ arg_3 = 0
 
 all : $(NAME)
 
-$(OBJET):$(INCLUDES)
+$(OBJET): includes/lem-in.h
 
 $(NAME) : $(OBJET)
 	@make -C libft
