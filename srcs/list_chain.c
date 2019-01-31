@@ -12,30 +12,30 @@
 
 #include "lem-in.h"
 
-t_file      *new_file(char *line)
+t_file		*new_file(char *line)
 {
-    t_file *tmp;
+	t_file	*tmp;
 
-    tmp = NULL;
-    if (!(tmp = malloc(sizeof(t_file))))
-        return (NULL);
-    tmp->line = (line && tmp) ? line : NULL;
-    tmp->next = NULL;
-    return (tmp);
+	tmp = NULL;
+	if (!(tmp = malloc(sizeof(t_file))))
+		return (NULL);
+	tmp->line = (line && tmp) ? line : NULL;
+	tmp->next = NULL;
+	return (tmp);
 }
 
-t_file      *add_file(t_file *file, char *line)
+t_file		*add_file(t_file *file, char *line)
 {
-    t_file *tmp;
+	t_file	*tmp;
 
-    if (file)
-    {
-        tmp = file;
-        while (tmp->next)
-            tmp = tmp->next;
-        tmp->next = new_file(line);
-        return (file);
-    }
-    else
-        return (new_file(line));
+	if (file)
+	{
+		tmp = file;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new_file(line);
+		return (file);
+	}
+	else
+		return (new_file(line));
 }

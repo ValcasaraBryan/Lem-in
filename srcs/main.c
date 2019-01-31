@@ -15,9 +15,9 @@
 int			main(int argc, char **argv)
 {
 	t_infos	infos;
+
 	(void)argc;
 	(void)argv;
-
 	ft_fprintf("/-------------------------------------------\\\n", 2);
 	infos = get_file();
 	if (!infos.file)
@@ -66,14 +66,3 @@ int			main(int argc, char **argv)
 	ft_fprintf("\\-------------------------------------------/\n\n\n", 2);
 	return (0);
 }
-
-// premiere ligne = nb de fourmi
-
-// # commantaire, ignorer
-
-// ## commande start ou end defini la ligne suivante
-// nom_de_salle x_salle y_salle
-
-// nom_de_salle x_salle y_salle
-
-// salle_?-salle? defini les tubes
