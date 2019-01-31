@@ -86,18 +86,16 @@ else
 	@read $VAR
 	./lem-in < resources/error_16
 	./lem-in < resources/error_17
-							# valgrind --leak-check=full ./lem-in < resources/error_18
-							# @read $VAR
-							# valgrind --leak-check=full ./lem-in < resources/error_19
-							# @read $VAR
+	./lem-in < resources/error_18
+	./lem-in < resources/error_19
+	@read $VAR
 	./lem-in < resources/error_20
 	./lem-in < resources/error_21
 	./lem-in < resources/error_22
-	@read $VAR
 	./lem-in < resources/error_23
+	@read $VAR
 	./lem-in < resources/error_24
-							# valgrind --leak-check=full ./lem-in < resources/error_25
-							# @read $VAR
+	./lem-in < resources/error_25
 	./lem-in < resources/error_26
 	./lem-in < resources/error_27
 endif
@@ -154,10 +152,10 @@ else
 	@read $VAR
 	$(leak) ./lem-in < resources/error_17
 	@read $VAR
-							# valgrind --leak-check=full ./lem-in < resources/error_18
-							# @read $VAR
-							# valgrind --leak-check=full ./lem-in < resources/error_19
-							# @read $VAR
+	$(leak) ./lem-in < resources/error_18
+	@read $VAR
+	$(leak) ./lem-in < resources/error_19
+	@read $VAR
 	$(leak) ./lem-in < resources/error_20
 	@read $VAR
 	$(leak) ./lem-in < resources/error_21
@@ -168,8 +166,8 @@ else
 	@read $VAR
 	$(leak) ./lem-in < resources/error_24
 	@read $VAR
-							# valgrind --leak-check=full ./lem-in < resources/error_25
-							# @read $VAR
+	$(leak) ./lem-in < resources/error_25
+	@read $VAR
 	$(leak) ./lem-in < resources/error_26
 	@read $VAR
 	$(leak) ./lem-in < resources/error_27
