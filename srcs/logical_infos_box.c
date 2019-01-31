@@ -40,26 +40,21 @@ int			logical_infos_box(t_infos *infos)
 	int		i;
 	int		j;
 
-	i = 0;
+	i = -1;
 	if (!infos || !infos->data)
 		return (0);
-	while (infos->data[i + 1].name_box)
+	while (infos->data[++i + 1].name_box)
 	{
-		j = i + 1;
+		j = i;
 		str = infos->data[i].name_box;
 		x = infos->data[i].coor_x;
 		y = infos->data[i].coor_y;
 		if (!(logical_infos_pipe(infos->data[i + 1])))
 			return (0);
-		while (infos->data[j].name_box)
-		{
-			if (!(ft_strcmp(str, infos->data[j].name_box)))
+		while (infos->data[++j].name_box)
+			if (!(ft_strcmp(str, infos->data[j].name_box))
+			|| (x == infos->data[j].coor_x && y == infos->data[j].coor_y))
 				return (0);
-			if (x == infos->data[j].coor_x && y == infos->data[j].coor_y)
-				return (0);
-			j++;
-		}
-		i++;
 	}
 	return (1);
 }
