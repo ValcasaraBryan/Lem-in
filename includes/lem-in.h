@@ -69,4 +69,11 @@ void                    ft_put_data(t_infos *infos);
 */
 t_file                  *new_file(char *line);
 t_file                  *add_file(t_file *file, char *line);
+
+/*
+**          algo.c
+*/
+int                     ft_algo(t_infos *infos);
+
+
 #endif
