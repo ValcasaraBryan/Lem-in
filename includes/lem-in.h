@@ -19,28 +19,29 @@
 
 typedef struct          s_file
 {
-    char                *line;
-    struct s_file       *next;
+	char                *line;
+	struct s_file       *next;
 }                       t_file;
 
 typedef struct          s_data
 {
-    char                *name_box;
-    int                 n_piece;
-    int                 nb_of_link;
-    int                 commands;
-    int                 coor_x;
-    int                 coor_y;
-    struct s_data       **pipe;
+	char                *name_box;
+	int                 n_piece;
+	int                 nb_of_link;
+	int                 commands;
+	int                 coor_x;
+	int                 coor_y;
+	struct s_data       **pipe;
 }                       t_data;
 
 typedef struct          s_infos
 {
-    int                 nb_of_fourmis;
-    int                 nb_of_box;
-    int                 nb_of_pipe;
-    t_file              *file;
-    t_data              *data;
+	int                 nb_of_fourmis;
+	int                 nb_of_box;
+	int                 nb_of_pipe;
+	int                 nb_path_max;
+	t_file              *file;
+	t_data              *data;
 }                       t_infos;
 
 /*
@@ -73,7 +74,7 @@ t_file                  *add_file(t_file *file, char *line);
 /*
 **          algo.c
 */
-int                     ft_algo(t_infos *infos);
+int						ft_algo(t_infos *infos);
 
 
 #endif

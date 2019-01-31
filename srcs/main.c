@@ -55,7 +55,7 @@ int         nb_of_link(t_infos *infos, char *str)
             return (0);
         if (!tmp[0] || !tmp[1])
             free_tab_str(&tmp);
-        if (tmp && ft_strcmp(str, tmp[0]) == 0)
+        if (tmp && (ft_strcmp(str, tmp[0]) == 0 || ft_strcmp(str, tmp[1]) == 0))
             i++;
         free_tab_str(&tmp);
         head = head->next;
@@ -134,7 +134,6 @@ int         valeur_pipe(t_infos *infos)
 
     index_data = -1;
     index_pipe = -1;
-    i = 0;
     tab = NULL;
     if (infos->file && infos->data && infos->data->pipe)
     {
@@ -155,9 +154,14 @@ int         valeur_pipe(t_infos *infos)
         free_tab_str(&tab);
         if (!infos->data[index_data].name_box || !infos->data[index_pipe].name_box)
             return (0);
+        i = 0;
         while (infos->data[index_data].pipe[i])
             i++;
         infos->data[index_data].pipe[i] = &infos->data[index_pipe];
+        i = 0;
+        while (infos->data[index_pipe].pipe[i])
+            i++;
+        infos->data[index_pipe].pipe[i] = &infos->data[index_data];
         return (1);
     }
     return (0);
@@ -415,6 +419,8 @@ int         main(int argc, char **argv)
     ft_put_list(infos.file);
     ft_fprintf("OK\n", 1);
     ft_fprintf("\\-------------------------------------------/\n\n\n", 2);
+    ft_algo(&infos);
+    
     return (0);
 }
 
