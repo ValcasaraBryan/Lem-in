@@ -44,15 +44,52 @@ typedef struct          s_infos
 }                       t_infos;
 
 /*
-**          main.c
+**          affichage.c
 */
-
-int                     check_file(t_infos *infos);
-int                     init_data(t_infos *infos);
-
-void                    erase_infos(t_infos *infos);
-t_infos                 get_file(void);
-int						free_tab_str(char ***str);
+void                    ft_put_list(t_file *file);
+void                    ft_put_data(t_infos *infos);
+/*
+**          algo.c
+*/
+int                     ft_algo(t_infos *infos);
+/*
+**          check_commandes.c
+*/
+int			            check_commandes(t_infos *infos);
+int			            skip_line_fourmi(t_infos *infos);
+int			            init_command(t_infos *infos, int commande);
+int			            norm_check_file(t_infos *infos, t_file *head, int returne);
+/*
+**          check_file.c
+*/
+int			            retour_check_file(t_infos *infos, t_file *head, int retour);
+int			            skip_commentaire(t_infos *infos, t_file *head, int retour);
+int			            init_check_order(t_infos *infos, int check_order);
+int			            step_check(t_infos *infos, t_file *head, int check_order, int commande);
+int			            check_file(t_infos *infos, int commande, int check_order);
+/*
+**          get_file.c
+*/
+t_infos		            get_file(void);
+/*
+**          init_data.c
+*/
+int			            init_data(t_infos *infos);
+/*
+**          liberation.c
+*/
+void		            erase_infos(t_infos *infos);
+void		            erase_data(t_infos *infos);
+/*
+**          list_chain.c
+*/
+t_file                  *new_file(char *line);
+t_file                  *add_file(t_file *file, char *line);
+/*
+**          logical_infos_box.c
+*/
+int			            logical_infos_pipe(t_data data);
+int			            logical_infos_box(t_infos *infos);
 /*
 **          parsing.c
 */
@@ -60,13 +97,16 @@ int                     parsing_line(t_infos *infos, char *line, int etapes);
 int                     parsing_pipe_line(t_infos *infos, char ***tab);
 int                     check_nb_char(char *str, int nb, char c);
 /*
-**          affichage.c
+**          valeur_data.c
 */
-void                    ft_put_list(t_file *file);
-void                    ft_put_data(t_infos *infos);
+int			            nb_of_link(t_infos *infos, char *str);
+int			            malloc_pipe(t_infos *infos, int i, int len);
+int			            valeur_data(t_infos *infos, int commande);
 /*
-**          list_chain.c
+**          valeur_pipe.c
 */
-t_file                  *new_file(char *line);
-t_file                  *add_file(t_file *file, char *line);
+int			            norm_valeur_pipe(char ***tmp, int returne);
+int			            check_pipe_double(t_infos *infos, char ***tab);
+void		            add_link(t_infos *infos, int index_data, int index_pipe);
+int			            valeur_pipe(t_infos *infos);
 #endif

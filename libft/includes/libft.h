@@ -33,6 +33,7 @@ typedef struct		s_list
 /*
 **	free
 */
+int					free_line(char **line);
 int					free_tab_str(char ***str);
 /*
 **	ft_is
