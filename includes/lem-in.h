@@ -42,6 +42,7 @@ typedef struct          s_infos
 	int                 nb_path_max;
 	t_file              *file;
 	t_data              *data;
+	int					**tab_path;
 }                       t_infos;
 
 /*
@@ -75,6 +76,12 @@ t_file                  *add_file(t_file *file, char *line);
 **          algo.c
 */
 int						ft_algo(t_infos *infos);
+
+/*
+**          choose_path.c
+*/
+void					ft_choose_path(t_infos *infos);
+
 
 
 #endif

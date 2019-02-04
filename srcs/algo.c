@@ -1,6 +1,16 @@
 
 #include "lem-in.h"
 
+void	ft_free_tab_int(int **tab, int height)
+{
+	int i;
+
+	i = 0;
+	while (i < height)
+		free(tab[i++]);
+	free(tab);
+}
+
 int		ft_min_int(int a, int b)
 {
 	if (a < b)
@@ -48,15 +58,17 @@ int ft_check_precedents(t_infos *infos, int* tab_path_n_piece, int n)
 	return(1);
 }
 
-int ft_length_path(int *tab)
+int ft_length_path(int *tab, int n)
 {
+	ft_putendl_fd("length_path", 2);
 	int i = 0;
 
-	while (tab[i] >= 0)
+	while (i < n && tab[i] >= 0)
 		i++;
+	ft_putendl_fd("length_path fin", 2);
 	return (i);
 }
-
+/*
 int ft_replace_path_i(t_infos *infos, int **path, int *tab, int i)
 {
 	int n;
@@ -88,30 +100,71 @@ int		ft_find_index_path_max(t_infos *infos, int **path)
 	}
 	return (index);
 }
+*/
+int		**ft_init_tab_path(t_infos *infos, int *tab)
+{
+	ft_putendl_fd("init_path", 2);
+	int n;
+	int **tmp;
+	int i = 0;
+	int j = 1;
+	int k;
+	int r = 1;
 
+	n = infos->tab_path[0][0] + 1;
+	if (!(tmp = (int **)malloc(sizeof(int*) * (n + 1))))
+		return (NULL);
+	if (!(tmp[i] = (int *)malloc(sizeof(int) * 1)))
+		return (NULL);
+	while (++i <= n)
+	{
+		k = -1;
+		if (!(tmp[i] = (int *)malloc(sizeof(int) * (infos->nb_of_box))))
+			return (NULL);
+		if (r == 1 && (i == n || ft_length_path(tab, infos->nb_of_box) < ft_length_path(infos->tab_path[j], infos->nb_of_box)))
+		{
+			while (++k < infos->nb_of_box)
+				tmp[i][k] = tab[k];
+			i++;
+			if (i < n)
+				if (!(tmp[i] = (int *)malloc(sizeof(int) * (infos->nb_of_box))))
+					return (NULL);
+			k = -1;
+			r = 0;
+		}
+		while (i <= n && ++k < infos->nb_of_box)
+			tmp[i][k] = infos->tab_path[j][k];
+		j++;
+	}
+	tmp[0][0] = n;
+	ft_free_tab_int(infos->tab_path, n - 1);
+	return (tmp);
+}
+/*
 void	ft_put_path_to_tab(t_infos *infos, int *tab, int **path)
 {
 	ft_putendl_fd("put_path_to_tab", 2);
-	int n;
-	int i = 0;
-	int index_path_max = 0;
+//	int n;
+//	int i = 0;
+//	int index_path_max = 0;
 
-	n = ft_length_path(tab);
-	while (i < infos->nb_path_max)
-	{
-		if (ft_length_path(path[i]) == 0)
-		{
-			ft_replace_path_i(infos, path, tab, i);
-			return;
-		}
-		i++;
-	}
-	index_path_max = ft_find_index_path_max(infos, path);
-	if (ft_length_path(path[index_path_max]) > n)
-		ft_replace_path_i(infos, path, tab, index_path_max);
-	ft_putendl_fd("put_path_to_tab fin ", 2);
+	infos->tab_path = ft_init_tab_path(infos, tab);
+//	n = ft_length_path(tab);
+//	while (i < infos->nb_path_max)
+//	{
+//		if (ft_length_path(path[i]) == 0)
+//		{
+//			ft_replace_path_i(infos, path, tab, i);
+//			return;
+//		}
+//		i++;
+//	}
+//	index_path_max = ft_find_index_path_max(infos, path);
+//	if (ft_length_path(path[index_path_max]) > n)
+//		ft_replace_path_i(infos, path, tab, index_path_max);
+//	ft_putendl_fd("put_path_to_tab fin ", 2);
 }
-
+*/
 
 int		ft_search_path(t_infos *infos, int **path, int start)
 {
@@ -119,6 +172,7 @@ int		ft_search_path(t_infos *infos, int **path, int start)
 	ft_putnbr_fd(start, 2);
 	int i = start;
 	int j = 1;
+	(void)path;
 
 	int *tab_path_n_piece;
 	int *tab_index_pipe_to_try;
@@ -166,7 +220,8 @@ int		ft_search_path(t_infos *infos, int **path, int start)
 			ft_putnbr_fd(tab_path_n_piece[7], 2);
 
 			ft_putchar_fd('\n', 2);
-			ft_put_path_to_tab(infos, tab_path_n_piece, path);
+			infos->tab_path = ft_init_tab_path(infos, tab_path_n_piece);
+//			ft_put_path_to_tab(infos, tab_path_n_piece, path);
 			j--;
 			tab_path_n_piece[j] = -1;
 			i = tab_path_n_piece[j - 1];
@@ -244,6 +299,9 @@ int		ft_algo(t_infos *infos)
 	ft_putendl_fd("algo", 2);
 	int i = 0;
 
+	infos->tab_path = (int **)malloc(sizeof(int*));
+	infos->tab_path[0] = (int *)malloc(sizeof(int));
+	infos->tab_path[0][0] = 0;
 	infos->nb_path_max = -1;
 	while (i < infos->nb_of_box)
 	{
@@ -253,6 +311,7 @@ int		ft_algo(t_infos *infos)
 	}
 	if (!infos->nb_path_max || !ft_init_path(infos))
 		return (0);
+	ft_choose_paths(infos);
 	ft_putendl_fd("algo fin", 2);
 	ft_putendl_fd("algo fin", 2);
 	return (1);

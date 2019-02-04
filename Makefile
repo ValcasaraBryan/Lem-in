@@ -16,7 +16,8 @@ SRC =	srcs/main.c\
 		srcs/parsing.c\
 		srcs/affichage.c\
 		srcs/list_chain.c\
-		srcs/algo.c
+		srcs/algo.c\
+		srcs/choose_path.c
 
 LIB = libft/libft.a
 
