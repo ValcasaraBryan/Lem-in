@@ -33,29 +33,31 @@ int ft_path_independant(int **tab_final, int i, int **tab_path, int n)
 
 }
 
-void 	ft_choose_path(t_infos *infos)
+void 	ft_choose_path_i(t_infos *infos, int n)
 {
-	int **tab_final;
-	int i = -1;
-	int j = 1;
-	int k = -1;
+	int *tab_index;
+	int i = 0;
+	int j = 0;
+	int k = 0;
 
 
-	if (!(tab_final = (int **)malloc(sizeof(int *) * infos->nb_path_max)))
+	if (!(tab_index = (int *)malloc(sizeof(int) * (n + 1))))
 		return ;
-	while (++i < infos->nb_path_max)
-		if (!(tab_final[i] = (int *)malloc(sizeof(int) * infos->nb_of_box)))
-			return ;
-	while (++k < infos->nb_of_box)
-		tab_final[0][k] = infos->tab_path[0 + j][k];
-	i = 0;
-	while (++i < nb_path_max)
-	{
-		k = -1
-		while (!ft_path_independant(tab_final, i, tab_path, i + j) && i + j <= tab_path[0][0])
-			j++;
-		if (ft_path_independant(tab_final, i, tab_path, i + j))
-			while (++k < infos->nb_of_box)
-				tab_final[i][k] = infos->tab_path[i + j][k];
-	}
+	tab_index[n] = -1;
+	if (n == 1)
+		tab_index[0] = 1;
+	else
+		while(i < n)
+		{
+			ft_compare(infos->tab_path[i])
+		}
+}
+
+
+int ft_choose_path(t_infos *infos)
+{
+	int i;
+
+	while (i <= nb_path_max)
+		ft_choose_path_i(infos, i);
 }
