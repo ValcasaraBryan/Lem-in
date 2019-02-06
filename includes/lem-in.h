@@ -76,11 +76,12 @@ t_file                  *add_file(t_file *file, char *line);
 **          algo.c
 */
 int						ft_algo(t_infos *infos);
+int ft_length_path(int *tab, int n);
 
 /*
 **          choose_path.c
 */
-void					ft_choose_path(t_infos *infos);
+int					ft_choose_paths(t_infos *infos);
 
 
 
