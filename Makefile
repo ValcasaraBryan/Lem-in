@@ -15,6 +15,7 @@ NAME = lem-in
 SRC =	srcs/main.c\
 		srcs/affichage.c\
 		srcs/algo.c\
+		srcs/choose_path.c\
 		srcs/check_commandes.c\
 		srcs/check_file.c\
 		srcs/get_file.c\
