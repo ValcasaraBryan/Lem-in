@@ -36,8 +36,8 @@ int ft_compare_tab(t_infos *infos, int *tab, int n)
 			ft_putnbr_fd(infos->tab_path[tab[i]][3], 2);
 			ft_putnbr_fd(infos->tab_path[tab[i]][4], 2);
 			ft_putnbr_fd(infos->tab_path[tab[i]][5], 2);
-			ft_putnbr_fd(infos->tab_path[tab[i]][6], 2);
-			ft_putnbr_fd(infos->tab_path[tab[i]][7], 2);
+//			ft_putnbr_fd(infos->tab_path[tab[i]][6], 2);
+//			ft_putnbr_fd(infos->tab_path[tab[i]][7], 2);
 
 			ft_putchar(' ');
 
@@ -47,8 +47,8 @@ int ft_compare_tab(t_infos *infos, int *tab, int n)
 			ft_putnbr_fd(infos->tab_path[tab[j]][3], 2);
 			ft_putnbr_fd(infos->tab_path[tab[j]][4], 2);
 			ft_putnbr_fd(infos->tab_path[tab[j]][5], 2);
-			ft_putnbr_fd(infos->tab_path[tab[j]][6], 2);
-			ft_putnbr_fd(infos->tab_path[tab[j]][7], 2);
+//			ft_putnbr_fd(infos->tab_path[tab[j]][6], 2);
+//			ft_putnbr_fd(infos->tab_path[tab[j]][7], 2);
 
 			ft_putendl("");
 			if (!(ft_compare(infos, infos->tab_path[tab[i]], infos->tab_path[tab[j]])))
@@ -63,17 +63,25 @@ int		ft_tmp_name(t_infos *infos, int *tab_indexs_path_compatibles, int index_to_
 {
 	ft_putendl("ft_tmp_name");
 	int tmp;
-	int i = 0;
+	int i = 1;
 
-	while (index_to_up >= 0 && tab_indexs_path_compatibles[index_to_up] == infos->tab_path[0][0] - n + 1 + index_to_up)
+	ft_putnbr(index_to_up);
+	ft_putendl(" est l'index to up");
+	while (index_to_up >= 0 && tab_indexs_path_compatibles[index_to_up] == infos->tab_path[0][0] - n + index_to_up)
 		index_to_up--;
+	ft_putnbr(index_to_up);
+	ft_putendl(" est l'index to up apres verif");
 	if (index_to_up < 0)
 		return (-1);
 	tab_indexs_path_compatibles[index_to_up]++;
+	ft_putnbr(tab_indexs_path_compatibles[index_to_up]);
+	ft_putendl(" = index du premier tab a tester");
 	tmp = tab_indexs_path_compatibles[index_to_up];
 	while (++index_to_up < n)
 	{
 		tab_indexs_path_compatibles[index_to_up] = tmp + i;
+	ft_putnbr(tab_indexs_path_compatibles[index_to_up]);
+	ft_putendl(" = index du deuxieme tab a tester");
 		i++;
 	}
 	return (0);
@@ -95,6 +103,8 @@ int 	ft_choose_path_i(t_infos *infos, int *tab_indexs_path_compatibles, int n)
 	}
 	while (nb_path_compatible < n)
 	{
+		ft_putnbr(length_path_max);
+		ft_putendl(" = length path_max");
 		ft_putendl("dans le while");
 		k = -1;
 		while (++k < n && k + 1 < infos->tab_path[0][0])
@@ -106,16 +116,14 @@ int 	ft_choose_path_i(t_infos *infos, int *tab_indexs_path_compatibles, int n)
 			{
 				ft_putendl("on sort car on a trouvé n chemins compatibles");
 				return(1);
-//				nb_path_compatible = n;
 			}
+//			if (ft_length_path(infos->tab_path[tab_indexs_path_compatibles[index_to_up] + 1], infos->nb_of_box) > length_path_max)
+//			{
+//				ft_putendl("vient de la");
+///				ft_tmp_name(infos, tab_indexs_path_compatibles, index_to_up, index_to_up + 1);
+	///		}
 			else if (ft_tmp_name(infos, tab_indexs_path_compatibles, index_to_up, n) == -1)
-					return (-1);
-				// while (index_to_up < n && tab_indexs_path_compatibles[index_to_up] < infos->tab_path[0])
-				// {
-					// tab_indexs_path_compatibles[index_to_up]++;
-					// index_to_up++;
-				// }
-			// }
+				return (-1);
 		}
 		if (nb_path_compatible != n && tab_indexs_path_compatibles[0] < infos->tab_path[0][0] - (n - 1))
 			length_path_max = ft_length_path(infos->tab_path[tab_indexs_path_compatibles[n - 1]], infos->nb_of_box);
@@ -143,9 +151,11 @@ int ft_choose_paths(t_infos *infos)
 	while (i < infos->nb_path_max)
 	{
 		ft_putnbr(infos->tab_path[0][0]);
-		ft_putnbr(i);
-		ft_putendl(" est la taille de tab");
+		ft_putendl(" = nb_de chemins qui existent");
+		ft_putnbr(i+1);
+		ft_putendl(" = nb chemins comp a trouver");
 		ft_putnbr(infos->nb_path_max);
+		ft_putendl(" = nb_path_max");
 		tab_path_compatibles[i] = (int*)malloc(sizeof(int) * (i + 1));
 		if (ft_choose_path_i(infos, tab_path_compatibles[i], i + 1) < 0)
 		{

@@ -86,7 +86,7 @@ int		**ft_init_tab_path(t_infos *infos, int *tab)
 	if (!(tmp[i] = (int *)malloc(sizeof(int) * 1)))
 		return (NULL);
 
-	ft_putendl_fd("init_tab_path1", 2);
+	// ft_putendl_fd("init_tab_path1", 2);
 	while (++i <= n)
 	{
 		k = -1;
@@ -94,24 +94,24 @@ int		**ft_init_tab_path(t_infos *infos, int *tab)
 			return (NULL);
 		if (r == 1 && (i == n || ft_length_path(tab, infos->nb_of_box) < ft_length_path(infos->tab_path[j], infos->nb_of_box)))
 		{
-			ft_putendl("hi bitchiiiiiies");
+			// ft_putendl("hi bitchiiiiiies");
 			while (++k < infos->nb_of_box)
 				tmp[i][k] = tab[k];
 			i++;
-		ft_putnbr(i);
-		ft_putnbr(n);
+		// ft_putnbr(i);
+		// ft_putnbr(n);
 			if (i <= n)
 				if (!(tmp[i] = (int *)malloc(sizeof(int) * (infos->nb_of_box))))
 					return (NULL);
 			k = -1;
 			r = 0;
 		}
-		ft_putendl_fd("init_tab_path2", 2);
-		ft_putnbr(i);
-		ft_putnbr(j);
-		ft_putnbr(n);
-		ft_putnbr(k);
-		ft_putnbr(infos->nb_of_box);
+		// ft_putendl_fd("init_tab_path2", 2);
+		// ft_putnbr(i);
+		// ft_putnbr(j);
+		// ft_putnbr(n);
+		// ft_putnbr(k);
+		// ft_putnbr(infos->nb_of_box);
 		if (i <= n)
 		{
 			while (++k < infos->nb_of_box)
@@ -121,14 +121,14 @@ int		**ft_init_tab_path(t_infos *infos, int *tab)
 //				ft_putnbr(k);
 			}
 		}
-		ft_putendl_fd("init_tab_path4", 2);
+		// ft_putendl_fd("init_tab_path4", 2);
 		j++;
 	}
 	tmp[0][0] = n;
 
-	ft_putendl_fd("init_tab_path3", 2);
+	// ft_putendl_fd("init_tab_path3", 2);
 	ft_free_tab_int(infos->tab_path, n - 1);
-	ft_putendl_fd("init_tab_path fin", 2);
+	// ft_putendl_fd("init_tab_path fin", 2);
 	return (tmp);
 }
 
@@ -211,31 +211,18 @@ int		ft_search_path(t_infos *infos, int start)
 //		tab_path_n_piece[i] = t_info->data[start]->n_piece;
 	}
 		ft_putendl_fd("search_path fin", 2);
-	return (1);
+	return (infos->tab_path[0][0]);
 }
 
 int		ft_init_path(t_infos *infos)
 {
 	ft_putendl_fd("init_path", 2);
 	int i = 0;
-	// int j;
 
-	// path = (int **)malloc(sizeof(int *) * (infos->nb_path_max + 1));
-	// while (i < infos->nb_path_max)
-	// {
-		// j = 0;
-		// if (!(path[i] = (int *)malloc(sizeof(int) * (infos->nb_of_box + 1))))
-//			freeeeeee
-			// return(0);
-		// while (j < infos->nb_of_box + 1)
-			// path[i][j++] = -1;
-		// i++;
-	// }
-	// path[i] = NULL;
-	// i = 0;
 	while (infos->data[i].commands != 1)
 		i++;
-	ft_search_path(infos, i);
+	if (!ft_search_path(infos, i))
+		return(0);
 	ft_putendl_fd("init_path fin", 2);
 	return (1);
 }
@@ -258,7 +245,6 @@ int		ft_algo(t_infos *infos)
 	if (!infos->nb_path_max || !ft_init_path(infos))
 		return (0);
 	ft_choose_paths(infos);
-	ft_putendl_fd("algo fin", 2);
 	ft_putendl_fd("algo fin", 2);
 	return (1);
 }
