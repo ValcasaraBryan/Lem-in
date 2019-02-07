@@ -80,7 +80,8 @@ int		**ft_init_tab_path(t_infos *infos, int *tab)
 	int r = 1;
 
 	n = infos->tab_path[0][0] + 1;
-	if (!(tmp = (int **)malloc(sizeof(int*) * (n + 1))))
+	ft_putnbr(n + 2);
+	if (!(tmp = (int **)malloc(sizeof(int*) * (n + 2))))
 		return (NULL);
 	if (!(tmp[i] = (int *)malloc(sizeof(int) * 1)))
 		return (NULL);
@@ -93,10 +94,13 @@ int		**ft_init_tab_path(t_infos *infos, int *tab)
 			return (NULL);
 		if (r == 1 && (i == n || ft_length_path(tab, infos->nb_of_box) < ft_length_path(infos->tab_path[j], infos->nb_of_box)))
 		{
+			ft_putendl("hi bitchiiiiiies");
 			while (++k < infos->nb_of_box)
 				tmp[i][k] = tab[k];
 			i++;
-			if (i < n)
+		ft_putnbr(i);
+		ft_putnbr(n);
+			if (i <= n)
 				if (!(tmp[i] = (int *)malloc(sizeof(int) * (infos->nb_of_box))))
 					return (NULL);
 			k = -1;
@@ -108,11 +112,14 @@ int		**ft_init_tab_path(t_infos *infos, int *tab)
 		ft_putnbr(n);
 		ft_putnbr(k);
 		ft_putnbr(infos->nb_of_box);
-		while (i <= n && ++k < infos->nb_of_box)
+		if (i <= n)
 		{
-			ft_putnbr(infos->tab_path[j][k]);
-			tmp[i][k] = infos->tab_path[j][k];
-			ft_putnbr(k);
+			while (++k < infos->nb_of_box)
+			{
+//				ft_putendl("toto");
+				tmp[i][k] = infos->tab_path[j][k];
+//				ft_putnbr(k);
+			}
 		}
 		ft_putendl_fd("init_tab_path4", 2);
 		j++;
@@ -125,13 +132,12 @@ int		**ft_init_tab_path(t_infos *infos, int *tab)
 	return (tmp);
 }
 
-int		ft_search_path(t_infos *infos, int **path, int start)
+int		ft_search_path(t_infos *infos, int start)
 {
 	ft_putendl_fd("search_path", 2);
 	ft_putnbr_fd(start, 2);
 	int i = start;
 	int j = 1;
-	(void)path;
 
 	int *tab_path_n_piece;
 	int *tab_index_pipe_to_try;
@@ -140,7 +146,8 @@ int		ft_search_path(t_infos *infos, int **path, int start)
 	tab_index_pipe_to_try = ft_init(infos->nb_of_box, 0);
 
 	tab_path_n_piece[0] = start;
-	while (tab_index_pipe_to_try[start] < infos->data[start].nb_of_link) //infos->data[i].commands != 2 && 
+//	while (tab_index_pipe_to_try[start] < infos->data[start].nb_of_link) //infos->data[i].commands != 2 && 
+	while (i != start || tab_index_pipe_to_try[start] < infos->data[start].nb_of_link)
 	{
 		// ft_putendl_fd("laaaaab", 2);
 		// ft_putnbr_fd(tab_index_pipe_to_try[i], 2);
@@ -185,8 +192,9 @@ int		ft_search_path(t_infos *infos, int **path, int start)
 			tab_path_n_piece[j] = -1;
 			i = tab_path_n_piece[j - 1];
 		}
-		///			enregfistre et continue;
+		///			enregistre et continue;
 		else if (tab_index_pipe_to_try[i] >= infos->data[i].nb_of_link)
+//		while (tab_index_pipe_to_try[i] >= infos->data[i].nb_of_link || infos->data[i].commands == 2)
 		{
 			tab_index_pipe_to_try[i] = 0;
 			tab_path_n_piece[j - 1] = -1;
@@ -209,46 +217,25 @@ int		ft_search_path(t_infos *infos, int **path, int start)
 int		ft_init_path(t_infos *infos)
 {
 	ft_putendl_fd("init_path", 2);
-	int **path;
 	int i = 0;
-	int j;
+	// int j;
 
-	path = (int **)malloc(sizeof(int *) * (infos->nb_path_max + 1));
-	while (i < infos->nb_path_max)
-	{
-		j = 0;
-		if (!(path[i] = (int *)malloc(sizeof(int) * (infos->nb_of_box + 1))))
+	// path = (int **)malloc(sizeof(int *) * (infos->nb_path_max + 1));
+	// while (i < infos->nb_path_max)
+	// {
+		// j = 0;
+		// if (!(path[i] = (int *)malloc(sizeof(int) * (infos->nb_of_box + 1))))
 //			freeeeeee
-			return(0);
-		while (j < infos->nb_of_box + 1)
-			path[i][j++] = -1;
-		i++;
-	}
-	path[i] = NULL;
-	i = 0;
+			// return(0);
+		// while (j < infos->nb_of_box + 1)
+			// path[i][j++] = -1;
+		// i++;
+	// }
+	// path[i] = NULL;
+	// i = 0;
 	while (infos->data[i].commands != 1)
 		i++;
-	ft_search_path(infos, path, i);
-
-	ft_putnbr(path[0][0]);
-	ft_putnbr(path[0][1]);
-	ft_putnbr(path[0][2]);
-	ft_putnbr(path[0][3]);
-	ft_putnbr(path[0][4]);
-	ft_putnbr(path[0][5]);
-	ft_putnbr(path[0][6]);
-	ft_putnbr(path[0][7]);
-
-	ft_putchar(' ');
-	ft_putnbr(path[1][0]);
-	ft_putnbr(path[1][1]);
-	ft_putnbr(path[1][2]);
-	ft_putnbr(path[1][3]);
-	ft_putnbr(path[1][4]);
-	ft_putnbr(path[1][5]);
-	ft_putnbr(path[1][6]);
-	ft_putnbr(path[1][7]);
-
+	ft_search_path(infos, i);
 	ft_putendl_fd("init_path fin", 2);
 	return (1);
 }
