@@ -18,6 +18,7 @@ ARG = 0
 ARG_2 = 0
 
 SRC =	srcs/free/free_tab_str.c\
+		srcs/free/free_line.c\
 		\
 		srcs/ft_is/ft_isalnum.c\
 		srcs/ft_is/ft_isalpha.c\

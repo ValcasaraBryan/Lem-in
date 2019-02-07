@@ -1,41 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_chain.c                                       :+:      :+:    :+:   */
+/*   free_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brvalcas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/29 14:55:00 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/01/29 14:55:02 by brvalcas         ###   ########.fr       */
+/*   Created: 2019/01/31 17:08:23 by brvalcas          #+#    #+#             */
+/*   Updated: 2019/01/31 17:08:24 by brvalcas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "libft.h"
 
-t_file		*new_file(char *line)
+int			free_line(char **line)
 {
-	t_file	*tmp;
-
-	tmp = NULL;
-	if (!(tmp = malloc(sizeof(t_file))))
-		return (NULL);
-	tmp->line = (line && tmp) ? line : NULL;
-	tmp->next = NULL;
-	return (tmp);
-}
-
-t_file		*add_file(t_file *file, char *line)
-{
-	t_file	*tmp;
-
-	if (file)
+	if (*line)
 	{
-		tmp = file;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new_file(line);
-		return (file);
+		free(*line);
+		*line = NULL;
+		return (1);
 	}
 	else
-		return (new_file(line));
+		return (0);
 }
