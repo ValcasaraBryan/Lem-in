@@ -48,7 +48,10 @@ $(OBJET): includes/lem-in.h
 
 $(NAME) : $(OBJET)
 	@make -C libft
-	@$(CC) $(CFLAGS) $(LIB) $(OBJET) -o $@
+	@$(CC) $(CFLAGS) $(LIB) $(OBJET) -lmlx -framework OpenGL -framework AppKit -o $@
+
+exe_one : $(NAME)
+	./lem-in < resources/correct_1
 
 exe : $(NAME)
 ifeq ($(arg), correct)

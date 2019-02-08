@@ -16,7 +16,34 @@
 # include "../libft/includes/libft.h"
 # include "../libft/includes/get_next_line.h"
 # include "../libft/includes/ft_printf.h"
-
+/*
+#define a 0
+#define b 11
+#define c 8
+#define d 2
+#define e 14
+#define f 3
+#define g 5
+#define h 4
+#define i 34
+#define j 38
+#define k 40
+#define l 37
+#define m 46
+#define n 45
+#define o 31
+#define p 35
+#define q 12
+#define r 15
+#define s 1
+#define t 17
+#define u 32
+#define v 9
+#define w 13
+#define x 7
+#define y 16
+#define z 6
+*/
 typedef struct          s_file
 {
     char                *line;
@@ -39,6 +66,7 @@ typedef struct          s_infos
     int                 nb_of_fourmis;
     int                 nb_of_box;
     int                 nb_of_pipe;
+    int                 nb_path_max;
     t_file              *file;
     t_data              *data;
 }                       t_infos;
