@@ -55,6 +55,8 @@ void                    ft_put_data(t_infos *infos);
 */
 int                     ft_algo(t_infos *infos);
 int						ft_length_path(int *tab, int n);
+void					ft_free_tab_int(int **tab, int height);
+int						ft_min_int(int a, int b);
 /*
 **          choose_path.c
 */
