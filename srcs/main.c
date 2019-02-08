@@ -15,6 +15,7 @@
 
 typedef struct		data_s
 {
+	int				nb_of_box;
 	void			*mlx_ptr;
 	void			*mlx_win;
 	int				longueur_win;
@@ -27,7 +28,28 @@ typedef struct		data_s
 	int				centre_y;
 	int				longueur;
 	int				largeur;
+	t_infos			*infos;
 }					data_t;
+
+int			val_max_coor(t_data *data, char c)
+{
+	int		i;
+	int		val;
+
+	i = 0;
+	val = 0;
+	while (data[i].name_box)
+	{
+		if (c == 'x')
+			if (data[i].coor_x > val)
+				val = data[i].coor_x;
+		if (c == 'y')
+		if (data[i].coor_y > val)
+			val = data[i].coor_y;
+		i++;
+	}
+	return (val);
+}
 
 int			key_hook(int keycode, data_t *p)
 {
@@ -81,33 +103,46 @@ int			key_hook(int keycode, data_t *p)
 	}
 	else
 		printf("%d\n", keycode);
-	while (i < 500)
+	p->color_carre_x = 100000000;
+	p->color_carre_y = 100000000;
+	p->color_interieur = 54461616;
+	p->longueur = (p->longueur_win * 5) / 100;
+	p->largeur = (p->largeur_win * 5) / 100;
+	while (i < p->longueur_win)
 	{
 		j = 0;
-		while (j < 500)
+		while (j < p->largeur_win)
 		{
 			mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, p->color);	
 			j++;
 		}
 		i++;
 	}
-	i = p->centre_x;
-	while (i < p->centre_x + p->largeur)
+	while (p->infos->data[p->nb_of_box].name_box)
 	{
-		j = p->centre_y;
-		while (j < p->centre_y + p->longueur)
+		p->centre_y = p->infos->data[p->nb_of_box].coor_y * ((p->longueur_win * 3.5) / 100); // centre du carre
+		p->centre_x = p->infos->data[p->nb_of_box].coor_x * ((p->largeur_win * 3.5) / 100); // centre du carre
+		i = p->centre_x;
+		while (i < p->centre_x + p->longueur)
 		{
-			if (i != p->centre_x && i != p->centre_x + p->largeur - 1
-				&& j != p->centre_y && j != p->centre_y + p->longueur - 1)
-				mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, p->color_interieur);
-			if (i == p->centre_x || i == p->centre_x + p->largeur - 1)
-				mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, p->color_carre_x);			
-			if (j == p->centre_y || j == p->centre_y + p->longueur - 1)
-				mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, p->color_carre_y);
-			j++;
+			j = p->centre_y;
+			while (j < p->centre_y + p->largeur)
+			{
+				if (i != p->centre_x && i != p->centre_x + p->longueur - 1
+					&& j != p->centre_y && j != p->centre_y + p->largeur - 1)
+					mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, p->color_interieur);
+				if (i == p->centre_x || i == p->centre_x + p->longueur - 1)
+					mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, p->color_carre_x);			
+				if (j == p->centre_y || j == p->centre_y + p->largeur - 1)
+					mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, p->color_carre_y);
+				j++;
+			}
+			i++;
 		}
-		i++;
+		printf("x = %d - y = %d\n", p->infos->data[p->nb_of_box].coor_x, p->infos->data[p->nb_of_box].coor_y);
+		p->nb_of_box++;
 	}
+	p->nb_of_box = 0;
 	return (0);
 }
 
@@ -164,20 +199,18 @@ int			main(int argc, char **argv)
 	}
 
 	// ft_algo(&infos);
-	// ft_put_data(&infos);
+	ft_put_data(&infos);
 	ft_put_list(infos.file);
 	ft_fprintf("OK\n", 1);
 	ft_fprintf("\\-------------------------------------------/\n\n\n", 2);
+	p.infos = &infos;
 	p.color = 0;
-	p.color_carre_x = 100000000;
-	p.color_carre_y = 100000000;
-	p.color_interieur = 54461616;
-	p.longueur_win = 500;
-	p.largeur_win = 500;
-	p.longueur = 50;
-	p.largeur = 50;
-	p.centre_x = infos.data[0].coor_x + (p.longueur / 2); // centre du carre
-	p.centre_y = infos.data[0].coor_y + (p.largeur / 2); // centre du carre
+	p.nb_of_box = 0;
+	p.longueur_win =  val_max_coor(infos.data, 'x') * 50;
+	p.largeur_win = val_max_coor(infos.data, 'y') * 50;
+	// p.longueur_win = (p.largeur_win < (p.longueur_win * 3)) ? (p.longueur_win / 2) : p.longueur_win;
+	// \p.largeur_win = (p.longueur_win < (p.largeur_win * 2)) ? (p.largeur_win / 2) : p.largeur_win;
+	printf("%d - %d\n", p.longueur_win, p.largeur_win);
 	p.mlx_win = mlx_new_window(p.mlx_ptr, p.longueur_win, p.largeur_win, "mlx 42");
 	mlx_key_hook(p.mlx_win, key_hook, &p);
 	mlx_loop(p.mlx_ptr);

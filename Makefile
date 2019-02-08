@@ -51,7 +51,7 @@ $(NAME) : $(OBJET)
 	@$(CC) $(CFLAGS) $(LIB) $(OBJET) -lmlx -framework OpenGL -framework AppKit -o $@
 
 exe_one : $(NAME)
-	./lem-in < resources/correct_1
+	./lem-in < resources/correct_1 $(arg) $(arg_2)
 
 exe : $(NAME)
 ifeq ($(arg), correct)
