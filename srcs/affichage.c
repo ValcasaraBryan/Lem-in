@@ -14,6 +14,7 @@
 
 void		ft_put_list(t_file *file)
 {
+	ft_putchar_fd('\n', 1);
 	while (file)
 	{
 		ft_putendl_fd(file->line, 1);

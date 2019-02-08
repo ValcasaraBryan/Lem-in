@@ -59,12 +59,16 @@ int			main(int argc, char **argv)
 		erase_data(&infos);
 		return (0);
 	}
-	// ft_algo(&infos);
 	// ft_put_data(&infos);
+	if (!(ft_algo(&infos)))
+	{
+		perror("ERROR ");
+		ft_fprintf("\\-------------------------------------------/\n\n\n\n", 2);
+		return (0);
+	}
 	ft_put_list(infos.file);
 	ft_fprintf("OK\n", 1);
 	ft_fprintf("\\-------------------------------------------/\n\n\n", 2);
-	ft_algo(&infos);
 	erase_infos(&infos);
 	erase_data(&infos);
 	return (0);
