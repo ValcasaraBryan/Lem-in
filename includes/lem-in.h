@@ -31,6 +31,7 @@ typedef struct          s_data
 	int                 commands;
 	int                 coor_x;
 	int                 coor_y;
+	int					full;
 	struct s_data       **pipe;
 }                       t_data;
 
