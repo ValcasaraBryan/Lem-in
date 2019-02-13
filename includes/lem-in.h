@@ -17,6 +17,14 @@
 # include "../libft/includes/get_next_line.h"
 # include "../libft/includes/ft_printf.h"
 
+typedef struct s_ants
+{
+	int num_ants;
+	int path_used;
+	int index_room_path;
+	struct s_ants *next;
+}				t_ants;
+
 typedef struct          s_file
 {
 	char                *line;
@@ -44,6 +52,7 @@ typedef struct          s_infos
 	t_file              *file;
 	t_data              *data;
 	int					**tab_path;
+	t_ants				*first_ant;
 }                       t_infos;
 
 /*

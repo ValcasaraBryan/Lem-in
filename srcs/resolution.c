@@ -1,19 +1,6 @@
 
 #include "lem-in.h"
 
-typedef struct	s_list
-{
-	t_ants *first_ant;
-}				t_list;	
-
-typedef struct s_ants
-{
-	int num_ants;
-	int path_used;
-	int n_room;
-	struct s_list *next;
-}				t_ants;
-
 int ft_lstdel_num_ant(t_list *start, int ant_to_del)
 {
 	t_ants *tmp;
@@ -49,13 +36,21 @@ int ft_fill_tab_path_turn_i(infos_t *infos, int n, int **tab_paths_turn, int nb_
 	}
 }
 
-int ft_suite(t_infos *infos, int num_group_path_to_use)
+int ft_move_ants(t_infos *i)
 {
-	t_list start;
-	start->first_ant = ft_new_lst(void);
-	ft_lstadd_end(start, num_ant, path, n_room);
+	t_ants *tmp = infos->first_ant;
 
+	while(tmp->next)
+	{
+		if (ft_next_room_is_free(i))
+		{
+			i->data[i->tab_path[i->tmp->path_used][i->tmp->index_room_path]]]->full = 0;
+			tmp->index_room_path++;
+			i->data[i->tab_path[i->tmp->path_used][i->tmp->index_room_path]]]->full = 1;
+		}
 
+		tmp = tmp->next;
+	}
 	return(1);
 }
 
@@ -111,7 +106,6 @@ int		resolve(t_infos *infos)
 		num_group_path_to_use = ft_find_group_path_to_use(infos, tab_paths_turn, nbr_group_paths, nb_turn_max);
 		ft_create_ants(infos, num_group_path_to_use + 1);
 	}
-		ft_suite(infos, num_group_path_to_use);
 
 }
 
