@@ -47,7 +47,7 @@ int *ft_init(int n, int val_initial)
 
 int ft_check_precedents(t_infos *infos, int* tab_path_n_piece, int n)
 {
-	int i  = 0;
+	int i = 0;
 
 	while (i < infos->nb_of_box)
 	{
@@ -60,12 +60,18 @@ int ft_check_precedents(t_infos *infos, int* tab_path_n_piece, int n)
 
 int ft_length_path(int *tab, int n)
 {
-	// ft_putendl("ft_length_path");
+//	ft_putendl("ft_length_path");
 	int i = 0;
 
 	while (i < n && tab[i] >= 0)
+	{
 		i++;
-	// ft_putendl("ft_length_path fin ");
+//		ft_putchar('i');
+//		ft_putnbr(i);
+//		ft_putchar('t');
+//		ft_putnbr(tab[i]);
+	}
+//	ft_putendl("ft_length_path fin ");
 	return (i);
 }
 
@@ -188,6 +194,7 @@ int		ft_algo(t_infos *infos)
 {
 	ft_putendl_fd("algo", 1);
 	int i = -1;
+	int nbr_group_path;
 
 	infos->tab_path = (int **)malloc(sizeof(int*));
 	infos->tab_path[0] = (int *)malloc(sizeof(int));
@@ -202,8 +209,9 @@ int		ft_algo(t_infos *infos)
 		free(infos->tab_path);
 		return (0);
 	}
-	if (ft_choose_paths(infos) <= 0)
+	if ((nbr_group_path = ft_choose_paths(infos)) <= 0)
 		return (0);
+	ft_resolve(infos, nbr_group_path);
 	ft_putendl_fd("algo fin", 2);
 	return (1);
 }

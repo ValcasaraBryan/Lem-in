@@ -138,9 +138,8 @@ int ft_choose_paths(t_infos *infos)
 {
 	ft_putendl("ft_choose_paths");
 	int i = 0;
-	int **tab_path_compatibles;
 
-	tab_path_compatibles = (int**)malloc(sizeof(int*) * infos->nb_path_max);
+	infos->tab_paths_compatibles = (int**)malloc(sizeof(int*) * infos->nb_path_max);
 	while (i < ft_min_int(infos->nb_path_max, infos->tab_path[0][0]))
 	{
 //		ft_putnbr(infos->tab_path[0][0]);
@@ -149,17 +148,17 @@ int ft_choose_paths(t_infos *infos)
 //		ft_putendl(" = nb chemins comp a trouver");
 //		ft_putnbr(infos->nb_path_max);
 //		ft_putendl(" = nb_path_max");
-		tab_path_compatibles[i] = (int*)malloc(sizeof(int) * (i + 1));
+		infos->tab_paths_compatibles[i] = (int*)malloc(sizeof(int) * (i + 1));
 		if (i == 0)
 		{
-			tab_path_compatibles[i][0] = infos->tab_path[1][0];
+			infos->tab_paths_compatibles[i][0] = 1;
 			ft_putendl("premier path");
 		}
 //		while (++j < i + 1)
 //			tab_path_compatibles[i][j] = -1;
-		else if (i > 0 && ft_choose_path_i(infos, tab_path_compatibles[i], i + 1) <= 0)
+		else if (i > 0 && ft_choose_path_i(infos, infos->tab_paths_compatibles[i], i + 1) <= 0)
 		{
-			ft_free_tab_int(tab_path_compatibles, i + 1);
+			ft_free_tab_int(infos->tab_paths_compatibles, i + 1);
 			return (-1);
 		}
 //		ft_putendl("ola");

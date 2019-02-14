@@ -19,7 +19,7 @@
 
 typedef struct s_ants
 {
-	int num_ants;
+	int num_ant;
 	int path_used;
 	int index_room_path;
 	struct s_ants *next;
@@ -53,6 +53,7 @@ typedef struct          s_infos
 	t_data              *data;
 	int					**tab_path;
 	t_ants				*first_ant;
+	int 				**tab_paths_compatibles;
 }                       t_infos;
 
 /*
@@ -72,7 +73,21 @@ int						ft_min_int(int a, int b);
 */
 
 int						ft_choose_paths(t_infos *infos);
+/*
+**          resolution.c
+*/
 
+int		ft_resolve(t_infos *infos, int nbr_group_path);
+
+/*
+**          list_utils.c
+*/
+void ft_lstdel_all(t_ants **fa);
+void	ft_lstdel_start(t_ants **fa);
+void ft_lstadd_end(t_ants **fa, int num_ant, int path, int room);
+void	ft_lstadd_start(t_ants **fa, int num_ant, int path, int room);
+void ft_new_lst(t_ants **fa);
+t_ants *ft_lstdel_num_ant(t_ants **fa, int ant_to_del);
 /*
 **          check_commandes.c
 */

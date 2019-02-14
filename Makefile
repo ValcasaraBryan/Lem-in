@@ -25,7 +25,9 @@ SRC =	srcs/main.c\
 		srcs/logical_infos_box.c\
 		srcs/parsing.c\
 		srcs/valeur_data.c\
-		srcs/valeur_pipe.c
+		srcs/valeur_pipe.c\
+		srcs/resolution.c\
+		srcs/list_utils.c
 
 LIB = libft/libft.a
 

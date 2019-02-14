@@ -1,49 +1,61 @@
-void ft_new_lst(void)
+
+#include <lem-in.h>
+
+t_ants		*ft_lstdel_num_ant(t_ants **fa, int ant_to_del)
 {
-	t_ants *ants;
-	t_list *start;
+	t_ants *tmp;
 
-	if (!(start = ft_memalloc(sizeof(t_list*))))
-		return (NULL);
-	if (!(ants = ft_memalloc(sizeof(t_ants*))))
-		return (NULL);
-
-	ants->num_ants = -1;
-	ants->path_used = -1;
-	ants->n_room = -1;
-	ants->next = NULL;
-	start->first_ant = ants;
-	return(start);
+	while ((*fa)->num_ant != ant_to_del)
+		fa = &(*fa)->next;
+	tmp = *fa;
+	*fa = (*fa)->next;
+	free(tmp);
+	return (*fa);
 }
 
-int ft_lstadd_start(t_ants **fa, int num_ant, int path, int room)
+void ft_new_lst(t_ants **fa)
+{
+	t_ants *new_list;
+
+	if (!(new_list = ft_memalloc(sizeof(t_ants))))
+		return ;
+	fa = &new_list;
+}
+
+void ft_lstadd_start(t_ants **fa, int num_ant, int path, int room)
 {
 	t_ants *new_ant;
 
-	if (!(new_ant = ft_memalloc(sizeof(t_ants*))))
-		return (NULL);
+	if (!(new_ant = ft_memalloc(sizeof(t_ants))))
+		return ;
 	new_ant->num_ant = num_ant;
 	new_ant->path_used = path;
-	new_ant->n_room = room;
+	new_ant->index_room_path = room;
 	new_ant->next = *fa;
 	*fa = new_ant;
 }
 
-int ft_lstadd_end(t_ants **fa, int num_ant, int path, int room)
+void ft_lstadd_end(t_ants **fa, int num_ant, int path, int room)
 {
+	ft_putendl("lol");
 	t_ants *new_ant;
-	t_ants **tmp;
 
-	if (!(new_ant = ft_memalloc(sizeof(t_ants*))))
-		return (NULL);
+	if (!(new_ant = ft_memalloc(sizeof(t_ants))))
+		return ;
+	ft_putendl("lol1");
 	new_ant->num_ant = num_ant;
 	new_ant->path_used = path;
-	new_ant->n_room = room;
+	new_ant->index_room_path = room;
 	new_ant->next = NULL;
-	tmp = &(infos->first_ant);
-	while(*tmp)
-		tmp = &(*tmp)->next;
-	*tmp = new_ant;
+	ft_putendl("lol2");
+	while (*fa)
+	{
+		ft_printf("%p\n", fa);
+		fa = &((*fa)->next);
+	}
+	ft_putendl("lol3");
+	*fa = new_ant;
+	ft_putendl("lol5");
 }
 
 void	ft_lstdel_start(t_ants **fa)
@@ -55,7 +67,7 @@ void	ft_lstdel_start(t_ants **fa)
 	free(tmp);
 }
 
-void ft_lstdel(t_ants **fa)
+void ft_lstdel_all(t_ants **fa)
 {
 	while(*fa)
 		ft_lstdel_start(fa);
