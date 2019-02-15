@@ -239,7 +239,7 @@ int		ft_init_path(t_infos *infos)
 void	ft_free_all(t_infos *infos)
 {
 	ft_lstdel_all(&infos->first_ant);
-	ft_free_tab_int(infos->tab_paths_compatibles, \
+	ft_free_tab_int(infos->t_p_c, \
 			ft_min_int(infos->nb_path_max, infos->tab_path[0][0]));
 	ft_free_tab_int(infos->tab_path, infos->tab_path[0][0] + 1);
 }

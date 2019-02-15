@@ -71,7 +71,7 @@ int		ft_up_index(t_infos *infos, int *t_p_c, int index_to_up, int n)
 	return (0);
 }
 
-int		ft_choose_path_i(t_infos *infos, int *t_p_c, int n)
+int		ft_choose_path_i(t_infos *infos, int *tpc_i, int n)
 {
 	int k;
 	int index_to_up;
@@ -85,17 +85,17 @@ int		ft_choose_path_i(t_infos *infos, int *t_p_c, int n)
 	{
 		k = -1;
 		while (++k < n && k < infos->tab_path[0][0])
-			t_p_c[k] = k + 1;
+			tpc_i[k] = k + 1;
 		while (nb_path_compatible < n &&
-				ft_length_path(infos->tab_path[t_p_c[n - 1]], infos->nb_of_box) <= l_path_max)
+				ft_length_path(infos->tab_path[tpc_i[n - 1]], infos->nb_of_box) <= l_path_max)
 		{
-			if (!(index_to_up = ft_compare_tab(infos, t_p_c, n)))
+			if (!(index_to_up = ft_compare_tab(infos, tpc_i, n)))
 				return (1);
-			else if (ft_up_index(infos, t_p_c, index_to_up, n) == -1)
+			else if (ft_up_index(infos, tpc_i, index_to_up, n) == -1)
 				return (-1);
 		}
-		if (nb_path_compatible != n && t_p_c[0] < infos->tab_path[0][0] - (n - 1))
-			l_path_max = ft_length_path(infos->tab_path[t_p_c[n - 1]], infos->nb_of_box);
+		if (nb_path_compatible != n && tpc_i[0] < infos->tab_path[0][0] - (n - 1))
+			l_path_max = ft_length_path(infos->tab_path[tpc_i[n - 1]], infos->nb_of_box);
 	}
 	return (0);
 }
@@ -105,22 +105,20 @@ int		ft_choose_paths(t_infos *infos)
 	int i;
 
 	i = 0;
-	if (!(infos->tab_paths_compatibles = (int**)malloc(sizeof(int*) * infos->nb_path_max)))
+	if (!(infos->t_p_c = (int**)malloc(sizeof(int*) * infos->nb_path_max)))
 		return (0);
 	while (i < ft_min_int(infos->nb_path_max, infos->tab_path[0][0]))
 	{
-		if (!(infos->tab_paths_compatibles[i] = (int*)malloc(sizeof(int) * (i + 1))))
+		if (!(infos->t_p_c[i] = (int*)malloc(sizeof(int) * (i + 1))))
 		{
-			ft_free_tab_int(infos->tab_paths_compatibles, i);
+			ft_free_tab_int(infos->t_p_c, i);
 			return (0);
 		}
 		if (i == 0)
+			infos->t_p_c[i][0] = 1;
+		else if (i > 0 && ft_choose_path_i(infos, infos->t_p_c[i], i + 1) < 0)
 		{
-			infos->tab_paths_compatibles[i][0] = 1;
-		}
-		else if (i > 0 && ft_choose_path_i(infos, infos->tab_paths_compatibles[i], i + 1) < 0)
-		{
-			ft_free_tab_int(infos->tab_paths_compatibles, i);
+			ft_free_tab_int(infos->t_p_c, i);
 			return (0);
 		}
 		i++;
