@@ -17,13 +17,27 @@
 # include "../libft/includes/get_next_line.h"
 # include "../libft/includes/ft_printf.h"
 
+/*
+**			num_a = numero de la fourmi
+**			path_a = chemin aue suit la fourmi
+**			indx = index du path auquel la fourmi se trouve
+*/
+
 typedef struct s_ants
 {
-	int num_ant;
-	int path_used;
-	int index_room_path;
+	int num_a;
+	int path_u;
+	int indx;
 	struct s_ants *next;
 }				t_ants;
+
+typedef struct          s_t
+{
+	int 				i;
+	int 				j;
+	int 				r;
+	int 				n;
+}                       t_t;
 
 typedef struct          s_file
 {
@@ -42,7 +56,14 @@ typedef struct          s_data
 	int					full;
 	struct s_data       **pipe;
 }                       t_data;
-
+/*
+**			t_p = tableau qui contient tous les chemins qui existent
+**			first_ant = liste des fourmis
+**			t_p_c = tab_path_compatibles, contient les index des chemins 
+**					compatibles (pour t_p_c[3], contient les index a 
+**					reporter dans t_p de 4 chemins compatibles)
+**			nb_path_max = nombre de chemins maximum
+*/
 typedef struct          s_infos
 {
 	int                 nb_of_fourmis;
@@ -58,12 +79,12 @@ typedef struct          s_infos
 }                       t_infos;
 
 /*
-**          affichage.c
+**			affichage.c
 */
 void                    ft_put_list(t_file *file);
 void                    ft_put_data(t_infos *infos);
 /*
-**          algo.c
+**			algo.c
 */
 int                     ft_algo(t_infos *infos);
 int						ft_length_path(int *tab, int n);

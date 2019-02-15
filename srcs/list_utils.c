@@ -1,11 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   list_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: glebouch <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/15 17:40:44 by glebouch          #+#    #+#             */
+/*   Updated: 2019/02/15 17:40:56 by glebouch         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <lem-in.h>
 
-t_ants		*ft_lstdel_num_ant(t_ants **fa, int ant_to_del)
+t_ants	*ft_lstdel_num_ant(t_ants **fa, int ant_to_del)
 {
 	t_ants *tmp;
 
-	while ((*fa)->num_ant != ant_to_del)
+	while ((*fa)->num_a != ant_to_del)
 		fa = &(*fa)->next;
 	tmp = *fa;
 	*fa = (*fa)->next;
@@ -13,7 +24,7 @@ t_ants		*ft_lstdel_num_ant(t_ants **fa, int ant_to_del)
 	return (*fa);
 }
 
-void ft_new_lst(t_ants **fa)
+void	ft_new_lst(t_ants **fa)
 {
 	t_ants *new_list;
 
@@ -22,33 +33,33 @@ void ft_new_lst(t_ants **fa)
 	fa = &new_list;
 }
 
-void ft_lstadd_start(t_ants **fa, int num_ant, int path, int room)
+void	ft_lstadd_start(t_ants **fa, int num_a, int path, int room)
 {
 	t_ants *new_ant;
 
 	if (!(new_ant = ft_memalloc(sizeof(t_ants))))
 		return ;
-	new_ant->num_ant = num_ant;
-	new_ant->path_used = path;
-	new_ant->index_room_path = room;
+	new_ant->num_a = num_a;
+	new_ant->path_u = path;
+	new_ant->indx = room;
 	new_ant->next = *fa;
 	*fa = new_ant;
 }
 
-int ft_lstadd_end(t_ants **fa, int num_ant, int path, int room)
+int		ft_lstadd_end(t_ants **fa, int num_a, int path, int room)
 {
 	t_ants *new_ant;
 
 	if (!(new_ant = ft_memalloc(sizeof(t_ants))))
 		return (0);
-	new_ant->num_ant = num_ant;
-	new_ant->path_used = path;
-	new_ant->index_room_path = room;
+	new_ant->num_a = num_a;
+	new_ant->path_u = path;
+	new_ant->indx = room;
 	new_ant->next = NULL;
 	while (*fa)
 		fa = &((*fa)->next);
 	*fa = new_ant;
-	return(1);
+	return (1);
 }
 
 void	ft_lstdel_start(t_ants **fa)
@@ -60,26 +71,8 @@ void	ft_lstdel_start(t_ants **fa)
 	free(tmp);
 }
 
-void ft_lstdel_all(t_ants **fa)
+void	ft_lstdel_all(t_ants **fa)
 {
-	while(*fa)
+	while (*fa)
 		ft_lstdel_start(fa);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

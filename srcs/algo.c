@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   algo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: glebouch <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/15 17:39:42 by glebouch          #+#    #+#             */
+/*   Updated: 2019/02/15 17:40:01 by glebouch         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "lem-in.h"
 
@@ -7,11 +18,7 @@ void	ft_free_tab_int(int **tab, int height)
 
 	i = 0;
 	while (i < height)
-	{
-//		ft_putendl("ta mere");
 		free(tab[i++]);
-	}
-//	ft_putendl("apres ta mere");
 	free(tab);
 }
 
@@ -22,23 +29,24 @@ int		ft_min_int(int a, int b)
 	return (b);
 }
 
-void ft_put_tab_int(int *tab)
+void	ft_put_tab_int(int *tab)
 {
-	int i = 0;
+	int i;
 
-	while(i < 8)
+	i = 0;
+	while (i < 8)
 	{
 		ft_putnbr_fd(tab[i], 2);
 		ft_putchar_fd(' ', 2);
 	}
 }
 
-//init un tab de int qui a a 0 la salle start, 1 l'index 1ere salle 
-int *ft_init(int n, int val_initial)
+int		*ft_alloc_tab_int(int n, int val_initial)
 {
 	int *tab;
-	int i = 0;
+	int i;
 
+	i = 0;
 	if (!(tab = (int *)malloc(sizeof(int) * n)))
 		return (NULL);
 	while (i < n)
@@ -49,95 +57,137 @@ int *ft_init(int n, int val_initial)
 	return (tab);
 }
 
-int ft_check_precedents(t_infos *infos, int* tab_path_n_piece, int n)
+int		ft_check_precedents(t_infos *infos, int *tab_path_n_piece, int n)
 {
-	int i = 0;
+	int i;
 
+	i = 0;
 	while (i < infos->nb_of_box)
 	{
 		if (tab_path_n_piece[i] == n)
-			return(0);
+			return (0);
 		i++;
 	}
-	return(1);
+	return (1);
 }
 
-int ft_length_path(int *tab, int n)
+int		ft_length_path(int *tab, int n)
 {
-//	ft_putendl("ft_length_path");
-	int i = 0;
+	int i;
 
+	i = 0;
 	while (i < n && tab[i] >= 0)
-	{
 		i++;
-//		ft_putchar('i');
-//		ft_putnbr(i);
-//		ft_putchar('t');
-//		ft_putnbr(tab[i]);
-	}
-//	ft_putendl("ft_length_path fin ");
 	return (i);
 }
 
-int		**ft_init_tab_path(t_infos *infos, int *tab)
+int		ft_update_tab_path_2(t_infos *infos, int **tmp, int *tab, t_t *t)
 {
-//	ft_putendl_fd("init_tab_path", 2);
-	int n;
-	int **tmp;
-	int i = 0;
-	int j = 1;
 	int k;
-	int r = 1;
 
-	n = infos->tab_path[0][0] + 1;
-	ft_putnbr(n + 2);
-	if (!(tmp = (int **)malloc(sizeof(int*) * (n + 2))))
-		return (NULL);
-	if (!(tmp[i] = (int *)malloc(sizeof(int) * 1)))
-		return (NULL);
-
-	while (++i <= n)
+	k = -1;
+	if (!(tmp[t->i] = (int *)malloc(sizeof(int) * (infos->nb_of_box))))
+		return (0);
+	if (t->r == 1 && (t->i == t->n || ft_length_path(tab, infos->nb_of_box) < \
+				ft_length_path(infos->tab_path[t->j], infos->nb_of_box)))
 	{
+		while (++k < infos->nb_of_box)
+			tmp[t->i][k] = tab[k];
+		t->i++;
+		if (t->i <= t->n)
+			if (!(tmp[t->i] = (int *)malloc(sizeof(int) * (infos->nb_of_box))))
+				return (0);
 		k = -1;
-		if (!(tmp[i] = (int *)malloc(sizeof(int) * (infos->nb_of_box))))
-			return (NULL);
-		if (r == 1 && (i == n || ft_length_path(tab, infos->nb_of_box) < ft_length_path(infos->tab_path[j], infos->nb_of_box)))
-		{
-			while (++k < infos->nb_of_box)
-				tmp[i][k] = tab[k];
-			i++;
-			if (i <= n)
-				if (!(tmp[i] = (int *)malloc(sizeof(int) * (infos->nb_of_box))))
-					return (NULL);
-			k = -1;
-			r = 0;
-		}
-		if (i <= n)
-			while (++k < infos->nb_of_box)
-				tmp[i][k] = infos->tab_path[j][k];
-		j++;
+		t->r = 0;
 	}
-	tmp[0][0] = n;
-	ft_free_tab_int(infos->tab_path, n - 1);
+	if (t->i <= t->n)
+		while (++k < infos->nb_of_box)
+			tmp[t->i][k] = infos->tab_path[t->j][k];
+	t->j++;
+	return (1);
+}
+
+int		**ft_update_tab_path(t_infos *infos, int *tab)
+{
+	t_t t;
+	int **tmp;
+
+	t.i = 0;
+	t.j = 1;
+	t.r = 1;
+	t.n = infos->tab_path[0][0] + 1;
+	if (!(tmp = (int **)malloc(sizeof(int*) * (t.n + 2))))
+		return (NULL);
+	if (!(tmp[0] = (int *)malloc(sizeof(int) * 1)))
+		return (NULL);
+	while (++t.i <= t.n)
+	{
+		if (!(ft_update_tab_path_2(infos, tmp, tab, &t)))
+		{
+			ft_free_tab_int(tmp, t.i);
+			return (NULL);
+		}
+	}
+	tmp[0][0] = t.n;
+	ft_free_tab_int(infos->tab_path, t.n - 1);
 	return (tmp);
 }
 
+/*int		**ft_update_tab_path(t_infos *infos, int *tab)
+  {
+  int n;
+  int **tmp;
+  int i = 0;
+  int j = 1;
+  int k;
+  int r = 1;
+
+  n = infos->tab_path[0][0] + 1;
+  if (!(tmp = (int **)malloc(sizeof(int*) * (n + 2))))
+  return (NULL);
+  if (!(tmp[i] = (int *)malloc(sizeof(int) * 1)))
+  return (NULL);
+  while (++i <= n)
+  {
+  k = -1;
+  if (!(tmp[i] = (int *)malloc(sizeof(int) * (infos->nb_of_box))))
+  return (NULL);
+  if (r == 1 && (i == n || ft_length_path(tab, infos->nb_of_box) < ft_length_path(infos->tab_path[j], infos->nb_of_box)))
+  {
+  while (++k < infos->nb_of_box)
+  tmp[i][k] = tab[k];
+  i++;
+  if (i <= n)
+  if (!(tmp[i] = (int *)malloc(sizeof(int) * (infos->nb_of_box))))
+  return (NULL);
+  k = -1;
+  r = 0;
+  }
+  if (i <= n)
+  while (++k < infos->nb_of_box)
+  tmp[i][k] = infos->tab_path[j][k];
+  j++;
+  }
+  tmp[0][0] = n;
+  ft_free_tab_int(infos->tab_path, n - 1);
+  return (tmp);
+  }*/
+
 int		ft_search_path(t_infos *infos, int start)
 {
-//	ft_putendl_fd("search_path", 2);
-//	ft_putnbr_fd(start, 2);
-	int i = start;
-	int j = 1;
-
+	int i;
+	int j;
 	int *tab_path_n_piece;
 	int *tab_index_pipe_to_try;
 
-	if(!(tab_path_n_piece = ft_init(infos->nb_of_box, -1)))
-		return(0);
-	if(!(tab_index_pipe_to_try = ft_init(infos->nb_of_box, 0)))
+	i = start;
+	j = 1;
+	if (!(tab_path_n_piece = ft_alloc_tab_int(infos->nb_of_box, -1)))
+		return (0);
+	if (!(tab_index_pipe_to_try = ft_alloc_tab_int(infos->nb_of_box, 0)))
 	{
 		free(tab_path_n_piece);
-		return(0);
+		return (0);
 	}
 	tab_path_n_piece[0] = start;
 	while (i != start || tab_index_pipe_to_try[start] < infos->data[start].nb_of_link)
@@ -156,18 +206,7 @@ int		ft_search_path(t_infos *infos, int start)
 		}
 		if (infos->data[i].commands == 2)
 		{
-			// ft_putstr_fd("le paaaaaaaaaaaaaaaaaaaaaaaaaaaaaaath: ", 2);
-			// ft_putnbr_fd(tab_path_n_piece[0], 2);
-			// ft_putnbr_fd(tab_path_n_piece[1], 2);
-			// ft_putnbr_fd(tab_path_n_piece[2], 2);
-			// ft_putnbr_fd(tab_path_n_piece[3], 2);
-			// ft_putnbr_fd(tab_path_n_piece[4], 2);
-			// ft_putnbr_fd(tab_path_n_piece[5], 2);
-			// ft_putnbr_fd(tab_path_n_piece[6], 2);
-			// ft_putnbr_fd(tab_path_n_piece[7], 2);
-			// ft_putchar_fd('\n', 2);
-
-			infos->tab_path = ft_init_tab_path(infos, tab_path_n_piece);
+			infos->tab_path = ft_update_tab_path(infos, tab_path_n_piece);
 			j--;
 			tab_path_n_piece[j] = -1;
 			i = tab_path_n_piece[j - 1];
@@ -180,7 +219,6 @@ int		ft_search_path(t_infos *infos, int start)
 			i = tab_path_n_piece[j - 1];
 		}
 	}
-//	ft_putendl_fd("search_path fin", 2);
 	free(tab_path_n_piece);
 	free(tab_index_pipe_to_try);
 	return (infos->tab_path[0][0]);
@@ -188,42 +226,39 @@ int		ft_search_path(t_infos *infos, int start)
 
 int		ft_init_path(t_infos *infos)
 {
-//	ft_putendl_fd("ft_init_path", 2);
 	int i;
 
 	i = 0;
 	while (infos->data[i].commands != 1)
 		i++;
 	if (!ft_search_path(infos, i))
-		return(0);
+		return (0);
 	return (1);
 }
 
-void ft_free_all(t_infos *infos)
+void	ft_free_all(t_infos *infos)
 {
-//	ft_putendl("algo1");
 	ft_lstdel_all(&infos->first_ant);
-//	ft_putendl("algo3");
-	ft_free_tab_int(infos->tab_paths_compatibles, ft_min_int(infos->nb_path_max, infos->tab_path[0][0]));
-//	ft_putendl("algo2");
+	ft_free_tab_int(infos->tab_paths_compatibles, \
+			ft_min_int(infos->nb_path_max, infos->tab_path[0][0]));
 	ft_free_tab_int(infos->tab_path, infos->tab_path[0][0] + 1);
-//	ft_putendl("algo");
 }
 
-int		ft_algo(t_infos *infos)
+int		ft_init_tab_path(t_infos *infos)
 {
-//	ft_putendl("algo");
-	int i = -1;
-	int nbr_group_path;
-
-	if (!(infos->tab_path = (int **)malloc(sizeof(int*))) || 
-		!(infos->tab_path[0] = (int *)malloc(sizeof(int))))
+	if (!(infos->tab_path = (int **)malloc(sizeof(int*))) ||
+			!(infos->tab_path[0] = (int *)malloc(sizeof(int))))
 		return (0);
 	infos->tab_path[0][0] = 0;
 	infos->nb_path_max = -1;
-	while (++i < infos->nb_of_box)
-		if (infos->data[i].commands != 0)
-			infos->nb_path_max = (infos->nb_path_max == -1) ? infos->data[i].nb_of_link : ft_min_int(infos->nb_path_max, infos->data[i].nb_of_link);
+	return (1);
+}
+
+int		ft_algo_2(t_infos *infos)
+{
+	int nbr_group_path;
+
+	nbr_group_path = 0;
 	if (!infos->nb_path_max || !ft_init_path(infos))
 	{
 		ft_free_tab_int(infos->tab_path, infos->tab_path[0][0] + 1);
@@ -237,30 +272,25 @@ int		ft_algo(t_infos *infos)
 	if (ft_resolve(infos, nbr_group_path) <= 0)
 	{
 		ft_free_all(infos);
-		return(0);
+		return (0);
 	}
 	ft_free_all(infos);
-//	ft_putendl_fd("algo fin", 2);
 	return (1);
 }
 
+int		ft_algo(t_infos *infos)
+{
+	int i;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	i = -1;
+	if (!(ft_init_tab_path(infos)))
+		return (0);
+	while (++i < infos->nb_of_box)
+		if (infos->data[i].commands != 0)
+			infos->nb_path_max = (infos->nb_path_max == -1) ? \
+								 infos->data[i].nb_of_link : \
+								 ft_min_int(infos->nb_path_max, infos->data[i].nb_of_link);
+	if (!(ft_algo_2(infos)))
+		return (0);
+	return (1);
+}
