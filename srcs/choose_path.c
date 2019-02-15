@@ -126,7 +126,7 @@ int 	ft_choose_path_i(t_infos *infos, int *tab_indexs_path_compatibles, int n)
 			else if (ft_tmp_name(infos, tab_indexs_path_compatibles, index_to_up, n) == -1)
 				return (-1);
 		}
-		ft_putendl("toto");
+//		ft_putendl("toto");
 		if (nb_path_compatible != n && tab_indexs_path_compatibles[0] < infos->tab_path[0][0] - (n - 1))
 			length_path_max = ft_length_path(infos->tab_path[tab_indexs_path_compatibles[n - 1]], infos->nb_of_box);
 	}
@@ -136,10 +136,11 @@ int 	ft_choose_path_i(t_infos *infos, int *tab_indexs_path_compatibles, int n)
 
 int ft_choose_paths(t_infos *infos)
 {
-	ft_putendl("ft_choose_paths");
+//	ft_putendl("ft_choose_paths");
 	int i = 0;
 
-	infos->tab_paths_compatibles = (int**)malloc(sizeof(int*) * infos->nb_path_max);
+	if(!(infos->tab_paths_compatibles = (int**)malloc(sizeof(int*) * infos->nb_path_max)))
+		return(0);
 	while (i < ft_min_int(infos->nb_path_max, infos->tab_path[0][0]))
 	{
 //		ft_putnbr(infos->tab_path[0][0]);
@@ -148,18 +149,24 @@ int ft_choose_paths(t_infos *infos)
 //		ft_putendl(" = nb chemins comp a trouver");
 //		ft_putnbr(infos->nb_path_max);
 //		ft_putendl(" = nb_path_max");
-		infos->tab_paths_compatibles[i] = (int*)malloc(sizeof(int) * (i + 1));
+		if(!(infos->tab_paths_compatibles[i] = (int*)malloc(sizeof(int) * (i + 1))))
+		{
+//			ft_putendl("                                            passe ici");
+			ft_free_tab_int(infos->tab_paths_compatibles, i);
+			return(0);
+		}
 		if (i == 0)
 		{
 			infos->tab_paths_compatibles[i][0] = 1;
-			ft_putendl("premier path");
+//			ft_putendl("premier path");
 		}
 //		while (++j < i + 1)
 //			tab_path_compatibles[i][j] = -1;
-		else if (i > 0 && ft_choose_path_i(infos, infos->tab_paths_compatibles[i], i + 1) <= 0)
+		else if (i > 0 && ft_choose_path_i(infos, infos->tab_paths_compatibles[i], i + 1) < 0)
 		{
-			ft_free_tab_int(infos->tab_paths_compatibles, i + 1);
-			return (-1);
+//			ft_putendl("                                           passe ici");
+			ft_free_tab_int(infos->tab_paths_compatibles, i);
+			return (0);
 		}
 //		ft_putendl("ola");
 		i++;

@@ -35,27 +35,20 @@ void ft_lstadd_start(t_ants **fa, int num_ant, int path, int room)
 	*fa = new_ant;
 }
 
-void ft_lstadd_end(t_ants **fa, int num_ant, int path, int room)
+int ft_lstadd_end(t_ants **fa, int num_ant, int path, int room)
 {
-	ft_putendl("lol");
 	t_ants *new_ant;
 
 	if (!(new_ant = ft_memalloc(sizeof(t_ants))))
-		return ;
-	ft_putendl("lol1");
+		return (0);
 	new_ant->num_ant = num_ant;
 	new_ant->path_used = path;
 	new_ant->index_room_path = room;
 	new_ant->next = NULL;
-	ft_putendl("lol2");
 	while (*fa)
-	{
-		ft_printf("%p\n", fa);
 		fa = &((*fa)->next);
-	}
-	ft_putendl("lol3");
 	*fa = new_ant;
-	ft_putendl("lol5");
+	return(1);
 }
 
 void	ft_lstdel_start(t_ants **fa)

@@ -7,7 +7,11 @@ void	ft_free_tab_int(int **tab, int height)
 
 	i = 0;
 	while (i < height)
+	{
+//		ft_putendl("ta mere");
 		free(tab[i++]);
+	}
+//	ft_putendl("apres ta mere");
 	free(tab);
 }
 
@@ -77,7 +81,7 @@ int ft_length_path(int *tab, int n)
 
 int		**ft_init_tab_path(t_infos *infos, int *tab)
 {
-	ft_putendl_fd("init_tab_path", 2);
+//	ft_putendl_fd("init_tab_path", 2);
 	int n;
 	int **tmp;
 	int i = 0;
@@ -120,17 +124,21 @@ int		**ft_init_tab_path(t_infos *infos, int *tab)
 
 int		ft_search_path(t_infos *infos, int start)
 {
-	ft_putendl_fd("search_path", 2);
-	ft_putnbr_fd(start, 2);
+//	ft_putendl_fd("search_path", 2);
+//	ft_putnbr_fd(start, 2);
 	int i = start;
 	int j = 1;
 
 	int *tab_path_n_piece;
 	int *tab_index_pipe_to_try;
 
-	tab_path_n_piece = ft_init(infos->nb_of_box, -1);
-	tab_index_pipe_to_try = ft_init(infos->nb_of_box, 0);
-
+	if(!(tab_path_n_piece = ft_init(infos->nb_of_box, -1)))
+		return(0);
+	if(!(tab_index_pipe_to_try = ft_init(infos->nb_of_box, 0)))
+	{
+		free(tab_path_n_piece);
+		return(0);
+	}
 	tab_path_n_piece[0] = start;
 	while (i != start || tab_index_pipe_to_try[start] < infos->data[start].nb_of_link)
 	{
@@ -148,16 +156,16 @@ int		ft_search_path(t_infos *infos, int start)
 		}
 		if (infos->data[i].commands == 2)
 		{
-			ft_putstr_fd("le paaaaaaaaaaaaaaaaaaaaaaaaaaaaaaath: ", 2);
-			ft_putnbr_fd(tab_path_n_piece[0], 2);
-			ft_putnbr_fd(tab_path_n_piece[1], 2);
-			ft_putnbr_fd(tab_path_n_piece[2], 2);
-			ft_putnbr_fd(tab_path_n_piece[3], 2);
-			ft_putnbr_fd(tab_path_n_piece[4], 2);
-			ft_putnbr_fd(tab_path_n_piece[5], 2);
-			ft_putnbr_fd(tab_path_n_piece[6], 2);
-			ft_putnbr_fd(tab_path_n_piece[7], 2);
-			ft_putchar_fd('\n', 2);
+			// ft_putstr_fd("le paaaaaaaaaaaaaaaaaaaaaaaaaaaaaaath: ", 2);
+			// ft_putnbr_fd(tab_path_n_piece[0], 2);
+			// ft_putnbr_fd(tab_path_n_piece[1], 2);
+			// ft_putnbr_fd(tab_path_n_piece[2], 2);
+			// ft_putnbr_fd(tab_path_n_piece[3], 2);
+			// ft_putnbr_fd(tab_path_n_piece[4], 2);
+			// ft_putnbr_fd(tab_path_n_piece[5], 2);
+			// ft_putnbr_fd(tab_path_n_piece[6], 2);
+			// ft_putnbr_fd(tab_path_n_piece[7], 2);
+			// ft_putchar_fd('\n', 2);
 
 			infos->tab_path = ft_init_tab_path(infos, tab_path_n_piece);
 			j--;
@@ -172,7 +180,7 @@ int		ft_search_path(t_infos *infos, int start)
 			i = tab_path_n_piece[j - 1];
 		}
 	}
-	ft_putendl_fd("search_path fin", 2);
+//	ft_putendl_fd("search_path fin", 2);
 	free(tab_path_n_piece);
 	free(tab_index_pipe_to_try);
 	return (infos->tab_path[0][0]);
@@ -180,9 +188,10 @@ int		ft_search_path(t_infos *infos, int start)
 
 int		ft_init_path(t_infos *infos)
 {
-	ft_putendl_fd("ft_init_path", 2);
-	int i = 0;
+//	ft_putendl_fd("ft_init_path", 2);
+	int i;
 
+	i = 0;
 	while (infos->data[i].commands != 1)
 		i++;
 	if (!ft_search_path(infos, i))
@@ -190,14 +199,26 @@ int		ft_init_path(t_infos *infos)
 	return (1);
 }
 
+void ft_free_all(t_infos *infos)
+{
+//	ft_putendl("algo1");
+	ft_lstdel_all(&infos->first_ant);
+//	ft_putendl("algo3");
+	ft_free_tab_int(infos->tab_paths_compatibles, ft_min_int(infos->nb_path_max, infos->tab_path[0][0]));
+//	ft_putendl("algo2");
+	ft_free_tab_int(infos->tab_path, infos->tab_path[0][0] + 1);
+//	ft_putendl("algo");
+}
+
 int		ft_algo(t_infos *infos)
 {
-	ft_putendl_fd("algo", 1);
+//	ft_putendl("algo");
 	int i = -1;
 	int nbr_group_path;
 
-	infos->tab_path = (int **)malloc(sizeof(int*));
-	infos->tab_path[0] = (int *)malloc(sizeof(int));
+	if (!(infos->tab_path = (int **)malloc(sizeof(int*))) || 
+		!(infos->tab_path[0] = (int *)malloc(sizeof(int))))
+		return (0);
 	infos->tab_path[0][0] = 0;
 	infos->nb_path_max = -1;
 	while (++i < infos->nb_of_box)
@@ -205,13 +226,41 @@ int		ft_algo(t_infos *infos)
 			infos->nb_path_max = (infos->nb_path_max == -1) ? infos->data[i].nb_of_link : ft_min_int(infos->nb_path_max, infos->data[i].nb_of_link);
 	if (!infos->nb_path_max || !ft_init_path(infos))
 	{
-		free(infos->tab_path[0]);
-		free(infos->tab_path);
+		ft_free_tab_int(infos->tab_path, infos->tab_path[0][0] + 1);
 		return (0);
 	}
-	if ((nbr_group_path = ft_choose_paths(infos)) <= 0)
+	if (!(nbr_group_path = ft_choose_paths(infos)))
+	{
+		ft_free_tab_int(infos->tab_path, infos->tab_path[0][0] + 1);
 		return (0);
-	ft_resolve(infos, nbr_group_path);
-	ft_putendl_fd("algo fin", 2);
+	}
+	if (ft_resolve(infos, nbr_group_path) <= 0)
+	{
+		ft_free_all(infos);
+		return(0);
+	}
+	ft_free_all(infos);
+//	ft_putendl_fd("algo fin", 2);
 	return (1);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

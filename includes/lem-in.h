@@ -46,6 +46,7 @@ typedef struct          s_data
 typedef struct          s_infos
 {
 	int                 nb_of_fourmis;
+	int					nb_f_left;
 	int                 nb_of_box;
 	int                 nb_of_pipe;
 	int					nb_path_max;
@@ -84,7 +85,7 @@ int		ft_resolve(t_infos *infos, int nbr_group_path);
 */
 void ft_lstdel_all(t_ants **fa);
 void	ft_lstdel_start(t_ants **fa);
-void ft_lstadd_end(t_ants **fa, int num_ant, int path, int room);
+int ft_lstadd_end(t_ants **fa, int num_ant, int path, int room);
 void	ft_lstadd_start(t_ants **fa, int num_ant, int path, int room);
 void ft_new_lst(t_ants **fa);
 t_ants *ft_lstdel_num_ant(t_ants **fa, int ant_to_del);
