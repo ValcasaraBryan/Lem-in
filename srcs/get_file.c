@@ -21,6 +21,11 @@ t_infos		init_val(void)
 	infos.nb_of_fourmis = 0;
 	infos.nb_of_box = 0;
 	infos.nb_of_pipe = 0;
+	infos.nb_f_left = 0;
+	infos.nb_path_max = 0;
+	infos.t_p = NULL;
+	infos.t_p_c = NULL;
+	infos.first_ant = NULL;
 	return (infos);
 }
 

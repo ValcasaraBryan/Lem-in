@@ -123,16 +123,21 @@ SRC =	srcs/free/free_tab_str.c\
 		srcs/maths/ft_is_prime.c\
 		srcs/maths/ft_find_next_prime.c\
 		\
-		srcs/ft_printf/ft_printf.c\
-		srcs/ft_printf/argument_flag.c\
-		srcs/ft_printf/init_list.c\
-		srcs/ft_printf/tab_option.c\
-		srcs/ft_printf/option_value.c\
-		srcs/ft_printf/free_data.c\
-		srcs/ft_printf/conversion.c\
-		srcs/ft_printf/conversion_two.c\
-		srcs/ft_printf/conversion_three.c\
-		srcs/ft_printf/conversion_four.c
+		srcs/ft_printf/char.c\
+		srcs/ft_printf/float.c\
+		srcs/ft_printf/ft_line.c\
+		srcs/ft_printf/ft_parse_flags.c\
+		srcs/ft_printf/ft_parse_specifier.c\
+		srcs/ft_printf/main.c\
+		srcs/ft_printf/pointeur.c\
+		srcs/ft_printf/signed.c\
+		srcs/ft_printf/string.c\
+		srcs/ft_printf/unsigned.c\
+		\
+		srcs/gleb/ft_power.c\
+		srcs/gleb/ft_putll.c\
+		srcs/gleb/ft_imaxabs.c\
+		srcs/gleb/ft_putnstr.c
 
 OBJET = $(SRC:.c=.o)
 

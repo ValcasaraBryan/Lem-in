@@ -138,7 +138,7 @@ int		ft_resolve(t_infos *inf, int nb_gp)
 			ft_free_tab_int(tgt, i);
 			return (0);
 		}
-	ft_new_lst(&inf->first_ant);
+//	ft_new_lst(&inf->first_ant);
 	if (ft_resolve2(inf, &res, tgt, nb_gp) < 0)
 		return (-1);
 	return (1);

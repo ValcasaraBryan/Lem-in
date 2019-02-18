@@ -1,37 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   frees_algo.c                                       :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: glebouch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/18 13:08:53 by glebouch          #+#    #+#             */
-/*   Updated: 2019/02/18 13:08:58 by glebouch         ###   ########.fr       */
+/*   Created: 2017/11/13 09:58:32 by glebouch          #+#    #+#             */
+/*   Updated: 2017/11/13 19:40:37 by glebouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "libft.h"
 
-void	ft_free_tab_int(int **tab, int height)
+void	ft_putnstr(char const *s, int n)
 {
 	int i;
 
-	i = -1;
-	while (++i < height)
-		free(tab[i]);
-	free(tab);
-}
-
-void	ft_free_all(t_infos *infos)
-{
-	ft_lstdel_all(&infos->first_ant);
-	ft_free_tab_int(infos->t_p_c, \
-			ft_min_int(infos->nb_path_max, infos->t_p[0][0]));
-	ft_free_tab_int(infos->t_p, infos->t_p[0][0] + 1);
-}
-
-void	ft_lstdel_all(t_ants **fa)
-{
-	while (*fa)
-		ft_lstdel_start(fa);
+	i = 0;
+	while (s && s[i] && i < n)
+		ft_putchar(s[i++]);
 }

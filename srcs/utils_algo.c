@@ -1,4 +1,4 @@
-
+ 
 #include <lem-in.h>
 
 int		ft_min_int(int a, int b)
@@ -23,9 +23,13 @@ void	ft_put_tab_int(int *tab)
 
 int		ft_init_tab_path(t_infos *infos)
 {
-	if (!(infos->t_p = (int **)malloc(sizeof(int*))) ||
-			!(infos->t_p[0] = (int *)malloc(sizeof(int))))
+	if (!(infos->t_p = (int **)malloc(sizeof(int*))))
 		return (0);
+	if (!(infos->t_p[0] = (int *)malloc(sizeof(int))))
+	{
+		free(infos->t_p);
+		return (0);
+	}
 	infos->t_p[0][0] = 0;
 	infos->nb_path_max = -1;
 	return (1);

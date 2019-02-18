@@ -60,7 +60,7 @@ int		**ft_update_tab_path(t_infos *infos, int *tab)
 		}
 	}
 	tmp[0][0] = t.n;
-	ft_free_tab_int(infos->t_p, t.n - 1);
+	ft_free_tab_int(infos->t_p, t.n);
 	return (tmp);
 }
 
