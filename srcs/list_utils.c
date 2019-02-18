@@ -70,9 +70,3 @@ void	ft_lstdel_start(t_ants **fa)
 	*fa = tmp->next;
 	free(tmp);
 }
-
-void	ft_lstdel_all(t_ants **fa)
-{
-	while (*fa)
-		ft_lstdel_start(fa);
-}

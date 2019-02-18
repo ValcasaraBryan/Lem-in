@@ -13,8 +13,9 @@
 #include "lem-in.h"
 
 /*
- ** t_p_t = tab_path_turn, t = infos
- */
+** t_p_t = tab_path_turn, t = infos
+*/
+
 int		ft_fill_tab_path_turn_i(t_infos *t, int n, int **t_p_t, int nb_turn_max)
 {
 	int i;
@@ -29,7 +30,7 @@ int		ft_fill_tab_path_turn_i(t_infos *t, int n, int **t_p_t, int nb_turn_max)
 		j = 0;
 		while (j < n + 1)
 		{
-			if (ft_length_path(t->tab_path[t->t_p_c[n][j]], \
+			if (ft_length_path(t->t_p[t->t_p_c[n][j]], \
 						t->nb_of_box) - 1 == i + 1)
 				to_add++;
 			j++;
@@ -39,49 +40,13 @@ int		ft_fill_tab_path_turn_i(t_infos *t, int n, int **t_p_t, int nb_turn_max)
 	return (1);
 }
 
-int		ft_next_room_is_free(t_infos *infos, int index_path, int index_room)
-{
-	if (infos->data[infos->tab_path[index_path][index_room]].commands == 2)
-		return (2);
-	if (infos->data[infos->tab_path[index_path][index_room]].full == 0)
-		return (1);
-	return (0);
-}
-
-int		ft_move_ants(t_infos *i)
-{
-	t_ants	*tmp;
-	int		room_free;
-
-	tmp = i->first_ant;
-	room_free = 0;
-	if (!tmp)
-		return (0);
-	while (tmp)
-	{
-		if ((room_free = ft_next_room_is_free(i, tmp->path_u, tmp->indx + 1)) > 0)
-		{
-			i->data[i->tab_path[tmp->path_u][tmp->indx]].full = 0;
-			tmp->indx++;
-			if (room_free != 2)
-				i->data[i->tab_path[tmp->path_u][tmp->indx]].full = 1;
-			ft_printf("L%d-%s", tmp->num_a, i->data[i->tab_path[tmp->path_u][tmp->indx]].name_box);
-		}
-		if (room_free == 2)
-			tmp = ft_lstdel_num_ant(&i->first_ant, tmp->num_a);
-		else
-			tmp = tmp->next;
-		if (tmp)
-			ft_putchar(' ');
-	}
-	ft_putchar('\n');
-	return (1);
-}
 /*
 **	nb_gp = nombre de groupes qu'on a pu former de 0 a n chemins possibles
-**	tgt = tableau qui contient le nb de fourmis arrivées en fonction du groupe de path et du tour
+**	tgt = tableau qui contient le nb de fourmis arrivées en fonction du
+**			groupe de path et du tour
 */
-int		ft_find_group_path_to_use(t_infos *infos, int **tgt, int nb_gp, int nb_turn_max)
+
+int		ft_find_group(t_infos *infos, int **tgt, int nb_gp, int nb_turn_max)
 {
 	int i;
 	int j;
@@ -117,71 +82,64 @@ int		ft_create_ants(t_infos *i, int nb_ants_to_create)
 	return (1);
 }
 
-void	ft_print_tab_path_turn_i(int **tab, int x, int y)
-{
-	int i;
-	int j;
-
-	i = 0;
-	j = 0;
-	while (i < y)
-	{
-		j = 0;
-		while (j < x)
-		{
-			ft_putnbr(tab[i][j]);
-			ft_putchar(' ');
-			j++;
-		}
-		i++;
-		ft_putchar('\n');
-	}
-}
 /*
-**	nb_gp = nombre de groupes qu'on a pu former de 0 a n chemins possibles
-**	num_g = numero du groupe a utiliser 
-**	tgt = tableau qui contient le nb de fourmis arrivées en fonction du groupe de path et du tour
+**		t_p = tab_path, contient tous les paths
+**				possibles par ordre de taille croissantes
+**		nb_gp = nombre de groupes qu'on a pu former
+**				de 0 a n chemins possibles
+**		num_g = numero du groupe a utiliser
+**		tgt = tab groupe/tour, tableau qui contient le nb de fourmis
+**				arrivées en fonction du groupe de path et du tour
 */
-int		ft_resolve(t_infos *inf, int nb_gp)
-{
-	int **tgt;
-	int nb_turn_max;
-	int i;
-	int num_g;
 
-	nb_turn_max = ft_length_path(inf->tab_path[1], inf->nb_of_box) - 2 + inf->nb_of_fourmis;
-	i = -1;
-	inf->nb_f_left = inf->nb_of_fourmis - 1;
-	if (!(tgt = (int **)malloc(sizeof(int*) * nb_gp)))
-		return (0);
-	while (++i < nb_gp)
-		if (!(tgt[i] = (int*)malloc(sizeof(int) * nb_turn_max)))
-		{
-			ft_free_tab_int(tgt, i);
-			return (0);
-		}
-	ft_new_lst(&inf->first_ant);
+int		ft_resolve2(t_infos *inf, t_r *res, int **tgt, int nb_gp)
+{
+	int i;
+
 	i = -1;
 	while (++i < nb_gp)
-		ft_fill_tab_path_turn_i(inf, i, tgt, nb_turn_max);
-	ft_print_tab_path_turn_i(tgt, nb_turn_max, nb_gp);
-	//
-	num_g = ft_find_group_path_to_use(inf, tgt, nb_gp, nb_turn_max);
-	if (num_g < 0)
+		ft_fill_tab_path_turn_i(inf, i, tgt, res->nb_turn_max);
+	res->num_g = ft_find_group(inf, tgt, nb_gp, res->nb_turn_max);
+	if (res->num_g < 0)
 		return (-1);
-	if (!ft_create_ants(inf, num_g + 1))
+	if (!ft_create_ants(inf, res->num_g + 1))
 		return (-1);
 	while (ft_move_ants(inf))
 	{
 		if (inf->nb_f_left >= 0)
 		{
-			num_g = ft_find_group_path_to_use(inf, tgt, nb_gp, nb_turn_max);
-			if (num_g < 0)
+			res->num_g = ft_find_group(inf, tgt, \
+				nb_gp, res->nb_turn_max);
+			if (res->num_g < 0)
 				return (-1);
-			if (!ft_create_ants(inf, num_g + 1))
+			if (!ft_create_ants(inf, res->num_g + 1))
 				return (-1);
 		}
 	}
 	ft_free_tab_int(tgt, nb_gp);
+	return (0);
+}
+
+int		ft_resolve(t_infos *inf, int nb_gp)
+{
+	int **tgt;
+	int i;
+	t_r res;
+
+	res.nb_turn_max = ft_length_path(inf->t_p[1], inf->nb_of_box) \
+			- 2 + inf->nb_of_fourmis;
+	i = -1;
+	inf->nb_f_left = inf->nb_of_fourmis - 1;
+	if (!(tgt = (int **)malloc(sizeof(int*) * nb_gp)))
+		return (0);
+	while (++i < nb_gp)
+		if (!(tgt[i] = (int*)malloc(sizeof(int) * res.nb_turn_max)))
+		{
+			ft_free_tab_int(tgt, i);
+			return (0);
+		}
+	ft_new_lst(&inf->first_ant);
+	if (ft_resolve2(inf, &res, tgt, nb_gp) < 0)
+		return (-1);
 	return (1);
 }

@@ -19,7 +19,7 @@
 
 /*
 **			num_a = numero de la fourmi
-**			path_a = chemin aue suit la fourmi
+**			path_u = chemin que suit la fourmi
 **			indx = index du path auquel la fourmi se trouve
 */
 
@@ -30,6 +30,31 @@ typedef struct s_ants
 	int indx;
 	struct s_ants *next;
 }				t_ants;
+
+/*
+**			utile dans ft_search_path
+*/
+
+typedef struct          s_s
+{
+	int 				i;
+	int 				j;
+	int 				*tp_tmp;
+	int 				*t_i_try;
+}						t_s;
+
+/*
+**			utile dans ft_resolution
+*/
+
+typedef struct	s_r
+{
+	int		nb_turn_max;
+	int		num_g;
+}				t_r;
+/*
+**			utile dans update_path_tab 1 et 2
+*/
 
 typedef struct          s_t
 {
@@ -73,7 +98,7 @@ typedef struct          s_infos
 	int					nb_path_max;
 	t_file              *file;
 	t_data              *data;
-	int					**tab_path;
+	int					**t_p;
 	t_ants				*first_ant;
 	int 				**t_p_c;
 }                       t_infos;
@@ -86,25 +111,63 @@ void                    ft_put_data(t_infos *infos);
 /*
 **			algo.c
 */
+int						ft_update_tab_path_2(t_infos *infos, int **tmp, int *tab, t_t *t);
+int						**ft_update_tab_path(t_infos *infos, int *tab);
+int						ft_algo_2(t_infos *infos);
 int                     ft_algo(t_infos *infos);
-int						ft_length_path(int *tab, int n);
-void					ft_free_tab_int(int **tab, int height);
-int						ft_min_int(int a, int b);
+
 /*
 **          choose_path.c
 */
-
+int						ft_compare(t_infos *infos, int *tab1, int *tab2);
+int						ft_compare_tab(t_infos *in, int *tab, int n);
+int						ft_up_index(t_infos *infos, int *t_p_c, int index_to_up, int n);
+int						ft_choose_path_i(t_infos *inf, int *tpc_i, int n);
 int						ft_choose_paths(t_infos *infos);
+/*
+**          utils_algo.c
+*/
+int						ft_min_int(int a, int b);
+int						ft_init_tab_path(t_infos *infos);
+int						ft_init_path(t_infos *infos);
+int						*ft_alloc_tab_int(int n, int val_initial);
+int						ft_length_path(int *tab, int n);
+/*
+**          frees_algo.c
+*/
+void					ft_free_tab_int(int **tab, int height);
+void					ft_free_all(t_infos *infos);
+void					ft_lstdel_all(t_ants **fa);
+
+/*
+**          ft_search_path.c
+*/
+int						ft_check_precedents(t_infos *infos, int *tab_path_n_piece, int n);
+void					ft_relay(t_s *s);
+void					ft_search_path2(t_infos *inf, t_s *s);
+int						ft_search_path(t_infos *infos, int start);
+
+/*
+**			move_ants.c
+*/
+int						ft_next_room_is_free(t_infos *infos, int index_path, int index_room);
+t_ants					*ft_move_ants2(t_infos *i, int room_free, t_ants *tmp);
+int						ft_move_ants(t_infos *i);
+
 /*
 **          resolution.c
 */
 
+int						ft_fill_tab_path_turn_i(t_infos *t, int n, int **t_p_t, int nb_turn_max);
+int						ft_find_group(t_infos *infos, int **tgt, int nb_gp, int nb_turn_max);
+int						ft_create_ants(t_infos *i, int nb_ants_to_create);
+int						ft_resolve2(t_infos *inf, t_r *res, int **tgt, int nb_gp);
 int						ft_resolve(t_infos *infos, int nbr_group_path);
 
 /*
 **          list_utils.c
 */
-void					ft_lstdel_all(t_ants **fa);
+
 void					ft_lstdel_start(t_ants **fa);
 int						ft_lstadd_end(t_ants **fa, int num_ant, int path, int room);
 void					ft_lstadd_start(t_ants **fa, int num_ant, int path, int room);

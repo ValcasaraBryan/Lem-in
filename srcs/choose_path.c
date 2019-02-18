@@ -43,7 +43,7 @@ int		ft_compare_tab(t_infos *in, int *tab, int n)
 		j = i;
 		while (++j < n)
 		{
-			if (!(ft_compare(in, in->tab_path[tab[i]], in->tab_path[tab[j]])))
+			if (!(ft_compare(in, in->t_p[tab[i]], in->t_p[tab[j]])))
 				return (j);
 		}
 	}
@@ -57,7 +57,7 @@ int		ft_up_index(t_infos *infos, int *t_p_c, int index_to_up, int n)
 
 	i = 1;
 	while (index_to_up >= 0 &&
-			t_p_c[index_to_up] == infos->tab_path[0][0] - n + index_to_up)
+			t_p_c[index_to_up] == infos->t_p[0][0] - n + index_to_up)
 		index_to_up--;
 	if (index_to_up < 0)
 		return (-1);
@@ -71,31 +71,37 @@ int		ft_up_index(t_infos *infos, int *t_p_c, int index_to_up, int n)
 	return (0);
 }
 
-int		ft_choose_path_i(t_infos *infos, int *tpc_i, int n)
+/*
+**	lpm = length path max
+**	t_p = tab_path
+**	tpci = tab_path_compatibles[i], contient les index des chemins du groupe i
+*/
+
+int		ft_choose_path_i(t_infos *inf, int *tpc_i, int n)
 {
 	int k;
 	int index_to_up;
 	int nb_path_compatible;
-	int l_path_max;
+	int lpm;
 
 	index_to_up = 0;
 	nb_path_compatible = 1;
-	l_path_max = ft_length_path(infos->tab_path[n], infos->nb_of_box);
+	lpm = ft_length_path(inf->t_p[n], inf->nb_of_box);
 	while (nb_path_compatible < n)
 	{
 		k = -1;
-		while (++k < n && k < infos->tab_path[0][0])
+		while (++k < n && k < inf->t_p[0][0])
 			tpc_i[k] = k + 1;
-		while (nb_path_compatible < n &&
-				ft_length_path(infos->tab_path[tpc_i[n - 1]], infos->nb_of_box) <= l_path_max)
+		while (nb_path_compatible < n && \
+			ft_length_path(inf->t_p[tpc_i[n - 1]], inf->nb_of_box) <= lpm)
 		{
-			if (!(index_to_up = ft_compare_tab(infos, tpc_i, n)))
+			if (!(index_to_up = ft_compare_tab(inf, tpc_i, n)))
 				return (1);
-			else if (ft_up_index(infos, tpc_i, index_to_up, n) == -1)
+			else if (ft_up_index(inf, tpc_i, index_to_up, n) == -1)
 				return (-1);
 		}
-		if (nb_path_compatible != n && tpc_i[0] < infos->tab_path[0][0] - (n - 1))
-			l_path_max = ft_length_path(infos->tab_path[tpc_i[n - 1]], infos->nb_of_box);
+		if (nb_path_compatible != n && tpc_i[0] < inf->t_p[0][0] - (n - 1))
+			lpm = ft_length_path(inf->t_p[tpc_i[n - 1]], inf->nb_of_box);
 	}
 	return (0);
 }
@@ -107,7 +113,7 @@ int		ft_choose_paths(t_infos *infos)
 	i = 0;
 	if (!(infos->t_p_c = (int**)malloc(sizeof(int*) * infos->nb_path_max)))
 		return (0);
-	while (i < ft_min_int(infos->nb_path_max, infos->tab_path[0][0]))
+	while (i < ft_min_int(infos->nb_path_max, infos->t_p[0][0]))
 	{
 		if (!(infos->t_p_c[i] = (int*)malloc(sizeof(int) * (i + 1))))
 		{
