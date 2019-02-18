@@ -16,6 +16,9 @@ SRC =	srcs/main.c\
 		srcs/affichage.c\
 		srcs/algo.c\
 		srcs/choose_path.c\
+		srcs/ft_search_path.c\
+		srcs/frees_algo.c\
+		srcs/utils_algo.c\
 		srcs/check_commandes.c\
 		srcs/check_file.c\
 		srcs/get_file.c\
@@ -25,7 +28,10 @@ SRC =	srcs/main.c\
 		srcs/logical_infos_box.c\
 		srcs/parsing.c\
 		srcs/valeur_data.c\
-		srcs/valeur_pipe.c
+		srcs/valeur_pipe.c\
+		srcs/resolution.c\
+		srcs/move_ants.c\
+		srcs/list_utils.c
 
 LIB = libft/libft.a
 
