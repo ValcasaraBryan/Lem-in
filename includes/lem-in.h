@@ -145,7 +145,7 @@ void					ft_lstdel_all(t_ants **fa);
 **          ft_search_path.c
 */
 int						ft_check_precedents(t_infos *infos, int *tab_path_n_piece, int n);
-void					ft_relay(t_s *s);
+void					ft_relay(t_infos *inf, t_s *s);
 void					ft_search_path2(t_infos *inf, t_s *s);
 int						ft_search_path(t_infos *infos, int start);
 
