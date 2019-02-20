@@ -36,6 +36,7 @@ typedef struct		data_s
 	int				maximum_y;
 	int				coef;
 	int				**mappage_box;
+	int				**mappage_pipe;
 	t_infos			*infos;
 }					data_t;
 
@@ -195,6 +196,64 @@ int			chemin(data_t *p, t_data *start, t_data *finish)
 	return (0);
 }
 
+int			set_distance(data_t *p, int val, int x, int y)
+{
+	int		tmp;
+
+	tmp = 0;
+	if (y - 1 >= 0)
+	{
+		tmp = p->mappage_box[x][y - 1];
+		val = (tmp > 0 && tmp <= val) ? tmp : val;
+	}
+	if (y + 1 < p->medium)
+	{
+		tmp = p->mappage_box[x][y + 1];
+		val = (tmp > 0 && tmp <= val) ? tmp : val;
+	}
+	if (x - 1 >= 0)
+	{
+		tmp = p->mappage_box[x - 1][y];
+		val = (tmp > 0 && tmp <= val) ? tmp : val;
+	}
+	if (x + 1 < p->medium)
+	{
+		tmp = p->mappage_box[x + 1][y];
+		val = (tmp > 0 && tmp <= val) ? tmp : val;
+	}
+	return (val);
+}
+
+int			check_position_around(data_t *p, int x, int y)
+{
+	int		x_val;
+	int		y_val;
+	int		y_init;
+	int		x_init;
+	int		val;
+
+	x_val = (x == 0) ? -1 : 1;
+	y_val = (y == 0) ? -1 : 1;
+	x_init = (x == 0) ? p->medium - 1 : 0;
+	while (x_init >= 0 && x_init < p->medium)
+	{
+		y_init = (y == 0) ? p->medium - 1 : 0;
+		while (y_init >= 0 && y_init < p->medium)
+		{
+			val = p->medium * p->medium;
+			if (p->mappage_box[x_init][y_init] == 0 || p->mappage_box[x_init][y_init] > 1)
+			{
+				val = set_distance(p, val, x_init, y_init);
+				if (val > 0 && val < p->medium * p->medium)
+					p->mappage_box[x_init][y_init] = val + 1;
+			}
+			y_init = (y_val == -1) ? y_init + y_val : y_init + y_val;
+		}
+		x_init = (x_val == -1) ?  x_init + x_val : x_init + x_val;
+	}
+	return (1);
+}
+
 int			mappage(data_t *p, int x, int y, int val)
 {
 	int		i;
@@ -206,31 +265,65 @@ int			mappage(data_t *p, int x, int y, int val)
 	j = -1;
 	k = 1;
 	l = -1;
-	while (x + i < p->medium && x + i >= 0) // gauche
+	if (x + i < p->medium && x + i >= 0) // gauche
 	{
 		if (p->mappage_box[x + i][y] != 2)
 			p->mappage_box[x + i][y] = val;
 		i++;
 	}
-	while (x + j >= 0 && x + j < p->medium) // droite
+	if (x + j >= 0 && x + j < p->medium) // droite
 	{
 		if (p->mappage_box[x + j][y] != 2)
 			p->mappage_box[x + j][y] = val;
 		j--;
 	}
-	while (y + k < p->medium && y + k >= 0) // bas
+	if (y + k < p->medium && y + k >= 0) // bas
 	{
 		if (p->mappage_box[x][y + k] != 2)
 			p->mappage_box[x][y + k] = val;
 		k++;
 	}
-	while (y + l >= 0 && y + l < p->medium) // haut
+	if (y + l >= 0 && y + l < p->medium) // haut
 	{
 		if (p->mappage_box[x][y + l] != 2)
 			p->mappage_box[x][y + l] = val;
 		l--;
 	}
 	return (1);
+}
+
+int			set_pos_around(data_t *p, int n_box, int n_pipe)
+{
+	int		x;
+	int		y;
+	int		val_x;
+	int		val_y;
+
+	x = p->infos->data[n_box].coor_x;
+	y = p->infos->data[n_box].coor_y;
+	val = p->medium * p->medium;
+	tmp = 0;
+	if (y - 1 >= 0)
+	{
+		tmp = p->mappage_box[x][y - 1];
+		val = (tmp > 0 && tmp <= val) ? tmp : val;
+	}
+	if (y + 1 < map->y_map)
+	{
+		tmp = p->mappage_box[x][y + 1];
+		val = (tmp > 0 && tmp <= val) ? tmp : val;
+	}
+	if (x - 1 >= 0)
+	{
+		tmp = p->mappage_box[x - 1][y];
+		val = (tmp > 0 && tmp <= val) ? tmp : val;
+	}
+	if (x + 1 < map->x_map)
+	{
+		tmp = p->mappage_box[x + 1][y];
+		val = (tmp > 0 && tmp <= val) ? tmp : val;
+	}
+	return (val);
 }
 
 int			key_hook(int keycode, data_t *p)
@@ -297,13 +390,15 @@ int			key_hook(int keycode, data_t *p)
 		while (j < p->largeur_win)
 		{
 			mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, p->color);	
-			// if (check_coordonnee(p, i, j))
-				// mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, 26459932); // affiche les grilles
+			if (check_coordonnee(p, i, j))
+				mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, 26459932); // affiche les grilles
 			j++;
 		}
 		i++;
 	}
 	int nb;
+	int nb_2;
+
 	i = -1;
 	while (i++ < p->medium)
 	{
@@ -329,31 +424,55 @@ int			key_hook(int keycode, data_t *p)
 			p->mappage_box[i][j++] = 0;
 		i++;
 	}
+	if (!(p->mappage_pipe = (int **)malloc(sizeof(int *) * p->medium)))
+		return (0);
+	i = 0;
+	while (i < p->medium)
+	{
+		if (!(p->mappage_pipe[i] = (int *)malloc(sizeof(int) * p->medium)))
+			return (0);
+		j = 0;
+		while (j < p->medium)
+			p->mappage_pipe[i][j++] = 0;
+		i++;
+	}
 	printf("\n");
 	nb = 0;
 	while (nb < p->infos->nb_of_box)
 	{
-		p->mappage_box[p->infos->data[nb].coor_x - 1][p->infos->data[nb].coor_y - 1] = 2;
+		p->mappage_box[p->infos->data[nb].coor_x - 1][p->infos->data[nb].coor_y - 1] = -2;
 		nb++;
 	}
 	nb = 0;
 	while (nb < p->infos->nb_of_box)
 	{
-		i = 0;
-		while (i <= p->medium)
+		nb_2 = 1;
+		while (nb_2 < p->infos->data[nb].nb_of_link)
 		{
-			j = 0;
-			while (j <= p->medium)
+			i = 0;
+			while (i <= p->medium)
 			{
-				if (p->infos->data[nb].coor_x == j && p->infos->data[nb].coor_y == i)
+				j = 0;
+				while (j <= p->medium)
 				{
-					mappage(p, j - 1, i - 1, 1);
+					if (p->infos->data[nb].pipe[nb_2]->coor_x == j && p->infos->data[nb].pipe[nb_2]->coor_y == i)
+					{
+						mappage(p, j - 1, i - 1, 1);
+						check_position_around(p, 0, 0); // haut gauche
+						check_position_around(p, 0, p->medium); // bas gauche
+						check_position_around(p, p->medium, 0); // haut droit
+						check_position_around(p, p->medium, p->medium); //bas droit
+						set_pos_around(p, nb, nb_2);
+					}
+					j++;
 				}
-				j++;
+				i++;
 			}
-			i++;
+			nb_2++;
+			break ;
 		}
 		nb++;
+		break ;
 	}
 	i = -1;
 	while (++i < p->medium)
@@ -474,7 +593,7 @@ int			main(int argc, char **argv)
 	p.maximum_x = val_max_coor(infos.data, 'x');
 	p.maximum_y = val_max_coor(infos.data, 'y');
 	p.medium = (p.maximum_x > p.maximum_y) ? p.maximum_x : p.maximum_y;
-	p.coef = p.medium * 1;
+	p.coef = p.medium * 1.8;
 	printf("%d medium\n", p.medium);
 	printf("%d, %d- maximum\n", p.maximum_x, p.maximum_y);
 	p.longueur_win = p.medium * p.coef;
