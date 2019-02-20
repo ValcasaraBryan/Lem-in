@@ -36,7 +36,8 @@ typedef struct		data_s
 	int				maximum_y;
 	int				coef;
 	int				**mappage_box;
-	int				**mappage_pipe;
+	int				index_box_map;
+	int				***mappage_pipe;
 	t_infos			*infos;
 }					data_t;
 
@@ -188,11 +189,99 @@ int			check_coordonnee_data(data_t *p, int x, int y)
 	return (0);
 }
 
-int			chemin(data_t *p, t_data *start, t_data *finish)
+int			trait(data_t *p, int start, int finish, int x_y, char c)
 {
-	(void)p;
-	(void)start;
-	printf("\033[34;05mx = %d - y = %d\n\033[00m", finish->coor_x, finish->coor_y);
+	int		tmp;
+	int		flag;
+
+	flag = 0;
+	if (start > finish)
+	{
+		tmp = finish;
+		finish = start;
+		start = tmp;
+		flag = 1;
+	}
+	if (c == 'x')
+	{
+		while (start < finish)
+		{
+			if (flag == 1)
+			{
+				mlx_pixel_put(p->mlx_ptr, p->mlx_win, finish, x_y, p->color_carre_y);
+				finish--;
+			}
+			else
+			{
+				mlx_pixel_put(p->mlx_ptr, p->mlx_win, start, x_y, p->color_carre_y);
+				start++;
+			}
+		}
+	}
+	if (c == 'y')
+	{
+		while (start < finish)
+		{
+			if (flag == 1)
+			{
+				mlx_pixel_put(p->mlx_ptr, p->mlx_win,  x_y, finish, p->color_carre_y);
+				finish--;
+			}
+			else
+			{
+				mlx_pixel_put(p->mlx_ptr, p->mlx_win, x_y, start, p->color_carre_y);
+				start++;
+			}
+		}
+	}
+	return (1);
+}
+
+int			check_trait(data_t *p, int z, int x, int y)
+{
+	if (p->mappage_pipe[z][x + 1][y] > 0)
+		return (1);
+	if (p->mappage_pipe[z][x - 1][y] > 0)
+		return (2);
+	if (p->mappage_pipe[z][x][y + 1] > 0)
+		return (3);
+	if (p->mappage_pipe[z][x][y - 1] > 0)
+		return (4);
+	return (0);
+}
+
+int			chemin_point(data_t *p)
+{
+	int		z;
+	int		x;
+	int		y;
+
+	z = -1;
+	while (++z < p->nb_of_box)
+	{
+		x = -1;
+		while (++x < p->medium)
+		{
+			y = -1;
+			while (++y < p->medium)
+			{
+				if (p->mappage_pipe[z][x][y] > 0)
+				{
+					if (x + 1 < p->medium && x - 1 >= 0 && y + 1 < p->medium && y - 1 >= 0)
+					{
+						if (check_trait(p, z, x, y) == 1)
+							trait(p, p->grille_x[x], p->grille_x[x + 1], p->grille_y[y], 'x');
+						if (check_trait(p, z, x, y) == 2)
+							trait(p, p->grille_x[x], p->grille_x[x - 1], p->grille_y[y], 'x');
+						if (check_trait(p, z, x, y) == 3)
+							trait(p, p->grille_y[y], p->grille_y[y + 1], p->grille_x[x], 'y');
+						if (check_trait(p, z, x, y) == 4)
+							trait(p, p->grille_y[y], p->grille_y[y - 1], p->grille_x[x], 'y');
+					}
+				}
+			}
+		}
+	}
 	return (0);
 }
 
@@ -265,65 +354,108 @@ int			mappage(data_t *p, int x, int y, int val)
 	j = -1;
 	k = 1;
 	l = -1;
-	if (x + i < p->medium && x + i >= 0) // gauche
+	if (x + i < p->medium && x + i >= 0 && y >= 0 && y < p->medium) // gauche
 	{
-		if (p->mappage_box[x + i][y] != 2)
+		if (p->mappage_box[x + i][y] == 0)
 			p->mappage_box[x + i][y] = val;
 		i++;
 	}
-	if (x + j >= 0 && x + j < p->medium) // droite
+	if (x + j >= 0 && x + j < p->medium && y >= 0 && y < p->medium) // droite
 	{
-		if (p->mappage_box[x + j][y] != 2)
+		if (p->mappage_box[x + j][y] == 0)
 			p->mappage_box[x + j][y] = val;
 		j--;
 	}
-	if (y + k < p->medium && y + k >= 0) // bas
+	if (y + k < p->medium && y + k >= 0 && x >= 0 && x < p->medium) // bas
 	{
-		if (p->mappage_box[x][y + k] != 2)
+		if (p->mappage_box[x][y + k] == 0)
 			p->mappage_box[x][y + k] = val;
 		k++;
 	}
-	if (y + l >= 0 && y + l < p->medium) // haut
+	if (y + l >= 0 && y + l < p->medium && x >= 0 && x < p->medium) // haut
 	{
-		if (p->mappage_box[x][y + l] != 2)
+		if (p->mappage_box[x][y + l] == 0)
 			p->mappage_box[x][y + l] = val;
 		l--;
 	}
 	return (1);
 }
 
-int			set_pos_around(data_t *p, int n_box, int n_pipe)
+int			set_pos_around(data_t *p, int x, int y, int val)
 {
-	int		x;
-	int		y;
 	int		val_x;
 	int		val_y;
+	int		tmp;
 
-	x = p->infos->data[n_box].coor_x;
-	y = p->infos->data[n_box].coor_y;
-	val = p->medium * p->medium;
+	val_y = -1;
+	val_x = -1;
 	tmp = 0;
-	if (y - 1 >= 0)
+	if (y - 1 < p->medium && y - 1 >= 0 && x < p->medium && x >= 0)
 	{
 		tmp = p->mappage_box[x][y - 1];
-		val = (tmp > 0 && tmp <= val) ? tmp : val;
+		if (tmp <= val && tmp > 0)
+		{
+			val_x = x;
+			val_y = y - 1;
+			val = tmp;
+		}
 	}
-	if (y + 1 < map->y_map)
+	if (y + 1 < p->medium && y + 1 >= 0 && x < p->medium && x >= 0)
 	{
 		tmp = p->mappage_box[x][y + 1];
-		val = (tmp > 0 && tmp <= val) ? tmp : val;
+		if (tmp <= val && tmp > 0)
+		{
+			val_x = x;
+			val_y = y + 1;
+			val = tmp;
+		}
 	}
-	if (x - 1 >= 0)
+	if (y < p->medium && y >= 0 && x - 1 < p->medium && x - 1 >= 0)
 	{
 		tmp = p->mappage_box[x - 1][y];
-		val = (tmp > 0 && tmp <= val) ? tmp : val;
+		if (tmp <= val && tmp > 0)
+		{
+			val_x = x - 1;
+			val_y = y;
+			val = tmp;
+		}
 	}
-	if (x + 1 < map->x_map)
+	if (y < p->medium && y >= 0 && x + 1 < p->medium && x + 1 >= 0)
 	{
 		tmp = p->mappage_box[x + 1][y];
-		val = (tmp > 0 && tmp <= val) ? tmp : val;
+		if (tmp <= val && tmp > 0)
+		{
+			val_x = x + 1;
+			val_y = y;
+			val = tmp;
+		}
 	}
-	return (val);
+	if (val_x >= 0 && val_y >= 0 && val_x < p->medium && val_y < p->medium && p->mappage_box[val_x][val_y] > 0)
+		p->mappage_pipe[p->index_box_map][val_x][val_y] = p->mappage_pipe[p->index_box_map][val_x][val_y] + 1;
+	if (val_x >= 0 && val_y >= 0 && val_x < p->medium && val_y < p->medium)
+		return (set_pos_around(p, val_x, val_y, val));
+	else
+		return (val);
+}
+
+int			erase_chaleur_box(data_t *p)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	while (i < p->medium)
+	{
+		j = 0;
+		while (j < p->medium)
+		{
+			if (p->mappage_box[i][j] > 0)
+				p->mappage_box[i][j] = 0;
+			j++;
+		}
+		i++;
+	}
+	return (1);
 }
 
 int			key_hook(int keycode, data_t *p)
@@ -384,20 +516,20 @@ int			key_hook(int keycode, data_t *p)
 	p->color_interieur = 54461616;
 	p->longueur = p->longueur_win * 0.03;
 	p->largeur = p->largeur_win * 0.03;
+	int nb;
+	int nb_2;
 	while (i < p->longueur_win)
 	{
 		j = 0;
 		while (j < p->largeur_win)
 		{
 			mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, p->color);	
-			if (check_coordonnee(p, i, j))
-				mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, 26459932); // affiche les grilles
+			// if (v)
+				// mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, 26459932); // affiche les grilles
 			j++;
 		}
 		i++;
 	}
-	int nb;
-	int nb_2;
 
 	i = -1;
 	while (i++ < p->medium)
@@ -412,6 +544,7 @@ int			key_hook(int keycode, data_t *p)
 		}
 		printf("\n");
 	}
+
 	i = 0;
 	if (!(p->mappage_box = (int **)malloc(sizeof(int *) * p->medium)))
 		return (0);
@@ -424,29 +557,40 @@ int			key_hook(int keycode, data_t *p)
 			p->mappage_box[i][j++] = 0;
 		i++;
 	}
-	if (!(p->mappage_pipe = (int **)malloc(sizeof(int *) * p->medium)))
+	nb = 0;
+	if (!(p->mappage_pipe = (int ***)malloc(sizeof(int **) * p->nb_of_box)))
 		return (0);
-	i = 0;
-	while (i < p->medium)
+	while (nb < p->nb_of_box)
 	{
-		if (!(p->mappage_pipe[i] = (int *)malloc(sizeof(int) * p->medium)))
+		if (!(p->mappage_pipe[nb] = (int **)malloc(sizeof(int *) * p->medium)))
 			return (0);
-		j = 0;
-		while (j < p->medium)
-			p->mappage_pipe[i][j++] = 0;
-		i++;
+		i = 0;
+		while (i < p->medium)
+			p->mappage_pipe[nb][i++] = 0;
+		i = 0;
+		while (i < p->medium)
+		{
+			if (!(p->mappage_pipe[nb][i] = (int *)malloc(sizeof(int) * p->medium)))
+				return (0);
+			j = 0;
+			while (j < p->medium)
+				p->mappage_pipe[nb][i][j++] = 0;
+			i++;
+		}
+		nb++;
 	}
 	printf("\n");
 	nb = 0;
+	nb_2 = -1;
 	while (nb < p->infos->nb_of_box)
 	{
-		p->mappage_box[p->infos->data[nb].coor_x - 1][p->infos->data[nb].coor_y - 1] = -2;
+		p->mappage_box[p->infos->data[nb].coor_x - 1][p->infos->data[nb].coor_y - 1] = nb_2--;
 		nb++;
 	}
 	nb = 0;
 	while (nb < p->infos->nb_of_box)
 	{
-		nb_2 = 1;
+		nb_2 = 0;
 		while (nb_2 < p->infos->data[nb].nb_of_link)
 		{
 			i = 0;
@@ -457,22 +601,23 @@ int			key_hook(int keycode, data_t *p)
 				{
 					if (p->infos->data[nb].pipe[nb_2]->coor_x == j && p->infos->data[nb].pipe[nb_2]->coor_y == i)
 					{
+						p->index_box_map = p->mappage_box[j - 1][i - 1];
 						mappage(p, j - 1, i - 1, 1);
 						check_position_around(p, 0, 0); // haut gauche
 						check_position_around(p, 0, p->medium); // bas gauche
 						check_position_around(p, p->medium, 0); // haut droit
 						check_position_around(p, p->medium, p->medium); //bas droit
-						set_pos_around(p, nb, nb_2);
+						p->index_box_map = nb;
+						set_pos_around(p, p->infos->data[nb].coor_x - 1, p->infos->data[nb].coor_y - 1, p->medium * p->medium);
+						erase_chaleur_box(p);
 					}
 					j++;
 				}
 				i++;
 			}
 			nb_2++;
-			break ;
 		}
 		nb++;
-		break ;
 	}
 	i = -1;
 	while (++i < p->medium)
@@ -484,19 +629,36 @@ int			key_hook(int keycode, data_t *p)
 		}
 		printf("\n");
 	}
+	nb = 0;
+		printf("\n");
+	while (nb < p->nb_of_box)
+	{
+		i = -1;
+		while (++i < p->medium)
+		{
+			j = -1;
+			while (++j < p->medium)
+			{
+				printf("%2d", p->mappage_pipe[nb][j][i]);
+			}
+			printf("\n");
+		}
+		nb++;
+		printf("\n");
+	}
 	i = 0;
 	while (p->infos->data[i].name_box)
 	{
 		j = 0;
-		printf("\033[34;01mx = %d - y = %d\n\033[00m", p->infos->data[i].coor_x,  p->infos->data[i].coor_y);
+		// printf("\033[34;01mx = %d - y = %d\n\033[00m", p->infos->data[i].coor_x,  p->infos->data[i].coor_y);
 		while (j < p->infos->data[i].nb_of_link)
 		{
-			chemin(p, &p->infos->data[i], p->infos->data[i].pipe[j]);
+			chemin_point(p);
 			j++;
 		}
 		i++;
 	}
-	
+	nb = 0;
 	while (p->infos->data[p->index_of_box].name_box)
 	{
 		p->centre_y = p->grille_y[p->infos->data[p->index_of_box].coor_y - 1] - (p->largeur / 2); // centre du carre + sur une des grille de la fenetre
