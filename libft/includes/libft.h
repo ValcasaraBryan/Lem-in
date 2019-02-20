@@ -162,4 +162,10 @@ long				ft_recursive_power(long nb, int power);
 int					ft_fibonacci(int index);
 int					ft_is_prime(int nb);
 int					ft_find_next_prime(int nb);
+
+
+long long			ft_imaxabs(long long n);
+long long int		ft_power(int a, int b);
+void				ft_putll(long long n);
+void				ft_putnstr(char const *s, int n);
 #endif
