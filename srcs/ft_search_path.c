@@ -84,8 +84,10 @@ int		ft_search_path(t_infos *infos, int start)
 	s.tp_tmp[0] = start;
 	while (s.i != start || s.t_i_try[start] < infos->data[start].nb_of_link)
 	{
+		printf("%d\n",  s.t_i_try[start]);
 		ft_search_path2(infos, &s);
 	}
+	ft_putendl("sortie 2");
 	free(s.tp_tmp);
 	free(s.t_i_try);
 	return (infos->t_p[0][0]);

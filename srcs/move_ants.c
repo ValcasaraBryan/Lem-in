@@ -30,7 +30,7 @@ t_ants	*ft_move_ants2(t_infos *i, int room_free, t_ants *tmp)
 		tmp->indx++;
 		if (room_free != 2)
 			i->data[i->t_p[tmp->path_u][tmp->indx]].full = 1;
-		ft_printf("L%d-%s", tmp->num_a, i->data[i->t_p[tmp->path_u][tmp->indx]].name_box);
+//		ft_printf("L%d-%s", tmp->num_a, i->data[i->t_p[tmp->path_u][tmp->indx]].name_box);
 	}
 	if (room_free == 2)
 		tmp = ft_lstdel_num_ant(&i->first_ant, tmp->num_a);

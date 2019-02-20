@@ -71,6 +71,5 @@ int			main(int argc, char **argv)
 	ft_printf("\\-------------------------------------------/\n\n\n");
 	erase_infos(&infos);
 	erase_data(&infos);
-	sleep(3);
 	return (0);
 }
