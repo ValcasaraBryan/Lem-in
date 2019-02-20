@@ -75,6 +75,7 @@ typedef struct          s_data
 	char                *name_box;
 	int                 n_piece;
 	int                 nb_of_link;
+	int					*tl;
 	int                 commands;
 	int                 coor_x;
 	int                 coor_y;
@@ -88,6 +89,7 @@ typedef struct          s_data
 **					compatibles (pour t_p_c[3], contient les index a 
 **					reporter dans t_p de 4 chemins compatibles)
 **			nb_path_max = nombre de chemins maximum
+**			tl = tab_link = pertinance des liens
 */
 typedef struct          s_infos
 {
