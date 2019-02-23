@@ -12,6 +12,8 @@
 
 NAME = lem-in
 
+NAME_BONUS = visu
+
 SRC =	srcs/main.c\
 		srcs/affichage.c\
 		srcs/algo.c\
@@ -26,9 +28,24 @@ SRC =	srcs/main.c\
 		srcs/valeur_data.c\
 		srcs/valeur_pipe.c
 
+SRC_BONUS = srcs_bonus/main_bonus.c\
+		srcs/affichage.c\
+		srcs/algo.c\
+		srcs/check_commandes.c\
+		srcs/check_file.c\
+		srcs/get_file.c\
+		srcs/init_data.c\
+		srcs/liberation.c\
+		srcs/list_chain.c\
+		srcs/logical_infos_box.c\
+		srcs/parsing.c\
+		srcs/valeur_data.c\
+		srcs/valeur_pipe.c
 LIB = libft/libft.a
 
 OBJET = $(SRC:.c=.o)
+
+OBJET_BONUS = $(SRC_BONUS:.c=.o)
 
 INCLUDES = includes
 
@@ -42,16 +59,21 @@ arg = 0
 arg_2 = 0
 arg_3 = 0
 
-all : $(NAME)
+all : $(NAME) $(NAME_BONUS)
 
 $(OBJET): includes/lem-in.h
 
 $(NAME) : $(OBJET)
 	@make -C libft
-	@$(CC) $(CFLAGS) $(LIB) $(OBJET) -lmlx -framework OpenGL -framework AppKit -o $@
+	@$(CC) $(CFLAGS) $(LIB) $(OBJET) -o $@
+
+$(NAME_BONUS) : $(OBJET_BONUS)
+	@make -C libft
+	@$(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS) -lmlx -framework OpenGL -framework AppKit -o $@
+
 
 exe_one : $(NAME)
-	./lem-in < resources/correct_1 $(arg) $(arg_2)
+	./lem-in < resources/correct_1 | ./visu
 
 exe : $(NAME)
 ifeq ($(arg), correct)
