@@ -29,6 +29,7 @@ int			init_data(t_infos *infos)
 		infos->data[i].commands = 0;
 		infos->data[i].coor_x = 0;
 		infos->data[i].coor_y = 0;
+		infos->data[i].full = 0;
 		infos->data[i].pipe = NULL;
 	}
 	return (1);

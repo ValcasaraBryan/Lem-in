@@ -17,6 +17,10 @@ NAME_BONUS = visu
 SRC =	srcs/main.c\
 		srcs/affichage.c\
 		srcs/algo.c\
+		srcs/choose_path.c\
+		srcs/ft_search_path.c\
+		srcs/frees_algo.c\
+		srcs/utils_algo.c\
 		srcs/check_commandes.c\
 		srcs/check_file.c\
 		srcs/get_file.c\
@@ -26,7 +30,10 @@ SRC =	srcs/main.c\
 		srcs/logical_infos_box.c\
 		srcs/parsing.c\
 		srcs/valeur_data.c\
-		srcs/valeur_pipe.c
+		srcs/valeur_pipe.c\
+		srcs/resolution.c\
+		srcs/move_ants.c\
+		srcs/list_utils.c
 
 SRC_BONUS = srcs_bonus/main_bonus.c\
 		srcs/affichage.c\
@@ -49,9 +56,9 @@ OBJET_BONUS = $(SRC_BONUS:.c=.o)
 
 INCLUDES = includes
 
-CFLAGS = -Wall -Wextra -Werror -I $(INCLUDES)
+CFLAGS = -Wall -Wextra -Werror -O1 -I $(INCLUDES)
 
-CC = gcc
+CC = clang
 
 leak= valgrind --leak-check=full
 
@@ -86,6 +93,36 @@ ifeq ($(arg), correct)
 	./lem-in < resources/correct_4
 	@read $VAR
 	./lem-in < resources/correct_5
+	read $VAR
+	./lem-in < resources/correct_6
+	read $VAR
+	./lem-in < resources/correct_7
+	read $VAR
+	./lem-in < resources/correct_8
+	read $VAR
+	./lem-in < resources/correct_9
+	read $VAR
+	./lem-in < resources/correct_gen_1
+	read $VAR
+	./lem-in < resources/correct_gen_2
+	read $VAR
+	./lem-in < resources/map_git
+	read $VAR
+	./lem-in < resources/map_git1
+	read $VAR
+	./lem-in < resources/map_git3
+	read $VAR
+	./lem-in < resources/map_offi
+	read $VAR
+	./lem-in < resources/map_offi_custom
+	read $VAR
+	./lem-in < resources/map_offi_no_way
+	read $VAR
+	./lem-in < resources/map_offi_pipe_error
+	read $VAR
+	./lem-in < resources/maptest
+	read $VAR
+	./lem-in < resources/norooms
 else
 	./lem-in < srcs
 	./lem-in < lem-in

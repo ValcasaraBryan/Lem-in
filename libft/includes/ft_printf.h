@@ -1,131 +1,70 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   printf.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: brvalcas <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: glebouch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/05 17:32:42 by brvalcas          #+#    #+#             */
-/*   Updated: 2018/06/05 17:32:45 by brvalcas         ###   ########.fr       */
+/*   Created: 2018/05/09 15:27:37 by glebouch          #+#    #+#             */
+/*   Updated: 2018/05/09 15:27:39 by glebouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
-
-# include <stdarg.h>
-# include <limits.h>
 # include "libft.h"
-# define LEFT				1
-# define ZERO				2
-# define SIGN				3
-# define BLANK				4
-# define HASHTAG			5
-# define INT_LONG			6
-# define INT_LONG_LONG		7
-# define INT_SHORT			8
-# define INT_SHORT_SHORT	9
-# define J_FLAG				10
-# define Z_FLAG				11
-# define POINT				12
-# define LARGEUR			13
-# define LENGHT_TAB 		14
+# include <stdio.h>
+# include <stdarg.h>
+# include <stdint.h>
+# include <inttypes.h>
+# include <locale.h>
 
-# define CONV				"sSpdDioOuUxXcCfFeEaAn%"
-# define NO_C				"sSpdDioOuUxXfFeEaAn"
-# define FLAG				"lhjz-+. #0123456789"
-# define ALL				"sSpdDioOuUxXcCfFeEaAn%lhjz-+. #0123456789"
-# define ENT				"dDFfioOuUxXp"
-# define UNSIGNED_			"oOXxuUp"
-# define HEXA_MIN			"0123456789abcdef"
-# define HEXA_MAJ			"0123456789ABCEDF"
-# define OCTAL				"01234567"
-# define DECIMAL			"0123456789"
-
-typedef struct				s_string
+typedef struct	s_stringinfo
 {
-	char					char_of_arg;
-	char					*data;
-	int						len;
-	int						tab[LENGHT_TAB];
-	int						index;
-	int						fd;
-}							t_string;
+	int			ret;
+	char		*line;
+	int			conversion;
+	int			space;
+	int			zeros;
+	int			aligne_g;
+	int			sign;
+	int			precision;
+	int			prefixe;
+	int			sizemin;
+	int			len;
+	char		*str;
+	intmax_t	nbr;
+	uintmax_t	unbr;
+	long double	fl;
+	wchar_t		*wstring;
+	char		*string;
+	wchar_t		ch;
+	va_list		ap;
+	long double	f;
+	int			long_double;
+}				t_stringinfo;
 
-typedef struct				s_conver
-{
-	int						tab;
-	char					*(*fonction)(va_list ap);
-}							t_conv;
+int				ft_printf(char *str, ...);
+char			*ft_strndup(const char *line, size_t i);
+void			ft_putc_times(char c, int i);
+void			ft_parse_flags(t_stringinfo *t);
+void			ft_parse_specifier(t_stringinfo *t);
+void			ft_unsigned(t_stringinfo *t);
+void			ft_signed(t_stringinfo *t);
+void			ft_char(t_stringinfo *t);
+int				ft_str(t_stringinfo *t);
+int				ft_str2(t_stringinfo *t);
+void			ft_init(t_stringinfo *t);
+int				ft_size(uintmax_t n);
+void			ft_putnbr_base(uintmax_t n, int base, int maj, int neg);
+int				ft_size_base(uintmax_t n, int base);
+void			ft_putchar_unicode(wchar_t caract, int oct);
+int				ft_octet(wchar_t caract);
+void			ft_oct_print(t_stringinfo *t, int *oct);
+void			ft_putfloat(t_stringinfo *t);
+void			ft_pointeur(t_stringinfo *t, int base, int maj);
+void			ft_octal_no_prefixe(t_stringinfo *t, int base);
+void			ft_octal_prefixe(t_stringinfo *t, int base);
+int				ft_prefix(t_stringinfo *t, int base, int maj);
 
-typedef struct				s_conver_base
-{
-	int						tab;
-	char					*(*fonction)(va_list ap, char *hexa);
-}							t_conv_base;
-
-int							ft_printf(const char *format, ...);
-unsigned int				nb_percent(const char *format);
-int							parsing_params(char *arg);
-int							params(char comp, const char *list);
-int							parsing(const char *format, t_string *list,
-							va_list ap, unsigned int nb_percent);
-
-int							p_of_params(char *format);
-int							parsing_arg(char *argument, va_list ap, int len,
-							t_string *list);
-int							init_list(va_list ap, char c, t_string *list);
-int							add_arg(t_string *list, va_list ap);
-int							inter_flag(const char *format, int *len_write,
-							t_string *list, int *len_arg);
-
-int							change_string(t_string *list);
-void						priority_precision_largeur_sign_hashtag(t_string
-							*list);
-void						priority_precision_largeur_sign_hashtag_(t_string
-							*list);
-void						priority_precision_largeur(t_string *list);
-int							add_precision(t_string *list);
-
-void						flag_optional(char *arg, int len, t_string *list);
-int							largeur_of_camp(char *arg, t_string *list, int i);
-int							flag_optional_suit(char *arg, t_string *list,
-							int i);
-int							list_add_conversion(char *string, t_string *list);
-int							binary_flag(int *tab, int len);
-
-int							print_zero_space_char(t_string *list, int octet);
-char						*flag_int_sign(t_string list, va_list ap);
-char						*flag_int_unsigned(t_string list, va_list ap,
-							char *hexa);
-int							unsigned_value(va_list ap, char c, t_string *list);
-int							option_char(t_string *list, wchar_t c);
-void						reset_tab_int(t_string *list, int len);
-
-int							free_data(t_string *list, unsigned int nb_percent,
-							int ret, va_list ap);
-int							retour_err(int *len_write, int f);
-char						add_sign(t_string *list);
-int							ft_fprintf(const char *format, int fd, ...);
-
-char						*string_s(va_list ap);
-char						conv_c(va_list ap);
-wchar_t						conv_long_c(va_list ap);
-char						*conv_int(va_list ap);
-char						*conv_long(va_list ap);
-char						*conv_long_long(va_list ap);
-char						*conv_char(va_list ap);
-char						*conv_uchar(va_list ap, char *hexa);
-char						*conv_intmax(va_list ap);
-char						*conv_uintmax(va_list ap, char *hexa);
-char						*conv_size_t(va_list ap, char *hexa);
-char						*conv_ssize_t(va_list ap);
-char						*conv_float(va_list ap, unsigned int precision);
-char						*conv_uint(va_list ap, char *hexa);
-char						*conv_ulong(va_list ap, char *hexa);
-char						*conv_ulong_long(va_list ap, char *hexa);
-char						*conv_short(va_list ap);
-char						*conv_ushort(va_list ap, char *hexa);
-char						*conv_void(va_list ap, char *hexa);
-char						*string_unix(va_list ap, t_string *list);
 #endif
