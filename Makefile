@@ -201,11 +201,11 @@ map :
 	./resources/map_edit $(arg) $(arg_2) resources/$(arg_3)
 
 clean :
-	@rm -f $(OBJET)
+	@rm -f $(OBJET) $(OBJET_BONUS)
 	@make clean -C libft
 
 fclean : clean
-	@rm -f $(NAME)
+	@rm -f $(NAME) $(NAME_BONUS)
 	@make fclean -C libft
 
 re : fclean all
