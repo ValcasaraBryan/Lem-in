@@ -1,9 +1,10 @@
 #include "lem-in.h"
-#include <mlx.h>
+#include "/usr/X11/include/mlx.h"
 
 typedef struct		data_s
 {
 	int				index_of_box;
+	int				index_of_box_dest;
 	int				nb_of_box;
 	int				*grille_x;
 	int				*grille_y;
@@ -38,6 +39,8 @@ typedef struct		s_ligne
 	int				finish_x;
 	int				finish_y;
 	char			c;
+	int				color;
+	int				n_piece;
 }					t_ligne;
 
 int			init_grille_x_y(data_t *p)
@@ -131,7 +134,7 @@ int			trait_line(data_t *p, t_ligne *trait, int val_x, int val_y)
 		swap(&y, &finish_y);
 	while (x <= finish_x && y <= finish_y)
 	{
-		mlx_pixel_put(p->mlx_ptr, p->mlx_win, x, y, p->color_carre_y);
+		mlx_pixel_put(p->mlx_ptr, p->mlx_win, x, y, trait->color);
 		x = (trait->c == 'x') ? x + 1 : x;
 		y = (trait->c == 'y') ? y + 1 : y;
 	}
@@ -145,8 +148,8 @@ int			check_line(data_t *p, t_ligne *trait, int x, int y)
 		trait->c = (y == 0) ? 'x' : 'y';
 		if (p->mappage_pipe[trait->z][trait->start_x + x][trait->start_y + y] > 0)
 			trait_line(p, trait, x, y);
-		if (p->mappage_box[trait->start_x + x][trait->start_y + y] < 0)
-			trait_line(p, trait, x, y);
+		// if (p->mappage_box[trait->start_x + x][trait->start_y + y] < 0)
+			// trait_line(p, trait, x, y);
 		return (1);
 	}
 	return (0);
@@ -154,12 +157,15 @@ int			check_line(data_t *p, t_ligne *trait, int x, int y)
 
 int			chemin_point(data_t *p, t_ligne *trait)
 {
+	int		max;
 	int		z;
 	int		x;
 	int		y;
 
-	z = -1;
-	while (++z < p->nb_of_box)
+	max = (trait->n_piece > 0) ? trait->n_piece : p->nb_of_box;
+	max = (max > p->nb_of_box) ? p->nb_of_box : max;
+	z = (trait->n_piece > 0) ? trait->n_piece - 2 : -1;
+	while (++z < max)
 	{
 		x = -1;
 		while (++x < p->medium)
@@ -182,6 +188,8 @@ int			chemin_point(data_t *p, t_ligne *trait)
 				}
 			}
 		}
+		if (trait->n_piece == 0)
+			return (0);
 	}
 	return (0);
 }
@@ -282,6 +290,17 @@ int			mappage(data_t *p, int x, int y, int val)
 	return (1);
 }
 
+int			val_link(data_t *p, int x, int y)
+{
+	int		i;
+
+	i = -1;
+	while (++i < p->nb_of_box)
+		if (p->mappage_pipe[i][x][y] > 0)
+			return (p->mappage_pipe[i][x][y]);
+	return (0);
+}
+
 int			set_pos_around(data_t *p, int x, int y, int val)
 {
 	int		val_x;
@@ -331,13 +350,10 @@ int			set_pos_around(data_t *p, int x, int y, int val)
 			val = tmp;
 		}
 	}
-	// printf("%d\n", val);
-	if (val_x >= 0 && val_y >= 0 && val_x < p->medium && val_y < p->medium && p->mappage_box[val_x][val_y] > 0)
-		p->mappage_pipe[p->index_box_map][val_x][val_y] = 1;
-	if (val_x >= 0 && val_y >= 0 && val_x < p->medium && val_y < p->medium && p->mappage_pipe[p->index_box_map][val_x][val_y] == 1)
-		return (set_pos_around(p, val_x, val_y, val - 1));
 	if (val_x >= 0 && val_y >= 0 && val_x < p->medium && val_y < p->medium)
-		return (set_pos_around(p, val_x, val_y, val));
+		p->mappage_pipe[p->index_box_map][val_x][val_y]++;
+	if (val_x >= 0 && val_y >= 0 && val_x < p->medium && val_y < p->medium)
+			return (set_pos_around(p, val_x, val_y, val));
 	else
 		return (val);
 }
@@ -416,8 +432,8 @@ int			fct_mappage_pipe(data_t *p)
 	int		j;
 	int		k;
 	int		l;
-	int		nb;
-	int		nb_2;
+	// int		nb;
+	// int		nb_2;
 
 	i = -1;
 	while (++i < p->infos->nb_of_box)
@@ -431,30 +447,34 @@ int			fct_mappage_pipe(data_t *p)
 				l = -1;
 				while (++l <= p->medium)
 				{
-					if (p->infos->data[i].pipe[j]->coor_x == l && p->infos->data[i].pipe[j]->coor_y == k)
-					{
-						p->index_box_map = p->mappage_box[l][k];
-						mappage(p, l, k, 1);
-						check_position_around(p, 0, 0); // haut gauche
-						check_position_around(p, 0, p->medium); // bas gauche
-						check_position_around(p, p->medium, 0); // haut droit
-						check_position_around(p, p->medium, p->medium); //bas droit
-						p->index_box_map = i;
-						set_pos_around(p, p->infos->data[i].coor_x, p->infos->data[i].coor_y, p->medium * p->medium);
-						nb = -1;
-						printf("n_piece = %d\n", (i * (-1)) - 1);
-						while (++nb < p->medium)
+					if (p->infos->data[i].n_piece < p->infos->data[i].pipe[j]->n_piece)
+						if (p->infos->data[i].pipe[j]->coor_x == l && p->infos->data[i].pipe[j]->coor_y == k)
 						{
-							nb_2 = -1;
-							while (++nb_2 < p->medium)
-							{
-								printf("%2d", p->mappage_box[nb_2][nb]);
-							}
-							printf("\n");
+							p->index_of_box_dest = p->mappage_box[l][k];
+							mappage(p, l, k, 1);
+							check_position_around(p, 0, 0); // haut gauche
+							check_position_around(p, 0, p->medium); // bas gauche
+							check_position_around(p, p->medium, 0); // haut droit
+							check_position_around(p, p->medium, p->medium); //bas droit
+							p->index_box_map = i;
+							// printf("data[%d][%d]\n", p->infos->data[i].n_piece, p->infos->data[i].pipe[j]->n_piece);
+							p->mappage_pipe[i][p->infos->data[i].coor_x][p->infos->data[i].coor_y] = 3;
+							p->mappage_pipe[i][p->infos->data[i].pipe[j]->coor_x][p->infos->data[i].pipe[j]->coor_y] = 4;
+							set_pos_around(p, p->infos->data[i].coor_x, p->infos->data[i].coor_y, p->medium * p->medium);
+							// nb = -1;
+							// printf("n_piece = %d\n", (i * (-1)) - 1);
+							// while (++nb < p->medium)
+							// {
+								// nb_2 = -1;
+								// while (++nb_2 < p->medium)
+								// {
+									// printf("%2d", p->mappage_box[nb_2][nb]);
+								// }
+								// printf("\n");
+							// }
+							// printf("\n");
+							erase_chaleur_box(p);
 						}
-						printf("\n");
-						erase_chaleur_box(p);
-					}
 				}
 			}
 		}
@@ -508,6 +528,7 @@ int				init_mappage_box(data_t *p)
 int				init_struct_trait(data_t *p, t_ligne *trait)
 {
 	trait->p = p;
+	trait->color = p->color;
 	trait->z = 0;
 	trait->start_x = 0;
 	trait->start_y = 0;
@@ -518,9 +539,9 @@ int				init_struct_trait(data_t *p, t_ligne *trait)
 
 int				fct_main(data_t *p, t_ligne *trait)
 {
-	int			z;
-	int			x;
-	int			y;
+	// int			z;
+	// int			x;
+	// int			y;
 
 	p->color_carre_x = 100000000;
 	p->color_carre_y = 100000000;
@@ -531,19 +552,20 @@ int				fct_main(data_t *p, t_ligne *trait)
 	mappage_pipe(p);
 	init_mappage_box(p);
 	fct_mappage_pipe(p);
-	z = -1;
-	while (++z < p->nb_of_box)
-	{
-		x = -1;
-		while (++x < p->medium)
-		{
-			y = -1;
-			while (++y < p->medium)
-				printf("%2d", p->mappage_pipe[z][y][x]);
-			printf("\n");
-		}
-		printf("\n");
-	}
+	// z = -1;
+	// while (++z < p->nb_of_box)
+	// {
+		// x = -1;
+		// printf("n_piece = %d\n", z);
+		// while (++x < p->medium)
+		// {
+			// y = -1;
+			// while (++y < p->medium)
+				// printf("%2d", p->mappage_pipe[z][y][x]);
+			// printf("\n");
+		// }
+		// printf("\n");
+	// }
 	init_struct_trait(p, trait);
 	chemin_point(p, trait);
 	fct_put_pixel(p);
@@ -556,10 +578,14 @@ int			key_hook(int keycode, data_t *p)
 	t_ligne	trait;
 
 	p->color = 5000000;
+	trait.n_piece = -1;
 	if (keycode == 36)
 		printf("ENTREE\n");
 	else if (keycode == 53)
+	{
 		printf("ESC\n");
+		exit (0);
+	}
 	else if (keycode == 126)
 	{
 		p->color++;
@@ -600,6 +626,56 @@ int			key_hook(int keycode, data_t *p)
 		p->color /= 10;
 		printf("/ %d\n", p->color);
 	}
+	else if (keycode == 18)
+	{
+		trait.n_piece = 1;
+		printf("trait.n_piece = %d\n", trait.n_piece); 
+	}
+	else if (keycode == 19)
+	{
+		trait.n_piece = 2;
+		printf("trait.n_piece = %d\n", trait.n_piece); 
+	}
+	else if (keycode == 20)
+	{
+		trait.n_piece = 3;
+		printf("trait.n_piece = %d\n", trait.n_piece); 
+	}
+	else if (keycode == 21)
+	{
+		trait.n_piece = 4;
+		printf("trait.n_piece = %d\n", trait.n_piece); 
+	}
+	else if (keycode == 23)
+	{
+		trait.n_piece = 5;
+		printf("trait.n_piece = %d\n", trait.n_piece); 
+	}
+	else if (keycode == 22)
+	{
+		trait.n_piece = 6;
+		printf("trait.n_piece = %d\n", trait.n_piece); 
+	}
+	else if (keycode == 26)
+	{
+		trait.n_piece = 7;
+		printf("trait.n_piece = %d\n", trait.n_piece); 
+	}
+	else if (keycode == 28)
+	{
+		trait.n_piece = 8;
+		printf("trait.n_piece = %d\n", trait.n_piece); 
+	}
+	else if (keycode == 25)
+	{
+		trait.n_piece = 9;
+		printf("trait.n_piece = %d\n", trait.n_piece); 
+	}
+	else if (keycode == 29)
+	{
+		trait.n_piece = 0;
+		printf("trait.n_piece = %d\n", trait.n_piece); 
+	}
 	else
 		printf("%d\n", keycode);
 	fct_main(p, &trait);
@@ -614,20 +690,18 @@ int     main(int argc, char **argv)
 
 	(void)argc;
 	(void)argv;
-	ft_fprintf("/-------------------------------------------\\\n", 2);
-    p.mlx_ptr = mlx_init();
 	infos = get_file();
 	if (!infos.file)
 	{
 		perror("ERROR ");
-		ft_fprintf("\\-------------------------------------------/\n\n\n\n", 2);
+		ft_printf("\\-------------------------------------------/\n\n\n\n", 2);
 		erase_infos(&infos);
 		return (0);
 	}
 	if (!(init_data(&infos)))
 	{
 		perror("ERROR ");
-		ft_fprintf("\\-------------------------------------------/\n\n\n\n", 2);
+		ft_printf("\\-------------------------------------------/\n\n\n\n", 2);
 		erase_infos(&infos);
 		erase_data(&infos);
 		return (0);
@@ -635,7 +709,7 @@ int     main(int argc, char **argv)
 	if (!(check_file(&infos, 0, 0)))
 	{
 		perror("ERROR ");
-		ft_fprintf("\\-------------------------------------------/\n\n\n\n", 2);
+		ft_printf("\\-------------------------------------------/\n\n\n\n", 2);
 		erase_infos(&infos);
 		erase_data(&infos);
 		return (0);
@@ -643,7 +717,7 @@ int     main(int argc, char **argv)
 	if (!(check_commandes(&infos)))
 	{
 		perror("ERROR ");
-		ft_fprintf("\\-------------------------------------------/\n\n\n\n", 2);
+		ft_printf("\\-------------------------------------------/\n\n\n\n", 2);
 		erase_infos(&infos);
 		erase_data(&infos);
 		return (0);
@@ -651,11 +725,12 @@ int     main(int argc, char **argv)
 	if (!(logical_infos_box(&infos)))
 	{
 		perror("ERROR ");
-		ft_fprintf("\\-------------------------------------------/\n\n\n\n", 2);
+		ft_printf("\\-------------------------------------------/\n\n\n\n", 2);
 		erase_infos(&infos);
 		erase_data(&infos);
 		return (0);
 	}
+    p.mlx_ptr = mlx_init();
 	p.infos = &infos;
 	p.color = 0;
 	p.index_of_box = 0;
