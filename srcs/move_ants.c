@@ -12,10 +12,25 @@
 
 #include "lem-in.h"
 
+void ft_put(t_infos *in, int n)
+{
+	int i = 0;
+	while (i < in->nb_of_box)
+	{
+		ft_putnbr(in->t_p[n][i]);
+		ft_putchar(' ');
+		i++;
+	}
+}
 int		ft_next_room_is_free(t_infos *infos, int index_path, int index_room)
 {
+//	ft_putendl(".");
+//	ft_putnbr(infos->data[infos->t_p[index_path][index_room]].commands);
+//	ft_putendl("j");
 	if (infos->data[infos->t_p[index_path][index_room]].commands == 2)
 		return (2);
+//	ft_putnbr(infos->data[infos->t_p[index_path][index_room]].full);
+//	ft_putendl("t");
 	if (infos->data[infos->t_p[index_path][index_room]].full == 0)
 		return (1);
 	return (0);
@@ -23,8 +38,11 @@ int		ft_next_room_is_free(t_infos *infos, int index_path, int index_room)
 
 t_ants	*ft_move_ants2(t_infos *i, int room_free, t_ants *tmp)
 {
-	if ((room_free = ft_next_room_is_free(i, tmp->path_u, \
-		tmp->indx + 1)) > 0)
+//	ft_putnbr(tmp->num_a);
+//	ft_putnbr(tmp->indx);
+//	ft_putendl("");
+//	ft_put(i,tmp->path_u);
+	if ((room_free = ft_next_room_is_free(i, tmp->path_u, tmp->indx + 1)) > 0)
 	{
 		i->data[i->t_p[tmp->path_u][tmp->indx]].full = 0;
 		tmp->indx++;

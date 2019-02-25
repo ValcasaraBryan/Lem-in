@@ -39,7 +39,7 @@ OBJET = $(SRC:.c=.o)
 
 INCLUDES = includes
 
-CFLAGS = -Wall -Wextra -Werror -O1 -I $(INCLUDES)
+CFLAGS = -Wall -Wextra -Werror -g3 -O1 -I $(INCLUDES) #-fsanitize=address
 
 CC = clang
 
