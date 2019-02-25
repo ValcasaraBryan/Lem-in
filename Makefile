@@ -17,6 +17,7 @@ SRC =	srcs/main.c\
 		srcs/algo.c\
 		srcs/choose_path.c\
 		srcs/ft_search_path.c\
+		srcs/toto.c\
 		srcs/frees_algo.c\
 		srcs/utils_algo.c\
 		srcs/check_commandes.c\
@@ -39,7 +40,7 @@ OBJET = $(SRC:.c=.o)
 
 INCLUDES = includes
 
-CFLAGS = -Wall -Wextra -Werror -g3 -O1 -I $(INCLUDES) #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g3 -O1 -I $(INCLUDES) -fsanitize=address
 
 CC = clang
 

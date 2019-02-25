@@ -68,7 +68,9 @@ int		ft_length_path(int *tab, int n)
 	int i;
 
 	i = 0;
-	while (i < n && tab[i] >= 0)
+	if (!tab && n < 0)
+		return (0);
+	while (i < n && i >= 0 && tab[i] >= 0)
 		i++;
 	return (i);
 }

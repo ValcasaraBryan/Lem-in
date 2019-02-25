@@ -211,6 +211,8 @@ int		ft_search_path(t_infos *infos, int start)
 	return (infos->t_p[0][0]);
 }
 */
+
+/*
 void	ft_relay(t_infos *inf, t_s *s)
 {
 	(void)inf;
@@ -272,4 +274,4 @@ int		ft_search_path(t_infos *infos, int start)
 	free(s.tp_tmp);
 	free(s.t_i_try);
 	return (infos->t_p[0][0]);
-}
+}*/

@@ -31,6 +31,14 @@ typedef struct s_ants
 	struct s_ants *next;
 }				t_ants;
 
+
+typedef struct		s_graph
+{
+	int				*path;
+	int				current_r;
+	struct s_graph	*next;
+}					t_graph;
+
 /*
 **			utile dans ft_search_path
 */
@@ -102,6 +110,7 @@ typedef struct          s_infos
 	t_data              *data;
 	int					**t_p;
 	t_ants				*first_ant;
+	t_graph				*l;
 	int 				**t_p_c;
 }                       t_infos;
 
@@ -145,9 +154,9 @@ void					ft_lstdel_all(t_ants **fa);
 **          ft_search_path.c
 */
 int						ft_check_precedents(t_infos *infos, int *tab_path_n_piece, int n);
-void					ft_search_path2(t_infos *inf, t_s *s);
+//void					ft_search_path2(t_infos *inf, t_s *s);
+//int						ft_search_path(t_infos *infos, int start);
 int						ft_search_path(t_infos *infos, int start);
-
 /*
 **			move_ants.c
 */
