@@ -38,6 +38,10 @@ SRC =	srcs/main.c\
 SRC_BONUS = srcs_bonus/main_bonus.c\
 		srcs/affichage.c\
 		srcs/algo.c\
+		srcs/choose_path.c\
+		srcs/ft_search_path.c\
+		srcs/frees_algo.c\
+		srcs/utils_algo.c\
 		srcs/check_commandes.c\
 		srcs/check_file.c\
 		srcs/get_file.c\
@@ -47,7 +51,11 @@ SRC_BONUS = srcs_bonus/main_bonus.c\
 		srcs/logical_infos_box.c\
 		srcs/parsing.c\
 		srcs/valeur_data.c\
-		srcs/valeur_pipe.c
+		srcs/valeur_pipe.c\
+		srcs/resolution.c\
+		srcs/move_ants.c\
+		srcs/list_utils.c
+
 LIB = libft/libft.a
 
 OBJET = $(SRC:.c=.o)
@@ -80,7 +88,7 @@ $(NAME_BONUS) : $(OBJET_BONUS)
 
 
 exe_one : $(NAME)
-	./lem-in < resources/correct_1 | ./visu
+	./lem-in < resources/correct_7 | ./visu
 
 exe : $(NAME)
 ifeq ($(arg), correct)

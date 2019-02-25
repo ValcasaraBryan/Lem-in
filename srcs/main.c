@@ -18,7 +18,6 @@ int			main(int argc, char **argv)
 
 	(void)argc;
 	(void)argv;
-	ft_printf("/-------------------------------------------\\\n");
 	infos = get_file();
 	if (!infos.file)
 	{
@@ -59,22 +58,16 @@ int			main(int argc, char **argv)
 		erase_data(&infos);
 		return (0);
 	}
-<<<<<<< HEAD
-
-	ft_put_list(infos.file);
-	ft_fprintf("\\-------------------------------------------/\n\n\n", 2);
-=======
 	// ft_put_data(&infos);
-	if (!(ft_algo(&infos)))
-	{
-		perror("ERROR ");
-		ft_printf("\\-------------------------------------------/\n\n\n\n");
-		return (0);
-	}
 	ft_put_list(infos.file);
-	ft_printf("OK\n");
-	ft_printf("\\-------------------------------------------/\n\n\n");
->>>>>>> master
+	// if (!(ft_algo(&infos)))
+	// {
+		// perror("ERROR ");
+		// ft_printf("\\-------------------------------------------/\n\n\n\n");
+		// return (0);
+	// }
+	// ft_printf("OK\n");
+	// ft_printf("\\-------------------------------------------/\n\n\n");
 	erase_infos(&infos);
 	erase_data(&infos);
 	return (0);
