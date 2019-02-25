@@ -1,6 +1,6 @@
 #include "lem-in.h"
-#include "/usr/X11/include/mlx.h"
-
+// #include "/usr/X11/include/mlx.h"
+#include <mlx.h>
 typedef struct		data_s
 {
 	int				index_of_box;
@@ -13,6 +13,9 @@ typedef struct		data_s
 	int				longueur_win;
 	int				largeur_win;
 	int				color;
+	int				color_start;
+	int				color_box_used;
+	int				color_end;
 	int				color_carre_x;
 	int				color_carre_y;
 	int				color_interieur;
@@ -27,6 +30,7 @@ typedef struct		data_s
 	int				**mappage_box;
 	int				index_box_map;
 	int				***mappage_pipe;
+	struct s_ligne	*trait;
 	t_infos			*infos;
 }					data_t;
 
@@ -188,8 +192,6 @@ int			chemin_point(data_t *p, t_ligne *trait)
 				}
 			}
 		}
-		if (trait->n_piece == 0)
-			return (0);
 	}
 	return (0);
 }
@@ -499,7 +501,14 @@ int			fct_put_pixel(data_t *p)
 			{
 				if (i != p->centre_x && i != p->centre_x + p->longueur - 1
 					&& j != p->centre_y && j != p->centre_y + p->largeur - 1)
-					mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, p->color_interieur);
+				{
+					if (p->infos->data[p->index_of_box].commands == 1 || p->infos->data[p->index_of_box].commands == 2)
+						mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, (p->infos->data[p->index_of_box].commands == 1) ? p->color_start : p->color_end);
+					// else if (used)
+					//		mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, p->color_box_used);
+					else // if (not used)
+						mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, p->color_interieur);
+				}
 				if (i == p->centre_x || i == p->centre_x + p->longueur - 1)
 					mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, p->color_carre_x);			
 				if (j == p->centre_y || j == p->centre_y + p->largeur - 1)
@@ -575,10 +584,6 @@ int				fct_main(data_t *p, t_ligne *trait)
 
 int			key_hook(int keycode, data_t *p)
 {
-	t_ligne	trait;
-
-	p->color = 5000000;
-	trait.n_piece = -1;
 	if (keycode == 36)
 		printf("ENTREE\n");
 	else if (keycode == 53)
@@ -628,57 +633,69 @@ int			key_hook(int keycode, data_t *p)
 	}
 	else if (keycode == 18)
 	{
-		trait.n_piece = 1;
-		printf("trait.n_piece = %d\n", trait.n_piece); 
+		// p->trait->n_piece += 1;
+		printf("trait.n_piece = %d\n", p->trait->n_piece); 
 	}
 	else if (keycode == 19)
 	{
-		trait.n_piece = 2;
-		printf("trait.n_piece = %d\n", trait.n_piece); 
+		// p->trait->n_piece += 2;
+		printf("trait.n_piece = %d\n", p->trait->n_piece); 
 	}
 	else if (keycode == 20)
 	{
-		trait.n_piece = 3;
-		printf("trait.n_piece = %d\n", trait.n_piece); 
+		// p->trait->n_piece += 3;
+		printf("trait.n_piece = %d\n", p->trait->n_piece); 
 	}
 	else if (keycode == 21)
 	{
-		trait.n_piece = 4;
-		printf("trait.n_piece = %d\n", trait.n_piece); 
+		// p->trait->n_piece += 4;
+		printf("trait.n_piece = %d\n", p->trait->n_piece); 
 	}
 	else if (keycode == 23)
 	{
-		trait.n_piece = 5;
-		printf("trait.n_piece = %d\n", trait.n_piece); 
+		// p->trait->n_piece += 5;
+		printf("trait.n_piece = %d\n", p->trait->n_piece); 
 	}
 	else if (keycode == 22)
 	{
-		trait.n_piece = 6;
-		printf("trait.n_piece = %d\n", trait.n_piece); 
+		// p->trait->n_piece += 6;
+		printf("trait.n_piece = %d\n", p->trait->n_piece); 
 	}
 	else if (keycode == 26)
 	{
-		trait.n_piece = 7;
-		printf("trait.n_piece = %d\n", trait.n_piece); 
+		// p->trait->n_piece += 7;
+		printf("trait.n_piece = %d\n", p->trait->n_piece); 
 	}
 	else if (keycode == 28)
 	{
-		trait.n_piece = 8;
-		printf("trait.n_piece = %d\n", trait.n_piece); 
+		// p->trait->n_piece += 8;
+		printf("trait.n_piece = %d\n", p->trait->n_piece); 
 	}
 	else if (keycode == 25)
 	{
-		trait.n_piece = 9;
-		printf("trait.n_piece = %d\n", trait.n_piece); 
+		// p->trait->n_piece += 9;
+		printf("trait.n_piece = %d\n", p->trait->n_piece); 
 	}
 	else if (keycode == 29)
 	{
-		trait.n_piece = 0;
-		printf("trait.n_piece = %d\n", trait.n_piece); 
+		p->trait->n_piece = 0;
+		printf("trait.n_piece = %d\n", p->trait->n_piece); 
+	}
+	else if (keycode == 27)
+	{
+		p->trait->n_piece = (p->trait->n_piece >= 0) ? p->trait->n_piece - 1 : 0;
+		p->color = 256 * 256 * 256;
+		printf("trait.n_piece = %d\n", p->trait->n_piece); 
+	}
+	else if (keycode == 24)
+	{
+		p->trait->n_piece++;
+		p->color = 5000000;
+		printf("trait.n_piece = %d\n", p->trait->n_piece); 
 	}
 	else
 		printf("%d\n", keycode);
-	fct_main(p, &trait);
+	fct_main(p, p->trait);
 	return (0);
 }
 
@@ -687,6 +704,7 @@ int     main(int argc, char **argv)
 {
 	data_t	p;
 	t_infos	infos;
+	t_ligne	trait;
 
 	(void)argc;
 	(void)argv;
@@ -732,8 +750,13 @@ int     main(int argc, char **argv)
 	}
     p.mlx_ptr = mlx_init();
 	p.infos = &infos;
-	p.color = 0;
 	p.index_of_box = 0;
+	p.color = 5000000;
+	p.color_start = 120 * 256 * 256;
+	p.color_end = 60 * 120 * 120;
+	p.color_box_used = 60 * 70 * 60;
+	p.trait = &trait;
+	p.trait->n_piece = 0;
 	p.nb_of_box = infos.nb_of_box;
 	p.maximum_x = val_max_coor(infos.data, 'x');
 	p.maximum_y = val_max_coor(infos.data, 'y');
