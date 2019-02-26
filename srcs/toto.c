@@ -66,7 +66,7 @@ int *ft_updated_path(t_infos *inf, int *old_p, int room)
 
 int		ft_add_graph_end(t_infos *inf, t_graph **fg, int *old_p, int room)
 {
-	ft_putendl("graphem=nd");
+	// ft_putendl("graphem=nd");
 	t_graph *new_p;
 
 	if (!(new_p = ft_memalloc(sizeof(t_graph))))
@@ -94,18 +94,13 @@ void	ft_graph_del_start(t_graph **fa)
 	t_graph *tmp;
 
 	tmp = *fa;
-	if (tmp->next)
-	{
-		*fa = tmp->next;
-		free(tmp);
-		tmp = NULL;
-	}
+	*fa = tmp->next;
+	free(tmp);
 }
 
 int	ft_search_path(t_infos *inf, int start)
 {
-	ft_putendl("ici");
-	t_graph *g;
+	// ft_putendl("ici");
 	int lp = 1;
 	int i = -1;
 	int *tmp = NULL;
@@ -113,53 +108,72 @@ int	ft_search_path(t_infos *inf, int start)
 
 	tmp = ft_alloc_tab_int(inf->nb_of_box, -1);
 	ft_add_graph_end(inf, &inf->l, tmp, start);
-	g = inf->l;
-	while (inf->l)
+	while (*(&inf->l))
 	{
-		printf("inf->l = %p, g = %p, current = %d\n", inf->l, g, inf->l->current_r);
-		while (ft_length_path(g->path, inf->nb_of_box) == lp)
+		// ft_putnbr(inf->nb_path_max);
+		// ft_putendl("ici 677767");
+	//	printf("inf->l = %p, g = %p, current = %d\n", inf->l, g, inf->l->current_r);
+		while (ft_length_path(inf->l->path, inf->nb_of_box) == lp && lp <= inf->nb_of_box)
 		{
-			// ft_putnbr(ft_length_path(g->path, inf->nb_of_box));
+			// printf("lp vauttttttt ; %d   ", lp);
 			i = 0;
-			while (inf->data[g->current_r].nb_of_link > 1 && i < inf->data[g->current_r].nb_of_link)
+			while (i < inf->data[inf->l->current_r].nb_of_link)
 			{
-//				ft_putendl("mamen");
-				if (ft_check_precedents(inf, g->path, inf->data[inf->data[g->current_r].pipe[i]->n_piece].n_piece))
+				 // printf("%d - %d\n", inf->l->current_r, inf->data[inf->data[inf->l->current_r].pipe[i]->n_piece].n_piece);
+				if (ft_check_precedents(inf, inf->l->path, inf->data[inf->data[inf->l->current_r].pipe[i]->n_piece].n_piece))
 				{
-					if (inf->data[inf->data[g->current_r].pipe[i]->n_piece].commands == 2)
+					if (inf->data[inf->data[inf->l->current_r].pipe[i]->n_piece].commands == 2)
 					{
-						ft_putendl("end");
-						inf->t_p = ft_update_tab_path(inf, ft_updated_path(inf, g->path, inf->data[inf->data[g->current_r].pipe[i]->n_piece].n_piece));
+						// ft_putendl("end");
+						inf->t_p = ft_update_tab_path(inf, ft_updated_path(inf, inf->l->path, inf->data[inf->data[inf->l->current_r].pipe[i]->n_piece].n_piece));
+						// printf("t_p[0][0]0 %d\n", inf->t_p[0][0]);
+
+							// ft_putendl("lane trotr1");
+						if (ft_choose_paths(inf) == inf->nb_path_max)
+						{
+							// ft_putendl("lane trotro");
+							return(1);
+						}
 					}
 					else
 					{
-//						ft_putnbr(g->current_r);
-						ft_add_graph_end(inf, &inf->l, g->path, inf->data[inf->data[g->current_r].pipe[i]->n_piece].n_piece);
+//						ft_putnbr(inf->l->current_r);
+						ft_add_graph_end(inf, &inf->l, inf->l->path, inf->data[inf->data[inf->l->current_r].pipe[i]->n_piece].n_piece);
 					}
 				}
-				else
-					ft_putendl("                                       salle deja vue");
+				// else
+					// ft_putendl("                                       salle deja vue");
 //				ft_putendl("laaaa");
 				i++;
 			}
-//			ft_putendl("apres");
-			ft_putnbr(g->path[0]);
-			ft_putnbr(g->path[1]);
-			ft_putnbr(g->path[2]);
-			ft_putnbr(g->path[3]);
-			ft_putnbr(g->path[4]);
-			ft_putnbr(g->path[5]);
-			ft_putnbr(g->path[6]);
-			ft_putnbr(g->path[7]);
-//			ft_putnbr(g->path[8]);
-//			ft_putnbr(g->path[9]);
-//			ft_putnbr(g->path[10]);
-				ft_graph_del_start(&inf->l);
+			ft_graph_del_start(&inf->l);
 		//	ft_del_graph_current_r(&inf->l, g->current_r);
-			ft_putendl("apres2");
+			// ft_putendl("apres2");
+			// while(g)
+			// {
+			// 	i = 0;
+			// 	while(i < inf->nb_of_box)
+			// 	{
+			// 		ft_putnbr(g->path[i]);
+			// 		ft_putchar('.');
+			// 		i++;
+			// 	}
+			// 	ft_putchar(' ');
+			// 	g = g->next;
+			// }
+			// ft_putendl("");
+			// printf("length path vaut = %d et lp=%d rcurrent = %d \n",ft_length_path(inf->l->path, inf->nb_of_box), lp, inf->l->current_r);
+			// sleep(1);
+			if (!inf->l)
+			{
+				// ft_putendl("tabere");
+				return(1);
+			}
 		}
 		lp++;
+		// printf("lp vaut ; %d\n", lp);
+		// sleep(1);
 	}
-	ft_putendl("fi");
-	return(0);
+	// ft_putendl("fi");
+	return(1);
 }

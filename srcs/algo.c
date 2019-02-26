@@ -40,7 +40,7 @@ int		ft_update_tab_path_2(t_infos *infos, int **tmp, int *tab, t_t *t)
 
 int		**ft_update_tab_path(t_infos *infos, int *tab)
 {
-	ft_putendl("update_tab_path");
+	// ft_putendl("update_tab_path");
 	t_t t;
 	int **tmp;
 
@@ -91,7 +91,7 @@ int		ft_algo_2(t_infos *infos)
 
 int		ft_algo(t_infos *infos)
 {
-	ft_putendl("toto");
+	// ft_putendl("toto");
 	int i;
 
 	i = -1;

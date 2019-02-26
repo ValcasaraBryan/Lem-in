@@ -108,13 +108,16 @@ int		ft_choose_path_i(t_infos *inf, int *tpc_i, int n)
 
 int		ft_choose_paths(t_infos *infos)
 {
+	// ft_putendl("coose path");
 	int i;
 
 	i = 0;
 	if (!(infos->t_p_c = (int**)malloc(sizeof(int*) * infos->nb_path_max)))
 		return (0);
+	// ft_putnbr(infos->t_p[0][0]);
 	while (i < ft_min_int(infos->nb_path_max, infos->t_p[0][0]))
 	{
+	// ft_putendl("cooggg");
 		if (!(infos->t_p_c[i] = (int*)malloc(sizeof(int) * (i + 1))))
 		{
 			ft_free_tab_int(infos->t_p_c, i);
@@ -129,5 +132,6 @@ int		ft_choose_paths(t_infos *infos)
 		}
 		i++;
 	}
+	// ft_putnbr(i);
 	return (i);
 }
