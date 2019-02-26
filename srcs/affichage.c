@@ -14,12 +14,12 @@
 
 void		ft_put_list(t_file *file)
 {
-	ft_putchar_fd('\n', 1);
 	while (file)
 	{
 		ft_putendl_fd(file->line, 1);
 		file = file->next;
 	}
+	ft_putchar('\n');
 }
 
 void		ft_put_data(t_infos *infos)

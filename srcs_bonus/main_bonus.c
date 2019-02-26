@@ -150,9 +150,9 @@ int			check_line(data_t *p, t_ligne *trait, int x, int y)
 	if (trait->start_x + x < p->medium && trait->start_x + x >= 0 && trait->start_y + y < p->medium && trait->start_y + y >= 0)
 	{
 		trait->c = (y == 0) ? 'x' : 'y';
-		if (p->mappage_pipe[trait->z][trait->start_x + x][trait->start_y + y] > 0)
+		if (p->mappage_pipe[trait->z][trait->start_x + x][trait->start_y + y] == 1)
 			trait_line(p, trait, x, y);
-		// if (p->mappage_box[trait->start_x + x][trait->start_y + y] < 0)
+		// if (p->mappage_box[trait->start_x + x][trait->start_y + y] == 4)
 			// trait_line(p, trait, x, y);
 		return (1);
 	}
@@ -177,7 +177,7 @@ int			chemin_point(data_t *p, t_ligne *trait)
 			y = -1;
 			while (++y < p->medium)
 			{
-				if (p->mappage_pipe[z][x][y] > 0)
+				if (p->mappage_pipe[z][x][y] == 1)
 				{
 					if (x < p->medium && x >= 0 && y < p->medium && y >= 0)
 					{
@@ -353,7 +353,7 @@ int			set_pos_around(data_t *p, int x, int y, int val)
 		}
 	}
 	if (val_x >= 0 && val_y >= 0 && val_x < p->medium && val_y < p->medium)
-		p->mappage_pipe[p->index_box_map][val_x][val_y]++;
+		p->mappage_pipe[p->index_box_map][val_x][val_y] = 1;
 	if (val_x >= 0 && val_y >= 0 && val_x < p->medium && val_y < p->medium)
 			return (set_pos_around(p, val_x, val_y, val));
 	else
@@ -434,8 +434,8 @@ int			fct_mappage_pipe(data_t *p)
 	int		j;
 	int		k;
 	int		l;
-	// int		nb;
-	// int		nb_2;
+	int		nb;
+	int		nb_2;
 
 	i = -1;
 	while (++i < p->infos->nb_of_box)
@@ -463,18 +463,18 @@ int			fct_mappage_pipe(data_t *p)
 							p->mappage_pipe[i][p->infos->data[i].coor_x][p->infos->data[i].coor_y] = 3;
 							p->mappage_pipe[i][p->infos->data[i].pipe[j]->coor_x][p->infos->data[i].pipe[j]->coor_y] = 4;
 							set_pos_around(p, p->infos->data[i].coor_x, p->infos->data[i].coor_y, p->medium * p->medium);
-							// nb = -1;
-							// printf("n_piece = %d\n", (i * (-1)) - 1);
-							// while (++nb < p->medium)
-							// {
-								// nb_2 = -1;
-								// while (++nb_2 < p->medium)
-								// {
-									// printf("%2d", p->mappage_box[nb_2][nb]);
-								// }
-								// printf("\n");
-							// }
-							// printf("\n");
+							nb = -1;
+							printf("n_piece = %d\n", (i * (-1)) - 1);
+							while (++nb < p->medium)
+							{
+								nb_2 = -1;
+								while (++nb_2 < p->medium)
+								{
+									printf("%2d", p->mappage_box[nb_2][nb]);
+								}
+								printf("\n");
+							}
+							printf("\n");
 							erase_chaleur_box(p);
 						}
 				}
@@ -548,9 +548,9 @@ int				init_struct_trait(data_t *p, t_ligne *trait)
 
 int				fct_main(data_t *p, t_ligne *trait)
 {
-	// int			z;
-	// int			x;
-	// int			y;
+	int			z;
+	int			x;
+	int			y;
 
 	p->color_carre_x = 100000000;
 	p->color_carre_y = 100000000;
@@ -561,20 +561,20 @@ int				fct_main(data_t *p, t_ligne *trait)
 	mappage_pipe(p);
 	init_mappage_box(p);
 	fct_mappage_pipe(p);
-	// z = -1;
-	// while (++z < p->nb_of_box)
-	// {
-		// x = -1;
-		// printf("n_piece = %d\n", z);
-		// while (++x < p->medium)
-		// {
-			// y = -1;
-			// while (++y < p->medium)
-				// printf("%2d", p->mappage_pipe[z][y][x]);
-			// printf("\n");
-		// }
-		// printf("\n");
-	// }
+	z = -1;
+	while (++z < p->nb_of_box)
+	{
+		x = -1;
+		printf("n_piece = %d\n", z);
+		while (++x < p->medium)
+		{
+			y = -1;
+			while (++y < p->medium)
+				printf("%2d", p->mappage_pipe[z][y][x]);
+			printf("\n");
+		}
+		printf("\n");
+	}
 	init_struct_trait(p, trait);
 	chemin_point(p, trait);
 	fct_put_pixel(p);
