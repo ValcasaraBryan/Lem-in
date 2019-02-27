@@ -62,6 +62,7 @@ int		**ft_update_tab_path(t_infos *infos, int *tab)
 	}
 	tmp[0][0] = t.n;
 	ft_free_tab_int(infos->t_p, t.n);
+	free(tab);
 	return (tmp);
 }
 
@@ -85,6 +86,7 @@ int		ft_algo_2(t_infos *infos)
 		ft_free_all(infos);
 		return (0);
 	}
+	printf("%p\n", infos->t_p_c);
 	ft_free_all(infos);
 	return (1);
 }

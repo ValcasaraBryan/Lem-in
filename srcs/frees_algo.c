@@ -17,7 +17,7 @@ void	ft_free_tab_int(int **tab, int height)
 	int i;
 
 	i = -1;
-	while (++i < height)
+	while (tab && ++i < height)
 		free(tab[i]);
 	free(tab);
 }
@@ -25,9 +25,11 @@ void	ft_free_tab_int(int **tab, int height)
 void	ft_free_all(t_infos *infos)
 {
 	ft_lstdel_all(&infos->first_ant);
-	ft_free_tab_int(infos->t_p_c, \
-			ft_min_int(infos->nb_path_max, infos->t_p[0][0]));
+//	ft_free_tab_int(infos->t_p_c, \
+//			ft_min_int(infos->nb_path_max, infos->t_p[0][0]));
+	ft_free_tab_int(infos->t_p_c, infos->nb_path_max);
 	ft_free_tab_int(infos->t_p, infos->t_p[0][0] + 1);
+	erase_data(infos);
 }
 
 void	ft_lstdel_all(t_ants **fa)

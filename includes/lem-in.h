@@ -83,7 +83,6 @@ typedef struct          s_data
 	char                *name_box;
 	int                 n_piece;
 	int                 nb_of_link;
-	int					*tl;
 	int                 commands;
 	int                 coor_x;
 	int                 coor_y;

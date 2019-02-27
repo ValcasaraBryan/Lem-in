@@ -59,7 +59,6 @@ int *ft_updated_path(t_infos *inf, int *old_p, int room)
 		new_p[i] = -1;
 	}
 //	ft_putendl("updated fi4");
-//	free(old_p);
 //	ft_putendl("updated fi5");
 	return(new_p);
 }
@@ -94,9 +93,16 @@ void	ft_graph_del_start(t_graph **fa)
 	t_graph *tmp;
 
 	tmp = *fa;
+	free(tmp->path);
 	*fa = tmp->next;
 	free(tmp);
 }
+void	ft_lstdel_all_graph(t_graph **fa)
+{
+	while (*fa)
+		ft_graph_del_start(fa);
+}
+
 
 int	ft_search_path(t_infos *inf, int start)
 {
@@ -107,6 +113,7 @@ int	ft_search_path(t_infos *inf, int start)
 
 	tmp = ft_alloc_tab_int(inf->nb_of_box, -1);
 	ft_add_graph_end(inf, &inf->l, tmp, start);
+	free(tmp);
 	while (*(&inf->l))
 	{
 		// ft_putnbr(inf->nb_path_max);
@@ -131,6 +138,7 @@ int	ft_search_path(t_infos *inf, int start)
 						if (ft_choose_paths(inf) == inf->nb_path_max)
 						{
 							// ft_putendl("lane trotro");
+							ft_lstdel_all_graph(&inf->l);
 							return(1);
 						}
 					}
@@ -146,26 +154,8 @@ int	ft_search_path(t_infos *inf, int start)
 				i++;
 			}
 			ft_graph_del_start(&inf->l);
-		//	ft_del_graph_current_r(&inf->l, g->current_r);
-			// ft_putendl("apres2");
-			// while(g)
-			// {
-			// 	i = 0;
-			// 	while(i < inf->nb_of_box)
-			// 	{
-			// 		ft_putnbr(g->path[i]);
-			// 		ft_putchar('.');
-			// 		i++;
-			// 	}
-			// 	ft_putchar(' ');
-			// 	g = g->next;
-			// }
-			// ft_putendl("");
-			// printf("length path vaut = %d et lp=%d rcurrent = %d \n",ft_length_path(inf->l->path, inf->nb_of_box), lp, inf->l->current_r);
-			// sleep(1);
 			if (!inf->l)
 			{
-				// ft_putendl("tabere");
 				return(1);
 			}
 		}

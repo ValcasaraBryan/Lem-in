@@ -144,7 +144,8 @@ int		ft_choose_paths(t_infos *infos)
 	// ft_put_tab_path(infos);
 
 	i = 0;
-	if (!(infos->t_p_c = (int**)malloc(sizeof(int*) * infos->nb_path_max)))
+	ft_free_tab_int(infos->t_p_c, infos->nb_path_max);
+	if (!(infos->t_p_c = (int**)ft_memalloc(sizeof(int*) * infos->nb_path_max)))
 		return (0);
 	// ft_putnbr(infos->t_p[0][0]);
 	while (i < ft_min_int(infos->nb_path_max, infos->t_p[0][0]))

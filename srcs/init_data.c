@@ -24,6 +24,7 @@ int			init_data(t_infos *infos)
 	while (++i <= infos->nb_of_box)
 	{
 		infos->data[i].name_box = NULL;
+		infos->nb_path_max = 0;
 		infos->data[i].n_piece = 0;
 		infos->data[i].nb_of_link = 0;
 		infos->data[i].commands = 0;
