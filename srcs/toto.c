@@ -100,7 +100,6 @@ void	ft_graph_del_start(t_graph **fa)
 
 int	ft_search_path(t_infos *inf, int start)
 {
-	// ft_putendl("ici");
 	int lp = 1;
 	int i = -1;
 	int *tmp = NULL;

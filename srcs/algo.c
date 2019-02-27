@@ -91,7 +91,6 @@ int		ft_algo_2(t_infos *infos)
 
 int		ft_algo(t_infos *infos)
 {
-	// ft_putendl("toto");
 	int i;
 
 	i = -1;

@@ -14,6 +14,7 @@
 
 int		ft_compare(t_infos *infos, int *tab1, int *tab2)
 {
+	// ft_putendl("compare deb");
 	int i;
 	int j;
 	int l1;
@@ -21,19 +22,29 @@ int		ft_compare(t_infos *infos, int *tab1, int *tab2)
 
 	i = 0;
 	l1 = ft_length_path(tab1, infos->nb_of_box);
+	// ft_putendl("compare deb3");
 	l2 = ft_length_path(tab2, infos->nb_of_box);
+	// ft_putendl("compare deb2");
 	while (++i < l1 - 1)
 	{
 		j = 0;
 		while (++j < l2 - 1)
+		{
+			// ft_putendl("compare deb2222");
 			if (tab1[i] == tab2[j])
+			{
+				// ft_putnbr(j);
 				return (0);
+			}
+		}
 	}
+	// ft_putendl("out comp");
 	return (1);
 }
 
 int		ft_compare_tab(t_infos *in, int *tab, int n)
 {
+	// ft_putendl("compare tb");
 	int i;
 	int j;
 
@@ -47,6 +58,7 @@ int		ft_compare_tab(t_infos *in, int *tab, int n)
 				return (j);
 		}
 	}
+	// ft_putendl("comp 2");
 	return (0);
 }
 
@@ -62,6 +74,8 @@ int		ft_up_index(t_infos *infos, int *t_p_c, int index_to_up, int n)
 	if (index_to_up < 0)
 		return (-1);
 	t_p_c[index_to_up]++;
+	if(t_p_c[index_to_up] > infos->t_p[0][0])
+		return(-1);
 	tmp = t_p_c[index_to_up];
 	while (++index_to_up < n)
 	{
@@ -106,10 +120,28 @@ int		ft_choose_path_i(t_infos *inf, int *tpc_i, int n)
 	return (0);
 }
 
+void ft_put_tab_path(t_infos *inf)
+{
+	int i = 0;
+	int j = 0;
+
+	while (++i < inf->t_p[0][0])
+	{
+		j = 0;
+		while(j < inf->nb_of_box && inf->t_p[i][j] != -1)
+		{
+			ft_putnbr(inf->t_p[i][j]);
+			ft_putchar(' ');
+			j++;
+		}
+		ft_putendl("");
+	} 
+}
+
 int		ft_choose_paths(t_infos *infos)
 {
-	// ft_putendl("coose path");
 	int i;
+	// ft_put_tab_path(infos);
 
 	i = 0;
 	if (!(infos->t_p_c = (int**)malloc(sizeof(int*) * infos->nb_path_max)))
@@ -127,11 +159,11 @@ int		ft_choose_paths(t_infos *infos)
 			infos->t_p_c[i][0] = 1;
 		else if (i > 0 && ft_choose_path_i(infos, infos->t_p_c[i], i + 1) < 0)
 		{
+	// ft_putendl("out");
 			ft_free_tab_int(infos->t_p_c, i);
 			return (0);
 		}
 		i++;
 	}
-	// ft_putnbr(i);
 	return (i);
 }

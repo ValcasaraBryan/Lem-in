@@ -18,19 +18,16 @@ int			main(int argc, char **argv)
 
 	(void)argc;
 	(void)argv;
-	ft_printf("/-------------------------------------------\\\n");
 	infos = get_file();
 	if (!infos.file)
 	{
 		perror("ERROR ");
-		ft_printf("\\-------------------------------------------/\n\n\n\n");
 		erase_infos(&infos);
 		return (0);
 	}
 	if (!(init_data(&infos)))
 	{
 		perror("ERROR ");
-		ft_printf("\\-------------------------------------------/\n\n\n\n");
 		erase_infos(&infos);
 		erase_data(&infos);
 		return (0);
@@ -38,7 +35,6 @@ int			main(int argc, char **argv)
 	if (!(check_file(&infos, 0, 0)))
 	{
 		perror("ERROR ");
-		ft_printf("\\-------------------------------------------/\n\n\n\n");
 		erase_infos(&infos);
 		erase_data(&infos);
 		return (0);
@@ -46,7 +42,6 @@ int			main(int argc, char **argv)
 	if (!(check_commandes(&infos)))
 	{
 		perror("ERROR ");
-		ft_printf("\\-------------------------------------------/\n\n\n\n");
 		erase_infos(&infos);
 		erase_data(&infos);
 		return (0);
@@ -54,21 +49,17 @@ int			main(int argc, char **argv)
 	if (!(logical_infos_box(&infos)))
 	{
 		perror("ERROR ");
-		ft_printf("\\-------------------------------------------/\n\n\n\n");
 		erase_infos(&infos);
 		erase_data(&infos);
 		return (0);
 	}
 	// ft_put_data(&infos);
-	ft_put_list(infos.file);
+	// ft_put_list(infos.file);
 	if (!(ft_algo(&infos)))
 	{
 		perror("ERROR ");
-		ft_printf("\\-------------------------------------------/\n\n\n\n");
 		return (0);
 	}
-	ft_printf("OK\n");
-	ft_printf("\\-------------------------------------------/\n\n\n");
 	erase_infos(&infos);
 	erase_data(&infos);
 	return (0);
