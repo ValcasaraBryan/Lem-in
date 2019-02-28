@@ -55,6 +55,7 @@ SRC_BONUS = srcs_bonus/main_bonus.c\
 		srcs/valeur_pipe.c\
 		srcs/resolution.c\
 		srcs/move_ants.c\
+		srcs/toto.c\
 		srcs/list_utils.c
 
 LIB = libft/libft.a
@@ -65,7 +66,7 @@ OBJET_BONUS = $(SRC_BONUS:.c=.o)
 
 INCLUDES = includes
 
-CFLAGS = -Wall -Wextra -Werror -g3 -O1 -I $(INCLUDES) -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g3 -O1 -I $(INCLUDES) #-fsanitize=address
 
 CC = clang
 
@@ -89,7 +90,7 @@ $(NAME_BONUS) : $(OBJET_BONUS)
 
 
 exe_one : $(NAME)
-	./lem-in < resources/map_git3 | ./visu
+	cat resources/error_4 | ./visu
 
 exe : $(NAME)
 ifeq ($(arg), correct)
@@ -102,35 +103,35 @@ ifeq ($(arg), correct)
 	./lem-in < resources/correct_4
 	@read $VAR
 	./lem-in < resources/correct_5
-	read $VAR
+	@read $VAR
 	./lem-in < resources/correct_6
-	read $VAR
+	@read $VAR
 	./lem-in < resources/correct_7
-	read $VAR
+	@read $VAR
 	./lem-in < resources/correct_8
-	read $VAR
+	@read $VAR
 	./lem-in < resources/correct_9
-	read $VAR
+	@read $VAR
 	./lem-in < resources/correct_gen_1
-	read $VAR
+	@read $VAR
 	./lem-in < resources/correct_gen_2
-	read $VAR
+	@read $VAR
 	./lem-in < resources/map_git
-	read $VAR
+	@read $VAR
 	./lem-in < resources/map_git1
-	read $VAR
+	@read $VAR
 	./lem-in < resources/map_git3
-	read $VAR
+	@read $VAR
 	./lem-in < resources/map_offi
-	read $VAR
+	@read $VAR
 	./lem-in < resources/map_offi_custom
-	read $VAR
+	@read $VAR
 	./lem-in < resources/map_offi_no_way
-	read $VAR
+	@read $VAR
 	./lem-in < resources/map_offi_pipe_error
-	read $VAR
+	@read $VAR
 	./lem-in < resources/maptest
-	read $VAR
+	@read $VAR
 	./lem-in < resources/norooms
 else
 	./lem-in < srcs

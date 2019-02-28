@@ -673,6 +673,95 @@ int			key_hook(int keycode, data_t *p)
 	return (0);
 }
 
+t_infos		init_val_bonus(void)
+{
+	t_infos	infos;
+
+	infos.file = NULL;
+	infos.data = NULL;
+	infos.nb_of_fourmis = 0;
+	infos.nb_of_box = 0;
+	infos.nb_of_pipe = 0;
+	infos.nb_f_left = 0;
+	infos.nb_path_max = 0;
+	infos.t_p = NULL;
+	infos.t_p_c = NULL;
+	infos.first_ant = NULL;
+	infos.l = NULL;
+	infos.jpp = 0;
+	return (infos);
+}
+
+int			ants_move(char **tab)
+{
+	int		i;
+	char	**tmp;
+
+	i = -1;
+	if (!tab)
+		return (0);
+	while (tab[++i])
+	{
+		if (tab[i][0] != 'L')
+			return (0);
+		if (!(tmp = ft_strsplit(tab[i], '-')))
+			return (0);
+		if (!tmp[0] || !tmp[1] || tmp[2])
+		{
+			free_tab_str(&tmp);
+			return (0);
+		}
+	}
+	free_tab_str(&tmp);
+	return (i);
+}
+
+int			parsing_ants(t_infos *infos, char **line)
+{
+	int		ret;
+	char	**tab;
+
+	while ((ret = get_next_line(0, line)) > 0)
+	{
+		if (!(tab = ft_strsplit(*line, ' ')) || !(ants_move(tab)))
+		{
+			free_tab_str(&tab);
+			return (0);
+		}
+		infos->file = add_file(infos->file, *line);
+	}
+	return (1);
+}
+
+t_infos		get_file_bonus(void)
+{
+	t_infos	infos;
+	int		etapes;
+	char	*line;
+	int		ret;
+
+	line = NULL;
+	etapes = 0;
+	infos = init_val_bonus();
+	while ((ret = get_next_line(0, &line)) > 0)
+	{
+		if (!(parsing_line(&infos, line, etapes)))
+			if (!(parsing_ants(&infos, &line)))
+			{
+				free_line(&line);
+				get_next_line(0, NULL);
+				erase_infos(&infos);
+				break ;
+			}
+		if (etapes == 0)
+		{
+			infos.nb_of_fourmis = ft_atoi(line);
+			etapes++;
+		}
+		infos.file = add_file(infos.file, line);
+	}
+	return (infos);
+}
 
 int     main(int argc, char **argv)
 {
@@ -682,47 +771,20 @@ int     main(int argc, char **argv)
 
 	(void)argc;
 	(void)argv;
-	infos = get_file();
+	infos = get_file_bonus();
 	if (!infos.file)
 	{
-		perror("ERROR ");
-		ft_printf("\\-------------------------------------------/\n\n\n\n", 2);
-		erase_infos(&infos);
+		printf("no file\n");
 		return (0);
 	}
-	if (!(init_data(&infos)))
+	printf("-----------\n");
+	while (infos.file)
 	{
-		perror("ERROR ");
-		ft_printf("\\-------------------------------------------/\n\n\n\n", 2);
-		erase_infos(&infos);
-		erase_data(&infos);
-		return (0);
+		printf("%s\n", infos.file->line);
+		infos.file = infos.file->next;
 	}
-	if (!(check_file(&infos, 0, 0)))
-	{
-		perror("ERROR ");
-		ft_printf("\\-------------------------------------------/\n\n\n\n", 2);
-		erase_infos(&infos);
-		erase_data(&infos);
-		return (0);
-	}
-	if (!(check_commandes(&infos)))
-	{
-		perror("ERROR ");
-		ft_printf("\\-------------------------------------------/\n\n\n\n", 2);
-		erase_infos(&infos);
-		erase_data(&infos);
-		return (0);
-	}
-	if (!(logical_infos_box(&infos)))
-	{
-		perror("ERROR ");
-		ft_printf("\\-------------------------------------------/\n\n\n\n", 2);
-		erase_infos(&infos);
-		erase_data(&infos);
-		return (0);
-	}
-    p.mlx_ptr = mlx_init();
+	return (0);
+	p.mlx_ptr = mlx_init();
 	p.infos = &infos;
 	p.index_of_box = 0;
 	p.color = 5000000;

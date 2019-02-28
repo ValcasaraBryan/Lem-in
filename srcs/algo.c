@@ -40,7 +40,6 @@ int		ft_update_tab_path_2(t_infos *infos, int **tmp, int *tab, t_t *t)
 
 int		**ft_update_tab_path(t_infos *infos, int *tab)
 {
-	ft_putendl("update_tab_path");
 	t_t t;
 	int **tmp;
 
@@ -62,7 +61,25 @@ int		**ft_update_tab_path(t_infos *infos, int *tab)
 	}
 	tmp[0][0] = t.n;
 	ft_free_tab_int(infos->t_p, t.n);
+	free(tab);
 	return (tmp);
+}
+
+void ft_jppsamaman(t_infos *inf)
+{
+	int i = 0;
+	int j = -1;
+
+	while(++i < inf->t_p[0][0])
+	{
+		j = -1;
+		while (++j < inf->nb_of_box)
+		{
+			// ft_putnbr(inf->t_p[i][j]);
+			// ft_putchar(' ');
+		}
+		// ft_putchar('\n');
+	}
 }
 
 int		ft_algo_2(t_infos *infos)
@@ -75,11 +92,12 @@ int		ft_algo_2(t_infos *infos)
 		ft_free_tab_int(infos->t_p, infos->t_p[0][0] + 1);
 		return (0);
 	}
-	if (!(nbr_group_path = ft_choose_paths(infos)))
+	if ((nbr_group_path = ft_choose_paths(infos)) < 0)
 	{
 		ft_free_tab_int(infos->t_p, infos->t_p[0][0] + 1);
 		return (0);
 	}
+	ft_jppsamaman(infos);
 	if (ft_resolve(infos, nbr_group_path) <= 0)
 	{
 		ft_free_all(infos);

@@ -17,9 +17,11 @@ t_file		*new_file(char *line)
 	t_file	*tmp;
 
 	tmp = NULL;
+	if (!line)
+		return (NULL);
 	if (!(tmp = malloc(sizeof(t_file))))
 		return (NULL);
-	tmp->line = (line && tmp) ? line : NULL;
+	tmp->line = line;
 	tmp->next = NULL;
 	return (tmp);
 }

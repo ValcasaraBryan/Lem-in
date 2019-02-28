@@ -40,7 +40,7 @@ int *ft_init_g(int start, int nb_b)
 
 int *ft_updated_path(t_infos *inf, int *old_p, int room)
 {
-//	ft_putendl("updated");
+	// ft_putendl("updated");
 	int *new_p;
 	int i = 0;
 
@@ -58,15 +58,14 @@ int *ft_updated_path(t_infos *inf, int *old_p, int room)
 //		ft_putendl("toto");
 		new_p[i] = -1;
 	}
-//	ft_putendl("updated fi4");
-//	free(old_p);
+	// ft_putendl("updated fi4");
 //	ft_putendl("updated fi5");
 	return(new_p);
 }
 
 int		ft_add_graph_end(t_infos *inf, t_graph **fg, int *old_p, int room)
 {
-	ft_putendl("graphem=nd");
+	// ft_putendl("graphem=nd");
 	t_graph *new_p;
 
 	if (!(new_p = ft_memalloc(sizeof(t_graph))))
@@ -94,72 +93,134 @@ void	ft_graph_del_start(t_graph **fa)
 	t_graph *tmp;
 
 	tmp = *fa;
-	if (tmp->next)
+	free(tmp->path);
+	*fa = tmp->next;
+	free(tmp);
+}
+void	ft_lstdel_all_graph(t_graph **fa)
+{
+	while (*fa)
+		ft_graph_del_start(fa);
+}
+
+int ft_un_el_l_commence_par_tab_i(t_infos *inf, int tabi, int nbc)
+{
+	t_graph *tmp;
+	// ft_putendl("yo");
+
+	tmp = inf->l;
+	while (tmp)
 	{
-		*fa = tmp->next;
-		free(tmp);
-		tmp = NULL;
+		// printf("com list %d - %d\n",tmp->path[1], tabi);
+		if (tmp->path[1] == tabi)
+			return (1);
+		tmp = tmp->next;
 	}
+	int i = 0;
+	// printf("ola %d - %d\n", i, nbc);
+	while (i < nbc)
+	{
+		// printf("com t_p %d - %d\n", inf->t_p[inf->t_p_c[nbc - 1][i]][1], tabi);
+		if (inf->t_p[inf->t_p_c[nbc - 1][i]][1] == tabi)
+			return(1);
+		i++;
+	}
+	return(0);
+}
+
+int ft_olalala(t_infos *inf, int start, int nbc)
+{
+	int i = 0;
+	int *tab;
+
+	if (!(tab = (int *)malloc(sizeof(int) * inf->data[start].nb_of_link)))
+		return(-1);
+	while (i < inf->data[start].nb_of_link)
+	{
+		tab[i] = inf->data[start].pipe[i]->n_piece;
+		i++;
+	}
+	i = 0;
+	while (i < inf->data[start].nb_of_link)
+	{
+		if (!ft_un_el_l_commence_par_tab_i(inf, tab[i], nbc))
+			inf->nb_path_max--;
+		i++;
+	}
+	free(tab);
+	if (nbc == inf->nb_path_max)
+		return(1);
+	return(0);
 }
 
 int	ft_search_path(t_infos *inf, int start)
 {
-	ft_putendl("ici");
-	t_graph *g;
 	int lp = 1;
 	int i = -1;
 	int *tmp = NULL;
-
+	int r = 0;
 
 	tmp = ft_alloc_tab_int(inf->nb_of_box, -1);
 	ft_add_graph_end(inf, &inf->l, tmp, start);
-	g = inf->l;
-	while (inf->l)
+	free(tmp);
+	while (*(&inf->l))
 	{
-		printf("inf->l = %p, g = %p, current = %d\n", inf->l, g, inf->l->current_r);
-		while (ft_length_path(g->path, inf->nb_of_box) == lp)
+		// ft_putnbr(inf->nb_path_max);
+		// ft_putendl("ici 677767");
+	//	printf("inf->l = %p, g = %p, current = %d\n", inf->l, g, inf->l->current_r);
+		while (ft_length_path(inf->l->path, inf->nb_of_box) == lp && lp <= inf->nb_of_box)
 		{
-			// ft_putnbr(ft_length_path(g->path, inf->nb_of_box));
+			// printf("lp vauttttttt ; %d   ", lp);
 			i = 0;
-			while (inf->data[g->current_r].nb_of_link > 1 && i < inf->data[g->current_r].nb_of_link)
+			while (i < inf->data[inf->l->current_r].nb_of_link)
 			{
-//				ft_putendl("mamen");
-				if (ft_check_precedents(inf, g->path, inf->data[inf->data[g->current_r].pipe[i]->n_piece].n_piece))
+				 // printf("%d - %d\n", inf->l->current_r, inf->data[inf->data[inf->l->current_r].pipe[i]->n_piece].n_piece);
+				if (ft_check_precedents(inf, inf->l->path, inf->data[inf->data[inf->l->current_r].pipe[i]->n_piece].n_piece))
 				{
-					if (inf->data[inf->data[g->current_r].pipe[i]->n_piece].commands == 2)
+					if (inf->data[inf->data[inf->l->current_r].pipe[i]->n_piece].commands == 2)
 					{
-						ft_putendl("end");
-						inf->t_p = ft_update_tab_path(inf, ft_updated_path(inf, g->path, inf->data[inf->data[g->current_r].pipe[i]->n_piece].n_piece));
+						// ft_putendl("end");
+						inf->t_p = ft_update_tab_path(inf, ft_updated_path(inf, inf->l->path, inf->data[inf->data[inf->l->current_r].pipe[i]->n_piece].n_piece));
+						// printf("t_p[0][0]0 %d\n", inf->t_p[0][0]);
+
+							// ft_putendl("lane trotr1");
+						if ((r = ft_choose_paths(inf)) == inf->nb_path_max)
+						{
+							// ft_putendl("lane trotr1");
+							ft_lstdel_all_graph(&inf->l);
+							// ft_putendl("lane trotr1");
+							return(1);
+						}
+						// ft_putnbr(r);
+						// ft_putnbr(inf->nb_path_max);
+						r = ft_olalala(inf, start, r);
+						// ft_putnbr(inf->nb_path_max);
+						if (r)
+							return((r < 0)? 0 : 1);
+						// ft_putnbr(inf->nb_path_max);
+						// ft_putendl("lane trotr1");
 					}
 					else
 					{
-//						ft_putnbr(g->current_r);
-						ft_add_graph_end(inf, &inf->l, g->path, inf->data[inf->data[g->current_r].pipe[i]->n_piece].n_piece);
+//						ft_putnbr(inf->l->current_r);
+						ft_add_graph_end(inf, &inf->l, inf->l->path, inf->data[inf->data[inf->l->current_r].pipe[i]->n_piece].n_piece);
 					}
 				}
-				else
-					ft_putendl("                                       salle deja vue");
+				// else
+					// ft_putendl("                                       salle deja vue");
 //				ft_putendl("laaaa");
 				i++;
 			}
-//			ft_putendl("apres");
-			ft_putnbr(g->path[0]);
-			ft_putnbr(g->path[1]);
-			ft_putnbr(g->path[2]);
-			ft_putnbr(g->path[3]);
-			ft_putnbr(g->path[4]);
-			ft_putnbr(g->path[5]);
-			ft_putnbr(g->path[6]);
-			ft_putnbr(g->path[7]);
-//			ft_putnbr(g->path[8]);
-//			ft_putnbr(g->path[9]);
-//			ft_putnbr(g->path[10]);
-				ft_graph_del_start(&inf->l);
-		//	ft_del_graph_current_r(&inf->l, g->current_r);
-			ft_putendl("apres2");
+			ft_graph_del_start(&inf->l);
+			if (!inf->l)
+			{
+				return(1);
+			}
 		}
 		lp++;
+		// printf("lp vaut ; %d\n", lp);
+		// sleep(1);
 	}
-	ft_putendl("fi");
-	return(0);
+	// ft_putendl("fi");
+	return(1);
 }

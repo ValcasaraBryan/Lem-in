@@ -37,21 +37,11 @@ int			nb_of_link(t_infos *infos, char *str)
 
 int			malloc_pipe(t_infos *infos, int i, int len)
 {
-	int		j;
-
-	j = 0;
 	if (!(infos->data[i].pipe = (t_data **)malloc(sizeof(t_data *)
 		* (infos->data[i].nb_of_link + 1))))
 		return (0);
 	while (len <= infos->data[i].nb_of_link)
 		infos->data[i].pipe[len++] = NULL;
-	if (!(infos->data[i].tl = (int *)malloc(sizeof(int) * infos->data[i].nb_of_link)))
-		return (0);
-	while (j < infos->data[i].nb_of_link)
-	{
-		infos->data[i].tl[j] = 1;
-		j++;
-	}
 	return (1);
 }
 

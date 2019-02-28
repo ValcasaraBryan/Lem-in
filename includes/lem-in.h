@@ -83,7 +83,6 @@ typedef struct          s_data
 	char                *name_box;
 	int                 n_piece;
 	int                 nb_of_link;
-	int					*tl;
 	int                 commands;
 	int                 coor_x;
 	int                 coor_y;
@@ -101,6 +100,7 @@ typedef struct          s_data
 */
 typedef struct          s_infos
 {
+	int					jpp;
 	int                 nb_of_fourmis;
 	int					nb_f_left;
 	int                 nb_of_box;
@@ -154,6 +154,7 @@ void					ft_lstdel_all(t_ants **fa);
 **          ft_search_path.c
 */
 int						ft_check_precedents(t_infos *infos, int *tab_path_n_piece, int n);
+void 					ft_puttamere(t_infos *in);
 //void					ft_search_path2(t_infos *inf, t_s *s);
 //int						ft_search_path(t_infos *infos, int start);
 int						ft_search_path(t_infos *infos, int start);

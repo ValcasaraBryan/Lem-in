@@ -104,6 +104,7 @@ int		ft_resolve2(t_infos *inf, t_r *res, int **tgt, int nb_gp)
 		return (-1);
 	if (!ft_create_ants(inf, res->num_g + 1))
 		return (-1);
+	ft_put_list(inf->file);
 	while (ft_move_ants(inf))
 	{
 		if (inf->nb_f_left >= 0)
