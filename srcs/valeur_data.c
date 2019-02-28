@@ -49,7 +49,7 @@ int			malloc_pipe(t_infos *infos, int i, int len)
 		return (0);
 	while (j < infos->data[i].nb_of_link)
 	{
-		infos->data[i].tl[j] = 0;
+		infos->data[i].tl[j] = 1;
 		j++;
 	}
 	return (1);
