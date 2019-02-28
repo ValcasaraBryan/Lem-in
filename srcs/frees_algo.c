@@ -17,6 +17,8 @@ void	ft_free_tab_int(int **tab, int height)
 	int i;
 
 	i = -1;
+	if(!tab)
+		return ;
 	while (tab && ++i < height)
 		free(tab[i]);
 	free(tab);

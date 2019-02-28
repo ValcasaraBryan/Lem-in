@@ -12,6 +12,7 @@
 
 #include "lem-in.h"
 
+
 void ft_put(t_infos *in, int n)
 {
 	int i = 0;
@@ -22,6 +23,7 @@ void ft_put(t_infos *in, int n)
 		i++;
 	}
 }
+
 int		ft_next_room_is_free(t_infos *infos, int index_path, int index_room)
 {
 //	ft_putendl(".");

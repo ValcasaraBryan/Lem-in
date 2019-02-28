@@ -74,8 +74,8 @@ int		ft_up_index(t_infos *infos, int *t_p_c, int index_to_up, int n)
 	if (index_to_up < 0)
 		return (-1);
 	t_p_c[index_to_up]++;
-	if(t_p_c[index_to_up] > infos->t_p[0][0])
-		return(-1);
+	if (t_p_c[index_to_up] > infos->t_p[0][0])
+		return (-1);
 	tmp = t_p_c[index_to_up];
 	while (++index_to_up < n)
 	{
@@ -144,25 +144,24 @@ int		ft_choose_paths(t_infos *infos)
 	// ft_put_tab_path(infos);
 
 	i = 0;
-	ft_free_tab_int(infos->t_p_c, infos->nb_path_max);
+	if (!infos->jpp++)
+		ft_free_tab_int(infos->t_p_c, infos->nb_path_max);
 	if (!(infos->t_p_c = (int**)ft_memalloc(sizeof(int*) * infos->nb_path_max)))
 		return (0);
 	// ft_putnbr(infos->t_p[0][0]);
 	while (i < ft_min_int(infos->nb_path_max, infos->t_p[0][0]))
 	{
-	// ft_putendl("cooggg");
-		if (!(infos->t_p_c[i] = (int*)malloc(sizeof(int) * (i + 1))))
+		if (!(infos->t_p_c[i] = (int*)ft_memalloc(sizeof(int) * (i + 1))))
 		{
 			ft_free_tab_int(infos->t_p_c, i);
-			return (0);
+			return (-1);
 		}
 		if (i == 0)
 			infos->t_p_c[i][0] = 1;
 		else if (i > 0 && ft_choose_path_i(infos, infos->t_p_c[i], i + 1) < 0)
 		{
-	// ft_putendl("out");
-			ft_free_tab_int(infos->t_p_c, i);
-			return (0);
+//			ft_free_tab_int(infos->t_p_c, i);
+			return (i);
 		}
 		i++;
 	}

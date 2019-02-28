@@ -40,7 +40,7 @@ int *ft_init_g(int start, int nb_b)
 
 int *ft_updated_path(t_infos *inf, int *old_p, int room)
 {
-//	ft_putendl("updated");
+	// ft_putendl("updated");
 	int *new_p;
 	int i = 0;
 
@@ -58,7 +58,7 @@ int *ft_updated_path(t_infos *inf, int *old_p, int room)
 //		ft_putendl("toto");
 		new_p[i] = -1;
 	}
-//	ft_putendl("updated fi4");
+	// ft_putendl("updated fi4");
 //	ft_putendl("updated fi5");
 	return(new_p);
 }
@@ -103,13 +103,62 @@ void	ft_lstdel_all_graph(t_graph **fa)
 		ft_graph_del_start(fa);
 }
 
+int ft_un_el_l_commence_par_tab_i(t_infos *inf, int tabi, int nbc)
+{
+	t_graph *tmp;
+	// ft_putendl("yo");
+
+	tmp = inf->l;
+	while (tmp)
+	{
+		// printf("com list %d - %d\n",tmp->path[1], tabi);
+		if (tmp->path[1] == tabi)
+			return (1);
+		tmp = tmp->next;
+	}
+	int i = 0;
+	// printf("ola %d - %d\n", i, nbc);
+	while (i < nbc)
+	{
+		// printf("com t_p %d - %d\n", inf->t_p[inf->t_p_c[nbc - 1][i]][1], tabi);
+		if (inf->t_p[inf->t_p_c[nbc - 1][i]][1] == tabi)
+			return(1);
+		i++;
+	}
+	return(0);
+}
+
+int ft_olalala(t_infos *inf, int start, int nbc)
+{
+	int i = 0;
+	int *tab;
+
+	if (!(tab = (int *)malloc(sizeof(int) * inf->data[start].nb_of_link)))
+		return(-1);
+	while (i < inf->data[start].nb_of_link)
+	{
+		tab[i] = inf->data[start].pipe[i]->n_piece;
+		i++;
+	}
+	i = 0;
+	while (i < inf->data[start].nb_of_link)
+	{
+		if (!ft_un_el_l_commence_par_tab_i(inf, tab[i], nbc))
+			inf->nb_path_max--;
+		i++;
+	}
+	free(tab);
+	if (nbc == inf->nb_path_max)
+		return(1);
+	return(0);
+}
 
 int	ft_search_path(t_infos *inf, int start)
 {
 	int lp = 1;
 	int i = -1;
 	int *tmp = NULL;
-
+	int r = 0;
 
 	tmp = ft_alloc_tab_int(inf->nb_of_box, -1);
 	ft_add_graph_end(inf, &inf->l, tmp, start);
@@ -135,12 +184,21 @@ int	ft_search_path(t_infos *inf, int start)
 						// printf("t_p[0][0]0 %d\n", inf->t_p[0][0]);
 
 							// ft_putendl("lane trotr1");
-						if (ft_choose_paths(inf) == inf->nb_path_max)
+						if ((r = ft_choose_paths(inf)) == inf->nb_path_max)
 						{
-							// ft_putendl("lane trotro");
+							// ft_putendl("lane trotr1");
 							ft_lstdel_all_graph(&inf->l);
+							// ft_putendl("lane trotr1");
 							return(1);
 						}
+						// ft_putnbr(r);
+						// ft_putnbr(inf->nb_path_max);
+						r = ft_olalala(inf, start, r);
+						// ft_putnbr(inf->nb_path_max);
+						if (r)
+							return((r < 0)? 0 : 1);
+						// ft_putnbr(inf->nb_path_max);
+						// ft_putendl("lane trotr1");
 					}
 					else
 					{
