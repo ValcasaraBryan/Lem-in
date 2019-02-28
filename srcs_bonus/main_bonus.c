@@ -29,7 +29,8 @@ typedef struct		data_s
 	int				coef;
 	int				**mappage_box;
 	int				index_box_map;
-	int				***mappage_pipe;
+	int				index_box_map_link;
+	int				****mappage_pipe;
 	struct s_ligne	*trait;
 	t_infos			*infos;
 }					data_t;
@@ -38,6 +39,7 @@ typedef struct		s_ligne
 {
 	struct data_s	*p;
 	int				z;
+	int				j;
 	int				start_x;
 	int				start_y;
 	int				finish_x;
@@ -150,10 +152,8 @@ int			check_line(data_t *p, t_ligne *trait, int x, int y)
 	if (trait->start_x + x < p->medium && trait->start_x + x >= 0 && trait->start_y + y < p->medium && trait->start_y + y >= 0)
 	{
 		trait->c = (y == 0) ? 'x' : 'y';
-		if (p->mappage_pipe[trait->z][trait->start_x + x][trait->start_y + y] == 1)
+		if (p->mappage_pipe[trait->z][trait->j][trait->start_x + x][trait->start_y + y] > 0)
 			trait_line(p, trait, x, y);
-		// if (p->mappage_box[trait->start_x + x][trait->start_y + y] == 4)
-			// trait_line(p, trait, x, y);
 		return (1);
 	}
 	return (0);
@@ -163,6 +163,7 @@ int			chemin_point(data_t *p, t_ligne *trait)
 {
 	int		max;
 	int		z;
+	int		j;
 	int		x;
 	int		y;
 
@@ -171,23 +172,28 @@ int			chemin_point(data_t *p, t_ligne *trait)
 	z = (trait->n_piece > 0) ? trait->n_piece - 2 : -1;
 	while (++z < max)
 	{
-		x = -1;
-		while (++x < p->medium)
+		j = -1;
+		while (++j < p->infos->data[z].nb_of_link)
 		{
-			y = -1;
-			while (++y < p->medium)
+			x = -1;
+			while (++x < p->medium)
 			{
-				if (p->mappage_pipe[z][x][y] == 1)
+				y = -1;
+				while (++y < p->medium)
 				{
-					if (x < p->medium && x >= 0 && y < p->medium && y >= 0)
+					if (p->mappage_pipe[z][j][x][y] == 1)
 					{
-						trait->z = z;
-						trait->start_x = x;
-						trait->start_y = y;
-						check_line(p, trait, 1, 0);
-						check_line(p, trait, -1, 0);
-						check_line(p, trait, 0, 1);
-						check_line(p, trait, 0, -1);
+						if (x < p->medium && x >= 0 && y < p->medium && y >= 0)
+						{
+							trait->z = z;
+							trait->j = j;
+							trait->start_x = x;
+							trait->start_y = y;
+							check_line(p, trait, 1, 0);
+							check_line(p, trait, -1, 0);
+							check_line(p, trait, 0, 1);
+							check_line(p, trait, 0, -1);
+						}
 					}
 				}
 			}
@@ -295,11 +301,16 @@ int			mappage(data_t *p, int x, int y, int val)
 int			val_link(data_t *p, int x, int y)
 {
 	int		i;
+	int		j;
 
 	i = -1;
 	while (++i < p->nb_of_box)
-		if (p->mappage_pipe[i][x][y] > 0)
-			return (p->mappage_pipe[i][x][y]);
+	{
+		j = -1;
+		while (++j < p->infos->data[i].nb_of_link)
+			if (p->mappage_pipe[i][j][x][y] > 0)
+				return (p->mappage_pipe[i][j][x][y]);
+	}
 	return (0);
 }
 
@@ -315,7 +326,7 @@ int			set_pos_around(data_t *p, int x, int y, int val)
 	if (y - 1 < p->medium && y - 1 >= 0 && x < p->medium && x >= 0)
 	{
 		tmp = p->mappage_box[x][y - 1];
-		if (tmp <= val && tmp > 0)
+		if (tmp <= val && (tmp > 0 || tmp == -p->infos->data[p->index_box_map].pipe[p->index_box_map_link]->n_piece - 1))
 		{
 			val_x = x;
 			val_y = y - 1;
@@ -325,7 +336,7 @@ int			set_pos_around(data_t *p, int x, int y, int val)
 	if (y + 1 < p->medium && y + 1 >= 0 && x < p->medium && x >= 0)
 	{
 		tmp = p->mappage_box[x][y + 1];
-		if (tmp <= val && tmp > 0)
+		if (tmp <= val && (tmp > 0 || tmp == -p->infos->data[p->index_box_map].pipe[p->index_box_map_link]->n_piece - 1))
 		{
 			val_x = x;
 			val_y = y + 1;
@@ -335,7 +346,7 @@ int			set_pos_around(data_t *p, int x, int y, int val)
 	if (y < p->medium && y >= 0 && x - 1 < p->medium && x - 1 >= 0)
 	{
 		tmp = p->mappage_box[x - 1][y];
-		if (tmp <= val && tmp > 0)
+		if (tmp <= val && (tmp > 0 || tmp == -p->infos->data[p->index_box_map].pipe[p->index_box_map_link]->n_piece - 1))
 		{
 			val_x = x - 1;
 			val_y = y;
@@ -345,7 +356,7 @@ int			set_pos_around(data_t *p, int x, int y, int val)
 	if (y < p->medium && y >= 0 && x + 1 < p->medium && x + 1 >= 0)
 	{
 		tmp = p->mappage_box[x + 1][y];
-		if (tmp <= val && tmp > 0)
+		if (tmp <= val && (tmp > 0 || tmp == -p->infos->data[p->index_box_map].pipe[p->index_box_map_link]->n_piece - 1))
 		{
 			val_x = x + 1;
 			val_y = y;
@@ -353,7 +364,7 @@ int			set_pos_around(data_t *p, int x, int y, int val)
 		}
 	}
 	if (val_x >= 0 && val_y >= 0 && val_x < p->medium && val_y < p->medium)
-		p->mappage_pipe[p->index_box_map][val_x][val_y] = 1;
+		p->mappage_pipe[p->index_box_map][p->index_box_map_link][val_x][val_y] = 1;
 	if (val_x >= 0 && val_y >= 0 && val_x < p->medium && val_y < p->medium)
 			return (set_pos_around(p, val_x, val_y, val));
 	else
@@ -383,46 +394,42 @@ int			erase_chaleur_box(data_t *p)
 int			mappage_box(data_t *p)
 {
 	int		i;
-	int		j;
 
 	i = -1;
 	if (!(p->mappage_box = (int **)malloc(sizeof(int *) * p->medium)))
 		return (0);
 	while (++i < p->medium)
 	{
-		if (!(p->mappage_box[i] = (int *)malloc(sizeof(int) * p->medium)))
+		if (!(p->mappage_box[i] = (int *)ft_memalloc(sizeof(int) * p->medium)))
 			return (0);
-		j = -1;
-		while (++j < p->medium)
-			p->mappage_box[i][j] = 0;
 	}
 	return (1);
 }
 
 int			mappage_pipe(data_t *p)
 {
-	int		i;
-	int		j;
+	int		nb_2;
 	int		nb;
+	int		i;
 
 	nb = -1;
-	if (!(p->mappage_pipe = (int ***)malloc(sizeof(int **) * p->nb_of_box)))
+	if (!(p->mappage_pipe = (int ****)malloc(sizeof(int **) * p->nb_of_box)))
 		return (0);
 	while (++nb < p->nb_of_box)
 	{
-		if (!(p->mappage_pipe[nb] = (int **)malloc(sizeof(int *) * p->medium)))
+		if (!(p->mappage_pipe[nb] = (int ***)ft_memalloc(sizeof(int *) * p->infos->data[nb].nb_of_link)))
 			return (0);
-		j = -1;
-		while (++j < p->medium)
-			p->mappage_pipe[nb][j] = 0;
-		i = -1;
-		while (++i < p->medium)
+		nb_2 = -1;
+		while (++nb_2 < p->infos->data[nb].nb_of_link)
 		{
-			if (!(p->mappage_pipe[nb][i] = (int *)malloc(sizeof(int) * p->medium)))
+			if (!(p->mappage_pipe[nb][nb_2] = (int **)ft_memalloc(sizeof(int *) * p->medium)))
 				return (0);
-			j = -1;
-			while (++j < p->medium)
-				p->mappage_pipe[nb][i][j] = 0;
+			i = -1;
+			while (++i < p->medium)
+			{
+				if (!(p->mappage_pipe[nb][nb_2][i] = (int *)ft_memalloc(sizeof(int) * p->medium)))
+					return (0);
+			}
 		}
 	}
 	return (0);
@@ -434,8 +441,6 @@ int			fct_mappage_pipe(data_t *p)
 	int		j;
 	int		k;
 	int		l;
-	int		nb;
-	int		nb_2;
 
 	i = -1;
 	while (++i < p->infos->nb_of_box)
@@ -459,22 +464,8 @@ int			fct_mappage_pipe(data_t *p)
 							check_position_around(p, p->medium, 0); // haut droit
 							check_position_around(p, p->medium, p->medium); //bas droit
 							p->index_box_map = i;
-							// printf("data[%d][%d]\n", p->infos->data[i].n_piece, p->infos->data[i].pipe[j]->n_piece);
-							p->mappage_pipe[i][p->infos->data[i].coor_x][p->infos->data[i].coor_y] = 3;
-							p->mappage_pipe[i][p->infos->data[i].pipe[j]->coor_x][p->infos->data[i].pipe[j]->coor_y] = 4;
+							p->mappage_pipe[i][(p->index_box_map_link = j)][p->infos->data[i].coor_x][p->infos->data[i].coor_y] = 3;
 							set_pos_around(p, p->infos->data[i].coor_x, p->infos->data[i].coor_y, p->medium * p->medium);
-							nb = -1;
-							printf("n_piece = %d\n", (i * (-1)) - 1);
-							while (++nb < p->medium)
-							{
-								nb_2 = -1;
-								while (++nb_2 < p->medium)
-								{
-									printf("%2d", p->mappage_box[nb_2][nb]);
-								}
-								printf("\n");
-							}
-							printf("\n");
 							erase_chaleur_box(p);
 						}
 				}
@@ -548,9 +539,6 @@ int				init_struct_trait(data_t *p, t_ligne *trait)
 
 int				fct_main(data_t *p, t_ligne *trait)
 {
-	int			z;
-	int			x;
-	int			y;
 
 	p->color_carre_x = 100000000;
 	p->color_carre_y = 100000000;
@@ -561,20 +549,6 @@ int				fct_main(data_t *p, t_ligne *trait)
 	mappage_pipe(p);
 	init_mappage_box(p);
 	fct_mappage_pipe(p);
-	z = -1;
-	while (++z < p->nb_of_box)
-	{
-		x = -1;
-		printf("n_piece = %d\n", z);
-		while (++x < p->medium)
-		{
-			y = -1;
-			while (++y < p->medium)
-				printf("%2d", p->mappage_pipe[z][y][x]);
-			printf("\n");
-		}
-		printf("\n");
-	}
 	init_struct_trait(p, trait);
 	chemin_point(p, trait);
 	fct_put_pixel(p);

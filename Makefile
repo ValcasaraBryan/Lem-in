@@ -88,7 +88,7 @@ $(NAME_BONUS) : $(OBJET_BONUS)
 
 
 exe_one : $(NAME)
-	./lem-in < resources/correct_1 | ./visu
+	./lem-in < resources/map_git3 | ./visu
 
 exe : $(NAME)
 ifeq ($(arg), correct)
