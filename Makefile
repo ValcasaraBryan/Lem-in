@@ -17,7 +17,7 @@ SRC =	srcs/main.c\
 		srcs/algo.c\
 		srcs/choose_path.c\
 		srcs/ft_search_path.c\
-		srcs/toto.c\
+		srcs/graph_utils.c\
 		srcs/frees_algo.c\
 		srcs/utils_algo.c\
 		srcs/check_commandes.c\
@@ -50,7 +50,8 @@ arg = 0
 arg_2 = 0
 arg_3 = 0
 
-all : $(NAME)
+all : 
+	make -j8 $(NAME)
 
 $(OBJET): includes/lem-in.h
 
