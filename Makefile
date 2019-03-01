@@ -90,6 +90,7 @@ $(NAME_BONUS) : $(OBJET_BONUS)
 
 
 exe_one : $(NAME)
+	./lem-in < resources/big
 	cat resources/error_4 | ./visu
 
 exe : $(NAME)

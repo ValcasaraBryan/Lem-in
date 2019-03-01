@@ -763,6 +763,34 @@ t_infos		get_file_bonus(void)
 	return (infos);
 }
 
+int			check_file_bonus(t_infos *infos, int commande, int check_order)
+{
+	t_file	*head;
+
+	head = infos->file;
+	if (!(skip_line_fourmi(infos)))
+		return (0);
+	while (infos->file)
+	{
+		check_order = (ft_strcmp(infos->file->line, "##start") == 0
+		|| ft_strcmp(infos->file->line, "##end") == 0) ? 0 : check_order;
+		commande = init_command(infos, commande);
+		if (!check_order && commande && infos->file->next)
+			infos->file = infos->file->next;
+		if (infos->file->line && infos->file->line[0] == '#'
+			&& infos->file->line[1] == '#' && commande == 0)
+			return (norm_check_file(infos, head, 0));
+		if (infos->file->line && infos->file->line[0] == '#'
+			&& infos->file->line[1] != '#')
+			if (skip_commentaire(infos, head, 1))
+				return (1);
+		if (!(check_order = step_check(infos, head, check_order, commande)))
+			return (0);
+		infos->file = infos->file->next;
+	}
+	return (retour_check_file(infos, head, 1));
+}
+
 int     main(int argc, char **argv)
 {
 	data_t	p;
@@ -777,12 +805,14 @@ int     main(int argc, char **argv)
 		printf("no file\n");
 		return (0);
 	}
-	printf("-----------\n");
-	while (infos.file)
-	{
-		printf("%s\n", infos.file->line);
-		infos.file = infos.file->next;
-	}
+	// printf("-----------\n");
+	// while (infos.file)
+	// {
+		// printf("%s\n", infos.file->line);
+		// infos.file = infos.file->next;
+	// }
+	init_data(&infos);
+	printf("%d\n", check_file_bonus(&infos, 0, 0));
 	return (0);
 	p.mlx_ptr = mlx_init();
 	p.infos = &infos;
