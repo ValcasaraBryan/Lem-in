@@ -43,12 +43,22 @@ int			skip_line_fourmi(t_infos *infos)
 	if (infos->file->next && ft_str_is_digit(infos->file->line)
 			&& ft_atoi(infos->file->line) > 0)
 		infos->file = infos->file->next;
+	if (commantaire(infos) && skip_commentaire(infos, head))
+		return (0);
 	if (!(infos->file->next))
 	{
 		infos->file = head;
 		return (0);
 	}
 	return (1);
+}
+
+int			commantaire(t_infos *infos)
+{
+	if (infos->file->line && infos->file->line[0] == '#'
+		&& infos->file->line[1] != '#')
+		return (1);
+	return (0);
 }
 
 int			init_command(t_infos *infos, int commande)

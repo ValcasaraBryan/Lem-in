@@ -140,19 +140,27 @@ void ft_put_tab_path(t_infos *inf)
 
 int		ft_choose_paths(t_infos *infos)
 {
+	// ft_putendl("choose path");
 	int i;
 	// ft_put_tab_path(infos);
 
 	i = 0;
-	if (!infos->jpp++)
+	// ft_putnbr(infos->jpp);
+	if (infos->jpp++)
 		ft_free_tab_int(infos->t_p_c, infos->nb_path_max);
+	// printf("%d\n", infos->nb_path_max);
 	if (!(infos->t_p_c = (int**)ft_memalloc(sizeof(int*) * infos->nb_path_max)))
+	{
+		// ft_putendl("error0");
 		return (0);
+	}
 	// ft_putnbr(infos->t_p[0][0]);
 	while (i < ft_min_int(infos->nb_path_max, infos->t_p[0][0]))
 	{
+		// printf("%d----------%d\n", i + 1, infos->nb_path_max);
 		if (!(infos->t_p_c[i] = (int*)ft_memalloc(sizeof(int) * (i + 1))))
 		{
+			// ft_putendl("error");
 			ft_free_tab_int(infos->t_p_c, i);
 			return (-1);
 		}
@@ -160,10 +168,13 @@ int		ft_choose_paths(t_infos *infos)
 			infos->t_p_c[i][0] = 1;
 		else if (i > 0 && ft_choose_path_i(infos, infos->t_p_c[i], i + 1) < 0)
 		{
-//			ft_free_tab_int(infos->t_p_c, i);
+			// ft_putendl("error2");
+			infos->jpp = 0;
+			ft_free_tab_int(infos->t_p_c, i + 1);
 			return (i);
 		}
 		i++;
 	}
+		// printf("%d----------\n", i);
 	return (i);
 }

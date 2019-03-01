@@ -68,7 +68,7 @@ int		ft_add_graph_end(t_infos *inf, t_graph **fg, int *old_p, int room)
 	// ft_putendl("graphem=nd");
 	t_graph *new_p;
 
-	if (!(new_p = ft_memalloc(sizeof(t_graph))))
+	if (!(new_p = malloc(sizeof(t_graph))))
 		return (0);
 	new_p->path = ft_updated_path(inf, old_p, room);
 	new_p->current_r = room;
@@ -97,6 +97,7 @@ void	ft_graph_del_start(t_graph **fa)
 	*fa = tmp->next;
 	free(tmp);
 }
+
 void	ft_lstdel_all_graph(t_graph **fa)
 {
 	while (*fa)
@@ -191,7 +192,7 @@ int	ft_search_path(t_infos *inf, int start)
 							// ft_putendl("lane trotr1");
 							return(1);
 						}
-						// ft_putnbr(r);
+						// printf("%d---r\n", r);
 						// ft_putnbr(inf->nb_path_max);
 						r = ft_olalala(inf, start, r);
 						// ft_putnbr(inf->nb_path_max);
@@ -221,6 +222,7 @@ int	ft_search_path(t_infos *inf, int start)
 		// printf("lp vaut ; %d\n", lp);
 		// sleep(1);
 	}
-	// ft_putendl("fi");
+	printf("%d---r\n", r);
+	 ft_putendl("fi");
 	return(1);
 }

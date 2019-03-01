@@ -16,17 +16,19 @@ void	ft_free_tab_int(int **tab, int height)
 {
 	int i;
 
-	i = -1;
+	i = 0;
 	if(!tab)
 		return ;
-	while (tab && ++i < height)
-		free(tab[i]);
+	while (tab && i < height)
+		free(tab[i++]);
 	free(tab);
 }
 
 void	ft_free_all(t_infos *infos)
 {
+	ft_putendl("free all");
 	ft_lstdel_all(&infos->first_ant);
+	ft_lstdel_all_graph(&infos->l);
 //	ft_free_tab_int(infos->t_p_c, \
 //			ft_min_int(infos->nb_path_max, infos->t_p[0][0]));
 	ft_free_tab_int(infos->t_p_c, infos->nb_path_max);
