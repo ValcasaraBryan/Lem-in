@@ -189,13 +189,14 @@ t_ants 					*ft_lstdel_num_ant(t_ants **fa, int ant_to_del);
 */
 int			            check_commandes(t_infos *infos);
 int			            skip_line_fourmi(t_infos *infos);
+int						commantaire(t_infos *infos);
 int			            init_command(t_infos *infos, int commande);
 int			            norm_check_file(t_infos *infos, t_file *head, int returne);
 /*
 **          check_file.c
 */
 int			            retour_check_file(t_infos *infos, t_file *head, int retour);
-int			            skip_commentaire(t_infos *infos, t_file *head, int retour);
+int			            skip_commentaire(t_infos *infos, t_file *head);
 int			            init_check_order(t_infos *infos, int check_order);
 int			            step_check(t_infos *infos, t_file *head, int check_order, int commande);
 int			            check_file(t_infos *infos, int commande, int check_order);
