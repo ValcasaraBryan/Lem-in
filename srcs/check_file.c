@@ -67,7 +67,6 @@ int			check_file(t_infos *infos, int commande, int check_order)
 		return (0);
 	while (infos->file)
 	{
-		printf("%s\n", infos->file->line);
 		if (commantaire(infos) && skip_commentaire(infos, head))
 			return (1);
 		check_order = (ft_strcmp(infos->file->line, "##start") == 0
