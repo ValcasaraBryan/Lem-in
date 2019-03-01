@@ -76,7 +76,7 @@ int			check_file(t_infos *infos, int commande, int check_order)
 			infos->file = infos->file->next;
 		if (infos->file->line && infos->file->line[0] == '#'
 			&& infos->file->line[1] == '#' && commande == 0)
-				return (norm_check_file(infos, head, 0));
+			return (norm_check_file(infos, head, 0));
 		if (commantaire(infos) && skip_commentaire(infos, head))
 			return (0);
 		if (!(check_order = step_check(infos, head, check_order, commande)))
