@@ -90,8 +90,7 @@ $(NAME_BONUS) : $(OBJET_BONUS)
 
 
 exe_one : $(NAME)
-	./lem-in < resources/big
-	cat resources/error_4 | ./visu
+	./lem-in < resources/correct_1 | ./visu
 
 exe : $(NAME)
 ifeq ($(arg), correct)
@@ -112,6 +111,10 @@ ifeq ($(arg), correct)
 	./lem-in < resources/correct_8
 	@read $VAR
 	./lem-in < resources/correct_9
+	@read $VAR
+	./lem-in < resources/correct_10
+	@read $VAR
+	./lem-in < resources/correct_11
 	@read $VAR
 	./lem-in < resources/correct_gen_1
 	@read $VAR

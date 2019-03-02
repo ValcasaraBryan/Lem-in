@@ -784,6 +784,8 @@ int			check_file_bonus(t_infos *infos, int commande, int check_order)
 			return (norm_check_file(infos, head, 0));
 		if (commantaire(infos) && skip_commentaire(infos, head))
 			return (0);
+		if (infos->file->line && infos->file->line[0] == 'L')
+			return (norm_check_file(infos, head, 1));
 		if (!(check_order = step_check(infos, head, check_order, commande)))
 			return (0);
 		infos->file = infos->file->next;
@@ -803,18 +805,38 @@ int     main(int argc, char **argv)
 	infos = get_file_bonus();
 	if (!infos.file)
 	{
-		printf("no file\n");
+		perror("ERROR file");
+		erase_infos(&infos);
 		return (0);
 	}
-	// printf("-----------\n");
-	// while (infos.file)
-	// {
-		// printf("%s\n", infos.file->line);
-		// infos.file = infos.file->next;
-	// }
-	init_data(&infos);
-	printf("%d\n", check_file_bonus(&infos, 0, 0));
-	return (0);
+	if (!(init_data(&infos)))
+	{
+		perror("ERROR init");
+		erase_infos(&infos);
+		erase_data(&infos);
+		return (0);
+	}
+	if (!(check_file_bonus(&infos, 0, 0)))
+	{
+		perror("ERROR ");
+		erase_infos(&infos);
+		erase_data(&infos);
+		return (0);
+	}
+	if (!(check_commandes(&infos)))
+	{
+		perror("ERROR ");
+		erase_infos(&infos);
+		erase_data(&infos);
+		return (0);
+	}
+	if (!(logical_infos_box(&infos)))
+	{
+		perror("ERROR ");
+		erase_infos(&infos);
+		erase_data(&infos);
+		return (0);
+	}
 	p.mlx_ptr = mlx_init();
 	p.infos = &infos;
 	p.index_of_box = 0;
