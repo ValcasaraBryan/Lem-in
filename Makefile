@@ -90,90 +90,76 @@ $(NAME_BONUS) : $(OBJET_BONUS)
 
 
 exe_one : $(NAME)
+	./lem-in < resources/error_22
+	./visu <   resources/error_22
+	./lem-in < resources/error_22 | ./visu
+
+	./lem-in < resources/correct_11
+	./visu <   resources/correct_11
 	./lem-in < resources/correct_11 | ./visu
+
 
 exe : $(NAME)
 ifeq ($(arg), correct)
-	./lem-in < resources/correct_1
-	@read $VAR
-	./lem-in < resources/correct_2
-	@read $VAR
-	./lem-in < resources/correct_3
-	@read $VAR
-	./lem-in < resources/correct_4
-	@read $VAR
-	./lem-in < resources/correct_5
-	@read $VAR
-	./lem-in < resources/correct_6
-	@read $VAR
-	./lem-in < resources/correct_7
-	@read $VAR
-	./lem-in < resources/correct_8
-	@read $VAR
-	./lem-in < resources/correct_9
-	@read $VAR
-	./lem-in < resources/correct_10
-	@read $VAR
-	./lem-in < resources/correct_11
-	@read $VAR
-	./lem-in < resources/correct_gen_1
-	@read $VAR
-	./lem-in < resources/correct_gen_2
-	@read $VAR
-	./lem-in < resources/map_git
-	@read $VAR
-	./lem-in < resources/map_git1
-	@read $VAR
-	./lem-in < resources/map_git3
-	@read $VAR
-	./lem-in < resources/map_offi
-	@read $VAR
-	./lem-in < resources/map_offi_custom
-	@read $VAR
-	./lem-in < resources/map_offi_no_way
-	@read $VAR
-	./lem-in < resources/map_offi_pipe_error
-	@read $VAR
-	./lem-in < resources/maptest
-	@read $VAR
-	./lem-in < resources/norooms
+	./lem-in < resources/correct_1 | ./visu
+	./lem-in < resources/correct_2 | ./visu
+	./lem-in < resources/correct_3 | ./visu
+	./lem-in < resources/correct_4 | ./visu
+	./lem-in < resources/correct_5 | ./visu
+	./lem-in < resources/correct_6 | ./visu
+	./lem-in < resources/correct_7 | ./visu
+	./lem-in < resources/correct_8 | ./visu
+	./lem-in < resources/correct_9 | ./visu
+	./lem-in < resources/correct_10 | ./visu
+	./lem-in < resources/correct_11 | ./visu
+	./lem-in < resources/correct_gen_1 | ./visu
+	./lem-in < resources/correct_gen_2 | ./visu
+	./lem-in < resources/map_git | ./visu
+	./lem-in < resources/map_git1 | ./visu
+	./lem-in < resources/map_git3 | ./visu
+	./lem-in < resources/map_offi | ./visu
+	./lem-in < resources/map_offi_custom | ./visu
+	./lem-in < resources/map_offi_no_way | ./visu
+	./lem-in < resources/map_offi_pipe_error | ./visu
+	./lem-in < resources/maptest | ./visu
+	./lem-in < resources/norooms | ./visu
 else
 	./lem-in < srcs
 	./lem-in < lem-in
 	./lem-in < auteur
 	@read $VAR
-	./lem-in < resources/error_1
-	./lem-in < resources/error_2
-	./lem-in < resources/error_3
-	./lem-in < resources/error_4
-	./lem-in < resources/error_5
+	./lem-in < resources/error_1 | ./visu
+	./lem-in < resources/error_2 | ./visu
+	./lem-in < resources/error_3 | ./visu
+	./lem-in < resources/error_4 | ./visu
+	./lem-in < resources/error_5 | ./visu
 	@read $VAR
-	./lem-in < resources/error_6
-	./lem-in < resources/error_7
-	./lem-in < resources/error_8
-	./lem-in < resources/error_9
-	./lem-in < resources/error_10
+	./lem-in < resources/error_6 | ./visu
+	./lem-in < resources/error_7 | ./visu
+	./lem-in < resources/error_8 | ./visu
+	./lem-in < resources/error_9 | ./visu
+	./lem-in < resources/error_10 | ./visu
 	@read $VAR
-	./lem-in < resources/error_11
-	./lem-in < resources/error_12
-	./lem-in < resources/error_13
-	./lem-in < resources/error_14
-	./lem-in < resources/error_15
+	./lem-in < resources/error_11 | ./visu
+	./lem-in < resources/error_12 | ./visu
+	./lem-in < resources/error_13 | ./visu
+	./lem-in < resources/error_14 | ./visu
+	./lem-in < resources/error_15 | ./visu
 	@read $VAR
-	./lem-in < resources/error_16
-	./lem-in < resources/error_17
-	./lem-in < resources/error_18
-	./lem-in < resources/error_19
+	./lem-in < resources/error_16 | ./visu
+	./lem-in < resources/error_17 | ./visu
+	./lem-in < resources/error_18 | ./visu
+	./lem-in < resources/error_19 | ./visu
 	@read $VAR
-	./lem-in < resources/error_20
-	./lem-in < resources/error_21
-	./lem-in < resources/error_22
-	./lem-in < resources/error_23
+	./lem-in < resources/error_20 | ./visu
+	./lem-in < resources/error_21 | ./visu
+	./lem-in < resources/error_22 | ./visu
+	./lem-in < resources/error_23 | ./visu
 	@read $VAR
-	./lem-in < resources/error_24
-	./lem-in < resources/error_25
-	./lem-in < resources/error_26
-	./lem-in < resources/error_27
+	./lem-in < resources/error_24 | ./visu
+	./lem-in < resources/error_25 | ./visu
+	./lem-in < resources/error_26 | ./visu
+	./lem-in < resources/error_27 | ./visu
 endif
 
 exe_leak : $(NAME)

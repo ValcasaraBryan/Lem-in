@@ -719,18 +719,21 @@ int			ants_move(char **tab)
 int			parsing_ants(t_infos *infos, char **line)
 {
 	int		ret;
-	char	**tab;
 
+	if (!(get_next_line(0, line)))
+		return (0);
+	if (!(ants_move(ft_strsplit(*line, ' '))))
+		return (1);
+	if (!(infos->file = add_file(infos->file, *line)))
+		return (0);
 	while ((ret = get_next_line(0, line)) > 0)
 	{
-		if (!(tab = ft_strsplit(*line, ' ')) || !(ants_move(tab)))
-		{
-			free_tab_str(&tab);
+		if (!(ants_move(ft_strsplit(*line, ' '))))
 			return (0);
-		}
-		infos->file = add_file(infos->file, *line);
+		if (!(infos->file = add_file(infos->file, *line)))
+			return (0);
 	}
-	return ((ret == 0 || ret == -1) ? 0 : 1);
+	return ((ret == -1) ? 0 : 1);
 }
 
 t_infos		get_file_bonus(void)
@@ -758,7 +761,8 @@ t_infos		get_file_bonus(void)
 			infos.nb_of_fourmis = ft_atoi(line);
 			etapes++;
 		}
-		infos.file = add_file(infos.file, line);
+		if (!(infos.file = add_file(infos.file, line)))
+			return (infos);
 	}
 	return (infos);
 }
@@ -831,7 +835,9 @@ int     main(int argc, char **argv)
 	(void)argv;
 	infos = get_file_bonus();
 	if (!infos.file)
+	{
 		erase_infos(&infos);
+	}
 	if (!(init_data(&infos)))
 	{
 		erase_infos(&infos);
