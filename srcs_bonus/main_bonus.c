@@ -805,38 +805,39 @@ int     main(int argc, char **argv)
 	infos = get_file_bonus();
 	if (!infos.file)
 	{
-		perror("ERROR file");
 		erase_infos(&infos);
 		return (0);
 	}
 	if (!(init_data(&infos)))
 	{
-		perror("ERROR init");
 		erase_infos(&infos);
 		erase_data(&infos);
 		return (0);
 	}
 	if (!(check_file_bonus(&infos, 0, 0)))
 	{
-		perror("ERROR ");
 		erase_infos(&infos);
 		erase_data(&infos);
 		return (0);
 	}
 	if (!(check_commandes(&infos)))
 	{
-		perror("ERROR ");
 		erase_infos(&infos);
 		erase_data(&infos);
 		return (0);
 	}
 	if (!(logical_infos_box(&infos)))
 	{
-		perror("ERROR ");
 		erase_infos(&infos);
 		erase_data(&infos);
 		return (0);
 	}
+	if (!infos.file || !infos.data)
+	{
+		perror("Wrong Data ");
+		return (0);
+	}
+	ft_put_list(infos.file);
 	p.mlx_ptr = mlx_init();
 	p.infos = &infos;
 	p.index_of_box = 0;
@@ -857,6 +858,7 @@ int     main(int argc, char **argv)
 	init_tab_x_y(&p);
 	init_grille_x_y(&p);
 	p.mlx_win = mlx_new_window(p.mlx_ptr, p.longueur_win, p.largeur_win, "mlx 42");
+	key_hook(0, &p);
 	mlx_key_hook(p.mlx_win, key_hook, &p);
 	mlx_loop(p.mlx_ptr);
 	return (0);
