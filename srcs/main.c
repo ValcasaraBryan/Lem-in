@@ -56,6 +56,8 @@ int			main(int argc, char **argv)
 	if (!(ft_algo(&infos)))
 	{
 		perror("ERROR ");
+		erase_infos(&infos);
+		erase_data(&infos);
 		return (0);
 	}
 	erase_infos(&infos);
