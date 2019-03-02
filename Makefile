@@ -19,7 +19,7 @@ SRC =	srcs/main.c\
 		srcs/algo.c\
 		srcs/choose_path.c\
 		srcs/ft_search_path.c\
-		srcs/toto.c\
+		srcs/graph_utils.c\
 		srcs/frees_algo.c\
 		srcs/utils_algo.c\
 		srcs/check_commandes.c\
@@ -40,6 +40,7 @@ SRC_BONUS = srcs_bonus/main_bonus.c\
 		srcs/affichage.c\
 		srcs/algo.c\
 		srcs/choose_path.c\
+		srcs/graph_utils.c\
 		srcs/ft_search_path.c\
 		srcs/frees_algo.c\
 		srcs/utils_algo.c\
@@ -55,7 +56,6 @@ SRC_BONUS = srcs_bonus/main_bonus.c\
 		srcs/valeur_pipe.c\
 		srcs/resolution.c\
 		srcs/move_ants.c\
-		srcs/toto.c\
 		srcs/list_utils.c
 
 LIB = libft/libft.a
@@ -66,7 +66,7 @@ OBJET_BONUS = $(SRC_BONUS:.c=.o)
 
 INCLUDES = includes
 
-CFLAGS = -Wall -Wextra -Werror -g3 -O1 -I $(INCLUDES) #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -I $(INCLUDES) #-fsanitize=address
 
 CC = clang
 

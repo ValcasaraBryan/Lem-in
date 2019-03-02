@@ -1,4 +1,15 @@
- 
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_algo.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: glebouch <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/01 17:25:13 by glebouch          #+#    #+#             */
+/*   Updated: 2019/03/01 17:26:01 by glebouch         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <lem-in.h>
 
 int		ft_min_int(int a, int b)
@@ -9,17 +20,17 @@ int		ft_min_int(int a, int b)
 }
 
 /*
-void	ft_put_tab_int(int *tab)
-{
-	int i;
+   void	ft_put_tab_int(int *tab)
+   {
+   int i;
 
-	i = 0;
-	while (i < 8)
-	{
-		ft_putnbr_fd(tab[i], 2);
-		ft_putchar_fd(' ', 2);
-	}
-}*/
+   i = 0;
+   while (i < 8)
+   {
+   ft_putnbr_fd(tab[i], 2);
+   ft_putchar_fd(' ', 2);
+   }
+   }*/
 
 int		ft_init_tab_path(t_infos *infos)
 {

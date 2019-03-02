@@ -6,7 +6,7 @@
 /*   By: glebouch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/15 17:41:17 by glebouch          #+#    #+#             */
-/*   Updated: 2019/02/15 17:41:30 by glebouch         ###   ########.fr       */
+/*   Updated: 2019/03/01 17:31:58 by glebouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int		ft_create_ants(t_infos *i, int nb_ants_to_create)
 	while (++j < nb_ants_to_create)
 	{
 		if (!ft_lstadd_end(&i->first_ant, i->nb_of_fourmis - i->nb_f_left, \
-			i->t_p_c[nb_ants_to_create - 1][j], 0))
+					i->t_p_c[nb_ants_to_create - 1][j], 0))
 			return (0);
 		i->nb_f_left--;
 	}
@@ -110,7 +110,7 @@ int		ft_resolve2(t_infos *inf, t_r *res, int **tgt, int nb_gp)
 		if (inf->nb_f_left >= 0)
 		{
 			res->num_g = ft_find_group(inf, tgt, \
-				nb_gp, res->nb_turn_max);
+					nb_gp, res->nb_turn_max);
 			if (res->num_g < 0)
 				return (-1);
 			if (!ft_create_ants(inf, res->num_g + 1))
@@ -128,7 +128,7 @@ int		ft_resolve(t_infos *inf, int nb_gp)
 	t_r res;
 
 	res.nb_turn_max = ft_length_path(inf->t_p[1], inf->nb_of_box) \
-			- 2 + inf->nb_of_fourmis;
+					- 2 + inf->nb_of_fourmis;
 	i = -1;
 	inf->nb_f_left = inf->nb_of_fourmis - 1;
 	if (!(tgt = (int **)malloc(sizeof(int*) * nb_gp)))
@@ -139,7 +139,6 @@ int		ft_resolve(t_infos *inf, int nb_gp)
 			ft_free_tab_int(tgt, i);
 			return (0);
 		}
-//	ft_new_lst(&inf->first_ant);
 	if (ft_resolve2(inf, &res, tgt, nb_gp) < 0)
 		return (-1);
 	return (1);

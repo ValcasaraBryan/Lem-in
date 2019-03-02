@@ -6,7 +6,7 @@
 /*   By: glebouch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/15 17:39:42 by glebouch          #+#    #+#             */
-/*   Updated: 2019/02/15 17:40:01 by glebouch         ###   ########.fr       */
+/*   Updated: 2019/03/01 18:08:29 by glebouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,22 +65,24 @@ int		**ft_update_tab_path(t_infos *infos, int *tab)
 	return (tmp);
 }
 
-void ft_jppsamaman(t_infos *inf)
-{
-	int i = 0;
-	int j = -1;
+/*
+   void ft_jppsamaman(t_infos *inf)
+   {
+   int i = 0;
+   int j = -1;
 
-	while(++i < inf->t_p[0][0])
-	{
-		j = -1;
-		while (++j < inf->nb_of_box)
-		{
-			// ft_putnbr(inf->t_p[i][j]);
-			// ft_putchar(' ');
-		}
-		// ft_putchar('\n');
-	}
-}
+   while(++i < inf->t_p[0][0])
+   {
+   j = -1;
+   while (++j < inf->nb_of_box)
+   {
+   ft_putnbr(inf->t_p[i][j]);
+   ft_putchar(' ');
+   }
+   ft_putchar('\n');
+   }
+   }
+   */
 
 int		ft_algo_2(t_infos *infos)
 {
@@ -97,12 +99,13 @@ int		ft_algo_2(t_infos *infos)
 		ft_free_tab_int(infos->t_p, infos->t_p[0][0] + 1);
 		return (0);
 	}
-	ft_jppsamaman(infos);
+	//	ft_jppsamaman(infos);
 	if (ft_resolve(infos, nbr_group_path) <= 0)
 	{
 		ft_free_all(infos);
 		return (0);
 	}
+	// printf("%p\n", infos->t_p_c);
 	ft_free_all(infos);
 	return (1);
 }
@@ -111,6 +114,7 @@ int		ft_algo(t_infos *infos)
 {
 	int i;
 
+	ft_putendl("toto");
 	i = -1;
 	if (!(ft_init_tab_path(infos)))
 		return (0);
@@ -121,10 +125,10 @@ int		ft_algo(t_infos *infos)
 			if (infos->nb_path_max == -1)
 				infos->nb_path_max = infos->data[i].nb_of_link;
 			else
-				infos->nb_path_max = \
-			ft_min_int(infos->nb_path_max, infos->data[i].nb_of_link);
+				infos->nb_path_max = ft_min_int(infos->nb_path_max,\
+						infos->data[i].nb_of_link);
 		}
- 	}
+	}
 	if (!(ft_algo_2(infos)))
 		return (0);
 	return (1);
