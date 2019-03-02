@@ -703,32 +703,48 @@ int			ants_move(char **tab)
 	while (tab[++i])
 	{
 		if (tab[i][0] != 'L')
+		{
+			free_tab_str(&tab);
 			return (0);
+		}
 		if (!(tmp = ft_strsplit(tab[i], '-')))
+		{
+			free_tab_str(&tab);
 			return (0);
+		}
 		if (!tmp[0] || !tmp[1] || tmp[2])
 		{
+			free_tab_str(&tab);
 			free_tab_str(&tmp);
 			return (0);
 		}
+		free_tab_str(&tmp);
 	}
-	free_tab_str(&tmp);
+	free_tab_str(&tab);
 	return (i);
+}
+
+int			norm_free_tab(char ***tab, int	retourn)
+{
+	free_tab_str(tab);
+	return (retourn);
 }
 
 int			parsing_ants(t_infos *infos, char **line)
 {
 	int		ret;
 
+	if (*line)
+		free_line(line);
 	if (!(get_next_line(0, line)))
 		return (0);
-	if (!(ants_move(ft_strsplit(*line, ' '))))
+	if (!(ants_move((ft_strsplit(*line, ' ')))))
 		return (1);
 	if (!(infos->file = add_file(infos->file, *line)))
 		return (0);
 	while ((ret = get_next_line(0, line)) > 0)
 	{
-		if (!(ants_move(ft_strsplit(*line, ' '))))
+		if (!(ants_move((ft_strsplit(*line, ' ')))))
 			return (0);
 		if (!(infos->file = add_file(infos->file, *line)))
 			return (0);
@@ -753,7 +769,6 @@ t_infos		get_file_bonus(void)
 			{
 				free_line(&line);
 				get_next_line(0, NULL);
-				erase_infos(&infos);
 				break ;
 			}
 		if (etapes == 0)
@@ -827,17 +842,15 @@ data_t		init_p(t_infos *infos, t_ligne *trait)
 
 int     main(int argc, char **argv)
 {
-	data_t	p;
 	t_infos	infos;
+	data_t	p;
 	t_ligne	trait;
 
 	(void)argc;
 	(void)argv;
 	infos = get_file_bonus();
 	if (!infos.file)
-	{
 		erase_infos(&infos);
-	}
 	if (!(init_data(&infos)))
 	{
 		erase_infos(&infos);
@@ -863,10 +876,11 @@ int     main(int argc, char **argv)
 		perror("Wrong Data ");
 		return (0);
 	}
-	ft_put_list(infos.file);
 	p = init_p(&infos, &trait);
 	key_hook(0, &p);
 	mlx_key_hook(p.mlx_win, key_hook, &p);
 	mlx_loop(p.mlx_ptr);
+	erase_infos(&infos);
+	erase_data(&infos);
 	return (0);
 }

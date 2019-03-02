@@ -90,13 +90,23 @@ $(NAME_BONUS) : $(OBJET_BONUS)
 
 
 exe_one : $(NAME)
-	./lem-in < resources/error_22
-	./visu <   resources/error_22
+	valgrind --leak-check=full --show-leak-kinds=definite ./lem-in < resources/error_22
+	@read $VAR
+	./visu < resources/error_22
+	@read $VAR
 	./lem-in < resources/error_22 | ./visu
+	@read $VAR
+	# ./lem-in < resources/error_22 | valgrind --leak-check=full --show-leak-kinds=definite ./visu
+	# @read $VAR
+	
 
-	./lem-in < resources/correct_11
-	./visu <   resources/correct_11
+	valgrind --leak-check=full --show-leak-kinds=definite ./lem-in < resources/correct_11
+	@read $VAR
+	./visu < resources/correct_11
+	@read $VAR
 	./lem-in < resources/correct_11 | ./visu
+	# @read $VAR
+	# ./lem-in < resources/correct_11 | valgrind --leak-check=full --show-leak-kinds=definite ./visu
 
 
 exe : $(NAME)
