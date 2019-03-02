@@ -730,7 +730,7 @@ int			parsing_ants(t_infos *infos, char **line)
 		}
 		infos->file = add_file(infos->file, *line);
 	}
-	return (1);
+	return ((ret == 0 || ret == -1) ? 0 : 1);
 }
 
 t_infos		get_file_bonus(void)
@@ -794,6 +794,33 @@ int			check_file_bonus(t_infos *infos, int commande, int check_order)
 }
 
 
+data_t		init_p(t_infos *infos, t_ligne *trait)
+{
+	data_t	p;
+
+	p.mlx_ptr = mlx_init();
+	p.infos = infos;
+	p.index_of_box = 0;
+	p.color = 5000000;
+	p.color_start = 120 * 256 * 256;
+	p.color_end = 60 * 120 * 120;
+	p.color_box_used = 60 * 70 * 60;
+	p.trait = trait;
+	p.trait->n_piece = 0;
+	p.nb_of_box = infos->nb_of_box;
+	p.maximum_x = val_max_coor(infos->data, 'x');
+	p.maximum_y = val_max_coor(infos->data, 'y');
+	p.maximum_x = (!(p.maximum_x % p.maximum_x)) ? p.maximum_x : p.maximum_x - 1;
+	p.maximum_y = (!(p.maximum_y % p.maximum_y)) ? p.maximum_y : p.maximum_y - 1;
+	p.medium = (p.maximum_x > p.maximum_y) ? p.maximum_x + 2: p.maximum_y + 2;
+	p.longueur_win = ((p.medium - 2) >= 25) ? 1000 : 500;
+	p.largeur_win = ((p.medium - 2) >= 25) ? 1000 : 500;
+	init_tab_x_y(&p);
+	init_grille_x_y(&p);
+	p.mlx_win = mlx_new_window(p.mlx_ptr, p.longueur_win, p.largeur_win, "mlx 42");
+	return (p);
+}
+
 int     main(int argc, char **argv)
 {
 	data_t	p;
@@ -804,33 +831,26 @@ int     main(int argc, char **argv)
 	(void)argv;
 	infos = get_file_bonus();
 	if (!infos.file)
-	{
 		erase_infos(&infos);
-		return (0);
-	}
 	if (!(init_data(&infos)))
 	{
 		erase_infos(&infos);
 		erase_data(&infos);
-		return (0);
 	}
 	if (!(check_file_bonus(&infos, 0, 0)))
 	{
 		erase_infos(&infos);
 		erase_data(&infos);
-		return (0);
 	}
 	if (!(check_commandes(&infos)))
 	{
 		erase_infos(&infos);
 		erase_data(&infos);
-		return (0);
 	}
 	if (!(logical_infos_box(&infos)))
 	{
 		erase_infos(&infos);
 		erase_data(&infos);
-		return (0);
 	}
 	if (!infos.file || !infos.data)
 	{
@@ -838,26 +858,7 @@ int     main(int argc, char **argv)
 		return (0);
 	}
 	ft_put_list(infos.file);
-	p.mlx_ptr = mlx_init();
-	p.infos = &infos;
-	p.index_of_box = 0;
-	p.color = 5000000;
-	p.color_start = 120 * 256 * 256;
-	p.color_end = 60 * 120 * 120;
-	p.color_box_used = 60 * 70 * 60;
-	p.trait = &trait;
-	p.trait->n_piece = 0;
-	p.nb_of_box = infos.nb_of_box;
-	p.maximum_x = val_max_coor(infos.data, 'x');
-	p.maximum_y = val_max_coor(infos.data, 'y');
-	p.maximum_x = (!(p.maximum_x % p.maximum_x)) ? p.maximum_x : p.maximum_x - 1;
-	p.maximum_y = (!(p.maximum_y % p.maximum_y)) ? p.maximum_y : p.maximum_y - 1;
-	p.medium = (p.maximum_x > p.maximum_y) ? p.maximum_x + 2: p.maximum_y + 2;
-	p.longueur_win = ((p.medium - 2) >= 25) ? 1000 : 500;
-	p.largeur_win = ((p.medium - 2) >= 25) ? 1000 : 500;
-	init_tab_x_y(&p);
-	init_grille_x_y(&p);
-	p.mlx_win = mlx_new_window(p.mlx_ptr, p.longueur_win, p.largeur_win, "mlx 42");
+	p = init_p(&infos, &trait);
 	key_hook(0, &p);
 	mlx_key_hook(p.mlx_win, key_hook, &p);
 	mlx_loop(p.mlx_ptr);
