@@ -25,7 +25,7 @@ int			nb_of_link(t_infos *infos, char *str)
 	{
 		if (!(tmp = ft_strsplit(head->line, '-')))
 			return (0);
-		if (!tmp[0] || !tmp[1])
+		if (!tmp[0] || !tmp[1] || (tmp[0] && *tmp[0] == 'L'))
 			free_tab_str(&tmp);
 		if (tmp && (ft_strcmp(str, tmp[0]) == 0 || ft_strcmp(str, tmp[1]) == 0))
 			i++;
