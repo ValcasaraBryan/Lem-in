@@ -25,6 +25,7 @@ void		ft_put_list(t_file *file)
 void		ft_put_data(t_infos *infos)
 {
 	int		i;
+	int		j;
 
 	i = 0;
 	if (infos)
@@ -38,7 +39,11 @@ void		ft_put_data(t_infos *infos)
 				ft_printf("nb_of_link = %d\n", infos->data[i].nb_of_link);
 				ft_printf("commands   = %d\n", infos->data[i].commands);
 				ft_printf("x          = %d\n", infos->data[i].coor_x);
-				ft_printf("y          = %d\n\n", infos->data[i].coor_y);
+				ft_printf("y          = %d\n", infos->data[i].coor_y);
+				j = -1;
+				while (++j < infos->data[i].nb_of_link)
+					ft_printf("pipe       = %s\n", infos->data[i].pipe[j]->name_box);
+				ft_printf("\n");
 				i++;
 			}
 			ft_printf("\n");

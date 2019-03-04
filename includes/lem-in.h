@@ -124,19 +124,19 @@ void                    ft_put_data(t_infos *infos);
 /*
 **          check_commandes.c
 */
-int                     check_commandes(t_infos *infos);
-int                     skip_line_fourmi(t_infos *infos);
-int                     commantaire(t_infos *infos);
-int                     init_command(t_infos *infos, int commande);
-int                     norm_check_file(t_infos *infos, t_file *head, int returne);
+int			            check_commandes(t_infos *infos);
+int			            skip_line_fourmi(t_infos *infos);
+int						commantaire(t_infos *infos);
+int			            init_command(t_infos *infos, int commande);
+int			            norm_check_file(t_infos *infos, t_file *head, int returne);
 /*
 **          check_file.c
 */
-int                     retour_check_file(t_infos *infos, t_file *head, int retour);
-int                     skip_commentaire(t_infos *infos, t_file *head);
-int                     init_check_order(t_infos *infos, int check_order);
-int                     step_check(t_infos *infos, t_file *head, int check_order, int commande);
-int                     check_file(t_infos *infos, int commande, int check_order);
+int			            retour_check_file(t_infos *infos, t_file *head, int retour);
+int			            skip_commentaire(t_infos *infos, t_file *head);
+int			            init_check_order(t_infos *infos, int check_order);
+int			            step_check(t_infos *infos, t_file *head, int check_order, int commande);
+int			            check_file(t_infos *infos, int commande, int check_order);
 /*
 **          get_file.c
 */
@@ -169,15 +169,15 @@ int                     check_nb_char(char *str, int nb, char c);
 /*
 **          valeur_data.c
 */
-int                     nb_of_link(t_infos *infos, char *str);
 int                     malloc_pipe(t_infos *infos, int i, int len);
 int                     valeur_data(t_infos *infos, int commande);
+int						add_pipe(t_infos *infos, t_file *file);
 /*
 **          valeur_pipe.c
 */
 int                     norm_valeur_pipe(char ***tmp, int returne);
-int                     check_pipe_double(t_infos *infos, char ***tab);
-void                    add_link(t_infos *infos, int index_data, int index_pipe);
+int						ft_find_str_in_tab(t_infos *infos, char *str);
+int						add_link(t_infos *infos, int index_data, int index_pipe);
 int                     valeur_pipe(t_infos *infos);
 
 /*
