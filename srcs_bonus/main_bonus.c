@@ -1,6 +1,22 @@
 #include "lem-in.h"
 // #include "/usr/X11/include/mlx.h"
 #include <mlx.h>
+
+typedef struct		s_lem
+{
+	t_data			*data;
+	int				color_ants;
+	int				lem;
+	struct s_lem	*next;
+}					t_lem;
+
+typedef struct		s_graphe
+{
+	t_lem			*lem;
+	struct s_graphe	*next;
+	struct s_graphe	*prev;
+}					t_graphe;
+
 typedef struct		data_s
 {
 	int				index_of_box;
@@ -33,6 +49,7 @@ typedef struct		data_s
 	int				****mappage_pipe;
 	struct s_ligne	*trait;
 	t_infos			*infos;
+	t_graphe		*graphe;
 }					data_t;
 
 typedef struct		s_ligne
@@ -476,11 +493,12 @@ int			fct_mappage_pipe(data_t *p)
 	return (1);
 }
 
-int			fct_put_pixel(data_t *p)
+int			fct_put_pixel(data_t *p, t_graphe *graphe)
 {
 	int		i;
 	int		j;
 
+	(void)graphe;
 	while (p->infos->data[p->index_of_box].name_box)
 	{
 		p->centre_y = p->grille_y[p->infos->data[p->index_of_box].coor_y] - (p->largeur / 2); // centre du carre + sur une des grille de la fenetre
@@ -551,9 +569,110 @@ int				fct_main(data_t *p, t_ligne *trait)
 	fct_mappage_pipe(p);
 	init_struct_trait(p, trait);
 	chemin_point(p, trait);
-	fct_put_pixel(p);
+	fct_put_pixel(p, p->graphe);
 	p->index_of_box = 0;
 	return (1);
+}
+
+t_graphe		*new_graphe(t_lem *lem, t_graphe *prev)
+{
+	t_graphe	*tmp;
+
+	tmp = NULL;
+	if (!lem)
+		return (NULL);
+	if (!(tmp = malloc(sizeof(t_graphe))))
+		return (NULL);
+	tmp->lem = lem;
+	tmp->next = NULL;
+	tmp->prev = (prev) ? prev : NULL;
+	return (tmp);
+}
+
+t_graphe		*add_graphe(t_graphe *old, t_lem *lem)
+{
+	t_graphe	*tmp;
+
+	if (old)
+	{
+		tmp = old;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new_graphe(lem, tmp);
+		return (old);
+	}
+	else
+		return (new_graphe(lem, NULL));
+}
+
+t_lem		*new_lem(t_data *line, int nb)
+{
+	t_lem	*tmp;
+
+	tmp = NULL;
+	if (!line)
+		return (NULL);
+	if (!(tmp = malloc(sizeof(t_lem))))
+		return (NULL);
+	tmp->data = line;
+	tmp->lem = nb;
+	tmp->color_ants = 0;
+	tmp->next = NULL;
+	return (tmp);
+}
+
+t_lem		*add_lem(t_lem *lem, t_data *line, int nb)
+{
+	t_lem	*tmp;
+
+	if (lem)
+	{
+		tmp = lem;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new_lem(line, nb);
+		return (lem);
+	}
+	else
+		return (new_lem(line, nb));
+}
+
+t_graphe		*parsing_ants_file(t_file *file, t_infos *infos)
+{
+	t_graphe	*step;
+	t_lem		*lem;
+	char		**tab;
+	char		**box;
+	int		i;
+	int		j;
+
+	(void)infos;
+	step = NULL;
+	while (file)
+	{
+		if (file->line && file->line[0] == 'L')
+		{
+			if (!(tab = ft_strsplit(file->line, ' ')))
+				return (NULL);
+			i = 0;
+			lem = NULL;
+			while (tab[i])
+			{
+				if (!(box = ft_strsplit(tab[i++], '-')))
+					return (NULL);
+				if (!box[0] || !box[1])
+					return (NULL);
+					j = -1;
+				while (infos->data[++j].name_box)
+					if (ft_strcmp(infos->data[j].name_box, box[1]) == 0)
+						break ;
+				lem = add_lem(lem, &infos->data[j], ft_atoi(box[0] + 1));
+			}
+			step = add_graphe(step, lem);
+		}
+		file = file->next;
+	}
+	return (step);
 }
 
 int			key_hook(int keycode, data_t *p)
@@ -813,12 +932,13 @@ int			check_file_bonus(t_infos *infos, int commande, int check_order)
 }
 
 
-data_t		init_p(t_infos *infos, t_ligne *trait)
+data_t		init_p(t_infos *infos, t_ligne *trait, t_graphe *graphe)
 {
 	data_t	p;
 
 	p.mlx_ptr = mlx_init();
 	p.infos = infos;
+	p.graphe = graphe;
 	p.index_of_box = 0;
 	p.color = 5000000;
 	p.color_start = 120 * 256 * 256;
@@ -845,11 +965,31 @@ data_t		init_p(t_infos *infos, t_ligne *trait)
 	return (p);
 }
 
+void		ft_put_graphe(t_graphe *graphe)
+{
+	if (!graphe)
+		return ;
+	while (graphe)
+	{
+		while (graphe->lem)
+		{
+			printf("%d-%s", graphe->lem->lem , graphe->lem->data->name_box);
+			if (graphe->lem->next)
+				printf("-->");
+			else
+				printf("\n");
+			graphe->lem = graphe->lem->next;
+		}
+		graphe = graphe->next;
+	}
+}
+
 int     main(int argc, char **argv)
 {
 	t_infos	infos;
 	data_t	p;
 	t_ligne	trait;
+	t_graphe *graphe;
 
 	(void)argc;
 	(void)argv;
@@ -886,7 +1026,10 @@ int     main(int argc, char **argv)
 		perror("Wrong Data ");
 		return (0);
 	}
-	p = init_p(&infos, &trait);
+	graphe = parsing_ants_file(infos.file, &infos);
+	ft_put_graphe(graphe);
+	
+	p = init_p(&infos, &trait, graphe);
 	key_hook(0, &p);
 	mlx_key_hook(p.mlx_win, key_hook, &p);
 	mlx_loop(p.mlx_ptr);

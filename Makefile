@@ -90,7 +90,7 @@ $(NAME_BONUS) : $(OBJET_BONUS)
 
 
 exe_one : $(NAME)
-	./lem-in < resources/correct_gen_1 | ./visu
+	./lem-in < resources/correct_genc_2 | ./visu
 
 exe : $(NAME)
 ifeq ($(arg), correct)
