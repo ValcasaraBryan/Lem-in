@@ -172,12 +172,13 @@ int                     check_nb_char(char *str, int nb, char c);
 int                     nb_of_link(t_infos *infos, char *str);
 int                     malloc_pipe(t_infos *infos, int i, int len);
 int                     valeur_data(t_infos *infos, int commande);
+int						add_pipe(t_infos *infos, t_file *file);
 /*
 **          valeur_pipe.c
 */
 int                     norm_valeur_pipe(char ***tmp, int returne);
-int                     check_pipe_double(t_infos *infos, char ***tab);
-void                    add_link(t_infos *infos, int index_data, int index_pipe);
+int						ft_find_str_in_tab(t_infos *infos, char *str);
+int						add_link(t_infos *infos, int index_data, int index_pipe);
 int                     valeur_pipe(t_infos *infos);
 
 /*

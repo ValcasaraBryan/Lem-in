@@ -46,6 +46,13 @@ int			main(int argc, char **argv)
 		erase_data(&infos);
 		return (0);
 	}
+	if (!(add_pipe(&infos, infos.file)))
+	{
+		perror("ERROR ");
+		erase_infos(&infos);
+		erase_data(&infos);
+		return (0);	
+	}
 	if (!(logical_infos_box(&infos)))
 	{
 		perror("ERROR ");
@@ -56,6 +63,8 @@ int			main(int argc, char **argv)
 	if (!(ft_algo(&infos)))
 	{
 		perror("ERROR ");
+		erase_infos(&infos);
+		erase_data(&infos);
 		return (0);
 	}
 	erase_infos(&infos);

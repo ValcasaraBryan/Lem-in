@@ -114,9 +114,6 @@ int		ft_algo(t_infos *infos)
 {
 	int i;
 
-	ft_putendl("toto");
-	ft_putnbr(infos->nb_of_box);
-	ft_putendl("");
 	i = -1;
 	if (!(ft_init_tab_path(infos)))
 		return (0);
