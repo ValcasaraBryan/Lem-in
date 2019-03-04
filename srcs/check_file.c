@@ -61,10 +61,12 @@ int			step_check(t_infos *infos, t_file *head,
 int			check_file(t_infos *infos, int commande, int check_order)
 {
 	t_file	*head;
+	int	i;
 
 	head = infos->file;
 	if (!(skip_line_fourmi(infos)))
 		return (0);
+	i = 0;
 	while (infos->file)
 	{
 		if (commantaire(infos) && skip_commentaire(infos, head))

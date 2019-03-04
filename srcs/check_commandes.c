@@ -24,10 +24,14 @@ int			check_commandes(t_infos *infos)
 	res_2 = 0;
 	i = -1;
 	while (infos->data[++i].name_box)
+	{
+		if (!(malloc_pipe(infos, i, 0)))
+			return (0);
 		if (infos->data[i].commands == 1)
 			res++;
 		else if (infos->data[i].commands == 2)
 			res_2++;
+	}
 	if (res == 1 && res_2 == 1)
 		return (1);
 	return (0);

@@ -81,3 +81,29 @@ int			parsing_pipe_line(t_infos *infos, char ***tab)
 	free_tab_str(tab);
 	return (0);
 }
+
+int			add_pipe(t_infos *infos, t_file *file)
+{
+	int		index_data;
+	int		index_pipe;
+	char	**tab;
+
+	tab = NULL;
+	while (file)
+	{
+		if (check_nb_char(file->line, 1, '-'))
+		{
+			if (!(tab = ft_strsplit(file->line, '-')))
+				return (0);
+			if (!tab[0] || !tab[1])
+				return (0);
+			index_data = ft_find_str_in_tab(infos, tab[0]);
+			index_pipe = ft_find_str_in_tab(infos, tab[1]);
+			free_tab_str(&tab);
+			if (!(add_link(infos, index_data, index_pipe)))
+				return (0);
+		}
+		file = file->next;
+	}
+	return (1);
+}
