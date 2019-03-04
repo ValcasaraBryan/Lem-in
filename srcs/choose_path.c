@@ -148,7 +148,8 @@ int		ft_choose_paths(t_infos *infos)
 		{
 			infos->jpp = 0;
 			ft_free_tab_int(infos->t_p_c, i + 1);
-			return (i);
+			// ft_putendl("on freetamere");
+			return (i - 1);
 		}
 		i++;
 	}

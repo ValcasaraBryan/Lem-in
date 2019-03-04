@@ -76,7 +76,7 @@ arg = 0
 arg_2 = 0
 arg_3 = 0
 
-all : $(NAME) $(NAME_BONUS)
+all : $(NAME) # $(NAME_BONUS)
 
 $(OBJET): includes/lem-in.h
 

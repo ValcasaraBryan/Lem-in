@@ -115,6 +115,8 @@ int		ft_algo(t_infos *infos)
 	int i;
 
 	ft_putendl("toto");
+	ft_putnbr(infos->nb_of_box);
+	ft_putendl("");
 	i = -1;
 	if (!(ft_init_tab_path(infos)))
 		return (0);
@@ -129,6 +131,8 @@ int		ft_algo(t_infos *infos)
 						infos->data[i].nb_of_link);
 		}
 	}
+	// ft_putnbr(infos->nb_path_max);
+	// ft_putendl("");
 	if (!(ft_algo_2(infos)))
 		return (0);
 	return (1);

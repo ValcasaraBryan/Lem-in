@@ -53,16 +53,21 @@ int		ft_un_el_l_commence_par_tab_i(t_infos *inf, int tabi, int nbc)
 	t_graph	*tmp;
 	int		i;
 
+// printf("nbc = %d tabi = %d\n", nbc, tabi);
 	i = 0;
 	tmp = inf->l;
 	while (tmp)
 	{
+		// ft_putendl("toto");
 		if (tmp->path[1] == tabi)
 			return (1);
 		tmp = tmp->next;
 	}
-	while (i < nbc)
+		// ft_putendl("totu");
+	while (inf->t_p_c[nbc - 1][i] && i < nbc)
 	{
+		// ft_putendl("toti");
+//		printf("%d %d  %d\n", inf->t_p_c[1][0], inf->t_p_c[nbc - 1][i], inf->t_p[inf->t_p_c[nbc - 1][i]][1]);
 		if (inf->t_p[inf->t_p_c[nbc - 1][i]][1] == tabi)
 			return (1);
 		i++;
