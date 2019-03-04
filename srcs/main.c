@@ -53,8 +53,6 @@ int			main(int argc, char **argv)
 		erase_data(&infos);
 		return (0);
 	}
-	// ft_put_data(&infos);
-	// ft_put_list(infos.file);
 	if (!(ft_algo(&infos)))
 	{
 		perror("ERROR ");

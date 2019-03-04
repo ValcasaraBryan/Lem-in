@@ -12,6 +12,8 @@
 
 NAME = lem-in
 
+NAME_BONUS = visu
+
 SRC =	srcs/main.c\
 		srcs/affichage.c\
 		srcs/algo.c\
@@ -34,9 +36,33 @@ SRC =	srcs/main.c\
 		srcs/move_ants.c\
 		srcs/list_utils.c
 
+SRC_BONUS = srcs_bonus/main_bonus.c\
+		srcs/affichage.c\
+		srcs/algo.c\
+		srcs/choose_path.c\
+		srcs/ft_search_path.c\
+		srcs/frees_algo.c\
+		srcs/utils_algo.c\
+		srcs/check_commandes.c\
+		srcs/check_file.c\
+		srcs/get_file.c\
+		srcs/init_data.c\
+		srcs/liberation.c\
+		srcs/list_chain.c\
+		srcs/logical_infos_box.c\
+		srcs/parsing.c\
+		srcs/valeur_data.c\
+		srcs/valeur_pipe.c\
+		srcs/resolution.c\
+		srcs/move_ants.c\
+		srcs/toto.c\
+		srcs/list_utils.c
+
 LIB = libft/libft.a
 
 OBJET = $(SRC:.c=.o)
+
+OBJET_BONUS = $(SRC_BONUS:.c=.o)
 
 INCLUDES = includes
 
@@ -50,14 +76,22 @@ arg = 0
 arg_2 = 0
 arg_3 = 0
 
-all : 
-	make -j8 $(NAME)
+all : $(NAME) $(NAME_BONUS)
 
 $(OBJET): includes/lem-in.h
 
 $(NAME) : $(OBJET)
 	@make -C libft
 	@$(CC) $(CFLAGS) $(LIB) $(OBJET) -o $@
+
+$(NAME_BONUS) : $(OBJET_BONUS)
+	@make -C libft
+	@$(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS) -lmlx -framework OpenGL -framework AppKit -o $@
+
+
+exe_one : $(NAME)
+	./lem-in < resources/big
+	cat resources/error_4 | ./visu
 
 exe : $(NAME)
 ifeq ($(arg), correct)
@@ -215,11 +249,11 @@ map :
 	./resources/map_edit $(arg) $(arg_2) resources/$(arg_3)
 
 clean :
-	@rm -f $(OBJET)
+	@rm -f $(OBJET) $(OBJET_BONUS)
 	@make clean -C libft
 
 fclean : clean
-	@rm -f $(NAME)
+	@rm -f $(NAME) $(NAME_BONUS)
 	@make fclean -C libft
 
 re : fclean all
