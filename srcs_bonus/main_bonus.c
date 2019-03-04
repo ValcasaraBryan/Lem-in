@@ -57,8 +57,9 @@ int			init_grille_x_y(data_t *p)
 	int		res;
 
 	i = -1;
-	divi = p->longueur_win / p->medium;
-	divi = (!(divi % divi)) ? divi : divi - 1;
+
+	divi = (p->longueur_win - 2) / p->medium;
+	divi = (!(divi % divi)) ? divi : divi + (10 - divi);
 	while (++i < p->medium)
 	{
 		j = -1;
@@ -539,7 +540,6 @@ int				init_struct_trait(data_t *p, t_ligne *trait)
 
 int				fct_main(data_t *p, t_ligne *trait)
 {
-
 	p->color_carre_x = 100000000;
 	p->color_carre_y = 100000000;
 	p->color_interieur = 54461616;
@@ -832,8 +832,13 @@ data_t		init_p(t_infos *infos, t_ligne *trait)
 	p.maximum_x = (!(p.maximum_x % p.maximum_x)) ? p.maximum_x : p.maximum_x - 1;
 	p.maximum_y = (!(p.maximum_y % p.maximum_y)) ? p.maximum_y : p.maximum_y - 1;
 	p.medium = (p.maximum_x > p.maximum_y) ? p.maximum_x + 2: p.maximum_y + 2;
-	p.longueur_win = ((p.medium - 2) >= 25) ? 1000 : 500;
-	p.largeur_win = ((p.medium - 2) >= 25) ? 1000 : 500;
+	if (p.medium > 200)
+	{
+		perror("Coordinated Too High ");
+		exit (0);
+	}
+	p.longueur_win = ((p.medium - 2) >= 25) ? 1024 : 512;
+	p.largeur_win = ((p.medium - 2) >= 25) ? 1024 : 512;
 	init_tab_x_y(&p);
 	init_grille_x_y(&p);
 	p.mlx_win = mlx_new_window(p.mlx_ptr, p.longueur_win, p.largeur_win, "mlx 42");
@@ -862,6 +867,11 @@ int     main(int argc, char **argv)
 		erase_data(&infos);
 	}
 	if (!(check_commandes(&infos)))
+	{
+		erase_infos(&infos);
+		erase_data(&infos);
+	}
+	if (!(add_pipe(&infos, infos.file)))
 	{
 		erase_infos(&infos);
 		erase_data(&infos);

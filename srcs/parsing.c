@@ -93,6 +93,8 @@ int			add_pipe(t_infos *infos, t_file *file)
 	{
 		if (check_nb_char(file->line, 1, '-'))
 		{
+			if (file->line[0] == 'L')
+				return (1);
 			if (!(tab = ft_strsplit(file->line, '-')))
 				return (0);
 			if (!tab[0] || !tab[1])

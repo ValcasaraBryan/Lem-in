@@ -98,7 +98,10 @@ int		ft_choose_path_i(t_infos *inf, int *tpc_i, int n)
 			if (!(index_to_up = ft_compare_tab(inf, tpc_i, n)))
 				return (1);
 			else if (ft_up_index(inf, tpc_i, index_to_up, n) == -1)
+			{
+				printf("yooooooo\n");
 				return (-1);
+			}
 		}
 		if (nb_path_compatible != n && tpc_i[0] < inf->t_p[0][0] - (n - 1))
 			lpm = ft_length_path(inf->t_p[tpc_i[n - 1]], inf->nb_of_box);
@@ -147,8 +150,9 @@ int		ft_choose_paths(t_infos *infos)
 		else if (i > 0 && ft_choose_path_i(infos, infos->t_p_c[i], i + 1) < 0)
 		{
 			infos->jpp = 0;
+			printf("tab = %p\n", infos->t_p_c);
 			ft_free_tab_int(infos->t_p_c, i + 1);
-			return (i - 1);
+			return (0);
 		}
 		i++;
 	}

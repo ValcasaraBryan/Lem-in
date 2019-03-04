@@ -90,24 +90,7 @@ $(NAME_BONUS) : $(OBJET_BONUS)
 
 
 exe_one : $(NAME)
-	valgrind --leak-check=full --show-leak-kinds=definite ./lem-in < resources/error_22
-	@read $VAR
-	./visu < resources/error_22
-	@read $VAR
-	./lem-in < resources/error_22 | ./visu
-	@read $VAR
-	# ./lem-in < resources/error_22 | valgrind --leak-check=full --show-leak-kinds=definite ./visu
-	# @read $VAR
-	
-
-	valgrind --leak-check=full --show-leak-kinds=definite ./lem-in < resources/correct_11
-	@read $VAR
-	./visu < resources/correct_11
-	@read $VAR
-	./lem-in < resources/correct_11 | ./visu
-	# @read $VAR
-	# ./lem-in < resources/correct_11 | valgrind --leak-check=full --show-leak-kinds=definite ./visu
-
+	./lem-in < resources/correct_gen_1 | ./visu
 
 exe : $(NAME)
 ifeq ($(arg), correct)
@@ -121,18 +104,22 @@ ifeq ($(arg), correct)
 	./lem-in < resources/correct_8 | ./visu
 	./lem-in < resources/correct_9 | ./visu
 	./lem-in < resources/correct_10 | ./visu
+	./lem-in < resources/correctc_10 | ./visu
 	./lem-in < resources/correct_11 | ./visu
-	./lem-in < resources/correct_gen_1 | ./visu
-	./lem-in < resources/correct_gen_2 | ./visu
 	./lem-in < resources/map_git | ./visu
 	./lem-in < resources/map_git1 | ./visu
+	./lem-in < resources/map_git2 | ./visu
 	./lem-in < resources/map_git3 | ./visu
 	./lem-in < resources/map_offi | ./visu
 	./lem-in < resources/map_offi_custom | ./visu
-	./lem-in < resources/map_offi_no_way | ./visu
-	./lem-in < resources/map_offi_pipe_error | ./visu
 	./lem-in < resources/maptest | ./visu
-	./lem-in < resources/norooms | ./visu
+	./lem-in < resources/g | ./visu
+	./lem-in < resources/correct_genc_1 | ./visu
+	./lem-in < resources/correct_genc_2 | ./visu
+	./lem-in < resources/correct_genc_3 | ./visu
+	./lem-in < resources/big | ./visu
+	./lem-in < resources/correct_genc_4 | ./visu
+	./lem-in < resources/correct_genc_5 | ./visu
 else
 	./lem-in < srcs
 	./lem-in < lem-in
@@ -170,78 +157,124 @@ else
 	./lem-in < resources/error_25 | ./visu
 	./lem-in < resources/error_26 | ./visu
 	./lem-in < resources/error_27 | ./visu
+	@read $VAR
+	./lem-in < resources/correct_gen_1 | ./visu
+	./lem-in < resources/correct_gen_2 | ./visu
+	./lem-in < resources/correct_gen_3 | ./visu
+	./lem-in < resources/correct_gen_4 | ./visu
+	./lem-in < resources/map_offi_no_way | ./visu
+	./lem-in < resources/map_offi_pipe_error | ./visu
+	./lem-in < resources/norooms | ./visu
+	@read $VAR
+	./lem-in < resources/anil | ./visu
+	./lem-in < resources/map_correct_gen | ./visu
+
 endif
 
 exe_leak : $(NAME)
 ifeq ($(arg), correct)
 	$(leak) ./lem-in < resources/correct_1 | ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/correct_2 | ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/correct_3 | ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/correct_4 | ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/correct_5 | ./visu
+	# @read $VAR
+	$(leak) ./lem-in < resources/correct_6 | ./visu
+	# @read $VAR
+	$(leak) ./lem-in < resources/correct_7 | ./visu
+	# @read $VAR
+	$(leak) ./lem-in < resources/correct_8 | ./visu
+	# @read $VAR
+	$(leak) ./lem-in < resources/correct_9 | ./visu
+	# @read $VAR
+	$(leak) ./lem-in < resources/correct_10 | ./visu
+	# @read $VAR
+	$(leak) ./lem-in < resources/correct_11 | ./visu
+	# @read $VAR
+	$(leak) ./lem-in < resources/correct_gen_1 | ./visu
+	# @read $VAR
+	$(leak) ./lem-in < resources/correct_gen_2 | ./visu
+	# @read $VAR
+	$(leak) ./lem-in < resources/map_git | ./visu
+	# @read $VAR
+	$(leak) ./lem-in < resources/map_git1 | ./visu
+	# @read $VAR
+	$(leak) ./lem-in < resources/map_git3 | ./visu
+	# @read $VAR
+	$(leak) ./lem-in < resources/map_offi | ./visu
+	# @read $VAR
+	$(leak) ./lem-in < resources/map_offi_custom | ./visu
+	# @read $VAR
+	$(leak) ./lem-in < resources/map_offi_no_way | ./visu
+	# @read $VAR
+	$(leak) ./lem-in < resources/map_offi_pipe_error | ./visu
+	# @read $VAR
+	$(leak) ./lem-in < resources/maptest | ./visu
+	# @read $VAR
+	$(leak) ./lem-in < resources/norooms | ./visu
 else
 	$(leak) ./lem-in < srcs | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < lem-in | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < auteur | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/error_1 | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/error_2 | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/error_3 | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/error_4 | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/error_5 | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/error_6 | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/error_7 | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/error_8 | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/error_9 | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/error_10 | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/error_11 | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/error_12 | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/error_13 | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/error_14 | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/error_15 | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/error_16 | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/error_17 | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/error_18 | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/error_19 | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/error_20 | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/error_21 | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/error_22 | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/error_23 | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/error_24 | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/error_25 | ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/error_26 | $(leak) ./visu
-	@read $VAR
+	# @read $VAR
 	$(leak) ./lem-in < resources/error_27 | $(leak) ./visu
 endif
 map :

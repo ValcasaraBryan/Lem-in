@@ -55,16 +55,21 @@ int		ft_un_el_l_commence_par_tab_i(t_infos *inf, int tabi, int nbc)
 
 	i = 0;
 	tmp = inf->l;
+
 	while (tmp)
 	{
 		if (tmp->path[1] == tabi)
+		{
 			return (1);
+		}
 		tmp = tmp->next;
 	}
 	while (i < nbc)
 	{
 		if (inf->t_p[inf->t_p_c[nbc - 1][i]][1] == tabi)
+		{
 			return (1);
+		}
 		i++;
 	}
 	return (0);
@@ -101,6 +106,7 @@ int		ft_search_path2(t_infos *in, int i, int start)
 	int r;
 
 	r = 0;
+	
 	if (ft_check_precedents(in, in->l->path,
 		in->data[in->data[in->l->c_r].pipe[i]->n_piece].n_piece))
 	{
@@ -118,8 +124,10 @@ int		ft_search_path2(t_infos *in, int i, int start)
 				return ((r < 0) ? -1 : 0);
 		}
 		else
+		{
 			ft_add_graph_end(in, &in->l, in->l->path,
 				in->data[in->data[in->l->c_r].pipe[i]->n_piece].n_piece);
+		}
 	}
 	return (1);
 }
@@ -142,6 +150,7 @@ int		ft_search_path(t_infos *inf, int start)
 		{
 			i = -1;
 			while (++i < inf->data[inf->l->c_r].nb_of_link)
+			{
 				if (ft_check_precedents(inf, inf->l->path,
 					inf->data[inf->data[inf->l->c_r].pipe[i]->n_piece].n_piece))
 				{
@@ -149,6 +158,7 @@ int		ft_search_path(t_infos *inf, int start)
 					if (ret <= 0)
 						return ((ret < 0) ? 0 : 1);
 				}
+			}
 			ft_graph_del_start(&inf->l);
 			if (!inf->l)
 				return (1);

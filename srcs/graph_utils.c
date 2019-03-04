@@ -76,8 +76,10 @@ void	ft_graph_del_start(t_graph **fa)
 
 	tmp = *fa;
 	free(tmp->path);
+	tmp->path = NULL;
 	*fa = tmp->next;
 	free(tmp);
+	tmp = NULL;
 }
 
 void	ft_lstdel_all_graph(t_graph **fa)
