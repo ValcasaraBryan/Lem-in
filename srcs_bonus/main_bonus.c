@@ -1,6 +1,22 @@
 #include "lem-in.h"
 // #include "/usr/X11/include/mlx.h"
 #include <mlx.h>
+
+typedef struct		s_lem
+{
+	t_data			*data;
+	int				color_ants;
+	int				lem;
+	struct s_lem	*next;
+}					t_lem;
+
+typedef struct		s_graphe
+{
+	t_lem			*lem;
+	struct s_graphe	*next;
+	struct s_graphe	*prev;
+}					t_graphe;
+
 typedef struct		data_s
 {
 	int				index_of_box;
@@ -33,6 +49,7 @@ typedef struct		data_s
 	int				****mappage_pipe;
 	struct s_ligne	*trait;
 	t_infos			*infos;
+	t_graphe		*graphe;
 }					data_t;
 
 typedef struct		s_ligne
@@ -57,8 +74,9 @@ int			init_grille_x_y(data_t *p)
 	int		res;
 
 	i = -1;
-	divi = p->longueur_win / p->medium;
-	divi = (!(divi % divi)) ? divi : divi - 1;
+
+	divi = (p->longueur_win - 2) / p->medium;
+	divi = (!(divi % divi)) ? divi : divi + (10 - divi);
 	while (++i < p->medium)
 	{
 		j = -1;
@@ -475,11 +493,12 @@ int			fct_mappage_pipe(data_t *p)
 	return (1);
 }
 
-int			fct_put_pixel(data_t *p)
+int			fct_put_pixel(data_t *p, t_graphe *graphe)
 {
 	int		i;
 	int		j;
 
+	(void)graphe;
 	while (p->infos->data[p->index_of_box].name_box)
 	{
 		p->centre_y = p->grille_y[p->infos->data[p->index_of_box].coor_y] - (p->largeur / 2); // centre du carre + sur une des grille de la fenetre
@@ -539,7 +558,6 @@ int				init_struct_trait(data_t *p, t_ligne *trait)
 
 int				fct_main(data_t *p, t_ligne *trait)
 {
-
 	p->color_carre_x = 100000000;
 	p->color_carre_y = 100000000;
 	p->color_interieur = 54461616;
@@ -551,9 +569,110 @@ int				fct_main(data_t *p, t_ligne *trait)
 	fct_mappage_pipe(p);
 	init_struct_trait(p, trait);
 	chemin_point(p, trait);
-	fct_put_pixel(p);
+	fct_put_pixel(p, p->graphe);
 	p->index_of_box = 0;
 	return (1);
+}
+
+t_graphe		*new_graphe(t_lem *lem, t_graphe *prev)
+{
+	t_graphe	*tmp;
+
+	tmp = NULL;
+	if (!lem)
+		return (NULL);
+	if (!(tmp = malloc(sizeof(t_graphe))))
+		return (NULL);
+	tmp->lem = lem;
+	tmp->next = NULL;
+	tmp->prev = (prev) ? prev : NULL;
+	return (tmp);
+}
+
+t_graphe		*add_graphe(t_graphe *old, t_lem *lem)
+{
+	t_graphe	*tmp;
+
+	if (old)
+	{
+		tmp = old;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new_graphe(lem, tmp);
+		return (old);
+	}
+	else
+		return (new_graphe(lem, NULL));
+}
+
+t_lem		*new_lem(t_data *line, int nb)
+{
+	t_lem	*tmp;
+
+	tmp = NULL;
+	if (!line)
+		return (NULL);
+	if (!(tmp = malloc(sizeof(t_lem))))
+		return (NULL);
+	tmp->data = line;
+	tmp->lem = nb;
+	tmp->color_ants = 0;
+	tmp->next = NULL;
+	return (tmp);
+}
+
+t_lem		*add_lem(t_lem *lem, t_data *line, int nb)
+{
+	t_lem	*tmp;
+
+	if (lem)
+	{
+		tmp = lem;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new_lem(line, nb);
+		return (lem);
+	}
+	else
+		return (new_lem(line, nb));
+}
+
+t_graphe		*parsing_ants_file(t_file *file, t_infos *infos)
+{
+	t_graphe	*step;
+	t_lem		*lem;
+	char		**tab;
+	char		**box;
+	int		i;
+	int		j;
+
+	(void)infos;
+	step = NULL;
+	while (file)
+	{
+		if (file->line && file->line[0] == 'L')
+		{
+			if (!(tab = ft_strsplit(file->line, ' ')))
+				return (NULL);
+			i = 0;
+			lem = NULL;
+			while (tab[i])
+			{
+				if (!(box = ft_strsplit(tab[i++], '-')))
+					return (NULL);
+				if (!box[0] || !box[1])
+					return (NULL);
+					j = -1;
+				while (infos->data[++j].name_box)
+					if (ft_strcmp(infos->data[j].name_box, box[1]) == 0)
+						break ;
+				lem = add_lem(lem, &infos->data[j], ft_atoi(box[0] + 1));
+			}
+			step = add_graphe(step, lem);
+		}
+		file = file->next;
+	}
+	return (step);
 }
 
 int			key_hook(int keycode, data_t *p)
@@ -703,34 +822,53 @@ int			ants_move(char **tab)
 	while (tab[++i])
 	{
 		if (tab[i][0] != 'L')
+		{
+			free_tab_str(&tab);
 			return (0);
+		}
 		if (!(tmp = ft_strsplit(tab[i], '-')))
+		{
+			free_tab_str(&tab);
 			return (0);
+		}
 		if (!tmp[0] || !tmp[1] || tmp[2])
 		{
+			free_tab_str(&tab);
 			free_tab_str(&tmp);
 			return (0);
 		}
+		free_tab_str(&tmp);
 	}
-	free_tab_str(&tmp);
+	free_tab_str(&tab);
 	return (i);
+}
+
+int			norm_free_tab(char ***tab, int	retourn)
+{
+	free_tab_str(tab);
+	return (retourn);
 }
 
 int			parsing_ants(t_infos *infos, char **line)
 {
 	int		ret;
-	char	**tab;
 
+	if (*line)
+		free_line(line);
+	if (!(get_next_line(0, line)))
+		return (0);
+	if (!(ants_move((ft_strsplit(*line, ' ')))))
+		return (1);
+	if (!(infos->file = add_file(infos->file, *line)))
+		return (0);
 	while ((ret = get_next_line(0, line)) > 0)
 	{
-		if (!(tab = ft_strsplit(*line, ' ')) || !(ants_move(tab)))
-		{
-			free_tab_str(&tab);
+		if (!(ants_move((ft_strsplit(*line, ' ')))))
 			return (0);
-		}
-		infos->file = add_file(infos->file, *line);
+		if (!(infos->file = add_file(infos->file, *line)))
+			return (0);
 	}
-	return (1);
+	return ((ret == -1) ? 0 : 1);
 }
 
 t_infos		get_file_bonus(void)
@@ -750,7 +888,6 @@ t_infos		get_file_bonus(void)
 			{
 				free_line(&line);
 				get_next_line(0, NULL);
-				erase_infos(&infos);
 				break ;
 			}
 		if (etapes == 0)
@@ -758,7 +895,8 @@ t_infos		get_file_bonus(void)
 			infos.nb_of_fourmis = ft_atoi(line);
 			etapes++;
 		}
-		infos.file = add_file(infos.file, line);
+		if (!(infos.file = add_file(infos.file, line)))
+			return (infos);
 	}
 	return (infos);
 }
@@ -772,6 +910,8 @@ int			check_file_bonus(t_infos *infos, int commande, int check_order)
 		return (0);
 	while (infos->file)
 	{
+		if (commantaire(infos) && skip_commentaire(infos, head))
+			return (1);
 		check_order = (ft_strcmp(infos->file->line, "##start") == 0
 		|| ft_strcmp(infos->file->line, "##end") == 0) ? 0 : check_order;
 		commande = init_command(infos, commande);
@@ -780,10 +920,10 @@ int			check_file_bonus(t_infos *infos, int commande, int check_order)
 		if (infos->file->line && infos->file->line[0] == '#'
 			&& infos->file->line[1] == '#' && commande == 0)
 			return (norm_check_file(infos, head, 0));
-		if (infos->file->line && infos->file->line[0] == '#'
-			&& infos->file->line[1] != '#')
-			if (skip_commentaire(infos, head, 1))
-				return (1);
+		if (commantaire(infos) && skip_commentaire(infos, head))
+			return (0);
+		if (infos->file->line && infos->file->line[0] == 'L')
+			return (norm_check_file(infos, head, 1));
 		if (!(check_order = step_check(infos, head, check_order, commande)))
 			return (0);
 		infos->file = infos->file->next;
@@ -791,50 +931,109 @@ int			check_file_bonus(t_infos *infos, int commande, int check_order)
 	return (retour_check_file(infos, head, 1));
 }
 
-int     main(int argc, char **argv)
+
+data_t		init_p(t_infos *infos, t_ligne *trait, t_graphe *graphe)
 {
 	data_t	p;
-	t_infos	infos;
-	t_ligne	trait;
 
-	(void)argc;
-	(void)argv;
-	infos = get_file_bonus();
-	if (!infos.file)
-	{
-		printf("no file\n");
-		return (0);
-	}
-	// printf("-----------\n");
-	// while (infos.file)
-	// {
-		// printf("%s\n", infos.file->line);
-		// infos.file = infos.file->next;
-	// }
-	init_data(&infos);
-	printf("%d\n", check_file_bonus(&infos, 0, 0));
-	return (0);
 	p.mlx_ptr = mlx_init();
-	p.infos = &infos;
+	p.infos = infos;
+	p.graphe = graphe;
 	p.index_of_box = 0;
 	p.color = 5000000;
 	p.color_start = 120 * 256 * 256;
 	p.color_end = 60 * 120 * 120;
 	p.color_box_used = 60 * 70 * 60;
-	p.trait = &trait;
+	p.trait = trait;
 	p.trait->n_piece = 0;
-	p.nb_of_box = infos.nb_of_box;
-	p.maximum_x = val_max_coor(infos.data, 'x');
-	p.maximum_y = val_max_coor(infos.data, 'y');
+	p.nb_of_box = infos->nb_of_box;
+	p.maximum_x = val_max_coor(infos->data, 'x');
+	p.maximum_y = val_max_coor(infos->data, 'y');
 	p.maximum_x = (!(p.maximum_x % p.maximum_x)) ? p.maximum_x : p.maximum_x - 1;
 	p.maximum_y = (!(p.maximum_y % p.maximum_y)) ? p.maximum_y : p.maximum_y - 1;
 	p.medium = (p.maximum_x > p.maximum_y) ? p.maximum_x + 2: p.maximum_y + 2;
-	p.longueur_win = ((p.medium - 2) >= 25) ? 1000 : 500;
-	p.largeur_win = ((p.medium - 2) >= 25) ? 1000 : 500;
+	if (p.medium > 200)
+	{
+		perror("Coordinated Too High ");
+		exit (0);
+	}
+	p.longueur_win = ((p.medium - 2) >= 25) ? 1024 : 512;
+	p.largeur_win = ((p.medium - 2) >= 25) ? 1024 : 512;
 	init_tab_x_y(&p);
 	init_grille_x_y(&p);
 	p.mlx_win = mlx_new_window(p.mlx_ptr, p.longueur_win, p.largeur_win, "mlx 42");
+	return (p);
+}
+
+void		ft_put_graphe(t_graphe *graphe)
+{
+	if (!graphe)
+		return ;
+	while (graphe)
+	{
+		while (graphe->lem)
+		{
+			printf("%d-%s", graphe->lem->lem , graphe->lem->data->name_box);
+			if (graphe->lem->next)
+				printf("-->");
+			else
+				printf("\n");
+			graphe->lem = graphe->lem->next;
+		}
+		graphe = graphe->next;
+	}
+}
+
+int     main(int argc, char **argv)
+{
+	t_infos	infos;
+	data_t	p;
+	t_ligne	trait;
+	t_graphe *graphe;
+
+	(void)argc;
+	(void)argv;
+	infos = get_file_bonus();
+	if (!infos.file)
+		erase_infos(&infos);
+	if (!(init_data(&infos)))
+	{
+		erase_infos(&infos);
+		erase_data(&infos);
+	}
+	if (!(check_file_bonus(&infos, 0, 0)))
+	{
+		erase_infos(&infos);
+		erase_data(&infos);
+	}
+	if (!(check_commandes(&infos)))
+	{
+		erase_infos(&infos);
+		erase_data(&infos);
+	}
+	if (!(add_pipe(&infos, infos.file)))
+	{
+		erase_infos(&infos);
+		erase_data(&infos);
+	}
+	if (!(logical_infos_box(&infos)))
+	{
+		erase_infos(&infos);
+		erase_data(&infos);
+	}
+	if (!infos.file || !infos.data)
+	{
+		perror("Wrong Data ");
+		return (0);
+	}
+	graphe = parsing_ants_file(infos.file, &infos);
+	ft_put_graphe(graphe);
+	
+	p = init_p(&infos, &trait, graphe);
+	key_hook(0, &p);
 	mlx_key_hook(p.mlx_win, key_hook, &p);
 	mlx_loop(p.mlx_ptr);
+	erase_infos(&infos);
+	erase_data(&infos);
 	return (0);
 }

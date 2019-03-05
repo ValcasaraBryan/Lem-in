@@ -6,7 +6,7 @@
 /*   By: glebouch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/15 17:39:42 by glebouch          #+#    #+#             */
-/*   Updated: 2019/03/01 18:08:29 by glebouch         ###   ########.fr       */
+/*   Updated: 2019/03/05 15:16:28 by glebouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,13 +99,11 @@ int		ft_algo_2(t_infos *infos)
 		ft_free_tab_int(infos->t_p, infos->t_p[0][0] + 1);
 		return (0);
 	}
-	//	ft_jppsamaman(infos);
 	if (ft_resolve(infos, nbr_group_path) <= 0)
 	{
 		ft_free_all(infos);
 		return (0);
 	}
-	// printf("%p\n", infos->t_p_c);
 	ft_free_all(infos);
 	return (1);
 }

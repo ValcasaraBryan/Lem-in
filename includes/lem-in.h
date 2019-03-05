@@ -169,7 +169,6 @@ int                     check_nb_char(char *str, int nb, char c);
 /*
 **          valeur_data.c
 */
-int                     nb_of_link(t_infos *infos, char *str);
 int                     malloc_pipe(t_infos *infos, int i, int len);
 int                     valeur_data(t_infos *infos, int commande);
 int						add_pipe(t_infos *infos, t_file *file);
