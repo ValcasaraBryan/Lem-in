@@ -5,14 +5,15 @@
 typedef struct		s_lem
 {
 	t_data			*data;
-	int				color_ants;
 	int				lem;
 	struct s_lem	*next;
+	struct s_lem	*prev;
 }					t_lem;
 
 typedef struct		s_graphe
 {
 	t_lem			*lem;
+	int				color_ants;
 	struct s_graphe	*next;
 	struct s_graphe	*prev;
 }					t_graphe;
@@ -47,6 +48,7 @@ typedef struct		data_s
 	int				index_box_map;
 	int				index_box_map_link;
 	int				****mappage_pipe;
+	int				nb_graphe;
 	struct s_ligne	*trait;
 	t_infos			*infos;
 	t_graphe		*graphe;
@@ -493,6 +495,39 @@ int			fct_mappage_pipe(data_t *p)
 	return (1);
 }
 
+void		reset(t_graphe *graphe)
+{
+	while (graphe->prev)
+	{
+		while (graphe->lem->prev)
+		{
+			graphe->lem = graphe->lem->prev;
+		}
+		graphe = graphe->prev;
+	}
+}
+
+int				check_box(data_t *p)
+{
+	t_graphe	*tmp;
+	int			i;
+
+	i = -1;
+	tmp = p->graphe;
+	while (tmp->next && ++i <= p->nb_graphe)
+	{
+		while (tmp->lem->next)
+		{
+			if (tmp->lem->data->n_piece == p->infos->data[p->index_of_box].n_piece)
+				return (1);
+			printf("%d\n", p->graphe->lem->lem);
+			tmp->lem = tmp->lem->next;
+		}
+		tmp = tmp->next;
+	}
+	return (0);
+}
+// savoir quand sur un coup et qu'il y a une salle
 int			fct_put_pixel(data_t *p, t_graphe *graphe)
 {
 	int		i;
@@ -514,9 +549,9 @@ int			fct_put_pixel(data_t *p, t_graphe *graphe)
 				{
 					if (p->infos->data[p->index_of_box].commands == 1 || p->infos->data[p->index_of_box].commands == 2)
 						mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, (p->infos->data[p->index_of_box].commands == 1) ? p->color_start : p->color_end);
-					// else if (used)
-					//		mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, p->color_box_used);
-					else // if (not used)
+					// else if (check_box(p))
+						// mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, p->graphe->color_ants);
+					else
 						mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, p->color_interieur);
 				}
 				if (i == p->centre_x || i == p->centre_x + p->longueur - 1)
@@ -574,7 +609,7 @@ int				fct_main(data_t *p, t_ligne *trait)
 	return (1);
 }
 
-t_graphe		*new_graphe(t_lem *lem, t_graphe *prev)
+t_graphe		*new_graphe(t_lem *lem, t_graphe *prev, int color)
 {
 	t_graphe	*tmp;
 
@@ -584,12 +619,13 @@ t_graphe		*new_graphe(t_lem *lem, t_graphe *prev)
 	if (!(tmp = malloc(sizeof(t_graphe))))
 		return (NULL);
 	tmp->lem = lem;
+	tmp->color_ants = color;
 	tmp->next = NULL;
-	tmp->prev = (prev) ? prev : NULL;
+	tmp->prev = prev;
 	return (tmp);
 }
 
-t_graphe		*add_graphe(t_graphe *old, t_lem *lem)
+t_graphe		*add_graphe(t_graphe *old, t_lem *lem, int color)
 {
 	t_graphe	*tmp;
 
@@ -598,14 +634,14 @@ t_graphe		*add_graphe(t_graphe *old, t_lem *lem)
 		tmp = old;
 		while (tmp->next)
 			tmp = tmp->next;
-		tmp->next = new_graphe(lem, tmp);
+		tmp->next = new_graphe(lem, tmp, color);
 		return (old);
 	}
 	else
-		return (new_graphe(lem, NULL));
+		return (new_graphe(lem, NULL, color));
 }
 
-t_lem		*new_lem(t_data *line, int nb)
+t_lem		*new_lem(t_data *line, int nb, t_lem *prev)
 {
 	t_lem	*tmp;
 
@@ -616,8 +652,8 @@ t_lem		*new_lem(t_data *line, int nb)
 		return (NULL);
 	tmp->data = line;
 	tmp->lem = nb;
-	tmp->color_ants = 0;
 	tmp->next = NULL;
+	tmp->prev = prev;
 	return (tmp);
 }
 
@@ -630,11 +666,49 @@ t_lem		*add_lem(t_lem *lem, t_data *line, int nb)
 		tmp = lem;
 		while (tmp->next)
 			tmp = tmp->next;
-		tmp->next = new_lem(line, nb);
+		tmp->next = new_lem(line, nb, tmp);
 		return (lem);
 	}
 	else
-		return (new_lem(line, nb));
+		return (new_lem(line, nb, NULL));
+}
+
+void		ft_put_graphe(t_graphe *graphe)
+{
+	int		i;
+
+	if (!graphe)
+		return ;
+	i = -1;
+	// printf("%15p\n", graphe);
+	while (graphe)
+	{
+		// printf("%-15p<--%15p -->%15p = ", graphe->prev, graphe, graphe->next);
+		while (graphe->lem)
+		{
+			// printf("%5p<--%15p -->%-5p", graphe->lem->prev, graphe->lem, graphe->lem->next);
+			printf("%d-%s", graphe->lem->lem , graphe->lem->data->name_box);
+			if (graphe->lem->next)
+			{
+				printf("   ");
+			}
+			else
+			{
+				printf("\n");
+			}
+			if (!graphe->lem->next)
+				break ;
+			graphe->lem = graphe->lem->next;
+		}
+		while (graphe->lem->prev)
+			graphe->lem = graphe->lem->prev;
+		if (!graphe->next)
+			break ;
+		graphe = graphe->next;
+	}
+	while (graphe->prev)
+		graphe = graphe->prev;
+	// printf("\n%15p\n", graphe);
 }
 
 t_graphe		*parsing_ants_file(t_file *file, t_infos *infos)
@@ -643,11 +717,13 @@ t_graphe		*parsing_ants_file(t_file *file, t_infos *infos)
 	t_lem		*lem;
 	char		**tab;
 	char		**box;
+	int			color;
 	int		i;
 	int		j;
 
 	(void)infos;
 	step = NULL;
+	color = 15 * 15 * 15;
 	while (file)
 	{
 		if (file->line && file->line[0] == 'L')
@@ -668,7 +744,8 @@ t_graphe		*parsing_ants_file(t_file *file, t_infos *infos)
 						break ;
 				lem = add_lem(lem, &infos->data[j], ft_atoi(box[0] + 1));
 			}
-			step = add_graphe(step, lem);
+			step = add_graphe(step, lem, color);
+			color += (1 * 2 * 3);
 		}
 		file = file->next;
 	}
@@ -723,6 +800,31 @@ int			key_hook(int keycode, data_t *p)
 	{
 		p->color /= 10;
 		printf("/ %d\n", p->color);
+	}
+	else if (keycode == 45)
+	{
+		p->nb_graphe++;
+		// printf("========%p<--%p-->%p", p->graphe->prev, p->graphe, p->graphe->next);
+		printf("    [%d]\n", p->nb_graphe);
+		// touch (n);
+		// printf("trait.n_piece = %d\n", p->trait->n_piece); 
+	}
+	else if (keycode == 11)
+	{
+		p->nb_graphe = (p->nb_graphe > 0) ? p->nb_graphe - 1: p->nb_graphe;
+		// printf("========%p<--%p-->%p", p->graphe->prev, p->graphe, p->graphe->next);
+		printf("    [%d]\n", p->nb_graphe);
+		// touch (n);
+		// printf("trait.n_piece = %d\n", p->trait->n_piece); 
+	}
+	else if (keycode == 49)
+	{
+		p->nb_graphe = 0;
+		while (p->graphe->prev)
+			p->graphe = p->graphe->prev;
+		printf("    [%d]\n", p->nb_graphe);
+		// touch (n);
+		// printf("trait.n_piece = %d\n", p->trait->n_piece); 
 	}
 	else if (keycode == 18)
 	{
@@ -789,6 +891,7 @@ int			key_hook(int keycode, data_t *p)
 	else
 		printf("%d\n", keycode);
 	fct_main(p, p->trait);
+	ft_put_graphe(p->graphe);
 	return (0);
 }
 
@@ -940,6 +1043,7 @@ data_t		init_p(t_infos *infos, t_ligne *trait, t_graphe *graphe)
 	p.infos = infos;
 	p.graphe = graphe;
 	p.index_of_box = 0;
+	p.nb_graphe = 0;
 	p.color = 5000000;
 	p.color_start = 120 * 256 * 256;
 	p.color_end = 60 * 120 * 120;
@@ -963,25 +1067,6 @@ data_t		init_p(t_infos *infos, t_ligne *trait, t_graphe *graphe)
 	init_grille_x_y(&p);
 	p.mlx_win = mlx_new_window(p.mlx_ptr, p.longueur_win, p.largeur_win, "mlx 42");
 	return (p);
-}
-
-void		ft_put_graphe(t_graphe *graphe)
-{
-	if (!graphe)
-		return ;
-	while (graphe)
-	{
-		while (graphe->lem)
-		{
-			printf("%d-%s", graphe->lem->lem , graphe->lem->data->name_box);
-			if (graphe->lem->next)
-				printf("-->");
-			else
-				printf("\n");
-			graphe->lem = graphe->lem->next;
-		}
-		graphe = graphe->next;
-	}
 }
 
 int     main(int argc, char **argv)
@@ -1027,7 +1112,6 @@ int     main(int argc, char **argv)
 		return (0);
 	}
 	graphe = parsing_ants_file(infos.file, &infos);
-	ft_put_graphe(graphe);
 	
 	p = init_p(&infos, &trait, graphe);
 	key_hook(0, &p);
