@@ -54,8 +54,8 @@ int		ft_up_index(t_infos *infos, int *t_p_c, int index_to_up, int n)
 	int i;
 
 	i = 1;
-	while (index_to_up >= 0 &&
-			t_p_c[index_to_up] == infos->t_p[0][0] - n + index_to_up)
+	while (index_to_up >= 0
+		&& t_p_c[index_to_up] == infos->t_p[0][0] - n + index_to_up)
 		index_to_up--;
 	if (index_to_up < 0)
 		return (-1);
@@ -92,42 +92,19 @@ int		ft_choose_path_i(t_infos *inf, int *tpc_i, int n)
 		k = -1;
 		while (++k < n && k < inf->t_p[0][0])
 			tpc_i[k] = k + 1;
-		while (nb_path_compatible < n && \
-				ft_length_path(inf->t_p[tpc_i[n - 1]], inf->nb_of_box) <= lpm)
+		while (nb_path_compatible < n
+			&& ft_length_path(inf->t_p[tpc_i[n - 1]], inf->nb_of_box) <= lpm)
 		{
 			if (!(index_to_up = ft_compare_tab(inf, tpc_i, n)))
 				return (1);
 			else if (ft_up_index(inf, tpc_i, index_to_up, n) == -1)
-			{
-				// printf("yooooooo\n");
 				return (-1);
-			}
 		}
 		if (nb_path_compatible != n && tpc_i[0] < inf->t_p[0][0] - (n - 1))
 			lpm = ft_length_path(inf->t_p[tpc_i[n - 1]], inf->nb_of_box);
 	}
 	return (0);
 }
-
-/*
-   void ft_put_tab_path(t_infos *inf)
-   {
-   int i = 0;
-   int j = 0;
-
-   while (++i < inf->t_p[0][0])
-   {
-   j = 0;
-   while(j < inf->nb_of_box && inf->t_p[i][j] != -1)
-   {
-   ft_putnbr(inf->t_p[i][j]);
-   ft_putchar(' ');
-   j++;
-   }
-   ft_putendl("");
-   }
-   }
-   */
 
 int		ft_choose_paths(t_infos *infos)
 {

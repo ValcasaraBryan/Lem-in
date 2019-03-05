@@ -6,7 +6,7 @@
 #    By: brvalcas <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/30 23:28:47 by brvalcas          #+#    #+#              #
-#    Updated: 2018/11/30 23:28:47 by brvalcas         ###   ########.fr        #
+#    Updated: 2019/03/05 15:18:26 by glebouch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRC =	srcs/main.c\
 		srcs/algo.c\
 		srcs/choose_path.c\
 		srcs/ft_search_path.c\
+		srcs/ft_check_precedents.c\
 		srcs/graph_utils.c\
 		srcs/frees_algo.c\
 		srcs/utils_algo.c\
@@ -42,6 +43,7 @@ SRC_BONUS = srcs_bonus/main_bonus.c\
 		srcs/choose_path.c\
 		srcs/graph_utils.c\
 		srcs/ft_search_path.c\
+		srcs/ft_check_precedents.c\
 		srcs/frees_algo.c\
 		srcs/utils_algo.c\
 		srcs/check_commandes.c\
@@ -76,7 +78,7 @@ arg = 0
 arg_2 = 0
 arg_3 = 0
 
-all : $(NAME) # $(NAME_BONUS)
+all : $(NAME) $(NAME_BONUS)
 
 $(OBJET): includes/lem-in.h
 
@@ -90,7 +92,7 @@ $(NAME_BONUS) : $(OBJET_BONUS)
 
 
 exe_one : $(NAME)
-	./lem-in < resources/correct_genc_2 | ./visu
+	./lem-in < resources/correct_gen_2
 
 exe : $(NAME)
 ifeq ($(arg), correct)

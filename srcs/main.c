@@ -51,7 +51,7 @@ int			main(int argc, char **argv)
 		perror("ERROR ");
 		erase_infos(&infos);
 		erase_data(&infos);
-		return (0);	
+		return (0);
 	}
 	if (!(logical_infos_box(&infos)))
 	{

@@ -52,13 +52,24 @@ typedef struct          s_s
 }                       t_s;
 
 /*
+**          utile dans ft_search_path.c
+*/
+
+typedef struct  s_q
+{
+	int     	ret;
+	int     	lp;
+	int			i;
+}               t_q;
+
+/*
 **          utile dans ft_resolution
 */
 
 typedef struct  s_r
 {
-	int     nb_turn_max;
-	int     num_g;
+	int			nb_turn_max;
+	int			num_g;
 }               t_r;
 /*
 **          utile dans update_path_tab 1 et 2
@@ -209,10 +220,15 @@ void                    ft_free_all(t_infos *infos);
 void                    ft_lstdel_all(t_ants **fa);
 
 /*
-**          ft_search_path.c
+**          ft_check_precedents.c
 */
 
 int                     ft_check_precedents(t_infos *infos, int *tab_path_n_piece, int n);
+
+/*
+**          ft_search_path.c
+*/
+
 // void                    ft_puttamere(t_infos *in);
 int						ft_un_el_l_commence_par_tab_i(t_infos *inf, int tabi, int nbc);
 int						ft_olalala(t_infos *inf, int start, int nbc);

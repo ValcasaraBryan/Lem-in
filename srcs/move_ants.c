@@ -12,19 +12,6 @@
 
 #include "lem-in.h"
 
-/*
-   void ft_put(t_infos *in, int n)
-   {
-   int i = 0;
-   while (i < in->nb_of_box)
-   {
-   ft_putnbr(in->t_p[n][i]);
-   ft_putchar(' ');
-   i++;
-   }
-   }
-   */
-
 int		ft_next_room_is_free(t_infos *infos, int index_path, int index_room)
 {
 	if (infos->data[infos->t_p[index_path][index_room]].commands == 2)

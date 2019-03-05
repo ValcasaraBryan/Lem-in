@@ -12,51 +12,13 @@
 
 #include "lem-in.h"
 
-/*
-   void ft_puttamere(t_infos *in)
-   {
-   int i = 0;
-
-   while (i < in->nb_of_box)
-   {
-   int j = 0;
-   while(j < in->data[i].nb_of_link)
-   {
-   ft_putchar('[');
-   ft_putnbr(j);
-   ft_putchar('-');
-   ft_putnbr(in->data[i].pipe[j]->n_piece);
-   ft_putchar(']');
-   j++;
-   }
-   ft_putchar('\n');
-   i++;
-   }
-   }*/
-
-int		ft_check_precedents(t_infos *infos, int *tab_path_n_piece, int n)
-{
-	int i;
-
-	i = 0;
-	while (i < infos->nb_of_box)
-	{
-		if (tab_path_n_piece[i] == n)
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 int		ft_un_el_l_commence_par_tab_i(t_infos *inf, int tabi, int nbc)
 {
 	t_graph	*tmp;
 	int		i;
 
-// printf("nbc = %d tabi = %d\n", nbc, tabi);
 	i = 0;
 	tmp = inf->l;
-
 	while (tmp)
 	{
 		if (tmp->path[1] == tabi)
@@ -67,7 +29,6 @@ int		ft_un_el_l_commence_par_tab_i(t_infos *inf, int tabi, int nbc)
 	}
 	while (i < nbc)
 	{
-//		printf("%d %d  %d\n", inf->t_p_c[1][0], inf->t_p_c[nbc - 1][i], inf->t_p[inf->t_p_c[nbc - 1][i]][1]);
 		if (inf->t_p[inf->t_p_c[nbc - 1][i]][1] == tabi)
 			return (1);
 		i++;
@@ -107,7 +68,6 @@ int		ft_search_path2(t_infos *in, int i, int start)
 	int r;
 
 	r = 0;
-	
 	if (ft_check_precedents(in, in->l->path,
 		in->data[in->data[in->l->c_r].pipe[i]->n_piece].n_piece))
 	{
@@ -116,10 +76,7 @@ int		ft_search_path2(t_infos *in, int i, int start)
 			in->t_p = ft_update_tab_path(in, ft_updated_path(in, in->l->path,
 				in->data[in->data[in->l->c_r].pipe[i]->n_piece].n_piece));
 			if ((r = ft_choose_paths(in)) == in->nb_path_max)
-			{
-				ft_lstdel_all_graph(&in->l);
 				return (0);
-			}
 			if (r >= 0)
 			{
 				r = ft_olalala(in, start, r);
@@ -128,46 +85,53 @@ int		ft_search_path2(t_infos *in, int i, int start)
 			}
 		}
 		else
-		{
 			ft_add_graph_end(in, &in->l, in->l->path,
 				in->data[in->data[in->l->c_r].pipe[i]->n_piece].n_piece);
-		}
 	}
 	return (1);
 }
 
-int		ft_search_path(t_infos *inf, int start)
+int		ft_search_path1(t_infos *inf, int start, t_q *q)
 {
-	int lp;
-	int i;
-	int *tmp;
-	int ret;
-
-	lp = 1;
-	tmp = ft_alloc_tab_int(inf->nb_of_box, -1);
-	ft_add_graph_end(inf, &inf->l, tmp, start);
-	free(tmp);
 	while (*(&inf->l))
 	{
-		while (ft_length_path(inf->l->path, inf->nb_of_box) ==
-		lp && lp <= inf->nb_of_box)
+		while (ft_length_path(inf->l->path, inf->nb_of_box)
+		== q->lp && q->lp <= inf->nb_of_box)
 		{
-			i = -1;
-			while (++i < inf->data[inf->l->c_r].nb_of_link)
+			q->i = -1;
+			while (++q->i < inf->data[inf->l->c_r].nb_of_link)
 			{
 				if (ft_check_precedents(inf, inf->l->path,
-					inf->data[inf->data[inf->l->c_r].pipe[i]->n_piece].n_piece))
+					inf->data[inf->data[inf->l->c_r].
+						pipe[q->i]->n_piece].n_piece))
 				{
-					ret = ft_search_path2(inf, i, start);
-					if (ret <= 0)
-						return ((ret < 0) ? 0 : 1);
+					q->ret = ft_search_path2(inf, q->i, start);
+					if (q->ret <= 0)
+						return ((q->ret < 0) ? 0 : 1);
 				}
 			}
 			ft_graph_del_start(&inf->l);
 			if (!inf->l)
 				return (1);
 		}
-		lp++;
+		q->lp++;
 	}
+	return (1);
+}
+
+int		ft_search_path(t_infos *inf, int start)
+{
+	int *tmp;
+	t_q q;
+
+	q.i = 0;
+	q.lp = 1;
+	q.ret = 0;
+	if (!(tmp = ft_alloc_tab_int(inf->nb_of_box, -1)))
+		return (0);
+	ft_add_graph_end(inf, &inf->l, tmp, start);
+	free(tmp);
+	if (!ft_search_path1(inf, start, &q))
+		return (0);
 	return (1);
 }
