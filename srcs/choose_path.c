@@ -99,7 +99,7 @@ int		ft_choose_path_i(t_infos *inf, int *tpc_i, int n)
 				return (1);
 			else if (ft_up_index(inf, tpc_i, index_to_up, n) == -1)
 			{
-				printf("yooooooo\n");
+				// printf("yooooooo\n");
 				return (-1);
 			}
 		}
@@ -137,7 +137,7 @@ int		ft_choose_paths(t_infos *infos)
 	if (infos->jpp++)
 		ft_free_tab_int(infos->t_p_c, infos->nb_path_max);
 	if (!(infos->t_p_c = (int**)ft_memalloc(sizeof(int*) * infos->nb_path_max)))
-		return (0);
+		return (-1);
 	while (i < ft_min_int(infos->nb_path_max, infos->t_p[0][0]))
 	{
 		if (!(infos->t_p_c[i] = (int*)ft_memalloc(sizeof(int) * (i + 1))))
@@ -150,7 +150,6 @@ int		ft_choose_paths(t_infos *infos)
 		else if (i > 0 && ft_choose_path_i(infos, infos->t_p_c[i], i + 1) < 0)
 		{
 			infos->jpp = 0;
-			printf("tab = %p\n", infos->t_p_c);
 			ft_free_tab_int(infos->t_p_c, i + 1);
 			return (0);
 		}

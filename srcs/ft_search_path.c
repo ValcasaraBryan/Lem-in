@@ -59,22 +59,17 @@ int		ft_un_el_l_commence_par_tab_i(t_infos *inf, int tabi, int nbc)
 
 	while (tmp)
 	{
-		// ft_putendl("toto");
 		if (tmp->path[1] == tabi)
 		{
 			return (1);
 		}
 		tmp = tmp->next;
 	}
-		// ft_putendl("totu");
-	while (inf->t_p_c[nbc - 1][i] && i < nbc)
+	while (i < nbc)
 	{
-		// ft_putendl("toti");
 //		printf("%d %d  %d\n", inf->t_p_c[1][0], inf->t_p_c[nbc - 1][i], inf->t_p[inf->t_p_c[nbc - 1][i]][1]);
 		if (inf->t_p[inf->t_p_c[nbc - 1][i]][1] == tabi)
-		{
 			return (1);
-		}
 		i++;
 	}
 	return (0);
@@ -86,6 +81,7 @@ int		ft_olalala(t_infos *inf, int start, int nbc)
 	int *tab;
 
 	i = 0;
+	tab = NULL;
 	if (!(tab = (int *)malloc(sizeof(int) * inf->data[start].nb_of_link)))
 		return (-1);
 	while (i < inf->data[start].nb_of_link)
@@ -124,9 +120,12 @@ int		ft_search_path2(t_infos *in, int i, int start)
 				ft_lstdel_all_graph(&in->l);
 				return (0);
 			}
-			r = ft_olalala(in, start, r);
-			if (r)
-				return ((r < 0) ? -1 : 0);
+			if (r >= 0)
+			{
+				r = ft_olalala(in, start, r);
+				if (r)
+					return ((r < 0) ? -1 : 0);
+			}
 		}
 		else
 		{
