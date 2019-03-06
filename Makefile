@@ -92,7 +92,7 @@ $(NAME_BONUS) : $(OBJET_BONUS)
 
 
 exe_one : $(NAME)
-	./lem-in < resources/correct_gen_2
+	./lem-in < resources/correct_9 | ./visu
 
 exe : $(NAME)
 ifeq ($(arg), correct)
@@ -117,7 +117,6 @@ ifeq ($(arg), correct)
 	./lem-in < resources/maptest | ./visu
 	./lem-in < resources/g | ./visu
 	./lem-in < resources/correct_genc_1 | ./visu
-	./lem-in < resources/correct_genc_2 | ./visu
 	./lem-in < resources/correct_genc_3 | ./visu
 	./lem-in < resources/big | ./visu
 	./lem-in < resources/correct_genc_4 | ./visu
@@ -170,6 +169,7 @@ else
 	@read $VAR
 	./lem-in < resources/anil | ./visu
 	./lem-in < resources/map_correct_gen | ./visu
+	./lem-in < resources/correct_genc_2 | ./visu
 
 endif
 
