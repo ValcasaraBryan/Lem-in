@@ -6,7 +6,7 @@
 /*   By: glebouch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/15 17:39:42 by glebouch          #+#    #+#             */
-/*   Updated: 2019/03/01 18:08:29 by glebouch         ###   ########.fr       */
+/*   Updated: 2019/03/05 15:16:28 by glebouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int		ft_update_tab_path_2(t_infos *infos, int **tmp, int *tab, t_t *t)
 	k = -1;
 	if (!(tmp[t->i] = (int *)malloc(sizeof(int) * (infos->nb_of_box))))
 		return (0);
-	if (t->r == 1 && (t->i == t->n || ft_length_path(tab, infos->nb_of_box) < \
-				ft_length_path(infos->t_p[t->j], infos->nb_of_box)))
+	if (t->r == 1 && (t->i == t->n || ft_length_path(tab, infos->nb_of_box)
+		< ft_length_path(infos->t_p[t->j], infos->nb_of_box)))
 	{
 		while (++k < infos->nb_of_box)
 			tmp[t->i][k] = tab[k];
@@ -65,25 +65,6 @@ int		**ft_update_tab_path(t_infos *infos, int *tab)
 	return (tmp);
 }
 
-/*
-   void ft_jppsamaman(t_infos *inf)
-   {
-   int i = 0;
-   int j = -1;
-
-   while(++i < inf->t_p[0][0])
-   {
-   j = -1;
-   while (++j < inf->nb_of_box)
-   {
-   ft_putnbr(inf->t_p[i][j]);
-   ft_putchar(' ');
-   }
-   ft_putchar('\n');
-   }
-   }
-   */
-
 int		ft_algo_2(t_infos *infos)
 {
 	int nbr_group_path;
@@ -122,7 +103,7 @@ int		ft_algo(t_infos *infos)
 			if (infos->nb_path_max == -1)
 				infos->nb_path_max = infos->data[i].nb_of_link;
 			else
-				infos->nb_path_max = ft_min_int(infos->nb_path_max,\
+				infos->nb_path_max = ft_min_int(infos->nb_path_max,
 						infos->data[i].nb_of_link);
 		}
 	}

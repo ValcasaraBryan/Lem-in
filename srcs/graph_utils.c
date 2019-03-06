@@ -12,21 +12,6 @@
 
 #include "lem-in.h"
 
-/*
-   int *ft_init_g(int start, int nb_b)
-   {
-   int *path;
-   int i = 0;
-
-   if(!(path = malloc(sizeof(int*) * nb_b)))
-   return(NULL);
-   path[0] = start;
-   while (++i < nb_b)
-   path[i] = -1;
-   return(path);
-   }
-   */
-
 int		*ft_updated_path(t_infos *inf, int *old_p, int room)
 {
 	int *new_p;

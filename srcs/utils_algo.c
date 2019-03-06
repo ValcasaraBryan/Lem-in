@@ -19,19 +19,6 @@ int		ft_min_int(int a, int b)
 	return (b);
 }
 
-/*
-   void	ft_put_tab_int(int *tab)
-   {
-   int i;
-
-   i = 0;
-   while (i < 8)
-   {
-   ft_putnbr_fd(tab[i], 2);
-   ft_putchar_fd(' ', 2);
-   }
-   }*/
-
 int		ft_init_tab_path(t_infos *infos)
 {
 	if (!(infos->t_p = (int **)malloc(sizeof(int*))))

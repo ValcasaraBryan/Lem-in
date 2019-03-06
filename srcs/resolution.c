@@ -30,7 +30,7 @@ int		ft_fill_tab_path_turn_i(t_infos *t, int n, int **t_p_t, int nb_turn_max)
 		j = 0;
 		while (j < n + 1)
 		{
-			if (ft_length_path(t->t_p[t->t_p_c[n][j]], \
+			if (ft_length_path(t->t_p[t->t_p_c[n][j]],
 						t->nb_of_box) - 1 == i + 1)
 				to_add++;
 			j++;
@@ -74,7 +74,7 @@ int		ft_create_ants(t_infos *i, int nb_ants_to_create)
 	j = -1;
 	while (++j < nb_ants_to_create)
 	{
-		if (!ft_lstadd_end(&i->first_ant, i->nb_of_fourmis - i->nb_f_left, \
+		if (!ft_lstadd_end(&i->first_ant, i->nb_of_fourmis - i->nb_f_left,
 					i->t_p_c[nb_ants_to_create - 1][j], 0))
 			return (0);
 		i->nb_f_left--;
@@ -127,7 +127,7 @@ int		ft_resolve(t_infos *inf, int nb_gp)
 	int i;
 	t_r res;
 
-	res.nb_turn_max = ft_length_path(inf->t_p[1], inf->nb_of_box) \
+	res.nb_turn_max = ft_length_path(inf->t_p[1], inf->nb_of_box)
 					- 2 + inf->nb_of_fourmis;
 	i = -1;
 	inf->nb_f_left = inf->nb_of_fourmis - 1;
