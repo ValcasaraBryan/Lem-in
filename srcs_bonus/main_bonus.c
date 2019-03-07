@@ -180,6 +180,43 @@ int			check_line(data_t *p, t_ligne *trait, int x, int y)
 	return (0);
 }
 
+void		ft_put_graphe(t_graphe *p)
+{
+	t_graphe *graphe;
+	int		i;
+
+	if (!p)
+		return ;
+	i = -1;
+	graphe = p;
+	while (graphe)
+	{
+		while (graphe->lem)
+		{
+			printf("L%d-%s", graphe->lem->lem , graphe->lem->data->name_box);
+			if (graphe->lem->next)
+			{
+				printf(" ");
+			}
+			else
+			{
+				printf("\n");
+			}
+			if (!graphe->lem->next)
+				break ;
+			graphe->lem = graphe->lem->next;
+		}
+		while (graphe->lem->prev)
+			graphe->lem = graphe->lem->prev;
+		if (!graphe->next)
+			break ;
+		graphe = graphe->next;
+	}
+	printf("\n");
+	while (graphe->prev)
+		graphe = graphe->prev;
+}
+
 int			chemin_point(data_t *p, t_ligne *trait)
 {
 	int		z;
@@ -194,6 +231,7 @@ int			chemin_point(data_t *p, t_ligne *trait)
 		while (++j < p->infos->data[z].nb_of_link)
 		{
 			x = -1;
+		// if (check_graphe_start(p))
 			while (++x < p->medium)
 			{
 				y = -1;
@@ -201,6 +239,7 @@ int			chemin_point(data_t *p, t_ligne *trait)
 				{
 					if (p->mappage_pipe[z][j][x][y] == 1)
 					{
+						// printf("%s %s-------\n", p->infos->data[z].name_box, p->infos->data[z].pipe[j]->name_box);
 						if (x < p->medium && x >= 0 && y < p->medium && y >= 0)
 						{
 							trait->z = z;
@@ -609,9 +648,9 @@ int				fct_main(data_t *p, t_ligne *trait)
 	init_mappage_box(p);
 	fct_mappage_pipe(p);
 	init_struct_trait(p, trait);
+	printf("%d\n", p->nb_graphe);
 	chemin_point(p, trait);
 	// printf("%d\n", p->n_lem);
-	// printf("%d\n", p->nb_graphe);
 	fct_put_pixel(p);
 	p->index_of_box = 0;
 	return (1);
@@ -681,48 +720,12 @@ t_lem		*add_lem(t_lem *lem, t_data *line, int nb, int color)
 		return (new_lem(line, nb, NULL, color));
 }
 
-void		ft_put_graphe(t_graphe *p)
-{
-	t_graphe *graphe;
-	int		i;
-
-	if (!p)
-		return ;
-	i = -1;
-	graphe = p;
-	while (graphe)
-	{
-		while (graphe->lem)
-		{
-			printf("L%d-%s", graphe->lem->lem , graphe->lem->data->name_box);
-			if (graphe->lem->next)
-			{
-				printf(" ");
-			}
-			else
-			{
-				printf("\n");
-			}
-			if (!graphe->lem->next)
-				break ;
-			graphe->lem = graphe->lem->next;
-		}
-		while (graphe->lem->prev)
-			graphe->lem = graphe->lem->prev;
-		if (!graphe->next)
-			break ;
-		graphe = graphe->next;
-	}
-	printf("\n");
-	while (graphe->prev)
-		graphe = graphe->prev;
-}
-
 void			fcnt_rand(int *color, int nb)
 {
 	int			i;
-
+	
 	i = -1;
+	srand(time(NULL));
 	while (++i < nb)
 		color[i] = rand();
 }
@@ -843,6 +846,7 @@ int			key_hook(int keycode, data_t *p)
 			p->graphe->lem = p->graphe->lem->prev;
 		while (p->graphe->prev)
 			p->graphe = p->graphe->prev;
+		p->n_lem = 0;
 	}
 	else if (keycode == 18)
 	{
@@ -1132,7 +1136,7 @@ int     main(int argc, char **argv)
 	}
 	graphe = parsing_ants_file(infos.file, &infos);
 	p = init_p(&infos, &trait, graphe);
-	ft_put_list(infos.file);
+	// ft_put_list(infos.file);
 	key_hook(0, &p);
 	mlx_hook(p.mlx_win, 2, 0, key_hook, &p);
 	mlx_do_key_autorepeaton(p.mlx_ptr);
