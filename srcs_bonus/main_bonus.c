@@ -18,6 +18,24 @@ typedef struct		s_graphe
 	struct s_graphe	*prev;
 }					t_graphe;
 
+typedef struct	s_pos
+{
+	int			y;
+	int			x;
+	int			z;
+	int			color;
+}				t_pos;
+
+typedef struct	s_line
+{
+	int			error;
+	int			offset;
+	int			sign_y;
+	int			sign_x;
+	int			delta_y;
+	int			delta_x;
+}				t_line;
+
 typedef struct		data_s
 {
 	int				index_of_box;
@@ -237,6 +255,7 @@ int			chemin_point(data_t *p, t_ligne *trait)
 				y = -1;
 				while (++y < p->medium)
 				{
+					// printf("%2d", p->mappage_pipe[z][j][x][y]);
 					if (p->mappage_pipe[z][j][x][y] == 1)
 					{
 						// printf("%s %s-------\n", p->infos->data[z].name_box, p->infos->data[z].pipe[j]->name_box);
@@ -253,8 +272,11 @@ int			chemin_point(data_t *p, t_ligne *trait)
 						}
 					}
 				}
+					// printf("\n");
 			}
+					// printf("\n");
 		}
+					// printf("\n");
 	}
 	return (0);
 }
@@ -583,6 +605,7 @@ int			fct_put_pixel(data_t *p)
 	{
 		p->centre_y = p->grille_y[p->infos->data[p->index_of_box].coor_y] - (p->largeur / 2); // centre du carre + sur une des grille de la fenetre
 		p->centre_x = p->grille_x[p->infos->data[p->index_of_box].coor_x] - (p->longueur / 2); // centre du carre + sur une des grille de la fenetre
+		printf("%d-%d %d-%d\n", p->centre_y, p->centre_x, p->infos->data[p->index_of_box].coor_y, p->infos->data[p->index_of_box].coor_x);
 		i = p->centre_x;
 		while (i < p->centre_x + p->longueur)
 		{
@@ -636,6 +659,60 @@ int				init_struct_trait(data_t *p, t_ligne *trait)
 	return (1);
 }
 
+int		absolute_value(int nb)
+{
+	return (nb < 0 ? -nb : nb);
+}
+
+static t_line	setup_params(t_pos a, t_pos b)
+{
+	t_line	params;
+
+	params.sign_y = (a.y < b.y ? 1 : -1);
+	params.sign_x = (a.x < b.x ? 1 : -1);
+	params.delta_y = absolute_value(b.y - a.y);
+	params.delta_x = absolute_value(b.x - a.x);
+	params.offset = params.delta_x - params.delta_y;
+	params.error = 0;
+	return (params);
+}
+
+void			draw_line(t_pos a, t_pos b, data_t *env)
+{
+	t_line	params;
+	t_pos	p;
+
+	params = setup_params(a, b);
+	p = a;
+	while (p.y != b.y || p.x != b.x)
+	{
+		mlx_pixel_put(env->mlx_ptr, env->mlx_win, p.x, p.y, env->graphe->lem->color_ants);
+		if ((params.error = params.offset * 2) > -params.delta_y)
+		{
+			params.offset -= params.delta_y;
+			p.x += params.sign_x;
+		}
+		if (params.error < params.delta_x)
+		{
+			params.offset += params.delta_x;
+			p.y += params.sign_y;
+		}
+	}
+	mlx_pixel_put(env->mlx_ptr, env->mlx_win, p.x, p.y, env->graphe->lem->color_ants);
+}
+
+void		print_map(data_t *env)
+{
+	t_pos a;
+	t_pos b;
+
+	a.x = 163 + (env->largeur / 2);
+	a.y = 37 + (env->largeur / 2);
+	b.x = 37 + (env->largeur / 2);
+	b.y = 163 + (env->largeur / 2);
+	draw_line(a, b, env);
+}
+
 int				fct_main(data_t *p, t_ligne *trait)
 {
 	p->color_carre_x = 100000000;
@@ -648,8 +725,9 @@ int				fct_main(data_t *p, t_ligne *trait)
 	init_mappage_box(p);
 	fct_mappage_pipe(p);
 	init_struct_trait(p, trait);
-	printf("%d\n", p->nb_graphe);
-	chemin_point(p, trait);
+	print_map(p);
+	// printf("%d\n", p->nb_graphe);
+	// chemin_point(p, trait);
 	// printf("%d\n", p->n_lem);
 	fct_put_pixel(p);
 	p->index_of_box = 0;
