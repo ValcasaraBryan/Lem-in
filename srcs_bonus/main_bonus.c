@@ -191,18 +191,18 @@ int			chemin_point(data_t *p, t_ligne *trait)
 	while (++z < p->infos->nb_of_box)
 	{
 		j = -1;
-			printf("%s-box\n", p->infos->data[z].name_box);
+			// printf("%s-box\n", p->infos->data[z].name_box);
 		while (++j < p->infos->data[z].nb_of_link)
 		{
 			x = -1;
 					
-			printf("%s-link\n", p->infos->data[z].pipe[j]->name_box);
+			// printf("%s-link\n", p->infos->data[z].pipe[j]->name_box);
 				while (++x < p->medium)
 				{
 					y = -1;
 					while (++y < p->medium)
 					{
-						printf("%2d", p->mappage_pipe[z][j][y][x]);
+						// printf("%2d", p->mappage_pipe[z][j][y][x]);
 						if (p->mappage_pipe[z][j][x][y] == 1)
 						{
 							if (x < p->medium && x >= 0 && y < p->medium && y >= 0)
@@ -218,12 +218,12 @@ int			chemin_point(data_t *p, t_ligne *trait)
 							}
 						}
 					}
-					printf("\n");
+					// printf("\n");
 				}
-					printf("\n");
+					// printf("\n");
 			}
 					// printf("\n");
-					printf("\n");
+					// printf("\n");
 					// break ;
 	}
 	return (0);
@@ -849,7 +849,8 @@ int			key_hook(int keycode, data_t *p)
 	}
 	else if (keycode == 45)
 	{
-		p->nb_graphe++;
+		if (p->graphe->next)
+			p->nb_graphe++;
 		// printf("========%p<--%p-->%p", p->graphe->prev, p->graphe, p->graphe->next);
 		while (p->graphe->lem->prev)
 			p->graphe->lem = p->graphe->lem->prev;
@@ -861,10 +862,11 @@ int			key_hook(int keycode, data_t *p)
 	}
 	else if (keycode == 11)
 	{
-		p->nb_graphe--;
+		if (p->nb_graphe > -1) 
+			p->nb_graphe--;
 		while (p->graphe->lem->prev)
 			p->graphe->lem = p->graphe->lem->prev;
-		if (p->graphe->prev && p->nb_graphe > 0)
+		if (p->graphe->prev)
 			p->graphe = p->graphe->prev;
 		printf("step = [%d]\n", p->nb_graphe);
 		// printf("========%p<--%p-->%p", p->graphe->prev, p->graphe, p->graphe->next);
@@ -873,7 +875,7 @@ int			key_hook(int keycode, data_t *p)
 	}
 	else if (keycode == 49)
 	{
-		p->nb_graphe = 0;
+		p->nb_graphe = -1;
 		while (p->graphe->lem->prev)
 			p->graphe->lem = p->graphe->lem->prev;
 		while (p->graphe->prev)
@@ -1173,7 +1175,8 @@ int     main(int argc, char **argv)
 	p = init_p(&infos, &trait, graphe);
 	ft_put_list(infos.file);
 	key_hook(0, &p);
-	mlx_key_hook(p.mlx_win, key_hook, &p);
+	mlx_hook(p.mlx_win, 2, 0, key_hook, &p);
+	mlx_do_key_autorepeaton(p.mlx_ptr);
 	mlx_loop(p.mlx_ptr);
 	erase_infos(&infos);
 	erase_data(&infos);
