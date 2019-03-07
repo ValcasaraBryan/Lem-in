@@ -191,40 +191,31 @@ int			chemin_point(data_t *p, t_ligne *trait)
 	while (++z < p->infos->nb_of_box)
 	{
 		j = -1;
-			// printf("%s-box\n", p->infos->data[z].name_box);
 		while (++j < p->infos->data[z].nb_of_link)
 		{
 			x = -1;
-					
-			// printf("%s-link\n", p->infos->data[z].pipe[j]->name_box);
-				while (++x < p->medium)
+			while (++x < p->medium)
+			{
+				y = -1;
+				while (++y < p->medium)
 				{
-					y = -1;
-					while (++y < p->medium)
+					if (p->mappage_pipe[z][j][x][y] == 1)
 					{
-						// printf("%2d", p->mappage_pipe[z][j][y][x]);
-						if (p->mappage_pipe[z][j][x][y] == 1)
+						if (x < p->medium && x >= 0 && y < p->medium && y >= 0)
 						{
-							if (x < p->medium && x >= 0 && y < p->medium && y >= 0)
-							{
-								trait->z = z;
-								trait->j = j;
-								trait->start_x = x;
-								trait->start_y = y;
-								check_line(p, trait, 1, 0);
-								check_line(p, trait, -1, 0);
-								check_line(p, trait, 0, 1);
-								check_line(p, trait, 0, -1);
-							}
+							trait->z = z;
+							trait->j = j;
+							trait->start_x = x;
+							trait->start_y = y;
+							check_line(p, trait, 1, 0);
+							check_line(p, trait, -1, 0);
+							check_line(p, trait, 0, 1);
+							check_line(p, trait, 0, -1);
 						}
 					}
-					// printf("\n");
 				}
-					// printf("\n");
 			}
-					// printf("\n");
-					// printf("\n");
-					// break ;
+		}
 	}
 	return (0);
 }
@@ -619,6 +610,8 @@ int				fct_main(data_t *p, t_ligne *trait)
 	fct_mappage_pipe(p);
 	init_struct_trait(p, trait);
 	chemin_point(p, trait);
+	// printf("%d\n", p->n_lem);
+	// printf("%d\n", p->nb_graphe);
 	fct_put_pixel(p);
 	p->index_of_box = 0;
 	return (1);
@@ -697,18 +690,14 @@ void		ft_put_graphe(t_graphe *p)
 		return ;
 	i = -1;
 	graphe = p;
-	// printf("%15p\n", graphe);
 	while (graphe)
 	{
-		// printf("%-15p<--%15p -->%15p = ", graphe->prev, graphe, graphe->next);
 		while (graphe->lem)
 		{
-			// printf("%5p<--%15p -->%-5p", graphe->lem->prev, graphe->lem, graphe->lem->next);
-			// printf("%d-%s-%d", graphe->lem->lem , graphe->lem->data->name_box, graphe->lem->color_ants);
 			printf("L%d-%s", graphe->lem->lem , graphe->lem->data->name_box);
 			if (graphe->lem->next)
 			{
-				printf("   ");
+				printf(" ");
 			}
 			else
 			{
@@ -724,9 +713,9 @@ void		ft_put_graphe(t_graphe *p)
 			break ;
 		graphe = graphe->next;
 	}
+	printf("\n");
 	while (graphe->prev)
 		graphe = graphe->prev;
-	// printf("\n%15p\n", graphe);
 }
 
 void			fcnt_rand(int *color, int nb)
@@ -736,22 +725,6 @@ void			fcnt_rand(int *color, int nb)
 	i = -1;
 	while (++i < nb)
 		color[i] = rand();
-}
-
-int				add_start(t_infos *infos, char **box)
-{
-	int		i;
-	int		j;
-	
-	i = -1;
-	while (infos->data[++i].name_box)
-		if (infos->data[i].commands == 1)
-			break ;
-	j = -1;
-	while (infos->data[i].pipe[++j])
-		if (ft_strcmp(*box, infos->data[i].pipe[j]->name_box) == 0)
-			return (i);
-	return (-1);
 }
 
 t_graphe		*parsing_ants_file(t_file *file, t_infos *infos)
@@ -787,8 +760,6 @@ t_graphe		*parsing_ants_file(t_file *file, t_infos *infos)
 					if (ft_strcmp(infos->data[j].name_box, box[1]) == 0)
 						break ;
 				n_lem = ft_atoi(box[0] + 1);
-				// if (add_start(infos, &box[1]) >= 0)
-					// lem = add_lem(lem, &infos->data[add_start(infos, &box[1])], n_lem, color[n_lem]);
 				lem = add_lem(lem, &infos->data[j], n_lem, color[n_lem - 1]);
 			}
 			step = add_graphe(step, lem);
@@ -851,27 +822,19 @@ int			key_hook(int keycode, data_t *p)
 	{
 		if (p->graphe->next)
 			p->nb_graphe++;
-		// printf("========%p<--%p-->%p", p->graphe->prev, p->graphe, p->graphe->next);
 		while (p->graphe->lem->prev)
 			p->graphe->lem = p->graphe->lem->prev;
 		if (p->graphe->next && p->nb_graphe > 0)
 			p->graphe = p->graphe->next;
-		printf("step = [%d]\n", p->nb_graphe);
-		// touch (n);
-		// printf("trait.n_piece = %d\n", p->trait->n_piece); 
 	}
 	else if (keycode == 11)
 	{
-		if (p->nb_graphe > -1) 
+		if (p->nb_graphe >= 0) 
 			p->nb_graphe--;
 		while (p->graphe->lem->prev)
 			p->graphe->lem = p->graphe->lem->prev;
 		if (p->graphe->prev)
 			p->graphe = p->graphe->prev;
-		printf("step = [%d]\n", p->nb_graphe);
-		// printf("========%p<--%p-->%p", p->graphe->prev, p->graphe, p->graphe->next);
-		// touch (n);
-		// printf("trait.n_piece = %d\n", p->trait->n_piece); 
 	}
 	else if (keycode == 49)
 	{
@@ -880,9 +843,6 @@ int			key_hook(int keycode, data_t *p)
 			p->graphe->lem = p->graphe->lem->prev;
 		while (p->graphe->prev)
 			p->graphe = p->graphe->prev;
-		printf("step = [%d]\n", p->nb_graphe);
-		// touch (n);
-		// printf("trait.n_piece = %d\n", p->trait->n_piece); 
 	}
 	else if (keycode == 18)
 	{
@@ -946,9 +906,8 @@ int			key_hook(int keycode, data_t *p)
 		p->color = 5000000;
 		printf("trait.n_piece = %d\n", p->trait->n_piece); 
 	}
-	else
+	else if (keycode != 0)
 		printf("%d\n", keycode);
-	printf("%d\n", p->nb_graphe);
 	fct_main(p, p->trait);
 	ft_put_graphe(p->graphe);
 	return (0);
