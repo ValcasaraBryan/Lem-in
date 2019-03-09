@@ -1,6 +1,6 @@
 #include "lem-in.h"
-#include "/usr/X11/include/mlx.h"
-// #include <mlx.h>
+// #include "/usr/X11/include/mlx.h"
+#include <mlx.h>
 
 typedef struct		s_lem
 {
@@ -235,10 +235,6 @@ int			fct_put_pixel(data_t *p)
 	{
 		p->centre_y = p->grille_y[p->infos->data[p->index_of_box].coor_y] - (p->largeur / 2); // centre du carre + sur une des grille de la fenetre
 		p->centre_x = p->grille_x[p->infos->data[p->index_of_box].coor_x] - (p->longueur / 2); // centre du carre + sur une des grille de la fenetre
-<<<<<<< HEAD
-		// printf("%d-%d %d-%d\n", p->centre_y, p->centre_x, p->infos->data[p->index_of_box].coor_y, p->infos->data[p->index_of_box].coor_x);
-=======
->>>>>>> 2a2784f5298b141d6623fcd2a18c162e0da649be
 		i = p->centre_x;
 		while (i < p->centre_x + p->longueur)
 		{
@@ -458,7 +454,7 @@ int				fct_main(data_t *p)
 	p->longueur = p->longueur_win / (p->medium * 1.2);
 	p->largeur = p->largeur_win / (p->medium * 1.2);
 	print_start(p);
-	// print_line(p);
+	print_line(p);
 	fct_put_pixel(p);
 	p->index_of_box = 0;
 	return (1);
