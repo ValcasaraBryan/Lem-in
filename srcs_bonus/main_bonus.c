@@ -14,6 +14,7 @@ typedef struct		s_lem
 typedef struct		s_graphe
 {
 	t_lem			*lem;
+	int				nb_of_graphe;
 	struct s_graphe	*next;
 	struct s_graphe	*prev;
 }					t_graphe;
@@ -605,7 +606,7 @@ int			fct_put_pixel(data_t *p)
 	{
 		p->centre_y = p->grille_y[p->infos->data[p->index_of_box].coor_y] - (p->largeur / 2); // centre du carre + sur une des grille de la fenetre
 		p->centre_x = p->grille_x[p->infos->data[p->index_of_box].coor_x] - (p->longueur / 2); // centre du carre + sur une des grille de la fenetre
-		printf("%d-%d %d-%d\n", p->centre_y, p->centre_x, p->infos->data[p->index_of_box].coor_y, p->infos->data[p->index_of_box].coor_x);
+		// printf("%d-%d %d-%d\n", p->centre_y, p->centre_x, p->infos->data[p->index_of_box].coor_y, p->infos->data[p->index_of_box].coor_x);
 		i = p->centre_x;
 		while (i < p->centre_x + p->longueur)
 		{
@@ -701,16 +702,144 @@ void			draw_line(t_pos a, t_pos b, data_t *env)
 	mlx_pixel_put(env->mlx_ptr, env->mlx_win, p.x, p.y, env->graphe->lem->color_ants);
 }
 
-void		print_map(data_t *env)
+int			no_start(data_t *p, int start)
 {
-	t_pos a;
-	t_pos b;
+	int		i;
+	// printf("%d-%s before %d\n", p->graphe->lem->lem, p->graphe->lem->data->name_box, start);
+	i = 0;
+	while (p->graphe->lem->next)
+	{
+		if (p->graphe->lem->lem < start)
+			return (1);
+		p->graphe->lem = p->graphe->lem->next;
+		i++;
+	}
+	return (0);
+}
 
-	a.x = 163 + (env->largeur / 2);
-	a.y = 37 + (env->largeur / 2);
-	b.x = 37 + (env->largeur / 2);
-	b.y = 163 + (env->largeur / 2);
-	draw_line(a, b, env);
+int			check_start(data_t *p, int start)
+{
+	int		j;
+	int		i;
+
+	i = -1;
+	while (++i < start)
+		if (p->graphe->lem->next)
+			p->graphe->lem = p->graphe->lem->next;
+	j = -1;
+	if (p->n_lem < p->graphe->lem->lem)
+		p->n_lem = p->graphe->lem->lem;
+	if (i < p->n_lem)
+		while (++j < p->graphe->lem->data->nb_of_link)
+			if (p->graphe->lem->data->pipe[j]->commands == 1)
+				return (j);
+	return (-1);
+}
+
+int			check_skip_start(data_t *p)
+{
+	int		i;
+
+	while (p->graphe->lem)
+	{
+		i = -1;
+		while (++i < p->graphe->lem->data->nb_of_link)
+		{
+			if (p->graphe->lem->data->pipe[i]->commands == 1)
+				return (0);
+		}
+		if (p->graphe->lem->next)
+			p->graphe->lem = p->graphe->lem->next;
+		else
+			break ;
+	}
+	while (p->graphe->lem->prev)
+		p->graphe->lem = p->graphe->lem->prev;
+	return (1);
+}
+
+void		print_start(data_t *env)
+{
+	t_pos	a;
+	t_pos	b;
+	int		i;
+
+	while (env->graphe->next)
+	{
+		if (env->graphe->nb_of_graphe - 1 == env->nb_graphe)
+			break ;
+		env->graphe = env->graphe->next;
+	}
+	i = env->n_lem;
+	while (1)
+	{
+		i = check_start(env, i);
+		if (i == -1)
+			break ;
+		a.x = env->grille_x[env->graphe->lem->data->pipe[i]->coor_x];
+		a.y = env->grille_y[env->graphe->lem->data->pipe[i]->coor_y];
+		b.x = env->grille_x[env->graphe->lem->data->coor_x];
+		b.y = env->grille_y[env->graphe->lem->data->coor_y];
+		draw_line(a, b, env);
+		if (env->graphe->lem->next)
+			env->graphe->lem = env->graphe->lem->next;
+		else
+			break ;
+	}
+	while (env->graphe->lem->prev)
+		env->graphe->lem = env->graphe->lem->prev;
+	while (env->graphe->prev)
+	{
+		if (env->graphe->nb_of_graphe == env->nb_graphe)
+			break ;
+		env->graphe = env->graphe->prev;
+	}
+}
+
+void		print_line(data_t *env)
+{
+	t_pos	a;
+	t_pos	b;
+	int		i;
+
+	while (env->graphe->next)
+	{
+		if (env->graphe->nb_of_graphe - 1 == env->nb_graphe)
+			break ;
+		env->graphe = env->graphe->next;
+	}
+	i = -1;
+	while (1)
+	{
+		if (!(check_skip_start(env)))
+		{
+			if (env->graphe->lem->next)
+				env->graphe->lem = env->graphe->lem->next;
+			else
+				break ;
+		}
+		// i = check_next_step(env, env->graphe->lem);
+		printf("%d-%s == %d\n", env->graphe->lem->lem, env->graphe->lem->data->name_box, i);
+		if (i == -1)
+			break ;
+		a.x = env->grille_x[env->graphe->lem->data->pipe[i]->coor_x];
+		a.y = env->grille_y[env->graphe->lem->data->pipe[i]->coor_y];
+		b.x = env->grille_x[env->graphe->lem->data->coor_x];
+		b.y = env->grille_y[env->graphe->lem->data->coor_y];
+		draw_line(a, b, env);
+		if (env->graphe->lem->next)
+			env->graphe->lem = env->graphe->lem->next;
+		else
+			break ;
+	}
+	while (env->graphe->lem->prev)
+		env->graphe->lem = env->graphe->lem->prev;
+	while (env->graphe->prev)
+	{
+		if (env->graphe->nb_of_graphe == env->nb_graphe)
+			break ;
+		env->graphe = env->graphe->prev;
+	}
 }
 
 int				fct_main(data_t *p, t_ligne *trait)
@@ -725,16 +854,17 @@ int				fct_main(data_t *p, t_ligne *trait)
 	init_mappage_box(p);
 	fct_mappage_pipe(p);
 	init_struct_trait(p, trait);
-	print_map(p);
 	// printf("%d\n", p->nb_graphe);
 	// chemin_point(p, trait);
 	// printf("%d\n", p->n_lem);
+	print_start(p);
+	print_line(p);
 	fct_put_pixel(p);
 	p->index_of_box = 0;
 	return (1);
 }
 
-t_graphe		*new_graphe(t_lem *lem, t_graphe *prev)
+t_graphe		*new_graphe(t_lem *lem, t_graphe *prev, int nb)
 {
 	t_graphe	*tmp;
 
@@ -744,12 +874,13 @@ t_graphe		*new_graphe(t_lem *lem, t_graphe *prev)
 	if (!(tmp = malloc(sizeof(t_graphe))))
 		return (NULL);
 	tmp->lem = lem;
+	tmp->nb_of_graphe = nb;
 	tmp->next = NULL;
 	tmp->prev = prev;
 	return (tmp);
 }
 
-t_graphe		*add_graphe(t_graphe *old, t_lem *lem)
+t_graphe		*add_graphe(t_graphe *old, t_lem *lem, int nb)
 {
 	t_graphe	*tmp;
 
@@ -758,11 +889,11 @@ t_graphe		*add_graphe(t_graphe *old, t_lem *lem)
 		tmp = old;
 		while (tmp->next)
 			tmp = tmp->next;
-		tmp->next = new_graphe(lem, tmp);
+		tmp->next = new_graphe(lem, tmp, nb);
 		return (old);
 	}
 	else
-		return (new_graphe(lem, NULL));
+		return (new_graphe(lem, NULL, nb));
 }
 
 t_lem		*new_lem(t_data *line, int nb, t_lem *prev, int color)
@@ -818,10 +949,12 @@ t_graphe		*parsing_ants_file(t_file *file, t_infos *infos)
 	int			color[infos->nb_of_fourmis + 1];
 	int		i;
 	int		j;
+	int		x;
 
 	(void)infos;
 	step = NULL;
 	fcnt_rand(color, infos->nb_of_fourmis);
+	x = 0;
 	while (file)
 	{
 		if (file->line && file->line[0] == 'L')
@@ -843,11 +976,25 @@ t_graphe		*parsing_ants_file(t_file *file, t_infos *infos)
 				n_lem = ft_atoi(box[0] + 1);
 				lem = add_lem(lem, &infos->data[j], n_lem, color[n_lem - 1]);
 			}
-			step = add_graphe(step, lem);
+			step = add_graphe(step, lem, x++);
 		}
 		file = file->next;
 	}
 	return (step);
+}
+
+void		reset_win(data_t *p)
+{
+	int		i;
+	int		j;
+
+	i = -1;
+	while (++i < p->longueur_win)
+	{
+		j = -1;
+		while (++j < p->largeur_win)
+			mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, 0);
+	}
 }
 
 int			key_hook(int keycode, data_t *p)
@@ -907,6 +1054,7 @@ int			key_hook(int keycode, data_t *p)
 			p->graphe->lem = p->graphe->lem->prev;
 		if (p->graphe->next && p->nb_graphe > 0)
 			p->graphe = p->graphe->next;
+		reset_win(p);
 	}
 	else if (keycode == 11)
 	{
@@ -916,6 +1064,7 @@ int			key_hook(int keycode, data_t *p)
 			p->graphe->lem = p->graphe->lem->prev;
 		if (p->graphe->prev)
 			p->graphe = p->graphe->prev;
+		reset_win(p);
 	}
 	else if (keycode == 49)
 	{
@@ -925,6 +1074,7 @@ int			key_hook(int keycode, data_t *p)
 		while (p->graphe->prev)
 			p->graphe = p->graphe->prev;
 		p->n_lem = 0;
+		reset_win(p);
 	}
 	else if (keycode == 18)
 	{
