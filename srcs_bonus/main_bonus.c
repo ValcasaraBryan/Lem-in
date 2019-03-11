@@ -311,6 +311,8 @@ int			check_start(data_t *p)
 	int		i;
 
 	i = -1;
+	if (!p->graphe->lem)
+		return (-1);
 	if (p->graphe->lem->lem < p->n_lem)
 		return (-1);
 	p->n_lem++;
@@ -327,6 +329,8 @@ void		print_start(data_t *env)
 	t_pos	b;
 	int		i;
 
+	if (!env->graphe->next)
+		return ;
 	while (env->graphe->next)
 	{
 		if (env->graphe->nb_of_graphe - 1 == env->nb_graphe)
@@ -345,7 +349,7 @@ void		print_start(data_t *env)
 			draw_line(a, b, env, env->graphe->lem->color_ants);
 		}
 		if (env->graphe->lem->next)
-		env->graphe->lem = env->graphe->lem->next;
+			env->graphe->lem = env->graphe->lem->next;
 		else
 			break ;
 	}
@@ -866,7 +870,7 @@ data_t		init_p(t_infos *infos, t_graphe *graphe)
 	p.maximum_x = (!(p.maximum_x % p.maximum_x)) ? p.maximum_x : p.maximum_x - 1;
 	p.maximum_y = (!(p.maximum_y % p.maximum_y)) ? p.maximum_y : p.maximum_y - 1;
 	p.medium = (p.maximum_x > p.maximum_y) ? p.maximum_x + 2: p.maximum_y + 2;
-	if (p.medium > 200)
+	if (p.medium > 100)
 	{
 		perror("Coordinated Too High ");
 		exit (0);
