@@ -88,12 +88,21 @@ $(NAME) : $(OBJET)
 
 $(NAME_BONUS) : $(OBJET_BONUS)
 	@make -C libft
-#	@$(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS)  -lmlx -framework OpenGL -framework AppKit -o $@
-	@$(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS)  /usr/X11/lib/libmlx.a -framework OpenGL -framework AppKit -o $@
+	@$(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS)  -lmlx -framework OpenGL -framework AppKit -o $@
+	# @$(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS)  /usr/X11/lib/libmlx.a -framework OpenGL -framework AppKit -o $@
 
 
 exe_one : $(NAME)
-	./lem-in < resources/correct_9 | ./visu
+	./lem-in < resources/correct_1 | ./visu
+
+	# For check_memory_leaks use leaks
+	#./visu < coucou
+		# leaks visu
+
+	# For debugging use lldb
+	# lldb visu
+		# settings set target.input-path coucou
+		# process launch
 
 exe : $(NAME)
 ifeq ($(arg), correct)
