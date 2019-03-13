@@ -49,7 +49,7 @@ t_infos		get_file(void)
 			erase_infos(&infos);
 			break ;
 		}
-		if (etapes == 0)
+		if (etapes == 0 && line[0] != '#')
 		{
 			infos.nb_of_fourmis = ft_atoi(line);
 			etapes++;

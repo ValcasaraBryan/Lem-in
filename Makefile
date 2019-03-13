@@ -107,10 +107,7 @@ $(NAME_BONUS) : $(OBJET_BONUS)
 
 
 exe_one : $(NAME)
-	./lem-in < resources/err_no_end.map
-	./lem-in < resources/err_no_start2.map
-	./lem-in < resources/err_start_end_same.map
-	# ./lem-in < resources/correct_1 | ./visu
+	./lem-in < resources/correct_1
 
 	@# For check_memory_leaks use leaks
 	@#./visu < coucou

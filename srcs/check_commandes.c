@@ -44,6 +44,8 @@ int			skip_line_fourmi(t_infos *infos)
 	if (!infos->file)
 		return (0);
 	head = infos->file;
+	if (commantaire(infos) && skip_commentaire(infos, head))
+		return (0);
 	if (infos->file->next && ft_str_is_digit(infos->file->line)
 			&& ft_atoi(infos->file->line) > 0)
 		infos->file = infos->file->next;
