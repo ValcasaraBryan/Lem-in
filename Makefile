@@ -107,7 +107,7 @@ $(NAME_BONUS) : $(OBJET_BONUS)
 
 
 exe_one : $(NAME)
-	./lem-in < resources/correct_1
+	./lem-in < resources/correct_1 | ./visu
 
 	@# For check_memory_leaks use leaks
 	@#./visu < coucou
