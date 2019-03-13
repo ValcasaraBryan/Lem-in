@@ -15,6 +15,7 @@
 int				main(int argc, char **argv)
 {
 	t_infos		infos;
+	t_file		*head;
 	data_t		p;
 	t_graphe	*graphe;
 
@@ -28,7 +29,10 @@ int				main(int argc, char **argv)
 		erase_infos(&infos);
 		erase_data(&infos);
 	}
-	if (!(check_file_bonus(&infos, 0, 0)))
+	head = infos.file;
+	if (!(skip_line_fourmi(&infos)))
+		return (0);
+	if (!(check_file_bonus(&infos, head, 0, 0)))
 	{
 		erase_infos(&infos);
 		erase_data(&infos);

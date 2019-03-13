@@ -12,13 +12,9 @@
 
 #include "visu.h"
 
-int			check_file_bonus(t_infos *infos, int commande, int check_order)
+int			check_file_bonus(t_infos *infos, t_file *head,
+			int commande, int check_order)
 {
-	t_file	*head;
-
-	head = infos->file;
-	if (!(skip_line_fourmi(infos)))
-		return (0);
 	while (infos->file)
 	{
 		if (commantaire(infos) && skip_commentaire(infos, head))

@@ -114,7 +114,8 @@ data_t		init_p(t_infos *infos, t_graphe *graphe);
 /*
 **          check_file_bonus.c
 */
-int			check_file_bonus(t_infos *infos, int commande, int check_order);
+int			check_file_bonus(t_infos *infos, t_file *head,
+			int commande, int check_order);
 /*
 **          get_file_bonus.c
 */
@@ -132,11 +133,6 @@ t_graphe	*new_graphe(t_lem *lem, t_graphe *prev, int nb);
 t_graphe	*add_graphe(t_graphe *old, t_lem *lem, int nb);
 t_lem		*new_lem(t_data *line, int nb, t_lem *prev, int color);
 t_lem		*add_lem(t_lem *lem, t_data *line, int nb, int color);
-/*
-**          affichage_bonus.c
-*/
-void		print_all_link(data_t *env);
-void		ft_put_graphe(t_graphe *p);
 /*
 **          grille_win.c
 */
