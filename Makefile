@@ -151,6 +151,7 @@ else
 	./lem-in < auteur
 	@read $VAR
 	./lem-in < resources/error_1
+	./lem-in < resources/errorc_1
 	./lem-in < resources/error_2
 	./lem-in < resources/error_3
 	./lem-in < resources/error_4
