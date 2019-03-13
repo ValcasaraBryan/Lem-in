@@ -53,6 +53,13 @@ int			parsing_ants(t_infos *infos, char **line)
 	return ((ret == -1) ? 0 : 1);
 }
 
+t_infos		norm_get_file(char **line, t_infos infos)
+{
+	free_line(line);
+	get_next_line(0, NULL);
+	return (infos);
+}
+
 t_infos		get_file_bonus(void)
 {
 	t_infos	infos;
@@ -67,11 +74,7 @@ t_infos		get_file_bonus(void)
 	{
 		if (!(parsing_line(&infos, line, etapes)))
 			if (!(parsing_ants(&infos, &line)))
-			{
-				free_line(&line);
-				get_next_line(0, NULL);
-				break ;
-			}
+				return (norm_get_file(&line, infos));
 		if (etapes == 0)
 		{
 			infos.nb_of_fourmis = ft_atoi(line);
