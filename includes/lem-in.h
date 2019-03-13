@@ -130,8 +130,6 @@ typedef struct          s_infos
 **          affichage.c
 */
 void                    ft_put_list(t_file *file);
-void                    ft_put_data(t_infos *infos);
-
 /*
 **          check_commandes.c
 */

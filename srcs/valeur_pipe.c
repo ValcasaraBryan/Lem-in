@@ -29,7 +29,7 @@ int			ft_find_str_in_tab(t_infos *infos, char *str)
 	return (i);
 }
 
-int		add_link(t_infos *infos, int index_data, int index_pipe)
+int			add_link(t_infos *infos, int index_data, int index_pipe)
 {
 	int		i;
 
@@ -68,7 +68,8 @@ int			valeur_pipe(t_infos *infos)
 		return (0);
 	infos->data[index_data].nb_of_link++;
 	infos->data[index_pipe].nb_of_link++;
-	if (!infos->data[index_data].name_box || !infos->data[index_pipe].name_box)
+	if (!infos->data[index_data].name_box
+		|| !infos->data[index_pipe].name_box)
 		return (0);
 	return (1);
 }

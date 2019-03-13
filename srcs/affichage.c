@@ -21,32 +21,3 @@ void		ft_put_list(t_file *file)
 	}
 	ft_putchar_fd('\n', 1);
 }
-
-void		ft_put_data(t_infos *infos)
-{
-	int		i;
-	int		j;
-
-	i = 0;
-	if (infos)
-	{
-		if (infos->data)
-		{
-			while (i < infos->nb_of_box && infos->data[i].name_box)
-			{
-				ft_printf("nom        = %s\n", infos->data[i].name_box);
-				ft_printf("n_piece    = %d\n", infos->data[i].n_piece);
-				ft_printf("nb_of_link = %d\n", infos->data[i].nb_of_link);
-				ft_printf("commands   = %d\n", infos->data[i].commands);
-				ft_printf("x          = %d\n", infos->data[i].coor_x);
-				ft_printf("y          = %d\n", infos->data[i].coor_y);
-				j = -1;
-				while (++j < infos->data[i].nb_of_link)
-					ft_printf("pipe       = %s\n", infos->data[i].pipe[j]->name_box);
-				ft_printf("\n");
-				i++;
-			}
-			ft_printf("\n");
-		}
-	}
-}
