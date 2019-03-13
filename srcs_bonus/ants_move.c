@@ -12,6 +12,15 @@
 
 #include "visu.h"
 
+int			free_tab_norm(char ***tab_1, char ***tab_2, int retourn)
+{
+	if (tab_1)
+		free_tab_str(tab_1);
+	if (tab_2)
+		free_tab_str(tab_2);
+	return (retourn);
+}
+
 int			ants_move(char **tab)
 {
 	int		i;
@@ -23,23 +32,12 @@ int			ants_move(char **tab)
 	while (tab[++i])
 	{
 		if (tab[i][0] != 'L')
-		{
-			free_tab_str(&tab);
-			return (0);
-		}
+			return (free_tab_norm(&tab, NULL, 0));
 		if (!(tmp = ft_strsplit(tab[i], '-')))
-		{
-			free_tab_str(&tab);
-			return (0);
-		}
+			return (free_tab_norm(&tab, NULL, 0));
 		if (!tmp[0] || !tmp[1] || tmp[2])
-		{
-			free_tab_str(&tab);
-			free_tab_str(&tmp);
-			return (0);
-		}
+			return (free_tab_norm(&tab, &tmp, 0));
 		free_tab_str(&tmp);
 	}
-	free_tab_str(&tab);
-	return (i);
+	return (free_tab_norm(&tab, NULL, i));
 }
