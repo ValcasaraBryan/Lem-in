@@ -38,6 +38,19 @@ SRC =	srcs/main.c\
 		srcs/list_utils.c
 
 SRC_BONUS = srcs_bonus/main_bonus.c\
+			srcs_bonus/parsing_ants_file.c\
+			srcs_bonus/init_p.c\
+			srcs_bonus/check_file_bonus.c\
+			srcs_bonus/get_file_bonus.c\
+			srcs_bonus/ants_move.c\
+			srcs_bonus/list_graphe.c\
+			srcs_bonus/affichage_bonus.c\
+			srcs_bonus/grille_win.c\
+			srcs_bonus/print_link.c\
+			srcs_bonus/draw_line.c\
+			srcs_bonus/put_square.c\
+			srcs_bonus/utils_bonus.c\
+			srcs_bonus/fct_key_hook.c\
 		srcs/affichage.c\
 		srcs/algo.c\
 		srcs/choose_path.c\
@@ -80,7 +93,8 @@ arg_3 = 0
 
 all : $(NAME) $(NAME_BONUS)
 
-$(OBJET): includes/lem-in.h
+$(OBJET) : includes/lem-in.h
+$(OBJET_BONUS) : includes/visu.h 
 
 $(NAME) : $(OBJET)
 	@make -C libft
@@ -88,21 +102,21 @@ $(NAME) : $(OBJET)
 
 $(NAME_BONUS) : $(OBJET_BONUS)
 	@make -C libft
-	@$(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS)  -lmlx -framework OpenGL -framework AppKit -o $@
-	# @$(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS)  /usr/X11/lib/libmlx.a -framework OpenGL -framework AppKit -o $@
+	@$(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS) -lmlx -framework OpenGL -framework AppKit -o $@
+	@# @$(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS)  /usr/X11/lib/libmlx.a -framework OpenGL -framework AppKit -o $@
 
 
 exe_one : $(NAME)
 	./lem-in < resources/correct_1 | ./visu
 
-	# For check_memory_leaks use leaks
-	#./visu < coucou
-		# leaks visu
+	@# For check_memory_leaks use leaks
+	@#./visu < coucou
+	@	# leaks visu
 
-	# For debugging use lldb
-	# lldb visu
-		# settings set target.input-path coucou
-		# process launch
+	@# For debugging use lldb
+	@# lldb visu
+	@	# settings set target.input-path coucou
+	@	# process launch
 
 exe : $(NAME)
 ifeq ($(arg), correct)
