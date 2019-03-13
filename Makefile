@@ -38,6 +38,7 @@ SRC =	srcs/main.c\
 		srcs/list_utils.c
 
 SRC_BONUS = srcs_bonus/main_bonus.c\
+			srcs_bonus/liberation_bonus.c\
 			srcs_bonus/parsing_ants_file.c\
 			srcs_bonus/init_p.c\
 			srcs_bonus/check_file_bonus.c\

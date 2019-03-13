@@ -63,6 +63,7 @@ int				main(int argc, char **argv)
 	mlx_hook(p.mlx_win, 2, 0, key_hook, &p);
 	mlx_do_key_autorepeaton(p.mlx_ptr);
 	mlx_loop(p.mlx_ptr);
+	erase_graphe(&p);
 	erase_infos(&infos);
 	erase_data(&infos);
 	return (0);

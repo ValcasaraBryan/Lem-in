@@ -169,4 +169,8 @@ int			norm_free_tab(char ***tab, int	retourn);
 **          fct_key_hook.c
 */
 int			key_hook(int keycode, data_t *p);
+/*
+**          liberation_bonus.c
+*/
+void		erase_graphe(data_t *p);
 #endif
