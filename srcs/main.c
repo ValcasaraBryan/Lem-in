@@ -12,6 +12,51 @@
 
 #include "lem-in.h"
 
+int			norm_main(t_infos *infos)
+{
+	if (!(check_file(infos, 0, 0)))
+	{
+		perror("ERROR ");
+		erase_infos(infos);
+		erase_data(infos);
+		return (0);
+	}
+	if (!(check_commandes(infos)))
+	{
+		perror("ERROR ");
+		erase_infos(infos);
+		erase_data(infos);
+		return (0);
+	}
+	if (!(add_pipe(infos, infos->file)))
+	{
+		perror("ERROR ");
+		erase_infos(infos);
+		erase_data(infos);
+		return (0);
+	}
+	return (1);
+}
+
+int			norm_main_two(t_infos *infos)
+{
+	if (!(logical_infos_box(infos)))
+	{
+		perror("ERROR ");
+		erase_infos(infos);
+		erase_data(infos);
+		return (0);
+	}
+	if (!(ft_algo(infos)))
+	{
+		perror("ERROR ");
+		erase_infos(infos);
+		erase_data(infos);
+		return (0);
+	}
+	return (1);
+}
+
 int			main(int argc, char **argv)
 {
 	t_infos	infos;
@@ -32,41 +77,10 @@ int			main(int argc, char **argv)
 		erase_data(&infos);
 		return (0);
 	}
-	if (!(check_file(&infos, 0, 0)))
-	{
-		perror("ERROR ");
-		erase_infos(&infos);
-		erase_data(&infos);
+	if (!(norm_main(&infos)))
 		return (0);
-	}
-	if (!(check_commandes(&infos)))
-	{
-		perror("ERROR ");
-		erase_infos(&infos);
-		erase_data(&infos);
+	if (!(norm_main_two(&infos)))
 		return (0);
-	}
-	if (!(add_pipe(&infos, infos.file)))
-	{
-		perror("ERROR ");
-		erase_infos(&infos);
-		erase_data(&infos);
-		return (0);
-	}
-	if (!(logical_infos_box(&infos)))
-	{
-		perror("ERROR ");
-		erase_infos(&infos);
-		erase_data(&infos);
-		return (0);
-	}
-	if (!(ft_algo(&infos)))
-	{
-		perror("ERROR ");
-		erase_infos(&infos);
-		erase_data(&infos);
-		return (0);
-	}
 	erase_infos(&infos);
 	erase_data(&infos);
 	return (0);
