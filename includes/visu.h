@@ -127,6 +127,10 @@ t_infos		get_file_bonus(void);
 */
 int			ants_move(char **tab);
 /*
+**          affichage_bonus.c
+*/
+void		print_all_link(data_t *env);
+/*
 **          list_graphe.c
 */
 t_graphe	*new_graphe(t_lem *lem, t_graphe *prev, int nb);
