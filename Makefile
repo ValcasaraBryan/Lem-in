@@ -107,7 +107,10 @@ $(NAME_BONUS) : $(OBJET_BONUS)
 
 
 exe_one : $(NAME)
-	./lem-in < resources/correct_1 | ./visu
+	./lem-in < resources/err_no_end.map
+	./lem-in < resources/err_no_start2.map
+	./lem-in < resources/err_start_end_same.map
+	# ./lem-in < resources/correct_1 | ./visu
 
 	@# For check_memory_leaks use leaks
 	@#./visu < coucou
@@ -150,50 +153,52 @@ else
 	./lem-in < lem-in
 	./lem-in < auteur
 	@read $VAR
-	./lem-in < resources/error_1 | ./visu
-	./lem-in < resources/error_2 | ./visu
-	./lem-in < resources/error_3 | ./visu
-	./lem-in < resources/error_4 | ./visu
-	./lem-in < resources/error_5 | ./visu
+	./lem-in < resources/error_1
+	./lem-in < resources/error_2
+	./lem-in < resources/error_3
+	./lem-in < resources/error_4
+	./lem-in < resources/error_5
 	@read $VAR
-	./lem-in < resources/error_6 | ./visu
-	./lem-in < resources/error_7 | ./visu
-	./lem-in < resources/error_8 | ./visu
-	./lem-in < resources/error_9 | ./visu
-	./lem-in < resources/error_10 | ./visu
+	./lem-in < resources/error_6
+	./lem-in < resources/error_7
+	./lem-in < resources/error_8
+	./lem-in < resources/error_9
+	./lem-in < resources/error_10
 	@read $VAR
-	./lem-in < resources/error_11 | ./visu
-	./lem-in < resources/error_12 | ./visu
-	./lem-in < resources/error_13 | ./visu
-	./lem-in < resources/error_14 | ./visu
-	./lem-in < resources/error_15 | ./visu
+	./lem-in < resources/error_11
+	./lem-in < resources/error_12
+	./lem-in < resources/error_13
+	./lem-in < resources/error_14
+	./lem-in < resources/error_15
 	@read $VAR
-	./lem-in < resources/error_16 | ./visu
-	./lem-in < resources/error_17 | ./visu
-	./lem-in < resources/error_18 | ./visu
-	./lem-in < resources/error_19 | ./visu
+	./lem-in < resources/error_16
+	./lem-in < resources/error_17
+	./lem-in < resources/error_18
+	./lem-in < resources/error_19
 	@read $VAR
-	./lem-in < resources/error_20 | ./visu
-	./lem-in < resources/error_21 | ./visu
-	./lem-in < resources/error_22 | ./visu
-	./lem-in < resources/error_23 | ./visu
+	./lem-in < resources/error_20
+	./lem-in < resources/error_21
+	./lem-in < resources/error_22
+	./lem-in < resources/error_23
 	@read $VAR
-	./lem-in < resources/error_24 | ./visu
-	./lem-in < resources/error_25 | ./visu
-	./lem-in < resources/error_26 | ./visu
-	./lem-in < resources/error_27 | ./visu
+	./lem-in < resources/error_24
+	./lem-in < resources/error_25
+	./lem-in < resources/error_26
+	./lem-in < resources/error_27
 	@read $VAR
-	./lem-in < resources/correct_gen_1 | ./visu
-	./lem-in < resources/correct_gen_2 | ./visu
-	./lem-in < resources/correct_gen_3 | ./visu
-	./lem-in < resources/correct_gen_4 | ./visu
-	./lem-in < resources/map_offi_no_way | ./visu
-	./lem-in < resources/map_offi_pipe_error | ./visu
-	./lem-in < resources/norooms | ./visu
+	./lem-in < resources/correct_gen_1
+	./lem-in < resources/correct_gen_2
+	./lem-in < resources/correct_gen_3
+	./lem-in < resources/correct_gen_4
+	./lem-in < resources/map_offi_no_way
+	./lem-in < resources/map_offi_pipe_error
+	./lem-in < resources/norooms
 	@read $VAR
-	./lem-in < resources/anil | ./visu
-	./lem-in < resources/map_correct_gen | ./visu
-	./lem-in < resources/correct_genc_2 | ./visu
+	./lem-in < resources/anil
+	./lem-in < resources/map_correct_gen
+	./lem-in < resources/err_no_end.map
+	./lem-in < resources/err_no_start2.map
+	./lem-in < resources/err_start_end_same.map
 
 endif
 

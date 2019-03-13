@@ -39,5 +39,5 @@ int			check_file_bonus(t_infos *infos, int commande, int check_order)
 			return (0);
 		infos->file = infos->file->next;
 	}
-	return (retour_check_file(infos, head, 1));
+	return (norm_check_file(infos, head, 1));
 }

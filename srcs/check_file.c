@@ -12,18 +12,10 @@
 
 #include "lem-in.h"
 
-int			retour_check_file(t_infos *infos, t_file *head, int retour)
-{
-	if (retour == 0)
-		perror("ERROR ");
-	infos->file = head;
-	return (retour);
-}
-
 int			skip_commentaire(t_infos *infos, t_file *head)
 {
 	if (!infos->file->next)
-		return (retour_check_file(infos, head, 1));
+		return (norm_check_file(infos, head, 1));
 	while (infos->file->next && infos->file->line[0] == '#'
 			&& infos->file->line[1] != '#')
 		infos->file = infos->file->next;
@@ -44,13 +36,13 @@ int			step_check(t_infos *infos, t_file *head,
 			int check_order, int commande)
 {
 	if ((check_order = init_check_order(infos, check_order)) == -1)
-		return (retour_check_file(infos, head, 0));
+		return (norm_check_file(infos, head, 0));
 	if (check_order == 1)
 		return (valeur_data(infos, commande) ? 1 : 0);
 	if (check_order == 2)
 	{
 		if (check_nb_char(infos->file->line, 2, ' '))
-			return (retour_check_file(infos, head, 0));
+			return (norm_check_file(infos, head, 0));
 		if (!(valeur_pipe(infos)))
 			return (norm_check_file(infos, head, 0));
 		return (2);
@@ -83,5 +75,5 @@ int			check_file(t_infos *infos, int commande, int check_order)
 			return (0);
 		infos->file = infos->file->next;
 	}
-	return (retour_check_file(infos, head, 1));
+	return (norm_check_file(infos, head, 1));
 }

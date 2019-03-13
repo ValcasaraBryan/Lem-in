@@ -143,7 +143,6 @@ int			            norm_check_file(t_infos *infos, t_file *head, int returne);
 /*
 **          check_file.c
 */
-int			            retour_check_file(t_infos *infos, t_file *head, int retour);
 int			            skip_commentaire(t_infos *infos, t_file *head);
 int			            init_check_order(t_infos *infos, int check_order);
 int			            step_check(t_infos *infos, t_file *head, int check_order, int commande);

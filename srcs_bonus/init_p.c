@@ -52,7 +52,7 @@ data_t		init_p(t_infos *infos, t_graphe *graphe)
 	p.maximum_x = (!(p.maximum_x % p.maximum_x)) ? p.maximum_x : p.maximum_x - 1;
 	p.maximum_y = (!(p.maximum_y % p.maximum_y)) ? p.maximum_y : p.maximum_y - 1;
 	p.medium = (p.maximum_x > p.maximum_y) ? p.maximum_x + 2 : p.maximum_y + 2;
-	if (p.medium > 100)
+	if (p.medium > 30)
 	{
 		perror("Coordinated Too High ");
 		exit(0);
