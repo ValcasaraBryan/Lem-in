@@ -156,4 +156,9 @@ int			key_hook(int keycode, data_t *p);
 **          liberation_bonus.c
 */
 void		erase_graphe(data_t *p);
+/*
+**          main_bonus.c
+*/
+void		norm_main(t_infos *infos);
+int			text_error(void);
 #endif

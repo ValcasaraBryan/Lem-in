@@ -36,6 +36,12 @@ void			norm_main(t_infos *infos)
 	}
 }
 
+int				text_error(void)
+{
+	perror("Wrong Data ");
+	return (0);
+}
+
 int				main(void)
 {
 	t_infos		infos;
@@ -51,10 +57,7 @@ int				main(void)
 	}
 	norm_main(&infos);
 	if (!infos.file || !infos.data)
-	{
-		perror("Wrong Data ");
-		return (0);
-	}
+		return (text_error());
 	send_usage();
 	p = init_p(&infos, parsing_ants_file(infos.file, &infos));
 	if (!p.mlx_win)

@@ -42,7 +42,7 @@ int		key_hook(int keycode, data_t *p)
 		return (erase_all(p, 1));
 	else if (keycode == 45 && p->graphe->next)
 	{
-		p->nb_graphe++;	
+		p->nb_graphe++;
 		while (p->graphe->lem->prev)
 			p->graphe->lem = p->graphe->lem->prev;
 		if (p->graphe->next && p->nb_graphe > 0)
