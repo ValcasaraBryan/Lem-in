@@ -27,8 +27,13 @@ int		erase_all(data_t *p, int val)
 
 int		send_usage(void)
 {
-	printf("%s%s%s", "Usage : You need to put\n",
-		"\t'N'\t--> next\n\t'SPACE'\t--> start\n", "\t'ESC'\t--> exit\n");
+	printf("%s%s%s%s%s%s%s", "-----------------------------------------\n",
+		"|Usage\t: (You need to put)\t\t|\n|",
+		"\tor 'N'\t\t--> next\t|\n|\tor 'SPACE'\t--> start\t|\n",
+		"|\tor 'ESC'\t--> exit\t|\n|\t\t\t\t\t|",
+		"\t\t\t\t\t\n|Legend\t:\t\t\t\t|\n|\tRed\t\t--> Start\t|\n",
+		"|\tGreen\t\t--> End\t\t|\n",
+		"-----------------------------------------\n");
 	return (0);
 }
 
