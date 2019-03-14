@@ -140,6 +140,9 @@ int		ft_resolve(t_infos *inf, int nb_gp)
 			return (0);
 		}
 	if (ft_resolve2(inf, &res, tgt, nb_gp) < 0)
+	{
+		ft_free_tab_int(tgt, nb_gp);
 		return (-1);
+	}
 	return (1);
 }

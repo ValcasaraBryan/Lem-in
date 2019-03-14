@@ -1,0 +1,39 @@
+55
+##start
+start 0 3
+##end
+end 3 0
+un 2 1
+deux 2 3
+trois 4 4
+quatre 5 5
+cinq 6 6
+six 7 7
+#pipes
+start-un
+start-deux
+start-trois
+start-quatre
+start-cinq
+start-six
+un-deux
+un-trois
+un-quatre
+un-cinq
+un-six
+deux-trois
+deux-quatre
+deux-cinq
+deux-six
+trois-quatre
+trois-cinq
+trois-six
+quatre-cinq
+quatre-six
+cinq-six
+end-un
+end-deux
+end-trois
+end-quatre
+end-cinq
+end-six

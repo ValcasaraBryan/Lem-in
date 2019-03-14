@@ -75,8 +75,9 @@ int		ft_algo_2(t_infos *infos)
 		ft_free_tab_int(infos->t_p, infos->t_p[0][0] + 1);
 		return (0);
 	}
-	if ((nbr_group_path = ft_choose_paths(infos)) < 0)
+	if ((nbr_group_path = ft_choose_paths(infos)) <= 0)
 	{
+		ft_free_tab_int(infos->t_p_c, infos->nb_path_max);
 		ft_free_tab_int(infos->t_p, infos->t_p[0][0] + 1);
 		return (0);
 	}
@@ -91,6 +92,7 @@ int		ft_algo_2(t_infos *infos)
 
 int		ft_algo(t_infos *infos)
 {
+	ft_putendl("algo");
 	int i;
 
 	i = -1;
@@ -107,6 +109,7 @@ int		ft_algo(t_infos *infos)
 						infos->data[i].nb_of_link);
 		}
 	}
+	// ft_putnbr(infos->nb_path_max);
 	if (!(ft_algo_2(infos)))
 		return (0);
 	return (1);
