@@ -29,10 +29,10 @@ void			norm_main(t_infos *infos)
 		erase_infos(infos);
 		erase_data(infos);
 	}
-	if (!(logical_infos_box(&infos)))
+	if (!(logical_infos_box(infos)))
 	{
-		erase_infos(&infos);
-		erase_data(&infos);
+		erase_infos(infos);
+		erase_data(infos);
 	}
 }
 
