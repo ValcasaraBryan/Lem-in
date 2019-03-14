@@ -27,13 +27,14 @@ int		erase_all(data_t *p, int val)
 
 void	send_usage(void)
 {
-	printf("%s%s%s%s%s%s%s", "-----------------------------------------\n",
-		"|Usage\t: (You need to put)\t\t|\n|",
-		"\tor 'N'\t\t--> next\t|\n|\tor 'SPACE'\t--> start\t|\n",
-		"|\tor 'ESC'\t--> exit\t|\n|\t\t\t\t\t|",
-		"\t\t\t\t\t\n|Legend\t:\t\t\t\t|\n|\tRed\t\t--> Start\t|\n",
-		"|\tGreen\t\t--> End\t\t|\n",
-		"-----------------------------------------\n");
+	printf("%s%s%s%s%s%s%s%s", "-------------------------------------------------\n",
+		"| Usage :\t\t\t\t\t|\n|",
+		"\t- 'N'\t\t--> Next\t\t|\n|\t- 'SPACE'\t--> Start\t\t|\n",
+		"|\t- 'ESC'\t\t--> Exit\t\t|\n|\t\t\t\t\t\t|",
+		"\t\t\t\t\t\t\n| Legend :\t\t\t\t\t|\n|\tRed\t\t--> Start\t\t|\n",
+		"|\tGreen\t\t--> End\t\t\t|\n|\tBlack\t\t--> No Ants\t\t|\n",
+		"|\tColored line\t--> Next Ants\t\t|\n",
+		"-------------------------------------------------\n");
 }
 
 int		key_hook(int keycode, data_t *p)
