@@ -32,5 +32,4 @@ void			erase_graphe(data_t *p)
 			p->graphe = NULL;
 			p->graphe = head_graphe;
 		}
-
 }
