@@ -55,10 +55,11 @@ int				main(void)
 		perror("Wrong Data ");
 		return (0);
 	}
+	send_usage();
 	p = init_p(&infos, parsing_ants_file(infos.file, &infos));
 	if (!p.mlx_win)
 		return (erase_all(&p, 0));
-	key_hook(0, &p);
+	key_hook(49, &p);
 	mlx_hook(p.mlx_win, 2, 0, key_hook, &p);
 	mlx_do_key_autorepeaton(p.mlx_ptr);
 	mlx_loop(p.mlx_ptr);

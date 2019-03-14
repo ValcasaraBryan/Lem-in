@@ -150,7 +150,7 @@ int			norm_free_tab(char ***tab, int	retourn);
 **          fct_key_hook.c
 */
 int			erase_all(data_t *p, int val);
-int			send_usage(void);
+void		send_usage(void);
 int			key_hook(int keycode, data_t *p);
 /*
 **          liberation_bonus.c

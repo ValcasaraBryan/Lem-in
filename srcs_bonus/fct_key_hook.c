@@ -25,7 +25,7 @@ int		erase_all(data_t *p, int val)
 		return (0);
 }
 
-int		send_usage(void)
+void	send_usage(void)
 {
 	printf("%s%s%s%s%s%s%s", "-----------------------------------------\n",
 		"|Usage\t: (You need to put)\t\t|\n|",
@@ -34,7 +34,6 @@ int		send_usage(void)
 		"\t\t\t\t\t\n|Legend\t:\t\t\t\t|\n|\tRed\t\t--> Start\t|\n",
 		"|\tGreen\t\t--> End\t\t|\n",
 		"-----------------------------------------\n");
-	return (0);
 }
 
 int		key_hook(int keycode, data_t *p)
@@ -43,7 +42,7 @@ int		key_hook(int keycode, data_t *p)
 		return (erase_all(p, 1));
 	else if (keycode == 45 && p->graphe->next)
 	{
-		p->nb_graphe++;
+		p->nb_graphe++;	
 		while (p->graphe->lem->prev)
 			p->graphe->lem = p->graphe->lem->prev;
 		if (p->graphe->next && p->nb_graphe > 0)
@@ -60,7 +59,7 @@ int		key_hook(int keycode, data_t *p)
 		p->n_lem = 0;
 		mlx_clear_window(p->mlx_ptr, p->mlx_win);
 	}
-	else if (keycode != 0)
-		return (send_usage());
+	else
+		return (0);
 	return (fct_main(p));
 }
