@@ -46,11 +46,46 @@ int				check_box_color(data_t *p, int val)
 	return (0);
 }
 
-int				fct_put_pixel(data_t *p)
+void			fct_put_box_color(data_t *p, int i, int j)
+{
+	if (p->infos->data[p->index_of_box].commands == 1
+		|| p->infos->data[p->index_of_box].commands == 2)
+		mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j,
+		(p->infos->data[p->index_of_box].commands == 1)
+		? p->color_start : p->color_end);
+	else if (check_box(p, p->index_of_box))
+		mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j,
+		check_box_color(p, p->index_of_box));
+	else
+		mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, p->color_interieur);
+}
+
+void			fct_put_pixel_norm(data_t *p)
 {
 	int			i;
 	int			j;
 
+	i = p->centre_x;
+	while (i < p->centre_x + p->longueur)
+	{
+		j = p->centre_y;
+		while (j < p->centre_y + p->largeur)
+		{
+			if (i != p->centre_x && i != p->centre_x + p->longueur - 1
+				&& j != p->centre_y && j != p->centre_y + p->largeur - 1)
+				fct_put_box_color(p, i, j);
+			if (i == p->centre_x || i == p->centre_x + p->longueur - 1)
+				mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, p->color_carre_x);
+			if (j == p->centre_y || j == p->centre_y + p->largeur - 1)
+				mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, p->color_carre_y);
+			j++;
+		}
+		i++;
+	}
+}
+
+int				fct_put_pixel(data_t *p)
+{
 	while (p->graphe->lem)
 	{
 		if (!p->graphe->lem->next)
@@ -61,32 +96,11 @@ int				fct_put_pixel(data_t *p)
 		p->graphe->lem = p->graphe->lem->prev;
 	while (p->infos->data[p->index_of_box].name_box)
 	{
-		p->centre_y = p->grille_y[p->infos->data[p->index_of_box].coor_y] - (p->largeur / 2);
-		p->centre_x = p->grille_x[p->infos->data[p->index_of_box].coor_x] - (p->longueur / 2);
-		i = p->centre_x;
-		while (i < p->centre_x + p->longueur)
-		{
-			j = p->centre_y;
-			while (j < p->centre_y + p->largeur)
-			{
-				if (i != p->centre_x && i != p->centre_x + p->longueur - 1
-					&& j != p->centre_y && j != p->centre_y + p->largeur - 1)
-				{
-					if (p->infos->data[p->index_of_box].commands == 1 || p->infos->data[p->index_of_box].commands == 2)
-						mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, (p->infos->data[p->index_of_box].commands == 1) ? p->color_start : p->color_end);
-					else if (check_box(p, p->index_of_box))
-						mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, check_box_color(p, p->index_of_box));
-					else
-						mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, p->color_interieur);
-				}
-				if (i == p->centre_x || i == p->centre_x + p->longueur - 1)
-					mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, p->color_carre_x);
-				if (j == p->centre_y || j == p->centre_y + p->largeur - 1)
-					mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, p->color_carre_y);
-				j++;
-			}
-			i++;
-		}
+		p->centre_y = p->grille_y[p->infos->data[p->index_of_box].coor_y]
+		- (p->largeur / 2);
+		p->centre_x = p->grille_x[p->infos->data[p->index_of_box].coor_x]
+		- (p->longueur / 2);
+		fct_put_pixel_norm(p);
 		p->index_of_box++;
 	}
 	return (1);

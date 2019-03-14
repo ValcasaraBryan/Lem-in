@@ -53,3 +53,15 @@ void			draw_line(t_pos a, t_pos b, data_t *env, int color)
 	}
 	mlx_pixel_put(env->mlx_ptr, env->mlx_win, p.x, p.y, color);
 }
+
+void			print(data_t *env, int i)
+{
+	t_pos		a;
+	t_pos		b;
+
+	a.x = env->grille_x[env->graphe->lem->data->pipe[i]->coor_x];
+	a.y = env->grille_y[env->graphe->lem->data->pipe[i]->coor_y];
+	b.x = env->grille_x[env->graphe->lem->data->coor_x];
+	b.y = env->grille_y[env->graphe->lem->data->coor_y];
+	draw_line(a, b, env, env->graphe->lem->color_ants);
+}

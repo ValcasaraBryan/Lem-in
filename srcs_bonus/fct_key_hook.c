@@ -12,17 +12,30 @@
 
 #include "visu.h"
 
+int		erase_all(data_t *p, int val)
+{
+	free(p->grille_x);
+	free(p->grille_y);
+	erase_graphe(p);
+	erase_infos(p->infos);
+	erase_data(p->infos);
+	if (val == 1)
+		exit(0);
+	else
+		return (0);
+}
+
+int		send_usage(void)
+{
+	printf("%s%s%s", "Usage : You need to put\n",
+		"\t'N'\t--> next\n\t'SPACE'\t--> start\n", "\t'ESC'\t--> exit\n");
+	return (0);
+}
+
 int		key_hook(int keycode, data_t *p)
 {
 	if (keycode == 53)
-	{
-		free(p->grille_x);
-		free(p->grille_y);
-		erase_graphe(p);
-		erase_infos(p->infos);
-		erase_data(p->infos);
-		exit(0);
-	}
+		return (erase_all(p, 1));
 	else if (keycode == 45 && p->graphe->next)
 	{
 		p->nb_graphe++;
@@ -43,11 +56,6 @@ int		key_hook(int keycode, data_t *p)
 		mlx_clear_window(p->mlx_ptr, p->mlx_win);
 	}
 	else if (keycode != 0)
-	{
-		printf("%s%s%s", "Usage : You need to put\n",
-			"\t'N'\t--> next\n\t'SPACE'\t--> start\n", "\t'ESC'\t--> exit\n");
-		return (0);
-	}
-	fct_main(p);
-	return (0);
+		return (send_usage());
+	return (fct_main(p));
 }

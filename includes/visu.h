@@ -53,22 +53,12 @@ typedef struct	s_line
 
 typedef struct		data_s
 {
-	int				index_of_box;
-	int				index_of_box_dest;
-	int				nb_of_box;
-	int				*grille_x;
-	int				*grille_y;
 	void			*mlx_ptr;
 	void			*mlx_win;
 	int				longueur_win;
 	int				largeur_win;
-	int				color;
-	int				color_start;
-	int				color_box_used;
-	int				color_end;
-	int				color_carre_x;
-	int				color_carre_y;
-	int				color_interieur;
+	int				*grille_x;
+	int				*grille_y;
 	int				centre_x;
 	int				centre_y;
 	int				longueur;
@@ -76,38 +66,29 @@ typedef struct		data_s
 	int				medium;
 	int				maximum_x;
 	int				maximum_y;
-	int				coef;
-	int				index_box_map;
-	int				index_box_map_link;
+	t_infos			*infos;
+	int				index_of_box;
+	t_graphe		*graphe;
 	int				nb_graphe;
 	int				n_lem;
-	t_infos			*infos;
-	t_graphe		*graphe;
+	int				color_start;
+	int				color_end;
+	int				color_carre_x;
+	int				color_carre_y;
+	int				color_interieur;
 }					data_t;
-
-typedef struct		s_ligne
-{
-	struct data_s	*p;
-	int				z;
-	int				j;
-	int				start_x;
-	int				start_y;
-	int				finish_x;
-	int				finish_y;
-	char			c;
-	int				color;
-	int				n_piece;
-}					t_ligne;
 
 /*
 **          parsing_ants_file.c
 */
 void		fcnt_rand(int *color, int nb);
+int			num_data(t_infos *infos, char *str);
 t_graphe	*parsing_ants_file(t_file *file, t_infos *infos);
 /*
 **          init_p.c
 */
 int			val_max_coor(t_data *data, char c);
+void		coordinates_too_high(data_t *p);
 data_t		init_p(t_infos *infos, t_graphe *graphe);
 /*
 **          check_file_bonus.c
@@ -144,6 +125,7 @@ int			init_tab_x_y(data_t *p);
 **          print_link.c
 */
 int			check_next(data_t *p, t_graphe *graphe);
+void		reset_graphe_lem(data_t *env);
 void		print_no_start(data_t *env);
 int			check_start(data_t *p);
 void		print_start(data_t *env);
@@ -152,6 +134,7 @@ void		print_start(data_t *env);
 */
 int			absolute_value(int nb);
 void		draw_line(t_pos a, t_pos b, data_t *env, int color);
+void		print(data_t *env, int i);
 /*
 **          put_square.c
 */
@@ -166,6 +149,8 @@ int			norm_free_tab(char ***tab, int	retourn);
 /*
 **          fct_key_hook.c
 */
+int			erase_all(data_t *p, int val);
+int			send_usage(void);
 int			key_hook(int keycode, data_t *p);
 /*
 **          liberation_bonus.c

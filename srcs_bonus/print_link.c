@@ -23,7 +23,8 @@ int			check_next(data_t *p, t_graphe *graphe)
 		i = -1;
 		if (p->graphe->lem->data->commands == 0)
 			while (++i < p->graphe->lem->data->nb_of_link)
-				if (p->graphe->lem->data->pipe[i]->n_piece == graphe->lem->data->n_piece)
+				if (p->graphe->lem->data->pipe[i]->n_piece
+					== graphe->lem->data->n_piece)
 				{
 					while (graphe->lem->prev)
 						graphe->lem = graphe->lem->prev;
@@ -39,10 +40,20 @@ int			check_next(data_t *p, t_graphe *graphe)
 	return (-1);
 }
 
+void		reset_graphe_lem(data_t *env)
+{
+	while (env->graphe->lem->prev)
+		env->graphe->lem = env->graphe->lem->prev;
+	while (env->graphe->prev)
+	{
+		if (env->graphe->nb_of_graphe == env->nb_graphe)
+			break ;
+		env->graphe = env->graphe->prev;
+	}
+}
+
 void		print_no_start(data_t *env)
 {
-	t_pos	a;
-	t_pos	b;
 	int		i;
 
 	i = -1;
@@ -52,26 +63,13 @@ void		print_no_start(data_t *env)
 	{
 		i = check_next(env, env->graphe->next);
 		if (i >= 0)
-		{
-			a.x = env->grille_x[env->graphe->lem->data->pipe[i]->coor_x];
-			a.y = env->grille_y[env->graphe->lem->data->pipe[i]->coor_y];
-			b.x = env->grille_x[env->graphe->lem->data->coor_x];
-			b.y = env->grille_y[env->graphe->lem->data->coor_y];
-			draw_line(a, b, env, env->graphe->lem->color_ants);
-		}
+			print(env, i);
 		if (env->graphe->lem->next)
 			env->graphe->lem = env->graphe->lem->next;
 		else
 			break ;
 	}
-	while (env->graphe->lem->prev)
-		env->graphe->lem = env->graphe->lem->prev;
-	while (env->graphe->prev)
-	{
-		if (env->graphe->nb_of_graphe == env->nb_graphe)
-			break ;
-		env->graphe = env->graphe->prev;
-	}
+	reset_graphe_lem(env);
 }
 
 int			check_start(data_t *p)
@@ -92,8 +90,6 @@ int			check_start(data_t *p)
 
 void		print_start(data_t *env)
 {
-	t_pos	a;
-	t_pos	b;
 	int		i;
 
 	if (!env->graphe->next)
@@ -108,24 +104,11 @@ void		print_start(data_t *env)
 	{
 		i = check_start(env);
 		if (i >= 0)
-		{
-			a.x = env->grille_x[env->graphe->lem->data->pipe[i]->coor_x];
-			a.y = env->grille_y[env->graphe->lem->data->pipe[i]->coor_y];
-			b.x = env->grille_x[env->graphe->lem->data->coor_x];
-			b.y = env->grille_y[env->graphe->lem->data->coor_y];
-			draw_line(a, b, env, env->graphe->lem->color_ants);
-		}
+			print(env, i);
 		if (env->graphe->lem->next)
 			env->graphe->lem = env->graphe->lem->next;
 		else
 			break ;
 	}
-	while (env->graphe->lem->prev)
-		env->graphe->lem = env->graphe->lem->prev;
-	while (env->graphe->prev)
-	{
-		if (env->graphe->nb_of_graphe == env->nb_graphe)
-			break ;
-		env->graphe = env->graphe->prev;
-	}
+	reset_graphe_lem(env);
 }

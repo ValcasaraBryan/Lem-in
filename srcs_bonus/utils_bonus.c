@@ -24,7 +24,7 @@ int			fct_main(data_t *p)
 	print_no_start(p);
 	fct_put_pixel(p);
 	p->index_of_box = 0;
-	return (1);
+	return (0);
 }
 
 int			norm_free_tab(char ***tab, int retourn)
