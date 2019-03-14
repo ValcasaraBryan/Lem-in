@@ -55,12 +55,15 @@ data_t		init_p(t_infos *infos, t_graphe *graphe)
 	if (p.medium > 30)
 	{
 		perror("Coordinated Too High ");
+		erase_graphe(&p);
+		erase_infos(p.infos);
+		erase_data(p.infos);
 		exit(0);
 	}
 	p.longueur_win = ((p.medium - 2) >= 25) ? 1024 : 512;
 	p.largeur_win = ((p.medium - 2) >= 25) ? 1024 : 512;
 	init_tab_x_y(&p);
 	init_grille_x_y(&p);
-	p.mlx_win = mlx_new_window(p.mlx_ptr, p.longueur_win, p.largeur_win, "mlx 42");
+	p.mlx_win = (p.mlx_ptr) ? mlx_new_window(p.mlx_ptr, p.longueur_win, p.largeur_win, "mlx 42") : NULL;
 	return (p);
 }

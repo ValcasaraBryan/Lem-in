@@ -15,6 +15,9 @@
 int			check_file_bonus(t_infos *infos, t_file *head,
 			int commande, int check_order)
 {
+	head = infos->file;
+	if (!(skip_line_fourmi(infos)))
+		return (0);
 	while (infos->file)
 	{
 		if (commantaire(infos) && skip_commentaire(infos, head))

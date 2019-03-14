@@ -44,11 +44,11 @@ t_graphe		*parsing_ants_file(t_file *file, t_infos *infos)
 		{
 			if (!(tab = ft_strsplit(file->line, ' ')))
 				return (NULL);
-			i = 0;
+			i = -1;
 			lem = NULL;
-			while (tab[i])
+			while (tab[++i])
 			{
-				if (!(box = ft_strsplit(tab[i++], '-')))
+				if (!(box = ft_strsplit(tab[i], '-')))
 					return (NULL);
 				if (!box[0] || !box[1])
 					return (NULL);
@@ -58,7 +58,9 @@ t_graphe		*parsing_ants_file(t_file *file, t_infos *infos)
 						break ;
 				n_lem = ft_atoi(box[0] + 1);
 				lem = add_lem(lem, &infos->data[j], n_lem, color[n_lem - 1]);
+				free_tab_str(&box);
 			}
+			free_tab_str(&tab);
 			step = add_graphe(step, lem, x++);
 		}
 		file = file->next;

@@ -82,11 +82,11 @@ OBJET_BONUS = $(SRC_BONUS:.c=.o)
 
 INCLUDES = includes
 
-CFLAGS = -Wall -Wextra -Werror -I $(INCLUDES) #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -I $(INCLUDES)# -fsanitize=address
 
 CC = clang
 
-leak= valgrind --leak-check=full --track-origins=yes #--show-leak-kinds=all #--show-leak-kinds=definite
+leak= valgrind --leak-check=full --track-origins=yes#--show-leak-kinds=all #--show-leak-kinds=definite
 
 arg = 0
 arg_2 = 0
@@ -107,9 +107,13 @@ $(NAME_BONUS) : $(OBJET_BONUS)
 	@# @$(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS)  /usr/X11/lib/libmlx.a -framework OpenGL -framework AppKit -o $@
 
 
+exe_one_leak : $(NAME)
+	./lem-in < resources/correct_1 > coucou
+	valgrind --leak-check=full --show-leak-kinds=all ./visu < coucou 2> salut
 exe_one : $(NAME)
-	./lem-in < resources/correct_1 | ./visu
-
+	./lem-in < resources/correct_1 > coucou
+	./visu < coucou
+	# ./visu < coucou
 	@# For check_memory_leaks use leaks
 	@#./visu < coucou
 	@	# leaks visu

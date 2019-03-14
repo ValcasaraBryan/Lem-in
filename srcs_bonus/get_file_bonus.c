@@ -75,7 +75,7 @@ t_infos		get_file_bonus(void)
 		if (!(parsing_line(&infos, line, etapes)))
 			if (!(parsing_ants(&infos, &line)))
 				return (norm_get_file(&line, infos));
-		if (etapes == 0)
+		if (etapes == 0 && line[0] != '#')
 		{
 			infos.nb_of_fourmis = ft_atoi(line);
 			etapes++;

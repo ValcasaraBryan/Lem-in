@@ -77,10 +77,8 @@ typedef struct		data_s
 	int				maximum_x;
 	int				maximum_y;
 	int				coef;
-	int				**mappage_box;
 	int				index_box_map;
 	int				index_box_map_link;
-	int				****mappage_pipe;
 	int				nb_graphe;
 	int				n_lem;
 	t_infos			*infos;

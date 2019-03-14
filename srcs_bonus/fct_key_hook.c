@@ -15,7 +15,14 @@
 int		key_hook(int keycode, data_t *p)
 {
 	if (keycode == 53)
+	{
+		free(p->grille_x);
+		free(p->grille_y);
+		erase_graphe(p);
+		erase_infos(p->infos);
+		erase_data(p->infos);
 		exit(0);
+	}
 	else if (keycode == 45 && p->graphe->next)
 	{
 		p->nb_graphe++;
@@ -37,7 +44,8 @@ int		key_hook(int keycode, data_t *p)
 	}
 	else if (keycode != 0)
 	{
-		printf("Usage : You need to put\n\t'N'\t--> next\n\t'SPACE'\t--> start\n\t'ESC'\t--> exit\n");
+		printf("%s%s%s", "Usage : You need to put\n",
+			"\t'N'\t--> next\n\t'SPACE'\t--> start\n", "\t'ESC'\t--> exit\n");
 		return (0);
 	}
 	fct_main(p);
