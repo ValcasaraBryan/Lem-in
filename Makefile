@@ -104,15 +104,15 @@ $(NAME) : $(OBJET)
 $(NAME_BONUS) : $(OBJET_BONUS)
 	@make -C libft
 	@ $(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS) -lmlx -framework OpenGL -framework AppKit -o $@
-	# @ $(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS)  /usr/X11/lib/libmlx.a -framework OpenGL -framework AppKit -o $@
+	@# $(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS)  /usr/X11/lib/libmlx.a -framework OpenGL -framework AppKit -o $@
 
 
 exe_one_leak : $(NAME)
 	./lem-in < resources/correct_1 > coucou
 	valgrind --leak-check=full --show-leak-kinds=all ./visu < coucou 2> salut
 exe_one : $(NAME)
-	./lem-in < resources/correct/example2 > coucou
-	./visu < coucou
+	time ./lem-in < resources/correct/big_map.txt
+	# $(leak) ./lem-in < resources/correct/true_test > coucou
 	# ./visu < coucou
 	@# For check_memory_leaks use leaks
 	@#./visu < coucou
@@ -191,8 +191,8 @@ ifeq ($(arg), correct)
 	$(leak) ./lem-in < resources/correct/test_boucle 2>> sortie_error_lem-in_correct | ./visu 2>> sortie_error_visu_correct
 	$(leak) ./lem-in < resources/correct/totomap 2>> sortie_error_lem-in_correct | ./visu 2>> sortie_error_visu_correct
 	$(leak) ./lem-in < resources/correct/bad_map_3 2>> sortie_error_lem-in_correct | ./visu 2>> sortie_error_visu_correct
-	$(leak) ./lem-in < resources/correct/true_test 2>> sortie_error_lem-in_correct | ./visu 2>> sortie_error_visu_correct
-	$(leak) ./lem-in < resources/correct/big_map.txt 2>> sortie_error_lem-in_correct | ./visu 2>> sortie_error_visu_correct
+	@# $(leak) ./lem-in < resources/correct/true_test 2>> sortie_error_lem-in_correct | ./visu 2>> sortie_error_visu_correct
+	@# $(leak) ./lem-in < resources/correct/big_map.txt 2>> sortie_error_lem-in_correct | ./visu 2>> sortie_error_visu_correct
 
 else
 	$(leak) ./lem-in < srcs 2> sortie_error_lem-in_error | $(leak) ./visu 2> sortie_error_visu_error
