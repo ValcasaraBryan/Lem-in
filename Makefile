@@ -111,7 +111,7 @@ exe_one_leak : $(NAME)
 	./lem-in < resources/correct_1 > coucou
 	valgrind --leak-check=full --show-leak-kinds=all ./visu < coucou 2> salut
 exe_one : $(NAME)
-	./lem-in < resources/correct_1 > coucou
+	./lem-in < resources/correct/example2 > coucou
 	./visu < coucou
 	# ./visu < coucou
 	@# For check_memory_leaks use leaks
@@ -124,28 +124,6 @@ exe_one : $(NAME)
 	@	# process launch
 
 exe : $(NAME)
-ifeq ($(arg), correctv)
-	./lem-in < resources/correct_7 2> sortie_error_lem-in_correctv | ./visu 2> sortie_error_visu_correctv
-	./lem-in < resources/correct_8 2>> sortie_error_lem-in_correctv | ./visu 2>> sortie_error_visu_correctv
-	./lem-in < resources/correct_9 2>> sortie_error_lem-in_correctv | ./visu 2>> sortie_error_visu_correctv
-	./lem-in < resources/correct_10 2>> sortie_error_lem-in_correctv | ./visu 2>> sortie_error_visu_correctv
-	./lem-in < resources/correctc_10 2>> sortie_error_lem-in_correctv | ./visu 2>> sortie_error_visu_correctv
-	./lem-in < resources/correct_11 2>> sortie_error_lem-in_correctv | ./visu 2>> sortie_error_visu_correctv
-	./lem-in < resources/map_git 2>> sortie_error_lem-in_correctv | ./visu 2>> sortie_error_visu_correctv
-	./lem-in < resources/map_git1 2>> sortie_error_lem-in_correctv | ./visu 2>> sortie_error_visu_correctv
-	./lem-in < resources/map_git2 2>> sortie_error_lem-in_correctv | ./visu 2>> sortie_error_visu_correctv
-	./lem-in < resources/map_git3 2>> sortie_error_lem-in_correctv | ./visu 2>> sortie_error_visu_correctv
-	./lem-in < resources/map_offi 2>> sortie_error_lem-in_correctv | ./visu 2>> sortie_error_visu_correctv
-	./lem-in < resources/map_offi_custom 2>> sortie_error_lem-in_correctv | ./visu 2>> sortie_error_visu_correctv
-	./lem-in < resources/maptest 2>> sortie_error_lem-in_correctv | ./visu 2>> sortie_error_visu_correctv
-	./lem-in < resources/g 2>> sortie_error_lem-in_correctv | ./visu 2>> sortie_error_visu_correctv
-	./lem-in < resources/correct_genc_1 2>> sortie_error_lem-in_correctv | ./visu 2>> sortie_error_visu_correctv
-	./lem-in < resources/correct_genc_3 2>> sortie_error_lem-in_correctv | ./visu 2>> sortie_error_visu_correctv
-	./lem-in < resources/big 2>> sortie_error_lem-in_correctv | ./visu 2>> sortie_error_visu_correctv
-	./lem-in < resources/correct_genc_4 2>> sortie_error_lem-in_correctv | ./visu 2>> sortie_error_visu_correctv
-	./lem-in < resources/correct_genc_5 2>> sortie_error_lem-in_correctv | ./visu 2>> sortie_error_visu_correctv
-endif
-
 ifeq ($(arg), correct)
 	$(leak) ./lem-in < resources/correct/1 2> sortie_error_lem-in_correct | ./visu 2> sortie_error_visu_correct
 	$(leak) ./lem-in < resources/correct/1.map 2>> sortie_error_lem-in_correct | ./visu 2>> sortie_error_visu_correct
