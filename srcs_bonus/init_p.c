@@ -29,7 +29,7 @@ int			val_max_coor(t_data *data, char c)
 				val = data[i].coor_y;
 		i++;
 	}
-	return (val);
+	return ((val == 0) ? 1 : val);
 }
 
 void		coordinates_too_high(data_t *p)

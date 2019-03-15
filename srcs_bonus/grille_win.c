@@ -21,6 +21,7 @@ int			init_grille_x_y(data_t *p)
 
 	i = -1;
 	divi = (p->longueur_win - 2) / p->medium;
+	divi = (divi == 0) ? 1 : divi;
 	divi = (!(divi % divi)) ? divi : divi + (10 - divi);
 	while (++i < p->medium)
 	{
