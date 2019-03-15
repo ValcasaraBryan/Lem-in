@@ -16,17 +16,21 @@ int		ft_un_el_l_commence_par_tab_i(t_infos *inf, int tabi, int nbc)
 {
 	t_graph	*tmp;
 	int		i;
+	int		track;
 
+	track = 0;
 	i = 0;
 	tmp = inf->l;
 	while (tmp)
 	{
 		if (tmp->path[1] == tabi)
-		{
 			return (1);
-		}
+		if (tmp->path[1] != -1)
+			track++;
 		tmp = tmp->next;
 	}
+	if (!track)
+		return(1);
 	while (i < nbc)
 	{
 		if (inf->t_p[inf->t_p_c[nbc - 1][i]][1] == tabi)
