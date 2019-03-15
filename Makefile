@@ -92,7 +92,7 @@ arg = 0
 arg_2 = 0
 arg_3 = 0
 
-all : $(NAME) #$(NAME_BONUS)
+all : $(NAME) $(NAME_BONUS)
 
 $(OBJET) : includes/lem-in.h
 $(OBJET_BONUS) : includes/visu.h
@@ -125,12 +125,6 @@ exe_one : $(NAME)
 
 exe : $(NAME)
 ifeq ($(arg), correctv)
-	./lem-in < resources/correct_1 | ./visu
-	./lem-in < resources/correct_2 | ./visu
-	./lem-in < resources/correct_3 | ./visu
-	./lem-in < resources/correct_4 | ./visu
-	./lem-in < resources/correct_5 | ./visu
-	./lem-in < resources/correct_6 | ./visu
 	./lem-in < resources/correct_7 | ./visu
 	./lem-in < resources/correct_8 | ./visu
 	./lem-in < resources/correct_9 | ./visu
@@ -153,193 +147,170 @@ ifeq ($(arg), correctv)
 endif
 
 ifeq ($(arg), correct)
-	$(leak) ./lem-in < resources/correct/1
-	$(leak) ./lem-in < resources/correct/1.map
-	$(leak) ./lem-in < resources/correct/10.map
-	$(leak) ./lem-in < resources/correct/2.map
-	$(leak) ./lem-in < resources/correct/5.map
-	$(leak) ./lem-in < resources/correct/9_path_depth_10_ants2.map
-	$(leak) ./lem-in < resources/correct/9_path_depth_1_ants2.map
-	$(leak) ./lem-in < resources/correct/9_path_depth_2_ants2.map
-	@read $VAR
-	$(leak) ./lem-in < resources/correct/9_path_depth_4_ants2.map
-	$(leak) ./lem-in < resources/correct/9_path_depth_8_ants.map
-	$(leak) ./lem-in < resources/correct/9_path_depth_9_ants.map
-	$(leak) ./lem-in < resources/correct/big
-	$(leak) ./lem-in < resources/correct/correct_1
-	$(leak) ./lem-in < resources/correct/correct_2
-	@read $VAR
-	$(leak) ./lem-in < resources/correct/correct_3
-	$(leak) ./lem-in < resources/correct/correct_4
-	$(leak) ./lem-in < resources/correct/correct_5
-	$(leak) ./lem-in < resources/correct/correct_6
-	$(leak) ./lem-in < resources/correct/correct_7
-	$(leak) ./lem-in < resources/correct/correct_8
-	@read $VAR
-	$(leak) ./lem-in < resources/correct/correct_9
-	$(leak) ./lem-in < resources/correct/correct_10
-	$(leak) ./lem-in < resources/correct/correct_11
-	$(leak) ./lem-in < resources/correct/correct_genc_1
-	$(leak) ./lem-in < resources/correct/correct_genc_2
-	$(leak) ./lem-in < resources/correct/correct_genc_3
-	$(leak) ./lem-in < resources/correct/correct_genc_4
-	@read $VAR
-	./lem-in < resources/correct/correct_genc_5
-	$(leak) ./lem-in < resources/correct/correctc_10
-	$(leak) ./lem-in < resources/correct/err_no_links.map
-	$(leak) ./lem-in < resources/correct/err_no_path.map
-	$(leak) ./lem-in < resources/correct/error1
-	$(leak) ./lem-in < resources/correct/example
-	$(leak) ./lem-in < resources/correct/example2
-	@read $VAR
-	$(leak) ./lem-in < resources/correct/example3
-	$(leak) ./lem-in < resources/correct/g
-	$(leak) ./lem-in < resources/correct/good_map_lot_of_room_without_pipe
-	$(leak) ./lem-in < resources/correct/good_map_no_com
-	$(leak) ./lem-in < resources/correct/good_map_one_room_without_pipe
-	$(leak) ./lem-in < resources/correct/good_map_one_room_without_pipe~
-	$(leak) ./lem-in < resources/correct/goodmap_aaa
-	$(leak) ./lem-in < resources/correct/goodmap_end_next_to_start
-	@read $VAR
-	$(leak) ./lem-in < resources/correct/goodmap_jjj
-	$(leak) ./lem-in < resources/correct/goodmap_kkk
-	$(leak) ./lem-in < resources/correct/goodmap_multiple_way_differents_dist
-	$(leak) ./lem-in < resources/correct/goodmap_oulah
-	$(leak) ./lem-in < resources/correct/goodmap_test
-	$(leak) ./lem-in < resources/correct/impossible.txt
-	$(leak) ./lem-in < resources/correct/lll
-	$(leak) ./lem-in < resources/correct/map_genius
-	@read $VAR
-	$(leak) ./lem-in < resources/correct/map_genius2
-	$(leak) ./lem-in < resources/correct/map_git
-	$(leak) ./lem-in < resources/correct/map_git2
-	$(leak) ./lem-in < resources/correct/map_git3
-	$(leak) ./lem-in < resources/correct/map_offi
-	$(leak) ./lem-in < resources/correct/map_offi_custom
-	$(leak) ./lem-in < resources/correct/map_offi_no_way
-	$(leak) ./lem-in < resources/correct/maptest
-	$(leak) ./lem-in < resources/correct/new_map
-	@read $VAR
-	$(leak) ./lem-in < resources/correct/pretty
-	$(leak) ./lem-in < resources/correct/subject.txt
-	$(leak) ./lem-in < resources/correct/test
-	$(leak) ./lem-in < resources/correct/test1
-	$(leak) ./lem-in < resources/correct/test_boucle
-	$(leak) ./lem-in < resources/correct/totomap
-	$(leak) ./lem-in < resources/correct/bad_map_3
-	$(leak) ./lem-in < resources/correct/true_test
-	$(leak) ./lem-in < resources/correct/big_map.txt
+	$(leak) ./lem-in < resources/correct/1 2> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/1.map 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/10.map 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/2.map 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/5.map 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/9_path_depth_10_ants2.map 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/9_path_depth_1_ants2.map 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/9_path_depth_2_ants2.map 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/9_path_depth_4_ants2.map 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/9_path_depth_8_ants.map 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/9_path_depth_9_ants.map 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/big 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/correct_1 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/correct_2 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/correct_3 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/correct_4 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/correct_5 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/correct_6 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/correct_7 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/correct_8 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/correct_9 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/correct_10 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/correct_11 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/correct_genc_1 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/correct_genc_2 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/correct_genc_3 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/correct_genc_4 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/correct_genc_5 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/correctc_10 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/err_no_links.map 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/err_no_path.map 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/error1 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/example 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/example2 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/example3 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/g 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/good_map_lot_of_room_without_pipe 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/good_map_no_com 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/good_map_one_room_without_pipe 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/good_map_one_room_without_pipe 2>> leaks_correct~ | ./visu
+	$(leak) ./lem-in < resources/correct/goodmap_aaa 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/goodmap_end_next_to_start 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/goodmap_jjj 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/goodmap_kkk 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/goodmap_multiple_way_differents_dist 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/goodmap_oulah 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/goodmap_test 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/impossible.txt 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/lll 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/map_genius 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/map_genius2 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/map_git 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/map_git2 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/map_git3 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/map_offi 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/map_offi_custom 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/map_offi_no_way 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/maptest 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/new_map 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/pretty 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/subject.txt 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/test 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/test1 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/test_boucle 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/totomap 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/bad_map_3 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/true_test 2>> leaks_correct | ./visu
+	$(leak) ./lem-in < resources/correct/big_map.txt 2>> leaks_correct | ./visu
 
 else
-	$(leak) ./lem-in < srcs
-	$(leak) ./lem-in < lem-in
-	$(leak) ./lem-in < auteur
-	@read $VAR
-	$(leak) ./lem-in < resources/error/10_lots_of_comments.map
-	$(leak) ./lem-in < resources/error/2
-	$(leak) ./lem-in < resources/error/20.map
-	$(leak) ./lem-in < resources/error/anil
-	$(leak) ./lem-in < resources/error/bad_map
-	$(leak) ./lem-in < resources/error/bad_map2
-	@read $VAR
-	$(leak) ./lem-in < resources/error/bad_map_4
-	$(leak) ./lem-in < resources/error/comment.txt
-	$(leak) ./lem-in < resources/error/correct_gen_1
-	$(leak) ./lem-in < resources/error/correct_gen_2
-	@read $VAR
-	$(leak) ./lem-in < resources/error/correct_gen_3
-	$(leak) ./lem-in < resources/error/correct_gen_4
-	$(leak) ./lem-in < resources/error/double_end.txt
-	$(leak) ./lem-in < resources/error/double_start.txt
-	$(leak) ./lem-in < resources/error/err_3_coordinates.map
-	$(leak) ./lem-in < resources/error/err_duplicate.map
-	$(leak) ./lem-in < resources/error/err_empty.map
-	@read $VAR
-	$(leak) ./lem-in < resources/error/err_letter_in_coordinate.map
-	$(leak) ./lem-in < resources/error/err_link_to_unknown_room.map
-	$(leak) ./lem-in < resources/error/err_no_ants.map
-	$(leak) ./lem-in < resources/error/err_no_ants2.map
-	$(leak) ./lem-in < resources/error/err_no_ants3.map
-	$(leak) ./lem-in < resources/error/err_no_end2.map
-	$(leak) ./lem-in < resources/error/err_no_rooms.map
-	$(leak) ./lem-in < resources/error/err_no_start.map
-	@read $VAR
-	$(leak) ./lem-in < resources/error/err_too_few_ants.map
-	$(leak) ./lem-in < resources/error/err_too_many_ants.map
-	$(leak) ./lem-in < resources/error/error2
-	$(leak) ./lem-in < resources/error/error3
-	$(leak) ./lem-in < resources/error/error4
-	$(leak) ./lem-in < resources/error/error5
-	$(leak) ./lem-in < resources/error/error6
-	$(leak) ./lem-in < resources/error/impossible2.txt
-	$(leak) ./lem-in < resources/error/invalid_pipe.txt
-	@read $VAR
-	$(leak) ./lem-in < resources/error/invalide_map
-	$(leak) ./lem-in < resources/error/little.txt
-	$(leak) ./lem-in < resources/error/map_edit
-	$(leak) ./lem-in < resources/error/map_git1
-	$(leak) ./lem-in < resources/error/map_incorrect_gen
-	$(leak) ./lem-in < resources/error/map_multiple_pipe_from_one_room_to_another
-	$(leak) ./lem-in < resources/error/no_end.txt
-	$(leak) ./lem-in < resources/error/no_start.txt
-	$(leak) ./lem-in < resources/error/norooms
-	@read $VAR
-	$(leak) ./lem-in < resources/error/test.txt
-	$(leak) ./lem-in < resources/error/trickytrickymap
-	$(leak) ./lem-in < resources/error/wrong_map_empty
-	$(leak) ./lem-in < resources/error/wrongmap_map_multiple_end
-	$(leak) ./lem-in < resources/error/wrongmap_multiple_start
-	$(leak) ./lem-in < resources/error/wrongmap_nawak
-	$(leak) ./lem-in < resources/error/wrongmap_no_way_to_the_end
-	$(leak) ./lem-in < resources/error/wrongmap_noant
-	@read $VAR
-	$(leak) ./lem-in < resources/error/wrongmap_noend
-	$(leak) ./lem-in < resources/error/wrongmap_noend_nostart
-	$(leak) ./lem-in < resources/error/wrongmap_nopipe
-	$(leak) ./lem-in < resources/error/wrongmap_noroom
-	$(leak) ./lem-in < resources/error/wrongmap_nostart
-	$(leak) ./lem-in < resources/error/wrongmap_start_end
-	$(leak) ./lem-in < resources/error/wrongmap_wrong_ant
-	@read $VAR
-	$(leak) ./lem-in < resources/error/wrongmap_wrong_coordonne
-	$(leak) ./lem-in < resources/error/wrongmap_wrong_pipe_name
-	$(leak) ./lem-in < resources/error/wrongmap_wrong_room_name
-	$(leak) ./lem-in < resources/error/wrongmap_wrong_room_name_2
-	$(leak) ./lem-in < resources/error/wrongmap_zero_ant
-	@read $VAR
-	$(leak) ./lem-in < resources/error/error_1
-	$(leak) ./lem-in < resources/error/error_2
-	$(leak) ./lem-in < resources/error/error_3
-	$(leak) ./lem-in < resources/error/error_4
-	$(leak) ./lem-in < resources/error/error_5
-	@read $VAR
-	$(leak) ./lem-in < resources/error/error_6
-	$(leak) ./lem-in < resources/error/error_7
-	$(leak) ./lem-in < resources/error/error_8
-	$(leak) ./lem-in < resources/error/error_9
-	$(leak) ./lem-in < resources/error/error_10
-	@read $VAR
-	$(leak) ./lem-in < resources/error/error_11
-	$(leak) ./lem-in < resources/error/error_12
-	$(leak) ./lem-in < resources/error/error_13
-	$(leak) ./lem-in < resources/error/error_14
-	$(leak) ./lem-in < resources/error/error_15
-	@read $VAR
-	$(leak) ./lem-in < resources/error/error_16
-	$(leak) ./lem-in < resources/error/error_17
-	$(leak) ./lem-in < resources/error/error_18
-	$(leak) ./lem-in < resources/error/error_19
-	@read $VAR
-	$(leak) ./lem-in < resources/error/error_20
-	$(leak) ./lem-in < resources/error/error_21
-	$(leak) ./lem-in < resources/error/error_22
-	$(leak) ./lem-in < resources/error/error_23
-	@read $VAR
-	$(leak) ./lem-in < resources/error/error_24
-	$(leak) ./lem-in < resources/error/error_25
-	$(leak) ./lem-in < resources/error/error_26
-	$(leak) ./lem-in < resources/error/error_27
-	$(leak) ./lem-in < resources/error/map_offi_pipe_error
+	$(leak) ./lem-in < srcs 2> leaks_lem-in_error  | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < lem-in 2>> leaks_lem-in_error  | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < auteur 2>> leaks_lem-in_error  | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/10_lots_of_comments.map 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/2 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/20.map 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/anil 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/bad_map 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/bad_map2 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/bad_map_4 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/comment.txt 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/correct_gen_1 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/correct_gen_2 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/correct_gen_3 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/correct_gen_4 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/double_end.txt 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/double_start.txt 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/err_3_coordinates.map 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/err_duplicate.map 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/err_empty.map 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/err_letter_in_coordinate.map 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/err_link_to_unknown_room.map 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/err_no_ants.map 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/err_no_ants2.map 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/err_no_ants3.map 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/err_no_end2.map 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/err_no_rooms.map 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/err_no_start.map 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/err_too_few_ants.map 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/err_too_many_ants.map 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error2 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error3 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error4 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error5 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error6 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/impossible2.txt 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/invalid_pipe.txt 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/invalide_map 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/little.txt 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/map_edit 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/map_git1 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/map_incorrect_gen 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/map_multiple_pipe_from_one_room_to_another 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/no_end.txt 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/no_start.txt 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/norooms 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/test.txt 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/trickytrickymap 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/wrong_map_empty 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/wrongmap_map_multiple_end 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/wrongmap_multiple_start 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/wrongmap_nawak 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/wrongmap_no_way_to_the_end 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/wrongmap_noant 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/wrongmap_noend 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/wrongmap_noend_nostart 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/wrongmap_nopipe 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/wrongmap_noroom 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/wrongmap_nostart 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/wrongmap_start_end 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/wrongmap_wrong_ant 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/wrongmap_wrong_coordonne 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/wrongmap_wrong_pipe_name 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/wrongmap_wrong_room_name 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/wrongmap_wrong_room_name_2 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/wrongmap_zero_ant 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error_1 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error_2 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error_3 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error_4 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error_5 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error_6 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error_7 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error_8 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error_9 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error_10 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error_11 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error_12 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error_13 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error_14 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error_15 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error_16 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error_17 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error_18 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error_19 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error_20 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error_21 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error_22 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error_23 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error_24 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error_25 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error_26 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/error_27 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
+	$(leak) ./lem-in < resources/error/map_offi_pipe_error 2>> leaks_lem-in_error | $(leak) ./visu 2>> leaks_visu_error
 
 endif
 

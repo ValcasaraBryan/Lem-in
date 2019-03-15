@@ -27,7 +27,8 @@ int		erase_all(data_t *p, int val)
 
 void	send_usage(void)
 {
-	printf("%s%s%s%s%s%s%s%s", "-------------------------------------------------\n",
+	printf("%s%s%s%s%s%s%s%s",
+		"-------------------------------------------------\n",
 		"| Usage :\t\t\t\t\t|\n|",
 		"\t- 'N'\t\t--> Next\t\t|\n|\t- 'SPACE'\t--> Start\t\t|\n",
 		"|\t- 'ESC'\t\t--> Exit\t\t|\n|\t\t\t\t\t\t|",
@@ -41,7 +42,8 @@ int		key_hook(int keycode, data_t *p)
 {
 	if (keycode == 53)
 		return (erase_all(p, 1));
-	else if (keycode == 45 && p->graphe->next)
+	else if (keycode == 45 && (p->graphe->next
+		|| (p->graphe->lem->data->commands == 2 && p->nb_graphe == -1)))
 	{
 		p->nb_graphe++;
 		while (p->graphe->lem->prev)

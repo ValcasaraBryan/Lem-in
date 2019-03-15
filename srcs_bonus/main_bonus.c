@@ -58,8 +58,8 @@ int				main(void)
 	norm_main(&infos);
 	if (!infos.file || !infos.data)
 		return (text_error());
-	send_usage();
 	p = init_p(&infos, parsing_ants_file(infos.file, &infos));
+	send_usage();
 	if (!p.mlx_win)
 		return (erase_all(&p, 0));
 	key_hook(49, &p);

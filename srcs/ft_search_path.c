@@ -30,7 +30,7 @@ int		ft_un_el_l_commence_par_tab_i(t_infos *inf, int tabi, int nbc)
 		tmp = tmp->next;
 	}
 	if (!track)
-		return(1);
+		return (1);
 	while (i < nbc)
 	{
 		if (inf->t_p[inf->t_p_c[nbc - 1][i]][1] == tabi)

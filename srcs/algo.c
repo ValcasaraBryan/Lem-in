@@ -92,7 +92,6 @@ int		ft_algo_2(t_infos *infos)
 
 int		ft_algo(t_infos *infos)
 {
-	ft_putendl("algo");
 	int i;
 
 	i = -1;
@@ -109,7 +108,6 @@ int		ft_algo(t_infos *infos)
 						infos->data[i].nb_of_link);
 		}
 	}
-	// ft_putnbr(infos->nb_path_max);
 	if (!(ft_algo_2(infos)))
 		return (0);
 	return (1);

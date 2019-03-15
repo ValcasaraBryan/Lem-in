@@ -21,7 +21,8 @@ int			check_next(data_t *p, t_graphe *graphe)
 	while (graphe->lem)
 	{
 		i = -1;
-		if (p->graphe->lem->data->commands == 0)
+		if (p->graphe->lem->data->commands == 0
+			&& p->graphe->lem->lem == graphe->lem->lem)
 			while (++i < p->graphe->lem->data->nb_of_link)
 				if (p->graphe->lem->data->pipe[i]->n_piece
 					== graphe->lem->data->n_piece)

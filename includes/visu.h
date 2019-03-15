@@ -145,6 +145,8 @@ int			fct_put_pixel(data_t *p);
 /*
 **          utils_bonus.c
 */
+int			check_end(data_t *p);
+void		print_start_to_end(data_t *p);
 int			fct_main(data_t *p);
 int			norm_free_tab(char ***tab, int	retourn);
 /*
