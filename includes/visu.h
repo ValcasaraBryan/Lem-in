@@ -14,8 +14,8 @@
 # define VISU_H
 
 # include "lem-in.h"
-# include "/usr/X11/include/mlx.h"
-//# include <mlx.h>
+// # include "/usr/X11/include/mlx.h"
+# include <mlx.h>
 
 typedef struct		s_lem
 {
