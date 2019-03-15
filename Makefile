@@ -106,7 +106,6 @@ $(NAME_BONUS) : $(OBJET_BONUS)
 	@ $(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS) -lmlx -framework OpenGL -framework AppKit -o $@
 	@# $(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS)  /usr/X11/lib/libmlx.a -framework OpenGL -framework AppKit -o $@
 
-
 exe_one_leak : $(NAME)
 	./lem-in < resources/correct_1 > coucou
 	valgrind --leak-check=full --show-leak-kinds=all ./visu < coucou 2> salut
