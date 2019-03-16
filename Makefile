@@ -112,7 +112,7 @@ $(NAME_BONUS) : $(OBJET_BONUS)
 	@# $(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS)  /usr/X11/lib/libmlx.a -framework OpenGL -framework AppKit -o $@
 
 exe_one : $(NAME)
-	time ./lem-in < resources/correct/2.map
+	./lem-in < resources/correct/2.map
 
 exe : $(NAME)
 ifeq ($(arg), correct)
