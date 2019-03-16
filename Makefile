@@ -115,7 +115,7 @@ exe_one : $(NAME)
 	time ./lem-in < resources/correct/true_test
 
 exe : $(NAME)
-ifeq ($(arg), correct)$(visu_correct)
+ifeq ($(arg), correct)
 	$(leak) ./lem-in < resources/correct/1 2> $(lem-in_correct) | ./visu 2> $(visu_correct)
 	$(leak) ./lem-in < resources/correct/1.map 2>> $(lem-in_correct) | ./visu 2>> $(visu_correct)
 	$(leak) ./lem-in < resources/correct/10.map 2>> $(lem-in_correct) | ./visu 2>> $(visu_correct)
@@ -184,7 +184,6 @@ ifeq ($(arg), correct)$(visu_correct)
 	$(leak) ./lem-in < resources/correct/bad_map_3 2>> $(lem-in_correct) | ./visu 2>> $(visu_correct)
 	@# $(leak) ./lem-in < resources/correct/big_map.txt 2>> $(lem-in_correct) | ./visu 2>> $(visu_correct)
 	@# $(leak) ./lem-in < resources/correct/true_test 2>> $(lem-in_correct) | ./visu 2>> 
-
 else
 	$(leak) ./lem-in < srcs 2> $(lem-in_error) | $(leak) ./visu 2> $(visu_error)
 	$(leak) ./lem-in < lem-in 2>> $(lem-in_error) | $(leak) ./visu 2>> $(visu_error)
@@ -280,7 +279,6 @@ else
 	$(leak) ./lem-in < resources/error/error_26 2>> $(lem-in_error) | $(leak) ./visu 2>> $(visu_error)
 	$(leak) ./lem-in < resources/error/error_27 2>> $(lem-in_error) | $(leak) ./visu 2>> $(visu_error)
 	$(leak) ./lem-in < resources/error/map_offi_pipe_error 2>> $(lem-in_error) | $(leak) ./visu 2>> $(visu_error)
-
 endif
 
 map :
