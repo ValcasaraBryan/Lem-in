@@ -17,19 +17,18 @@ void			erase_graphe(data_t *p)
 	t_graphe	*head_graphe;
 	t_lem		*head_lem;
 
-	if (p->graphe->lem)
-		while (p->graphe)
+	while (p->graphe)
+	{
+		head_graphe = p->graphe->next;
+		while (p->graphe->lem)
 		{
-			head_graphe = p->graphe->next;
-			while (p->graphe->lem)
-			{
-				head_lem = p->graphe->lem->next;
-				free(p->graphe->lem);
-				p->graphe->lem = NULL;
-				p->graphe->lem = head_lem;
-			}
-			free(p->graphe);
-			p->graphe = NULL;
-			p->graphe = head_graphe;
+			head_lem = p->graphe->lem->next;
+			free(p->graphe->lem);
+			p->graphe->lem = NULL;
+			p->graphe->lem = head_lem;
 		}
+		free(p->graphe);
+		p->graphe = NULL;
+		p->graphe = head_graphe;
+	}
 }
