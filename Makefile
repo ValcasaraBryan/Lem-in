@@ -84,7 +84,7 @@ INCLUDES = includes
 
 CFLAGS = -Wall -Wextra -Werror -I $(INCLUDES)# -g3 -fsanitize=address
 
-CC = clang
+CC = gcc
 
 leak= valgrind --leak-check=full --track-origins=yes# --show-leak-kinds=all --show-leak-kinds=definite
 
