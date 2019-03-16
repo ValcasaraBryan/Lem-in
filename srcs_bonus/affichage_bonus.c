@@ -12,7 +12,7 @@
 
 #include "visu.h"
 
-void			print_all_link(data_t *env)
+void			print_all_link(t_data_p *env)
 {
 	t_pos		a;
 	t_pos		b;

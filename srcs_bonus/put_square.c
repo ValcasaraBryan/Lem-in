@@ -12,7 +12,7 @@
 
 #include "visu.h"
 
-int				check_box(data_t *p, int val)
+int				check_box(t_data_p *p, int val)
 {
 	t_lem		*tmp;
 	int			i;
@@ -28,7 +28,7 @@ int				check_box(data_t *p, int val)
 	return (0);
 }
 
-int				check_box_color(data_t *p, int val)
+int				check_box_color(t_data_p *p, int val)
 {
 	t_lem		*tmp;
 	int			i;
@@ -46,7 +46,7 @@ int				check_box_color(data_t *p, int val)
 	return (0);
 }
 
-void			fct_put_box_color(data_t *p, int i, int j)
+void			fct_put_box_color(t_data_p *p, int i, int j)
 {
 	if (p->infos->data[p->index_of_box].commands == 1
 		|| p->infos->data[p->index_of_box].commands == 2)
@@ -60,7 +60,7 @@ void			fct_put_box_color(data_t *p, int i, int j)
 		mlx_pixel_put(p->mlx_ptr, p->mlx_win, i, j, p->color_interieur);
 }
 
-void			fct_put_pixel_norm(data_t *p)
+void			fct_put_pixel_norm(t_data_p *p)
 {
 	int			i;
 	int			j;
@@ -84,7 +84,7 @@ void			fct_put_pixel_norm(data_t *p)
 	}
 }
 
-int				fct_put_pixel(data_t *p)
+int				fct_put_pixel(t_data_p *p)
 {
 	while (p->graphe->lem)
 	{

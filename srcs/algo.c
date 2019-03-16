@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lem_in.h"
 
 int		ft_update_tab_path_2(t_infos *infos, int **tmp, int *tab, t_t *t)
 {

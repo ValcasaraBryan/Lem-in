@@ -12,7 +12,7 @@
 
 #include "visu.h"
 
-int		erase_all(data_t *p, int val)
+int		erase_all(t_data_p *p, int val)
 {
 	free(p->grille_x);
 	free(p->grille_y);
@@ -38,7 +38,7 @@ void	send_usage(void)
 		"-------------------------------------------------\n");
 }
 
-int		key_hook(int keycode, data_t *p)
+int		key_hook(int keycode, t_data_p *p)
 {
 	if (keycode == 53)
 		return (erase_all(p, 1));

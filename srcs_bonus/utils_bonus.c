@@ -12,7 +12,7 @@
 
 #include "visu.h"
 
-int			check_end(data_t *p)
+int			check_end(t_data_p *p)
 {
 	int		i;
 
@@ -39,7 +39,7 @@ int			check_end(data_t *p)
 	return (-1);
 }
 
-void		print_start_to_end(data_t *p)
+void		print_start_to_end(t_data_p *p)
 {
 	int		i;
 
@@ -74,7 +74,7 @@ void		ft_put_graphe(t_lem *lem, int val)
 	ft_putstr_fd("\n", 2);
 }
 
-int			fct_main(data_t *p)
+int			fct_main(t_data_p *p)
 {
 	p->color_carre_x = 100000000;
 	p->color_carre_y = 100000000;

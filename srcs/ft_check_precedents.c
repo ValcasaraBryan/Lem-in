@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lem_in.h"
 
 int		ft_check_precedents(t_infos *infos, int *tab_path_n_piece, int n)
 {

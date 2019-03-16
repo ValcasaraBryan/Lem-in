@@ -12,7 +12,7 @@
 
 #include "visu.h"
 
-void			erase_graphe(data_t *p)
+void			erase_graphe(t_data_p *p)
 {
 	t_graphe	*head_graphe;
 	t_lem		*head_lem;

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lem_in.h"
 
 int		ft_un_el_l_commence_par_tab_i(t_infos *inf, int tabi, int nbc)
 {

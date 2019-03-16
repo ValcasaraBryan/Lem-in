@@ -99,7 +99,7 @@ visu_error = resources/sortie_error_visu_error
 
 all : $(NAME) $(NAME_BONUS)
 
-$(OBJET) : includes/lem-in.h
+$(OBJET) : includes/lem_in.h
 $(OBJET_BONUS) : includes/visu.h
 
 $(NAME) : $(OBJET)
@@ -112,7 +112,7 @@ $(NAME_BONUS) : $(OBJET_BONUS)
 	@# $(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS)  /usr/X11/lib/libmlx.a -framework OpenGL -framework AppKit -o $@
 
 exe_one : $(NAME)
-	time ./lem-in < resources/correct/true_test
+	time ./lem-in < resources/correct/2.map
 
 exe : $(NAME)
 ifeq ($(arg), correct)

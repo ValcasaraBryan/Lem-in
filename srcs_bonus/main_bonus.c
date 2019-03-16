@@ -45,7 +45,7 @@ int				text_error(void)
 int				main(void)
 {
 	t_infos		infos;
-	data_t		p;
+	t_data_p	p;
 
 	infos = get_file_bonus();
 	if (!infos.file)
