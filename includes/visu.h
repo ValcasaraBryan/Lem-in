@@ -162,5 +162,5 @@ void				erase_graphe(t_data_p *p);
 **          main_bonus.c
 */
 void				norm_main(t_infos *infos);
-int					text_error(void);
+int					text_error(t_infos *infos);
 #endif
