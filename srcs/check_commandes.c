@@ -74,8 +74,10 @@ int			commantaire(t_infos *infos)
 
 int			init_command(t_infos *infos, int commande)
 {
-	commande = (infos->file->line && ft_strcmp(infos->file->line, "##start")) == 0 ? 1 : 0;
-	commande = (infos->file->line && ft_strcmp(infos->file->line, "##end")) == 0 ? 2 : commande;
+	commande = (infos->file->line
+		&& ft_strcmp(infos->file->line, "##start")) == 0 ? 1 : 0;
+	commande = (infos->file->line
+		&& ft_strcmp(infos->file->line, "##end")) == 0 ? 2 : commande;
 	return (commande);
 }
 
