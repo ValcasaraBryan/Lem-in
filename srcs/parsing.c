@@ -91,7 +91,7 @@ int			add_pipe(t_infos *infos, t_file *file)
 	tab = NULL;
 	while (file)
 	{
-		if (check_nb_char(file->line, 1, '-'))
+		if (check_nb_char(file->line, 1, '-') && file->line[0] != '#')
 		{
 			if (file->line[0] == 'L')
 				return (1);

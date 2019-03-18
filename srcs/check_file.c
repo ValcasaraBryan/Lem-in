@@ -16,9 +16,9 @@ int			skip_commentaire(t_infos *infos, t_file *head)
 {
 	if (!infos->file->next)
 		return (norm_check_file(infos, head, 1));
-	while (infos->file->next && ((infos->file->line[0] == '#'
-			&& infos->file->line[1] != '#') || (infos->file->line[0] == '#'
-			&& infos->file->line[1] == '#'
+	while (infos->file->next && infos->file->line
+			&& ((infos->file->line[0] == '#' && infos->file->line[1] != '#')
+			|| (infos->file->line[0] == '#' && infos->file->line[1] == '#'
 			&& ft_strcmp(infos->file->line, "##start") != 0
 			&& ft_strcmp(infos->file->line, "##end") != 0)))
 		infos->file = infos->file->next;
@@ -64,8 +64,9 @@ int			check_file(t_infos *infos, int commande, int check_order)
 	{
 		if (commantaire(infos) && skip_commentaire(infos, head))
 			return (1);
-		check_order = (ft_strcmp(infos->file->line, "##start") == 0
-		|| ft_strcmp(infos->file->line, "##end") == 0) ? 0 : check_order;
+		check_order = (infos->file->line
+		&& ((ft_strcmp(infos->file->line, "##start") == 0
+		|| ft_strcmp(infos->file->line, "##end") == 0))) ? 0 : check_order;
 		commande = init_command(infos, commande);
 		if (!check_order && commande && infos->file->next)
 			infos->file = infos->file->next;

@@ -46,6 +46,21 @@ int			add_link(t_infos *infos, int index_data, int index_pipe)
 	return (1);
 }
 
+int			free_rest_line(t_infos *infos)
+{
+	t_file	*tmp;
+
+	tmp = infos->file;
+	if (tmp)
+		while (tmp)
+		{
+			free(tmp->line);
+			tmp->line = NULL;
+			tmp = tmp->next;
+		}
+	return (1);
+}
+
 int			valeur_pipe(t_infos *infos)
 {
 	int		index_data;
@@ -66,10 +81,10 @@ int			valeur_pipe(t_infos *infos)
 	free_tab_str(&tab);
 	if (index_data < 0 || index_pipe < 0)
 		return (0);
-	infos->data[index_data].nb_of_link++;
-	infos->data[index_pipe].nb_of_link++;
 	if (!infos->data[index_data].name_box
 		|| !infos->data[index_pipe].name_box)
-		return (0);
+		return (free_rest_line(infos));
+	infos->data[index_pipe].nb_of_link++;
+	infos->data[index_data].nb_of_link++;
 	return (1);
 }

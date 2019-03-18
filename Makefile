@@ -150,6 +150,7 @@ ifeq ($(arg), correct)
 	$(leak) ./lem-in < resources/correct/goodmap_oulah 2>> $(lem-in_correct) | ./visu 2>> $(visu_correct)
 	$(leak) ./lem-in < resources/correct/goodmap_test 2>> $(lem-in_correct) | ./visu 2>> $(visu_correct)
 	$(leak) ./lem-in < resources/correct/map_git 2>> $(lem-in_correct) | ./visu 2>> $(visu_correct)
+	$(leak) ./lem-in < resources/correct/map_git1 2>> $(lem-in_correct) | ./visu 2>> $(visu_correct)
 	$(leak) ./lem-in < resources/correct/map_git2 2>> $(lem-in_correct) | ./visu 2>> $(visu_correct)
 	$(leak) ./lem-in < resources/correct/map_git3 2>> $(lem-in_correct) | ./visu 2>> $(visu_correct)
 	$(leak) ./lem-in < resources/correct/map_offi 2>> $(lem-in_correct) | ./visu 2>> $(visu_correct)
@@ -169,15 +170,10 @@ ifeq ($(arg), correct)
 # petite resolution et pas de visu
 	$(leak) ./lem-in < resources/correct/correct_11 2>> $(lem-in_correct) | ./visu 2>> $(visu_correct)
 	$(leak) ./lem-in < resources/correct/big 2>> $(lem-in_correct) | ./visu 2>> $(visu_correct)
-	$(leak) ./lem-in < resources/correct/err_no_links.map 2>> $(lem-in_correct) | ./visu 2>> $(visu_correct)
-	$(leak) ./lem-in < resources/correct/err_no_path.map 2>> $(lem-in_correct) | ./visu 2>> $(visu_correct)
 	$(leak) ./lem-in < resources/correct/g 2>> $(lem-in_correct) | ./visu 2>> $(visu_correct)
-	$(leak) ./lem-in < resources/correct/impossible.txt 2>> $(lem-in_correct) | ./visu 2>> $(visu_correct)
 	$(leak) ./lem-in < resources/correct/correct_genc_3 2>> $(lem-in_correct) | ./visu 2>> $(visu_correct)
 	$(leak) ./lem-in < resources/correct/map_offi_custom 2>> $(lem-in_correct) | ./visu 2>> $(visu_correct)
-	$(leak) ./lem-in < resources/correct/map_offi_no_way 2>> $(lem-in_correct) | ./visu 2>> $(visu_correct)
 	$(leak) ./lem-in < resources/correct/maptest 2>> $(lem-in_correct) | ./visu 2>> $(visu_correct)
-	$(leak) ./lem-in < resources/correct/new_map 2>> $(lem-in_correct) | ./visu 2>> $(visu_correct)
 	$(leak) ./lem-in < resources/correct/anil 2>> $(lem-in_correct) | ./visu 2>> $(visu_correct)
 # grosse resolution et pas de visu
 	$(leak) ./lem-in < resources/correct/lll 2>> $(lem-in_correct) | ./visu 2>> $(visu_correct)
@@ -192,9 +188,14 @@ ifeq ($(arg), correct)
 	@# $(leak) ./lem-in < resources/correct/big_map.txt 2>> $(lem-in_correct) | ./visu 2>> $(visu_correct)
 	@# $(leak) ./lem-in < resources/correct/true_test 2>> $(lem-in_correct) | ./visu 2>> $(visu_correct)
 else
-	$(leak) ./lem-in < srcs 2> $(lem-in_error) | $(leak) ./visu 2> $(visu_error)
-	$(leak) ./lem-in < lem-in 2>> $(lem-in_error) | $(leak) ./visu 2>> $(visu_error)
+	$(leak) ./lem-in < resources/error/err_no_path.map 2>> $(lem-in_error) | $(leak) ./visu 2>> $(visu_error)
+	$(leak) ./lem-in < resources/error/impossible.txt 2> $(lem-in_error) | $(leak) ./visu 2> $(visu_error)
+	$(leak) ./lem-in < resources/error/map_offi_no_way 2>> $(lem-in_error) | $(leak) ./visu 2>> $(visu_error)
+	$(leak) ./lem-in < resources/error/new_map 2>> $(lem-in_error) | $(leak) ./visu 2>> $(visu_error)
+	$(leak) ./lem-in < srcs 2>> $(lem-in_error) | $(leak) ./visu 2>> $(visu_error)
 	$(leak) ./lem-in < auteur 2>> $(lem-in_error) | $(leak) ./visu 2>> $(visu_error)
+	$(leak) ./lem-in < lem-in 2>> $(lem-in_error) | $(leak) ./visu 2>> $(visu_error)
+	$(leak) ./lem-in < resources/error/err_no_links.map 2>> $(lem-in_error) | $(leak) ./visu 2>> $(visu_error)
 	$(leak) ./lem-in < resources/error/2 2>> $(lem-in_error) | $(leak) ./visu 2>> $(visu_error)
 	$(leak) ./lem-in < resources/error/20.map 2>> $(lem-in_error) | $(leak) ./visu 2>> $(visu_error)
 	$(leak) ./lem-in < resources/error/bad_map 2>> $(lem-in_error) | $(leak) ./visu 2>> $(visu_error)
@@ -228,7 +229,6 @@ else
 	$(leak) ./lem-in < resources/error/invalid_pipe.txt 2>> $(lem-in_error) | $(leak) ./visu 2>> $(visu_error)
 	$(leak) ./lem-in < resources/error/little.txt 2>> $(lem-in_error) | $(leak) ./visu 2>> $(visu_error)
 	$(leak) ./lem-in < resources/error/map_edit 2>> $(lem-in_error) | $(leak) ./visu 2>> $(visu_error)
-	$(leak) ./lem-in < resources/error/map_git1 2>> $(lem-in_error) | $(leak) ./visu 2>> $(visu_error)
 	$(leak) ./lem-in < resources/error/map_incorrect_gen 2>> $(lem-in_error) | $(leak) ./visu 2>> $(visu_error)
 	$(leak) ./lem-in < resources/error/map_multiple_pipe_from_one_room_to_another 2>> $(lem-in_error) | $(leak) ./visu 2>> $(visu_error)
 	$(leak) ./lem-in < resources/error/no_end.txt 2>> $(lem-in_error) | $(leak) ./visu 2>> $(visu_error)
@@ -282,6 +282,21 @@ else
 	$(leak) ./lem-in < resources/error/error_27 2>> $(lem-in_error) | $(leak) ./visu 2>> $(visu_error)
 	$(leak) ./lem-in < resources/error/map_offi_pipe_error 2>> $(lem-in_error) | $(leak) ./visu 2>> $(visu_error)
 endif
+
+cat :
+	cat resources/sortie_error_lem-in_correct | grep "definitely lost:" | more
+	cat resources/sortie_error_lem-in_correct | grep "indirectly lost:" | more
+	cat resources/sortie_error_lem-in_correct | grep "possibly lost:" | more
+
+	cat resources/sortie_error_lem-in_error | grep "ERROR" | more
+	cat resources/sortie_error_lem-in_error | grep "definitely lost:" | more
+	cat resources/sortie_error_lem-in_error | grep "indirectly lost:" | more
+	cat resources/sortie_error_lem-in_error | grep "possibly lost:" | more
+	
+	cat resources/sortie_error_visu_error | grep "Wrong Data " | more
+	cat resources/sortie_error_visu_error | grep "definitely lost:" | more
+	cat resources/sortie_error_visu_error | grep "indirectly lost:" | more
+	cat resources/sortie_error_visu_error | grep "possibly lost:" | more
 
 map :
 	./resources/map_edit $(arg) $(arg_2) resources/$(arg_3)
