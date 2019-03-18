@@ -12,7 +12,7 @@
 
 #include "visu.h"
 
-int			check_next(data_t *p, t_graphe *graphe)
+int			check_next(t_data_p *p, t_graphe *graphe)
 {
 	int		i;
 
@@ -21,7 +21,8 @@ int			check_next(data_t *p, t_graphe *graphe)
 	while (graphe->lem)
 	{
 		i = -1;
-		if (p->graphe->lem->data->commands == 0)
+		if (p->graphe->lem->data->commands == 0
+			&& p->graphe->lem->lem == graphe->lem->lem)
 			while (++i < p->graphe->lem->data->nb_of_link)
 				if (p->graphe->lem->data->pipe[i]->n_piece
 					== graphe->lem->data->n_piece)
@@ -40,7 +41,7 @@ int			check_next(data_t *p, t_graphe *graphe)
 	return (-1);
 }
 
-void		reset_graphe_lem(data_t *env)
+void		reset_graphe_lem(t_data_p *env)
 {
 	while (env->graphe->lem->prev)
 		env->graphe->lem = env->graphe->lem->prev;
@@ -52,7 +53,7 @@ void		reset_graphe_lem(data_t *env)
 	}
 }
 
-void		print_no_start(data_t *env)
+void		print_no_start(t_data_p *env)
 {
 	int		i;
 
@@ -72,7 +73,7 @@ void		print_no_start(data_t *env)
 	reset_graphe_lem(env);
 }
 
-int			check_start(data_t *p)
+int			check_start(t_data_p *p)
 {
 	int		i;
 
@@ -88,7 +89,7 @@ int			check_start(data_t *p)
 	return (-1);
 }
 
-void		print_start(data_t *env)
+void		print_start(t_data_p *env)
 {
 	int		i;
 

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lem_in.h"
 
 int			check_commandes(t_infos *infos)
 {
@@ -61,8 +61,11 @@ int			skip_line_fourmi(t_infos *infos)
 
 int			commantaire(t_infos *infos)
 {
-	if (infos->file->line && infos->file->line[0] == '#'
-		&& infos->file->line[1] != '#')
+	if ((infos->file->line[0] == '#'
+		&& infos->file->line[1] != '#') || (infos->file->line[0] == '#'
+		&& infos->file->line[1] == '#'
+		&& ft_strcmp(infos->file->line, "##start") != 0
+		&& ft_strcmp(infos->file->line, "##end") != 0))
 		return (1);
 	return (0);
 }

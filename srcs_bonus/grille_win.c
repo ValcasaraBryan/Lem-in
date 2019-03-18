@@ -12,7 +12,7 @@
 
 #include "visu.h"
 
-int			init_grille_x_y(data_t *p)
+int			init_grille_x_y(t_data_p *p)
 {
 	int		i;
 	int		j;
@@ -21,6 +21,7 @@ int			init_grille_x_y(data_t *p)
 
 	i = -1;
 	divi = (p->longueur_win - 2) / p->medium;
+	divi = (divi == 0) ? 1 : divi;
 	divi = (!(divi % divi)) ? divi : divi + (10 - divi);
 	while (++i < p->medium)
 	{
@@ -34,7 +35,7 @@ int			init_grille_x_y(data_t *p)
 	return (1);
 }
 
-int			init_tab_x_y(data_t *p)
+int			init_tab_x_y(t_data_p *p)
 {
 	int		i;
 

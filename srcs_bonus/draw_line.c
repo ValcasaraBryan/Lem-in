@@ -30,7 +30,7 @@ static t_line	setup_params(t_pos a, t_pos b)
 	return (params);
 }
 
-void			draw_line(t_pos a, t_pos b, data_t *env, int color)
+void			draw_line(t_pos a, t_pos b, t_data_p *env, int color)
 {
 	t_line		params;
 	t_pos		p;
@@ -54,7 +54,7 @@ void			draw_line(t_pos a, t_pos b, data_t *env, int color)
 	mlx_pixel_put(env->mlx_ptr, env->mlx_win, p.x, p.y, color);
 }
 
-void			print(data_t *env, int i)
+void			print(t_data_p *env, int i)
 {
 	t_pos		a;
 	t_pos		b;

@@ -12,10 +12,10 @@
 
 #include "visu.h"
 
-int			val_max_coor(t_data *data, char c)
+int				val_max_coor(t_data *data, char c)
 {
-	int		i;
-	int		val;
+	int			i;
+	int			val;
 
 	i = 0;
 	val = 0;
@@ -29,10 +29,10 @@ int			val_max_coor(t_data *data, char c)
 				val = data[i].coor_y;
 		i++;
 	}
-	return (val);
+	return ((val == 0) ? 1 : val);
 }
 
-void		coordinates_too_high(data_t *p)
+void			coordinates_too_high(t_data_p *p)
 {
 	perror("Coordinates Too High ");
 	erase_graphe(p);
@@ -41,9 +41,9 @@ void		coordinates_too_high(data_t *p)
 	exit(0);
 }
 
-data_t		init_p(t_infos *infos, t_graphe *graphe)
+t_data_p		init_p(t_infos *infos, t_graphe *graphe)
 {
-	data_t	p;
+	t_data_p	p;
 
 	p.mlx_ptr = mlx_init();
 	p.infos = infos;

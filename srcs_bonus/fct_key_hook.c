@@ -12,7 +12,7 @@
 
 #include "visu.h"
 
-int		erase_all(data_t *p, int val)
+int		erase_all(t_data_p *p, int val)
 {
 	free(p->grille_x);
 	free(p->grille_y);
@@ -27,7 +27,8 @@ int		erase_all(data_t *p, int val)
 
 void	send_usage(void)
 {
-	printf("%s%s%s%s%s%s%s%s", "-------------------------------------------------\n",
+	printf("%s%s%s%s%s%s%s%s",
+		"-------------------------------------------------\n",
 		"| Usage :\t\t\t\t\t|\n|",
 		"\t- 'N'\t\t--> Next\t\t|\n|\t- 'SPACE'\t--> Start\t\t|\n",
 		"|\t- 'ESC'\t\t--> Exit\t\t|\n|\t\t\t\t\t\t|",
@@ -37,11 +38,12 @@ void	send_usage(void)
 		"-------------------------------------------------\n");
 }
 
-int		key_hook(int keycode, data_t *p)
+int		key_hook(int keycode, t_data_p *p)
 {
 	if (keycode == 53)
 		return (erase_all(p, 1));
-	else if (keycode == 45 && p->graphe->next)
+	else if (keycode == 45 && (p->graphe->next
+		|| (p->graphe->lem->data->commands == 2 && p->nb_graphe == -1)))
 	{
 		p->nb_graphe++;
 		while (p->graphe->lem->prev)

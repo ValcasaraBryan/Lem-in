@@ -36,8 +36,10 @@ void			norm_main(t_infos *infos)
 	}
 }
 
-int				text_error(void)
+int				text_error(t_infos *infos)
 {
+	erase_infos(infos);
+	erase_data(infos);
 	perror("Wrong Data ");
 	return (0);
 }
@@ -45,7 +47,7 @@ int				text_error(void)
 int				main(void)
 {
 	t_infos		infos;
-	data_t		p;
+	t_data_p	p;
 
 	infos = get_file_bonus();
 	if (!infos.file)
@@ -57,9 +59,9 @@ int				main(void)
 	}
 	norm_main(&infos);
 	if (!infos.file || !infos.data)
-		return (text_error());
-	send_usage();
+		return (text_error(&infos));
 	p = init_p(&infos, parsing_ants_file(infos.file, &infos));
+	send_usage();
 	if (!p.mlx_win)
 		return (erase_all(&p, 0));
 	key_hook(49, &p);
