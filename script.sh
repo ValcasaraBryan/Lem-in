@@ -256,75 +256,6 @@ fi
 if [ "$1" = "correct" ]
 then
 	$leak ./lem-in < resources/correct/1 2> $lem-in_correct
-<<<<<<< HEAD
-	$leak ./lem-in < resources/correct/1.map 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/10.map 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/2.map 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/5.map 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/correct_1 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/correct_2 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/correct_3 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/correct_4 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/correct_5 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/correct_6 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/correct_7 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/correct_8 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/correct_9 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/correct_10 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/correct_genc_1 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/correct_genc_2 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/correctc_10 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/error1 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/example 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/example2 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/example3 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/good_map_lot_of_room_without_pipe 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/good_map_no_com 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/good_map_one_room_without_pipe 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/good_map_one_room_without_pipe 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/goodmap_aaa 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/goodmap_end_next_to_start 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/goodmap_jjj 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/goodmap_kkk 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/goodmap_multiple_way_differents_dist 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/goodmap_oulah 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/goodmap_test 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/map_git 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/map_git1 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/map_git2 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/map_git3 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/map_offi 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/pretty 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/subject.txt 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/test 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/test1 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/test_boucle 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/totomap 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/bad_map_3 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/10_lots_of_comments.map 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/invalide_map 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/bad_map2 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/trickytrickymap 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/map_genius2 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/map_genius 2>> $lem-in_correct
-# petit
-	$leak ./lem-in < resources/correct/correct_11 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/big 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/g 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/correct_genc_3 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/map_offi_custom 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/maptest 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/anil 2>> $lem-in_correct
-# grosse resolution et pas de visu
-	$leak ./lem-in < resources/correct/lll 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/9_path_depth_4_ants2.map 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/9_path_depth_2_ants2.map 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/9_path_depth_1_ants2.map 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/9_path_depth_10_ants2.map 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/9_path_depth_8_ants.map 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/9_path_depth_9_ants.map 2>> $lem-in_correct
-	$leak ./lem-in < resources/correct/correct_genc_4 2>> $lem-in_correct
-=======
 	ma_fonction
 	$leak ./lem-in < resources/correct/1.map 2>> $lem-in_correct
 	ma_fonction
@@ -458,7 +389,6 @@ then
 	ma_fonction
 	$leak ./lem-in < resources/correct/correct_genc_4 2>> $lem-in_correct
 	ma_fonction
->>>>>>> glebouch
 	$leak ./lem-in < resources/correct/correct_genc_5 2>> $lem-in_correct
 fi
 
