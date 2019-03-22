@@ -209,11 +209,7 @@ then
 		$leak ./lem-in < resources/error/wrongmap_noend 2>> $lem-in_error | $leak ./visu 2>> $visu_error
 		$leak ./lem-in < resources/error/wrongmap_noend_nostart 2>> $lem-in_error | $leak ./visu 2>> $visu_error
 		$leak ./lem-in < resources/error/wrongmap_nopipe 2>> $lem-in_error | $leak ./visu 2>> $visu_error
-<<<<<<< HEAD
-		$leak ./lem-in < resources/error/wrongmap_noroom 2>> $lem-in_error | $leak ./visu 2>> $visu_error
-=======
 		$leak ./lem-im < resources/error/wrongmap_noroom 2>> $lem-in_error | $leak ./visu 2>> $visu_error
->>>>>>> glebouch
 		$leak ./lem-in < resources/error/wrongmap_nostart 2>> $lem-in_error | $leak ./visu 2>> $visu_error
 		$leak ./lem-in < resources/error/wrongmap_start_end 2>> $lem-in_error | $leak ./visu 2>> $visu_error
 		$leak ./lem-in < resources/error/wrongmap_wrong_ant 2>> $lem-in_error | $leak ./visu 2>> $visu_error
