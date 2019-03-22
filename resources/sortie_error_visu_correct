@@ -1,6 +1,70 @@
-L1-1 L2-2 L3-3 L4-4 
-L1-end L2-end L3-end L4-end L5-1 L6-2 L7-3 
-L5-end L6-end L7-end 
-L1-1 L2-2 L3-3 L4-4 
-L1-end L2-end L3-end L4-end L5-1 L6-2 L7-3 
-L5-end L6-end L7-end 
+Coordinates Too High : Operation timed out
+Coordinates Too High : Operation timed out
+Coordinates Too High : Operation timed out
+Coordinates Too High : Operation timed out
+Coordinates Too High : Operation timed out
+Coordinates Too High : Operation timed out
+Coordinates Too High : Operation timed out
+Coordinates Too High : Operation timed out
+Coordinates Too High : Operation timed out
+Coordinates Too High : Operation timed out
+Coordinates Too High : Operation timed out
+Coordinates Too High : Operation timed out
+Coordinates Too High : Operation timed out
+Coordinates Too High : Operation timed out
+L1-room1 
+L1-room2 L2-room1 
+L1-room3 L2-room2 L3-room1 
+L1-room4 L2-room3 L3-room2 L4-room1 
+L1-room5 L2-room4 L3-room3 L4-room2 L5-room1 
+L1-room6 L2-room5 L3-room4 L4-room3 L5-room2 L6-room1 
+L1-room7 L2-room6 L3-room5 L4-room4 L5-room3 L6-room2 L7-room1 
+L1-room8 L2-room7 L3-room6 L4-room5 L5-room4 L6-room3 L7-room2 L8-room1 
+L1-room9 L2-room8 L3-room7 L4-room6 L5-room5 L6-room4 L7-room3 L8-room2 L9-room1 
+L1-end L2-room9 L3-room8 L4-room7 L5-room6 L6-room5 L7-room4 L8-room3 L9-room2 L10-room1 
+L2-end L3-room9 L4-room8 L5-room7 L6-room6 L7-room5 L8-room4 L9-room3 L10-room2 L11-room1 
+L3-end L4-room9 L5-room8 L6-room7 L7-room6 L8-room5 L9-room4 L10-room3 L11-room2 L12-room1 
+L4-end L5-room9 L6-room8 L7-room7 L8-room6 L9-room5 L10-room4 L11-room3 L12-room2 L13-room1 
+L5-end L6-room9 L7-room8 L8-room7 L9-room6 L10-room5 L11-room4 L12-room3 L13-room2 L14-room1 
+L6-end L7-room9 L8-room8 L9-room7 L10-room6 L11-room5 L12-room4 L13-room3 L14-room2 L15-room1 
+L7-end L8-room9 L9-room8 L10-room7 L11-room6 L12-room5 L13-room4 L14-room3 L15-room2 L16-room1 
+L8-end L9-room9 L10-room8 L11-room7 L12-room6 L13-room5 L14-room4 L15-room3 L16-room2 L17-room1 
+L9-end L10-room9 L11-room8 L12-room7 L13-room6 L14-room5 L15-room4 L16-room3 L17-room2 L18-room1 
+L10-end L11-room9 L12-room8 L13-room7 L14-room6 L15-room5 L16-room4 L17-room3 L18-room2 L19-room1 
+L11-end L12-room9 L13-room8 L14-room7 L15-room6 L16-room5 L17-room4 L18-room3 L19-room2 L20-room1 
+L12-end L13-room9 L14-room8 L15-room7 L16-room6 L17-room5 L18-room4 L19-room3 L20-room2 L21-room1 
+L13-end L14-room9 L15-room8 L16-room7 L17-room6 L18-room5 L19-room4 L20-room3 L21-room2 L22-room1 
+L14-end L15-room9 L16-room8 L17-room7 L18-room6 L19-room5 L20-room4 L21-room3 L22-room2 L23-room1 
+L15-end L16-room9 L17-room8 L18-room7 L19-room6 L20-room5 L21-room4 L22-room3 L23-room2 L24-room1 
+L16-end L17-room9 L18-room8 L19-room7 L20-room6 L21-room5 L22-room4 L23-room3 L24-room2 L25-room1 
+L17-end L18-room9 L19-room8 L20-room7 L21-room6 L22-room5 L23-room4 L24-room3 L25-room2 L26-room1 
+L18-end L19-room9 L20-room8 L21-room7 L22-room6 L23-room5 L24-room4 L25-room3 L26-room2 L27-room1 
+L19-end L20-room9 L21-room8 L22-room7 L23-room6 L24-room5 L25-room4 L26-room3 L27-room2 L28-room1 
+L20-end L21-room9 L22-room8 L23-room7 L24-room6 L25-room5 L26-room4 L27-room3 L28-room2 L29-room1 
+L21-end L22-room9 L23-room8 L24-room7 L25-room6 L26-room5 L27-room4 L28-room3 L29-room2 L30-room1 
+L22-end L23-room9 L24-room8 L25-room7 L26-room6 L27-room5 L28-room4 L29-room3 L30-room2 L31-room1 
+L23-end L24-room9 L25-room8 L26-room7 L27-room6 L28-room5 L29-room4 L30-room3 L31-room2 L32-room1 
+L24-end L25-room9 L26-room8 L27-room7 L28-room6 L29-room5 L30-room4 L31-room3 L32-room2 L33-room1 
+L25-end L26-room9 L27-room8 L28-room7 L29-room6 L30-room5 L31-room4 L32-room3 L33-room2 L34-room1 
+L26-end L27-room9 L28-room8 L29-room7 L30-room6 L31-room5 L32-room4 L33-room3 L34-room2 L35-room1 
+L27-end L28-room9 L29-room8 L30-room7 L31-room6 L32-room5 L33-room4 L34-room3 L35-room2 L36-room1 
+L28-end L29-room9 L30-room8 L31-room7 L32-room6 L33-room5 L34-room4 L35-room3 L36-room2 L37-room1 
+Coordinates Too High : Operation timed out
+Coordinates Too High : Operation timed out
+Coordinates Too High : Operation timed out
+Coordinates Too High : Operation timed out
+Coordinates Too High : Operation timed out
+Coordinates Too High : Operation timed out
+Coordinates Too High : Operation timed out
+Coordinates Too High : Operation timed out
+Coordinates Too High : Operation timed out
+Coordinates Too High : Operation timed out
+Coordinates Too High : Operation timed out
+Coordinates Too High : Operation timed out
+Coordinates Too High : Operation timed out
+Coordinates Too High : Operation timed out
+Coordinates Too High : Operation timed out
+script.sh: line 21: ./visu: No such file or directory
+script.sh: line 23: ./visu: No such file or directory
+script.sh: line 25: ./visu: No such file or directory
+script.sh: line 27: ./visu: No such file or directory

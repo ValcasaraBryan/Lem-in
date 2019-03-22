@@ -1,9 +1,9 @@
 #!/usr/bin/sh
 
 leak=$(valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all)
-lem-in_correct=./resources/sortie_error_lem-in_correct
+lem-in_correct=./resources/sortie_error_lem_in_correct
 visu_correct=./resources/sortie_error_visu_correct
-lem-in_error=./resources/sortie_error_lem-in_error
+lem-in_error=./resources/sortie_error_lem_in_error
 visu_error=./resources/sortie_error_visu_error
 
 
