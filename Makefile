@@ -92,9 +92,9 @@ arg = 0
 arg_2 = 0
 arg_3 = 0
 
-lem-in_correct = resources/sortie_error_lem_in_correct
+lem-in_correct = resources/sortie_error_lem-in_correct
 visu_correct = resources/sortie_error_visu_correct
-lem-in_error = resources/sortie_error_lem_in_error
+lem-in_error = resources/sortie_error_lem-in_error
 visu_error = resources/sortie_error_visu_error
 
 all : $(NAME) $(NAME_BONUS)
