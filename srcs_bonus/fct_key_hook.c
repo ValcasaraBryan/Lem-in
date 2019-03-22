@@ -27,7 +27,7 @@ int		erase_all(t_data_p *p, int val)
 
 void	send_usage(void)
 {
-	printf("%s%s%s%s%s%s%s%s",
+	ft_printf("%s%s%s%s%s%s%s%s",
 		"-------------------------------------------------\n",
 		"| Usage :\t\t\t\t\t|\n|",
 		"\t- 'N'\t\t--> Next\t\t|\n|\t- 'SPACE'\t--> Start\t\t|\n",

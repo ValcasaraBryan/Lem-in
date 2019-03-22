@@ -6,14 +6,13 @@
 /*   By: glebouch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/09 15:27:37 by glebouch          #+#    #+#             */
-/*   Updated: 2018/05/09 15:27:39 by glebouch         ###   ########.fr       */
+/*   Updated: 2019/03/22 19:10:50 by glebouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 # include "libft.h"
-# include <stdio.h>
 # include <stdarg.h>
 # include <stdint.h>
 # include <inttypes.h>
