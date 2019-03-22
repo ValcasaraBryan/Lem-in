@@ -152,7 +152,7 @@ $(NAME) : $(OBJET)
 	@ar rc $@ $^
 	@ranlib $@
 
-$(OBJET):$(INCLUDES)
+$(OBJET): includes/libft.h includes/get_next_line.h includes/ft_printf.h
 
 comp : $(NAME)
 ifeq ($(EXE), 0)

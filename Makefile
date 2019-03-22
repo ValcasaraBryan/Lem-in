@@ -97,17 +97,21 @@ visu_correct = resources/sortie_error_visu_correct
 lem-in_error = resources/sortie_error_lem_in_error
 visu_error = resources/sortie_error_visu_error
 
-all : $(NAME) $(NAME_BONUS)
+opti :
+	@make -j8 all
+
+all :
+	@make -C libft
+	@make $(NAME)
+	@make $(NAME_BONUS)
 
 $(OBJET) : includes/lem_in.h
 $(OBJET_BONUS) : includes/visu.h
 
-$(NAME) : $(OBJET)
-	@make -C libft
+$(NAME) : $(LIB) $(OBJET)
 	@$(CC) $(CFLAGS) $(LIB) $(OBJET) -o $@
 
-$(NAME_BONUS) : $(OBJET_BONUS)
-	@make -C libft
+$(NAME_BONUS) : $(LIB) $(OBJET_BONUS)
 	@ $(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS) -lmlx -framework OpenGL -framework AppKit -o $@
 	@# $(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS)  /usr/X11/lib/libmlx.a -framework OpenGL -framework AppKit -o $@
 
