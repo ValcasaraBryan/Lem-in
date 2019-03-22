@@ -53,6 +53,8 @@ int		ft_find_group(t_infos *infos, int **tgt, int nb_gp, int nb_turn_max)
 
 	i = 0;
 	j = 0;
+	if (nb_gp == 1)
+		return (0);
 	while (i < nb_turn_max)
 	{
 		j = 0;
