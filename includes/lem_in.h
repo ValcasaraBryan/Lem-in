@@ -91,6 +91,7 @@ typedef struct			s_data
 	int					coor_y;
 	int					full;
 	struct s_data		**pipe;
+	int					weight;
 }						t_data;
 /*
 **          t_p = tableau qui contient tous les chemins qui existent
@@ -186,6 +187,9 @@ int						valeur_pipe(t_infos *infos);
 **          PARTIE ALGO
 **          algo.c
 */
+int						ft_put_weights(t_infos *inf);
+
+
 int						ft_update_tab_path_2(t_infos *infos, int **tmp,
 						int *tab, t_t *t);
 int						**ft_update_tab_path(t_infos *infos, int *tab);

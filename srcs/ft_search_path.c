@@ -72,26 +72,26 @@ int		ft_search_path2(t_infos *in, int i, int start)
 	int r;
 
 	r = 0;
-	if (ft_check_precedents(in, in->l->path,
-		in->data[in->data[in->l->c_r].pipe[i]->n_piece].n_piece))
+	if (in->data[in->data[in->l->c_r].pipe[i]->n_piece].commands == 2)
 	{
-		if (in->data[in->data[in->l->c_r].pipe[i]->n_piece].commands == 2)
+		in->t_p = ft_update_tab_path(in, ft_updated_path(in, in->l->path,
+			in->data[in->data[in->l->c_r].pipe[i]->n_piece].n_piece));
+		if ((r = ft_choose_paths(in)) == in->nb_path_max)
+			return (0);
+		ft_printf("r = %d\n", r);
+		if (r >= 0 && r < 12)
 		{
-			in->t_p = ft_update_tab_path(in, ft_updated_path(in, in->l->path,
-				in->data[in->data[in->l->c_r].pipe[i]->n_piece].n_piece));
-			if ((r = ft_choose_paths(in)) == in->nb_path_max)
-				return (0);
-			if (r >= 0)
-			{
-				r = ft_olalala(in, start, r);
-				if (r)
-					return ((r < 0) ? -1 : 0);
-			}
+			r = ft_olalala(in, start, r);
+			ft_printf("r apres alolo= %d\n", r);
+			if (r)
+				return ((r < 0) ? -1 : 0);
 		}
-		else
-			ft_add_graph_end(in, &in->l, in->l->path,
-				in->data[in->data[in->l->c_r].pipe[i]->n_piece].n_piece);
+		if (r <= 12)
+			return (1);
 	}
+	else
+		ft_add_graph_end(in, &in->l, in->l->path,
+			in->data[in->data[in->l->c_r].pipe[i]->n_piece].n_piece);
 	return (1);
 }
 
@@ -99,16 +99,20 @@ int		ft_search_path1(t_infos *inf, int start, t_q *q)
 {
 	while (*(&inf->l))
 	{
+		ft_printf("current %d \n", inf->l->c_r);
 		while (ft_length_path(inf->l->path, inf->nb_of_box)
 		== q->lp && q->lp <= inf->nb_of_box)
 		{
+			ft_printf("current2 %d \n", inf->l->c_r);
 			q->i = -1;
+			// ft_printf("q->lp %d\n",q->lp);
 			while (++q->i < inf->data[inf->l->c_r].nb_of_link)
 			{
 				if (ft_check_precedents(inf, inf->l->path,
 					inf->data[inf->data[inf->l->c_r].
 						pipe[q->i]->n_piece].n_piece))
 				{
+				ft_printf("toto : %d \n", inf->data[inf->l->c_r].pipe[q->i]->n_piece);
 					q->ret = ft_search_path2(inf, q->i, start);
 					if (q->ret <= 0)
 						return ((q->ret < 0) ? 0 : 1);

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "lem_in.h"
+#include <time.h>
 
 int		ft_compare(t_infos *infos, int *tab1, int *tab2)
 {
@@ -79,11 +80,14 @@ int		ft_up_index(t_infos *infos, int *t_p_c, int index_to_up, int n)
 
 int		ft_choose_path_i(t_infos *inf, int *tpc_i, int n)
 {
+//	ft_putendl("choose pathi");
 	int k;
 	int index_to_up;
 	int nb_path_compatible;
 	int lpm;
+	time_t t;
 
+	t = time(NULL);
 	index_to_up = 0;
 	nb_path_compatible = 1;
 	lpm = ft_length_path(inf->t_p[n], inf->nb_of_box);
@@ -92,9 +96,13 @@ int		ft_choose_path_i(t_infos *inf, int *tpc_i, int n)
 		k = -1;
 		while (++k < n && k < inf->t_p[0][0])
 			tpc_i[k] = k + 1;
+		t = time(NULL);
 		while (nb_path_compatible < n
 			&& ft_length_path(inf->t_p[tpc_i[n - 1]], inf->nb_of_box) <= lpm)
 		{
+			if (time(NULL) - t > 1)
+				return(0);
+//			ft_printf("nb_path_cmp = %d i = %d\n", nb_path_compatible, n);
 			if (!(index_to_up = ft_compare_tab(inf, tpc_i, n)))
 				return (1);
 			else if (ft_up_index(inf, tpc_i, index_to_up, n) == -1)
@@ -108,15 +116,18 @@ int		ft_choose_path_i(t_infos *inf, int *tpc_i, int n)
 
 int		ft_choose_paths(t_infos *infos)
 {
+//	ft_putendl("choose path");
 	int i;
+	int r = 0;
 
-	i = 0;
+	i = -1;
 	if (infos->jpp++)
 		ft_free_tab_int(infos->t_p_c, infos->nb_path_max);
 	if (!(infos->t_p_c = (int**)ft_memalloc(sizeof(int*) * infos->nb_path_max)))
 		return (-1);
-	while (i < ft_min_int(infos->nb_path_max, infos->t_p[0][0]))
+	while (++i < ft_min_int(infos->nb_path_max, infos->t_p[0][0]))
 	{
+//		ft_printf("i = %d", i);
 		if (!(infos->t_p_c[i] = (int*)ft_memalloc(sizeof(int) * (i + 1))))
 		{
 			ft_free_tab_int(infos->t_p_c, i);
@@ -124,13 +135,14 @@ int		ft_choose_paths(t_infos *infos)
 		}
 		if (i == 0)
 			infos->t_p_c[i][0] = 1;
-		else if (i > 0 && ft_choose_path_i(infos, infos->t_p_c[i], i + 1) < 0)
+		else if (i > 0 && (r = ft_choose_path_i(infos, infos->t_p_c[i], i + 1)) <= 0)
 		{
+			if (!r)
+				return(i);
 			infos->jpp = 0;
 			ft_free_tab_int(infos->t_p_c, i + 1);
 			return (0);
 		}
-		i++;
 	}
 	return (i);
 }

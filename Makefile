@@ -15,6 +15,7 @@ NAME = lem-in
 NAME_BONUS = visu
 
 SRC =	srcs/main.c\
+		srcs/weights.c\
 		srcs/affichage.c\
 		srcs/algo.c\
 		srcs/choose_path.c\
@@ -72,7 +73,8 @@ SRC_BONUS = srcs_bonus/main_bonus.c\
 		srcs/valeur_pipe.c\
 		srcs/resolution.c\
 		srcs/move_ants.c\
-		srcs/list_utils.c
+		srcs/list_utils.c\
+		srcs/weights.c
 
 LIB = libft/libft.a
 
@@ -82,9 +84,9 @@ OBJET_BONUS = $(SRC_BONUS:.c=.o)
 
 INCLUDES = includes
 
-CFLAGS = -Wall -Wextra -Werror -I $(INCLUDES)# -g3 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -O1 -I $(INCLUDES) #-g3 -fsanitize=address
 
-CC = gcc
+CC = clang
 
 leak= valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all# --show-leak-kinds=definite
 
