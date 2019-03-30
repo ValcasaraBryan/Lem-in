@@ -215,13 +215,7 @@ void					ft_lstdel_all(t_ants **fa);
 */
 int						ft_check_precedents(t_infos *infos,
 						int *tab_path_n_piece, int n);
-/*
-**          ft_search_path.c
-*/
-int						ft_un_el_l_commence_par_tab_i(t_infos *inf, int tabi,
-						int nbc);
-int						ft_olalala(t_infos *inf, int start, int nbc);
-int						ft_search_path(t_infos *infos, int start);
+
 /*
 **          graph_utils.c
 */

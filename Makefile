@@ -19,7 +19,6 @@ SRC =	srcs/main.c\
 		srcs/affichage.c\
 		srcs/algo.c\
 		srcs/choose_path.c\
-		srcs/ft_search_path.c\
 		srcs/ft_check_precedents.c\
 		srcs/graph_utils.c\
 		srcs/frees_algo.c\

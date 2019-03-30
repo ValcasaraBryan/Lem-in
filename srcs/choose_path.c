@@ -80,12 +80,11 @@ int		ft_up_index(t_infos *infos, int *t_p_c, int index_to_up, int n)
 
 int		ft_choose_path_i(t_infos *inf, int *tpc_i, int n)
 {
-//	ft_putendl("choose pathi");
-	int k;
-	int index_to_up;
-	int nb_path_compatible;
-	int lpm;
-	time_t t;
+	int		k;
+	int		index_to_up;
+	int		nb_path_compatible;
+	int		lpm;
+	time_t	t;
 
 	t = time(NULL);
 	index_to_up = 0;
@@ -101,8 +100,7 @@ int		ft_choose_path_i(t_infos *inf, int *tpc_i, int n)
 			&& ft_length_path(inf->t_p[tpc_i[n - 1]], inf->nb_of_box) <= lpm)
 		{
 			if (time(NULL) - t > 1)
-				return(0);
-//			ft_printf("nb_path_cmp = %d i = %d\n", nb_path_compatible, n);
+				return (0);
 			if (!(index_to_up = ft_compare_tab(inf, tpc_i, n)))
 				return (1);
 			else if (ft_up_index(inf, tpc_i, index_to_up, n) == -1)
@@ -114,33 +112,31 @@ int		ft_choose_path_i(t_infos *inf, int *tpc_i, int n)
 	return (0);
 }
 
-int		ft_choose_paths(t_infos *infos)
+int		ft_choose_paths(t_infos *inf)
 {
-//	ft_putendl("choose path");
 	int i;
 	int r = 0;
 
 	i = -1;
-	if (infos->jpp++)
-		ft_free_tab_int(infos->t_p_c, infos->nb_path_max);
-	if (!(infos->t_p_c = (int**)ft_memalloc(sizeof(int*) * infos->nb_path_max)))
+	if (inf->jpp++)
+		ft_free_tab_int(inf->t_p_c, inf->nb_path_max);
+	if (!(inf->t_p_c = (int**)ft_memalloc(sizeof(int*) * inf->nb_path_max)))
 		return (-1);
-	while (++i < ft_min_int(infos->nb_path_max, infos->t_p[0][0]))
+	while (++i < ft_min_int(inf->nb_path_max, inf->t_p[0][0]))
 	{
-//		ft_printf("i = %d", i);
-		if (!(infos->t_p_c[i] = (int*)ft_memalloc(sizeof(int) * (i + 1))))
+		if (!(inf->t_p_c[i] = (int*)ft_memalloc(sizeof(int) * (i + 1))))
 		{
-			ft_free_tab_int(infos->t_p_c, i);
+			ft_free_tab_int(inf->t_p_c, i);
 			return (-1);
 		}
 		if (i == 0)
-			infos->t_p_c[i][0] = 1;
-		else if (i > 0 && (r = ft_choose_path_i(infos, infos->t_p_c[i], i + 1)) <= 0)
+			inf->t_p_c[i][0] = 1;
+		else if (i > 0 && (r = ft_choose_path_i(inf, inf->t_p_c[i], i + 1)) <= 0)
 		{
 			if (!r)
-				return(i);
-			infos->jpp = 0;
-			ft_free_tab_int(infos->t_p_c, i + 1);
+				return (i);
+			inf->jpp = 0;
+			ft_free_tab_int(inf->t_p_c, i + 1);
 			return (0);
 		}
 	}

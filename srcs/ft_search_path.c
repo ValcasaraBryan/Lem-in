@@ -99,20 +99,16 @@ int		ft_search_path1(t_infos *inf, int start, t_q *q)
 {
 	while (*(&inf->l))
 	{
-		ft_printf("current %d \n", inf->l->c_r);
 		while (ft_length_path(inf->l->path, inf->nb_of_box)
 		== q->lp && q->lp <= inf->nb_of_box)
 		{
-			ft_printf("current2 %d \n", inf->l->c_r);
 			q->i = -1;
-			// ft_printf("q->lp %d\n",q->lp);
 			while (++q->i < inf->data[inf->l->c_r].nb_of_link)
 			{
 				if (ft_check_precedents(inf, inf->l->path,
 					inf->data[inf->data[inf->l->c_r].
 						pipe[q->i]->n_piece].n_piece))
 				{
-				ft_printf("toto : %d \n", inf->data[inf->l->c_r].pipe[q->i]->n_piece);
 					q->ret = ft_search_path2(inf, q->i, start);
 					if (q->ret <= 0)
 						return ((q->ret < 0) ? 0 : 1);

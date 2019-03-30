@@ -42,8 +42,6 @@ int		ft_init_path(t_infos *infos)
 		i++;
 	if (!ft_put_weights(infos))
 		return (0);
-//	if (!ft_search_path(infos, i))
-//		return (0);
 	return (1);
 }
 
