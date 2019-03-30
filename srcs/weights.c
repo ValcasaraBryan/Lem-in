@@ -12,6 +12,25 @@
 
 #include "lem_in.h"
 
+int save_paths2(t_infos *inf, int i)
+{
+	inf->data[inf->l->c_r].weight = 0;
+	if (ft_check_precedents(inf, inf->l->path,
+			inf->data[inf->data[inf->l->c_r].
+				pipe[i]->n_piece].n_piece)
+		&& inf->data[inf->data[inf->l->c_r].pipe[i]->n_piece].weight > 0)
+	{
+		if (inf->data[inf->data[inf->l->c_r].pipe[i]->n_piece].commands == 2)
+			if (!(inf->t_p = ft_update_tab_path(inf, ft_updated_path(inf, inf->l->path,
+				inf->data[inf->data[inf->l->c_r].pipe[i]->n_piece].n_piece))))
+				return (0);
+		else
+			ft_add_graph_end(inf, &inf->l, inf->l->path,
+				inf->data[inf->data[inf->l->c_r].pipe[i]->n_piece].n_piece);
+	}
+	return (1);
+}
+
 int		ft_save_paths(t_infos *inf)
 {
 	int i;
@@ -28,21 +47,8 @@ int		ft_save_paths(t_infos *inf)
 	{
 		i = -1;
 		while (++i < inf->data[inf->l->c_r].nb_of_link)
-		{
-			inf->data[inf->l->c_r].weight = 0;
-			if (ft_check_precedents(inf, inf->l->path,
-					inf->data[inf->data[inf->l->c_r].
-						pipe[i]->n_piece].n_piece)
-				&& inf->data[inf->data[inf->l->c_r].pipe[i]->n_piece].weight > 0)
-			{
-				if (inf->data[inf->data[inf->l->c_r].pipe[i]->n_piece].commands == 2)
-					inf->t_p = ft_update_tab_path(inf, ft_updated_path(inf, inf->l->path,
-						inf->data[inf->data[inf->l->c_r].pipe[i]->n_piece].n_piece));
-				else
-					ft_add_graph_end(inf, &inf->l, inf->l->path,
-						inf->data[inf->data[inf->l->c_r].pipe[i]->n_piece].n_piece);
-			}
-		}
+			if (!ft_save_paths2(inf, i))
+				return (0);
 		ft_graph_del_start(&inf->l);
 		if (!inf->l)
 			return (1);
@@ -74,25 +80,23 @@ int		*ft_switch_tabs(t_infos *inf, int *tab2)
 int		ft_put_weights(t_infos *inf)
 {
 //	ft_putendl("ici");
-	int i;
-	int j = 0;
+	int j;
 	int w = 1;
-	int k = 0;
+	int k = -1;
 	int k2 = 0;
 	int *tab;
 	int *tab2;
 
-	i = 0;
+	j = 0;
+	//proteger//
 	tab = ft_alloc_tab_int(inf->nb_of_box, -1);
+	//proteger//
 	tab2 = ft_alloc_tab_int(inf->nb_of_box, -1);
-	while (inf->data[i].commands != 2)
-		i++;
-	inf->data[i].weight = w;
-	while (k < inf->data[i].nb_of_link)
-	{
-		tab[k] = inf->data[i].pipe[k]->n_piece;
-		k++;
-	}
+	while (inf->data[j].commands != 2)
+		j++;
+	inf->data[j].weight = w;
+	while (++k < inf->data[j].nb_of_link)
+		tab[k] = inf->data[j].pipe[k]->n_piece;
 	while (tab[0] >= 0)
 	{
 		w++;
@@ -112,6 +116,7 @@ int		ft_put_weights(t_infos *inf)
 					}
 				}
 		}
+		free(tab);
 		if (!(tab = ft_switch_tabs(inf, tab2)))
 		{
 			free(tab2);
@@ -121,8 +126,6 @@ int		ft_put_weights(t_infos *inf)
 	}
 	free(tab);
 	free(tab2);
-	if (!ft_save_paths(inf))
-		return (0);
 	return (1);
 }
 /*
