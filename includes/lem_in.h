@@ -16,13 +16,15 @@
 # include "../libft/includes/libft.h"
 # include "../libft/includes/get_next_line.h"
 # include "../libft/includes/ft_printf.h"
+# include "./algo.h"
+# include "./choose_path.h"
+# include "./weights.h"
 
 /*
 **          num_a = numero de la fourmi
 **          path_u = chemin que suit la fourmi
 **          indx = index du path auquel la fourmi se trouve
 */
-
 typedef struct			s_ants
 {
 	int					num_a;
@@ -38,25 +40,6 @@ typedef struct			s_graph
 	struct s_graph		*next;
 }						t_graph;
 /*
-**          utile dans ft_search_path
-*/
-typedef struct			s_s
-{
-	int					i;
-	int					j;
-	int					*tp_tmp;
-	int					*t_i_try;
-}						t_s;
-/*
-**          utile dans ft_search_path.c
-*/
-typedef struct			s_q
-{
-	int					ret;
-	int					lp;
-	int					i;
-}						t_q;
-/*
 **          utile dans ft_resolution
 */
 typedef struct			s_r
@@ -64,16 +47,6 @@ typedef struct			s_r
 	int					nb_turn_max;
 	int					num_g;
 }						t_r;
-/*
-**          utile dans update_path_tab 1 et 2
-*/
-typedef struct			s_t
-{
-	int					i;
-	int					j;
-	int					r;
-	int					n;
-}						t_t;
 
 typedef struct			s_file
 {
@@ -100,11 +73,10 @@ typedef struct			s_data
 **                  compatibles (pour t_p_c[3], contient les index a
 **                  reporter dans t_p de 4 chemins compatibles)
 **          nb_path_max = nombre de chemins maximum
-**          tl = tab_link = pertinance des liens
+**			l = premier element de la liste des chemis qui existent
 */
 typedef struct			s_infos
 {
-	int					jpp;
 	int					nb_of_fourmis;
 	int					nb_f_left;
 	int					nb_of_box;
@@ -187,9 +159,6 @@ int						valeur_pipe(t_infos *infos);
 **          PARTIE ALGO
 **          algo.c
 */
-int						ft_put_weights(t_infos *inf);
-
-
 int						ft_update_tab_path_2(t_infos *infos, int **tmp,
 						int *tab, t_t *t);
 int						**ft_update_tab_path(t_infos *infos, int *tab);
@@ -215,7 +184,6 @@ void					ft_lstdel_all(t_ants **fa);
 */
 int						ft_check_precedents(t_infos *infos,
 						int *tab_path_n_piece, int n);
-
 /*
 **          graph_utils.c
 */
@@ -225,6 +193,11 @@ int						ft_add_graph_end(t_infos *inf, t_graph **fg, int *old_p,
 void					ft_new_graph(t_graph **fg);
 void					ft_graph_del_start(t_graph **fa);
 void					ft_lstdel_all_graph(t_graph **fa);
+/*
+**         	init_struct.c
+*/
+void					ft_init_c(t_infos *inf, t_c *c, int n);
+int						ft_init_w(t_infos *inf, t_w *w);
 /*
 **          list_utils.c
 */
@@ -261,4 +234,11 @@ int						ft_init_tab_path(t_infos *infos);
 int						ft_init_path(t_infos *infos);
 int						*ft_alloc_tab_int(int n, int val_initial);
 int						ft_length_path(int *tab, int n);
+/*
+**          weights.c
+*/
+int						ft_put_weights(t_infos *inf);
+int						ft_save_paths(t_infos *inf);
+int						ft_save_paths2(t_infos *inf, int i);
+
 #endif

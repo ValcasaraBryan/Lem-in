@@ -27,6 +27,7 @@ SRC =	srcs/main.c\
 		srcs/check_file.c\
 		srcs/get_file.c\
 		srcs/init_data.c\
+		srcs/init_struct.c\
 		srcs/liberation.c\
 		srcs/list_chain.c\
 		srcs/logical_infos_box.c\
@@ -56,7 +57,6 @@ SRC_BONUS = srcs_bonus/main_bonus.c\
 		srcs/algo.c\
 		srcs/choose_path.c\
 		srcs/graph_utils.c\
-		srcs/ft_search_path.c\
 		srcs/ft_check_precedents.c\
 		srcs/frees_algo.c\
 		srcs/utils_algo.c\
@@ -64,6 +64,7 @@ SRC_BONUS = srcs_bonus/main_bonus.c\
 		srcs/check_file.c\
 		srcs/get_file.c\
 		srcs/init_data.c\
+		srcs/init_struct.c\
 		srcs/liberation.c\
 		srcs/list_chain.c\
 		srcs/logical_infos_box.c\
@@ -83,11 +84,11 @@ OBJET_BONUS = $(SRC_BONUS:.c=.o)
 
 INCLUDES = includes
 
-CFLAGS = -Wall -Wextra -Werror -O1 -I $(INCLUDES) #-g3 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -O1 -I $(INCLUDES) -g3 #-fsanitize=address
 
 CC = clang
 
-leak= valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all# --show-leak-kinds=definite
+leak = valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all# --show-leak-kinds=definite
 
 arg = 0
 arg_2 = 0

@@ -27,7 +27,6 @@ t_infos		init_val(void)
 	infos.t_p_c = NULL;
 	infos.first_ant = NULL;
 	infos.l = NULL;
-	infos.jpp = 0;
 	return (infos);
 }
 
