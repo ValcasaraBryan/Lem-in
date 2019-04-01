@@ -20,7 +20,6 @@
 
 typedef struct	s_w
 {
-	int			j;
 	int			k;
 	int			k2;
 	int			*tab;

@@ -54,11 +54,10 @@ int		ft_up_index(t_infos *infos, int *t_p_c, int index_to_up, int n)
 	int i;
 
 	i = 1;
-	while (index_to_up >= 0
-		&& t_p_c[index_to_up] == infos->t_p[0][0] - n + index_to_up)
+	while (index_to_up >= 0 && t_p_c[index_to_up] == infos->t_p[0][0] - n + index_to_up)
 		index_to_up--;
 	if (index_to_up < 0)
-		return (-1);
+		return (0);
 	t_p_c[index_to_up]++;
 	if (t_p_c[index_to_up] > infos->t_p[0][0])
 		return (-1);
@@ -91,8 +90,8 @@ int		ft_choose_path_i(t_infos *inf, int *tpc_i, int n)
 		while (c.nb_path_compatible < n
 			&& ft_length_path(inf->t_p[tpc_i[n - 1]], inf->nb_of_box) <= c.lpm)
 		{
-			if (time(NULL) - c.t > 1)
-				return (0);
+			if (time(NULL) - c.t > 3)
+				return (-1);
 			if (!(c.index_to_up = ft_compare_tab(inf, tpc_i, n)))
 				return (1);
 			else if (ft_up_index(inf, tpc_i, c.index_to_up, n) == -1)
@@ -107,14 +106,13 @@ int		ft_choose_path_i(t_infos *inf, int *tpc_i, int n)
 int		ft_choose_paths(t_infos *in)
 {
 	int i;
-	int r;
 
 	i = -1;
-	r = 0;
 	if (!(in->t_p_c = (int**)ft_memalloc(sizeof(int*) * in->nb_path_max)))
 		return (-1);
 	while (++i < ft_min_int(in->nb_path_max, in->t_p[0][0]))
 	{
+		printf("%d %d", in->nb_path_max, in->t_p[0][0]);
 		if (!(in->t_p_c[i] = (int*)ft_memalloc(sizeof(int) * (i + 1))))
 		{
 			ft_free_tab_int(in->t_p_c, i);
@@ -122,13 +120,8 @@ int		ft_choose_paths(t_infos *in)
 		}
 		if (i == 0)
 			in->t_p_c[i][0] = 1;
-		else if (i > 0 && (r = ft_choose_path_i(in, in->t_p_c[i], i + 1)) <= 0)
-		{
-			if (!r)
-				return (i);
-			ft_free_tab_int(in->t_p_c, i + 1);
-			return (0);
-		}
+		else if (i > 0 && ft_choose_path_i(in, in->t_p_c[i], i + 1) < 0)
+			return (i);
 	}
 	return (i);
 }

@@ -23,7 +23,6 @@ void	ft_init_c(t_infos *inf, t_c *c, int n)
 
 int		ft_init_w(t_infos *inf, t_w *w)
 {
-	w->j = 0;
 	w->k = -1;
 	w->k2 = 0;
 	if (!(w->tab = ft_alloc_tab_int(inf->nb_of_box, -1)))
