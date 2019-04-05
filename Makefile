@@ -36,7 +36,8 @@ SRC =	srcs/main.c\
 		srcs/valeur_pipe.c\
 		srcs/resolution.c\
 		srcs/move_ants.c\
-		srcs/list_utils.c
+		srcs/list_utils.c\
+		srcs/edmonds.c
 
 SRC_BONUS = srcs_bonus/main_bonus.c\
 			srcs_bonus/liberation_bonus.c\
@@ -74,7 +75,8 @@ SRC_BONUS = srcs_bonus/main_bonus.c\
 		srcs/resolution.c\
 		srcs/move_ants.c\
 		srcs/list_utils.c\
-		srcs/weights.c
+		srcs/weights.c\
+		srcs/edmonds.c
 
 LIB = libft/libft.a
 

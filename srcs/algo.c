@@ -65,20 +65,6 @@ int		**ft_update_tab_path(t_infos *infos, int *tab)
 	return (tmp);
 }
 
-void	ft_put_tab_path(t_infos *inf)
-{
-	ft_putendl("tab_path :");
-	int i = 0;
-	int j = -1;
-
-	while (++i < inf->t_p[0][0])
-	{
-		j = -1;
-		while (inf->t_p[i][++j] >= 0)
-		ft_printf("%04d ", inf->t_p[i][j]);
-		ft_putendl("");
-	}
-}
 int		ft_algo_2(t_infos *infos)
 {
 	int nbr_group_path;
@@ -89,10 +75,8 @@ int		ft_algo_2(t_infos *infos)
 		ft_free_tab_int(infos->t_p, infos->t_p[0][0] + 1);
 		return (0);
 	}
-	ft_put_tab_path(infos);
 	if ((nbr_group_path = ft_choose_paths(infos)) <= 0)
 	{
-//		ft_free_tab_int(infos->t_p_c, infos->nb_path_max);
 		ft_free_tab_int(infos->t_p, infos->t_p[0][0] + 1);
 		return (0);
 	}

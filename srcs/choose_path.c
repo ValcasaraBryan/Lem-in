@@ -54,7 +54,8 @@ int		ft_up_index(t_infos *infos, int *t_p_c, int index_to_up, int n)
 	int i;
 
 	i = 1;
-	while (index_to_up >= 0 && t_p_c[index_to_up] == infos->t_p[0][0] - n + index_to_up)
+	while (index_to_up >= 0 && t_p_c[index_to_up] == infos->t_p[0][0]
+		- n + index_to_up)
 		index_to_up--;
 	if (index_to_up < 0)
 		return (0);
@@ -112,7 +113,6 @@ int		ft_choose_paths(t_infos *in)
 		return (-1);
 	while (++i < ft_min_int(in->nb_path_max, in->t_p[0][0]))
 	{
-		printf("%d %d", in->nb_path_max, in->t_p[0][0]);
 		if (!(in->t_p_c[i] = (int*)ft_memalloc(sizeof(int) * (i + 1))))
 		{
 			ft_free_tab_int(in->t_p_c, i);
