@@ -75,12 +75,13 @@ int		ft_algo_2(t_infos *infos)
 		ft_free_tab_int(infos->t_p, infos->t_p[0][0] + 1);
 		return (0);
 	}
-	if ((nbr_group_path = ft_choose_paths(infos)) <= 0)
-	{
-		ft_free_tab_int(infos->t_p, infos->t_p[0][0] + 1);
-		return (0);
-	}
-	if (ft_resolve(infos, nbr_group_path) <= 0)
+//	if ((nbr_group_path = ft_choose_paths(infos)) <= 0)
+//	{
+//		ft_free_tab_int(infos->t_p, infos->t_p[0][0] + 1);
+//		return (0);
+//	}
+
+	if (ft_resolve(infos, infos->r) <= 0)
 	{
 		ft_free_all(infos);
 		return (0);
@@ -96,6 +97,7 @@ int		ft_algo(t_infos *infos)
 	i = -1;
 	if (!(ft_init_tab_path(infos)))
 		return (0);
+	infos->nb_path_max = -1;
 	while (++i < infos->nb_of_box)
 	{
 		if (infos->data[i].commands != 0)

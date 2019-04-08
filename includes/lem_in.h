@@ -54,6 +54,13 @@ typedef struct			s_file
 	struct s_file		*next;
 }						t_file;
 
+typedef struct	s_path_comp
+{
+	int 		npc;
+	int 		**tpc;
+	struct s_path_comp *next;
+}				t_path_comp;
+
 typedef struct			s_data
 {
 	char				*name_box;
@@ -88,9 +95,11 @@ typedef struct			s_infos
 	int					**t_p;
 	t_ants				*first_ant;
 	t_graph				*l;
+	t_path_comp			*pc;
 	int					**t_p_c;
 	int					ind_start;
 	int					ind_end;
+	int					r;
 }						t_infos;
 /*
 **          PARTIE PARSING

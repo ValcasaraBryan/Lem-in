@@ -29,7 +29,7 @@ int		ft_init_tab_path(t_infos *infos)
 		return (0);
 	}
 	infos->t_p[0][0] = 0;
-	infos->nb_path_max = -1;
+	// infos->nb_path_max = -1;
 	return (1);
 }
 
@@ -77,12 +77,16 @@ int		ft_init_path(t_infos *infos)
 		if (infos->data[i].commands == 2)
 			infos->ind_end = i;
 	}
+	ft_putendl("ici0");
 	if (!(ft_alloue_p_states(infos)))
 		return (0);
+	ft_putendl("ici1");
 	if (!ft_put_weights(infos))
 		return (0);
+	ft_putendl("ici2");
 	if (!(infos->nb_path_max = ft_update_nb_path_max(infos)))
 		return (0);
+	ft_putendl("ici3");
 	while ((ret = ft_ed(infos)) > 0)
 	{
 		if (ret == 2)

@@ -21,16 +21,20 @@ int		ft_fill_tab_path_turn_i(t_infos *t, int n, int **t_p_t, int nb_turn_max)
 	int i;
 	int j;
 	int to_add;
+	t_path_comp *tmp;
 
 	i = -1;
 	j = 0;
 	to_add = 0;
+	tmp = t->pc;
+	while (tmp->npc < n + 1)
+		tmp = tmp->next;
 	while (++i < nb_turn_max)
 	{
 		j = 0;
 		while (j < n + 1)
 		{
-			if (ft_length_path(t->t_p[t->t_p_c[n][j]],
+			if (ft_length_path(tmp->tpc[j],
 						t->nb_of_box) - 1 == i + 1)
 				to_add++;
 			j++;
@@ -54,7 +58,10 @@ int		ft_find_group(t_infos *infos, int **tgt, int nb_gp, int nb_turn_max)
 	i = 0;
 	j = 0;
 	if (nb_gp == 1)
+	{
+		ft_putendl("le pb");
 		return (0);
+	}
 	while (i < nb_turn_max)
 	{
 		j = 0;
@@ -76,6 +83,7 @@ int		ft_create_ants(t_infos *i, int nb_ants_to_create)
 	j = -1;
 	while (++j < nb_ants_to_create)
 	{
+		printf("%d - %d\n", j, nb_ants_to_create);
 		if (!ft_lstadd_end(&i->first_ant, i->nb_of_fourmis - i->nb_f_left,
 					i->t_p_c[nb_ants_to_create - 1][j], 0))
 			return (0);
@@ -96,16 +104,21 @@ int		ft_create_ants(t_infos *i, int nb_ants_to_create)
 
 int		ft_resolve2(t_infos *inf, t_r *res, int **tgt, int nb_gp)
 {
+	ft_putendl("LAAAAAAAAAAA");
 	int i;
 
 	i = -1;
 	while (++i < nb_gp)
 		ft_fill_tab_path_turn_i(inf, i, tgt, res->nb_turn_max);
+	ft_putendl("LAAAAAAAAAAA2");
 	res->num_g = ft_find_group(inf, tgt, nb_gp, res->nb_turn_max);
+	ft_printf("\n\n\n\n\n\n\nnb de ch a empreinter = %d et nb_gp = %d \n\n\n\n\n\n", res->num_g, nb_gp);
 	if (res->num_g < 0)
 		return (-1);
+	ft_putendl("LAAAAAAAAAAA3");
 	if (!ft_create_ants(inf, res->num_g + 1))
 		return (-1);
+	ft_putendl("LAAAAAAAAAAA3");
 	ft_put_list(inf->file);
 	while (ft_move_ants(inf))
 	{
