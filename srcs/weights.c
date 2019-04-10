@@ -104,11 +104,8 @@ int		ft_put_weights2(t_infos *inf, t_w *w)
 			{
 				inf->data[inf->data[w->tab[w->k]].pipe[j]->n_piece].W = 1;
 				if (inf->data[inf->data[w->tab[w->k]].pipe[j]->NP].C != 1)
-				{
 					w->tab2[w->k2++] =
 						inf->data[w->tab[w->k]].pipe[j]->NP;
-//					inf->data[inf->data[w->tab[w->k]].pipe[j]->n_piece].p_state[j] = 1;
-				}
 			}
 		}
 	}
