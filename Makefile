@@ -18,7 +18,6 @@ SRC =	srcs/main.c\
 		srcs/weights.c\
 		srcs/affichage.c\
 		srcs/algo.c\
-		srcs/choose_path.c\
 		srcs/ft_check_precedents.c\
 		srcs/graph_utils.c\
 		srcs/frees_algo.c\
@@ -56,7 +55,6 @@ SRC_BONUS = srcs_bonus/main_bonus.c\
 			srcs_bonus/fct_key_hook.c\
 		srcs/affichage.c\
 		srcs/algo.c\
-		srcs/choose_path.c\
 		srcs/graph_utils.c\
 		srcs/ft_check_precedents.c\
 		srcs/frees_algo.c\

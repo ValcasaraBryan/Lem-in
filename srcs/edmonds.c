@@ -1,73 +1,27 @@
 #include "lem_in.h"
 
-void	ft_new_pc(t_path_comp **fpc)
+int **ft_cp(t_infos *inf, int **tab)
 {
-	t_path_comp *new_pc;
+	int **tmp;
+	int i = -1;
+	int j = 0;
 
-	if (!(new_pc = ft_memalloc(sizeof(t_path_comp))))
-		return ;
-	fpc = &new_pc;
-}
-/*
-int		ft_add_pc_end(t_infos *inf, t_path_comp **fpc, int count)
-{
-	t_path_comp *new_pc;
-
-	if (!(new_pc = malloc(sizeof(t_path_comp))))
-		return (0);
-	new_pc-> = ft_updated_path(inf, old_p, room);
-	new_pc->npc = count;
-	new_pc->next = NULL;
-	while (*fg)
-		fg = &((*fg)->next);
-	*fg = new_p;
-	return (1);
-}*/
-
-t_path_comp	*ft_lst_replace_count(t_path_comp **fpc, t_infos *inf, int count_to_del)
-{
-	ft_putendl("replace");
-	// t_path_comp *tmp;
-// 
-	while ((*fpc)->npc != count_to_del)
-		fpc = &(*fpc)->next;
-//	tmp = *fpc;
-	(*fpc)->tpc = inf->t_p;
-	// free(tmp);
-	return (*fpc);
-}
-
-int		ft_put_pc_middle(t_path_comp **fg, t_infos *inf, int count)
-{
-	ft_putendl("put mid");
-	t_path_comp *new;
-
-	if (!(new = malloc(sizeof(t_path_comp))))
-		return (0);
-	new->tpc = inf->t_p;
-	new->npc = count;
-	new->next = NULL;
-	while ((*fg)->npc > count)
-		fg = &((*fg)->next);
-	new->next = *fg;
-	*fg = new;
-	return (1);
-}
-
-int		ft_put_pc_end(t_path_comp **fg, t_infos *inf, int count)
-{
-	ft_putendl("put end");
-	t_path_comp *new;
-
-	if (!(new = malloc(sizeof(t_path_comp))))
-		return (0);
-	new->tpc = inf->t_p;
-	new->npc = count;
-	new->next = NULL;
-	while (*fg)
-		fg = &((*fg)->next);
-	*fg = new;
-	return (1);
+	if (!(tmp = malloc(sizeof(int *) * tab[0][0])))
+		return (NULL);
+	while (++i < tab[0][0])
+		if (!(tmp[i] = malloc(sizeof(int) * inf->nb_of_box)))
+		{
+			ft_free_tab_int(tmp, i - 1);
+			return(NULL);
+		}
+	i = -1;
+	while (++i < tab[0][0])
+	{
+		j = -1;
+		while (++j < inf->nb_of_box)
+			tmp[i][j] = tab[i + 1][j];
+	}
+	return(tmp);
 }
 
 int		ft_pipe_state(t_infos *inf, int r1, int r2)
@@ -76,14 +30,13 @@ int		ft_pipe_state(t_infos *inf, int r1, int r2)
 
 	while (inf->data[r1].pipe[i]->NP != r2)
 		i++;
-	ft_printf("etat entre %d et %d: %d\n", r1, r2, inf->data[r1].p_state[i]);
-	
+	// ft_printf("etat entre %d et %d: %d\n", r1, r2, inf->data[r1].p_state[i]);
 	return (inf->data[r1].p_state[i]);
 }
 
 void	ft_put_pipes_to_zero(t_infos *inf, int r1, int r2)
 {
-	ft_putendl("zero");
+	// ft_putendl("zero");
 	int i = 0;
 
 	while (inf->data[r1].pipe[i]->NP != r2)
@@ -93,12 +46,12 @@ void	ft_put_pipes_to_zero(t_infos *inf, int r1, int r2)
 	while (inf->data[r2].pipe[i]->NP != r1)
 		i++;
 	inf->data[r2].p_state[i] = 0;
-	ft_printf("etat entre %d et %d: %d\n", r2, r1, inf->data[r2].p_state[i]);
+	// ft_printf("etat entre %d et %d: %d\n", r2, r1, inf->data[r2].p_state[i]);
 }
 
 void	ft_put_pipe_to_one(t_infos *inf, int r1, int r2)
 {
-	ft_putendl("fpipe 1");
+	// ft_putendl("fpipe 1");
 	int i = 0;
 
 	while (inf->data[r1].pipe[i]->NP != r2)
@@ -106,51 +59,53 @@ void	ft_put_pipe_to_one(t_infos *inf, int r1, int r2)
 	inf->data[r1].p_state[i] = 1;
 }
 
-int		ft_find_nbr_pc(t_infos *inf)
+int		**ft_put_t_p_to_tpfinal(t_infos *inf)
 {
-	int i;
-	int count;
-
-	count = 0;
-	i = -1;
-	while (++i < inf->data[inf->ind_start].nb_of_link)
-		if (inf->data[inf->ind_start].p_state[i] == 1)
-			count++;
-	return (count);
-}
-
-int		ft_put_t_p_to_list_pc(t_infos *inf, int count)
-{
-	ft_putendl("ft_put_t_p_to_list_pc");
-	t_path_comp *tmp;
-
-	tmp = inf->pc;
-	if (!tmp)
-		ft_put_pc_end(&inf->pc, inf, count);
-	else
+	int i = -1;
+	int j = 0;
+	int n = inf->tp_final_capacity;
+	int **tmp;
+	
+	inf->tp_final_capacity += inf->t_p[0][0];
+	if (!(tmp = (int **)malloc(sizeof(int*) * (n + inf->t_p[0][0]))))
+		return (NULL);
+	while (++i < n)
 	{
-		ft_putendl("ft_put_t_p_to_list_pc3");
-		ft_putnbr(tmp->npc);
-		ft_putendl("");
-		ft_putnbr(count);
-		ft_putendl("");
-		while (tmp->npc <= count && tmp->next)
+		if (!(tmp[i] = (int *)malloc(sizeof(int) * inf->nb_of_box)))
 		{
-			ft_putendl("ft_put_t_p_to_list_pc4");
-			tmp = tmp->next;
+			ft_free_tab_int(tmp, i);
+			return (NULL);
 		}
-		ft_putendl("ft_put_t_p_to_list_pc2");
-		if (tmp->npc == count)
-		{
-			if (ft_length_path(inf->t_p[count], inf->nb_of_box) < ft_length_path(tmp->tpc[count], inf->nb_of_box))
-				ft_lst_replace_count(&inf->pc, inf, count);
-		}
-		if (tmp)
-			ft_put_pc_middle(&inf->pc, inf, count);
-		else
-			ft_put_pc_end(&inf->pc, inf, count);
+		j = -1;
+		while (++j < inf->nb_of_box)
+			tmp[i][j] = inf->tp_final[i][j];
 	}
-	return (count);
+	i = -1;
+	while (++i < inf->t_p[0][0])
+	{
+		if (!(tmp[i + n] = (int *)malloc(sizeof(int) * inf->nb_of_box)))
+		{
+			ft_free_tab_int(tmp, i + n);
+			return (NULL);
+		}
+		j = -1;
+		while (++j < inf->nb_of_box)
+			tmp[i + n][j] = inf->t_p[i + 1][j];
+	}
+	i = -1;
+	while (++i < inf->t_p[0][0])
+	{
+		if (!(inf->t_p_c[inf->t_p[0][0] - 1] = (int*)malloc(sizeof(int) * inf->t_p[0][0])))
+		{
+			ft_free_tab_int(tmp, inf->tp_final_capacity);
+			ft_free_tab_int(inf->t_p_c, inf->t_p[0][0] - 1);
+			return (NULL);
+		}
+		inf->t_p_c[inf->t_p[0][0] - 1][i] = n + i;
+	}
+	ft_free_tab_int(inf->t_p, inf->t_p[0][0] + 1);
+	ft_free_tab_int(inf->tp_final, n);
+	return (tmp);
 }
 
 int		ft_save_path(t_infos *inf)
@@ -166,7 +121,6 @@ int		ft_save_path(t_infos *inf)
 	if (!(ft_init_tab_path(inf)))
 		return (0);
 	cr = inf->ind_start;
-	// ft_putnbr(cr);
 	while (k < inf->data[inf->ind_start].nb_of_link)
 	{
 		while (k < inf->data[inf->ind_start].nb_of_link && inf->data[inf->ind_start].p_state[k] != 1)
@@ -181,7 +135,6 @@ int		ft_save_path(t_infos *inf)
 		while (inf->data[cr].C != 2)
 		{
 			i = 0;
-			// ft_printf("i = %d\n", i);
 			while (i < inf->data[cr].nb_of_link && inf->data[cr].p_state[i] != 1)
 				i++;
 			if (i < inf->data[cr].nb_of_link)
@@ -241,7 +194,9 @@ int		ft_ed2(t_infos *inf, int i)
 		{
 			ft_putendl("on a trouvé un path");
 			ft_save_p_states(inf);
-			return (ft_put_t_p_to_list_pc(inf, ft_save_path(inf)));
+			inf->r = ft_save_path(inf);
+			inf->tp_final = ft_put_t_p_to_tpfinal(inf);
+			return (inf->r);
 		}
 		else
 			ft_add_graph_end(inf, &inf->l, inf->l->path,
@@ -287,7 +242,8 @@ int		ft_ed(t_infos *inf)
 	int i;
 	int *tmp;
 
-	ft_new_pc(&inf->pc);
+	if (!(inf->t_p_c = (int**)ft_memalloc(sizeof(int*) * inf->nb_path_max)))
+		return (-1);
 	i = -1;
 	i = 0;
 	if (!(tmp = ft_alloc_tab_int(inf->nb_of_box, -1)))

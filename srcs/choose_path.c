@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "lem_in.h"
-
+/*
 int		ft_compare(t_infos *infos, int *tab1, int *tab2)
 {
 	int i;
@@ -69,14 +69,14 @@ int		ft_up_index(t_infos *infos, int *t_p_c, int index_to_up, int n)
 		i++;
 	}
 	return (0);
-}
+}*/
 
 /*
 **	lpm = length path max
 **	t_p = tab_path
 **	tpci = tab_path_compatibles[i], contient les index des chemins du groupe i
 */
-
+/*
 int		ft_choose_path_i(t_infos *inf, int *tpc_i, int n)
 {
 	t_c c;
@@ -124,4 +124,4 @@ int		ft_choose_paths(t_infos *in)
 			return (i);
 	}
 	return (i);
-}
+}*/

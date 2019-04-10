@@ -88,7 +88,7 @@ void	ft_switch_tabs(t_infos *inf, t_w *w)
 	}
 }
 
-int		ft_put_weights2(t_infos *inf, t_w *w)
+void	ft_put_weights2(t_infos *inf, t_w *w)
 {
 	int j;
 
@@ -110,7 +110,6 @@ int		ft_put_weights2(t_infos *inf, t_w *w)
 		}
 	}
 	ft_switch_tabs(inf, w);
-	return (1);
 }
 
 int		ft_put_weights(t_infos *inf)
@@ -130,22 +129,10 @@ int		ft_put_weights(t_infos *inf)
 		inf->data[j].pipe[w.k]->W = 1;
 	}
 	while (w.tab[0] >= 0)
-	{
-		if (!ft_put_weights2(inf, &w))
-			return (0);
-	}
+		ft_put_weights2(inf, &w);
 	free(w.tab);
 	free(w.tab2);
-	j = 0;
-	while (inf->data[j].commands != 1)
-		j++;
-	if (!inf->data[j].weight)
+	if (!inf->data[inf->ind_start].weight)
 		return (0);
-//	while (i < inf->data[j].nb_of_link)
-//	{
-//		if (inf->data[j].pipe[i]->W)
-//			inf->data[j].p_state[i] = 1;
-//		i++;
-//	}
 	return (1);
 }

@@ -30,9 +30,12 @@ void	ft_free_tab_int(int **tab, int height)
 
 void	ft_free_all(t_infos *infos)
 {
+	int i = -1;
+
+	while (++i < infos->nb_of_box)
+		free(infos->data[i].p_state);
 	ft_lstdel_all(&infos->first_ant);
 	ft_lstdel_all_graph(&infos->l);
-	ft_free_tab_int(infos->t_p_c, infos->nb_path_max);
 	ft_free_tab_int(infos->t_p, infos->t_p[0][0] + 1);
 	erase_data(infos);
 }

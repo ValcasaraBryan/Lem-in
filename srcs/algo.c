@@ -69,23 +69,22 @@ int		ft_algo_2(t_infos *infos)
 {
 	int nbr_group_path;
 
-	nbr_group_path = 0;
+	nbr_group_path = 1;
 	if (!infos->nb_path_max || !ft_init_path(infos))
 	{
+		nbr_group_path = -1;
+		while (++nbr_group_path < infos->nb_of_box)
+			free(infos->data[nbr_group_path].p_state);
 		ft_free_tab_int(infos->t_p, infos->t_p[0][0] + 1);
 		return (0);
 	}
-//	if ((nbr_group_path = ft_choose_paths(infos)) <= 0)
-//	{
-//		ft_free_tab_int(infos->t_p, infos->t_p[0][0] + 1);
-//		return (0);
-//	}
-
-	if (ft_resolve(infos, infos->r) <= 0)
+	ft_putendl("ici");
+	if (ft_resolve(infos, nbr_group_path) <= 0)
 	{
 		ft_free_all(infos);
 		return (0);
 	}
+	ft_putendl("ici3");
 	ft_free_all(infos);
 	return (1);
 }

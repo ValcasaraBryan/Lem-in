@@ -94,8 +94,6 @@ int		ft_init_path(t_infos *infos)
 		if (!ft_put_weights(infos))
 			return (0);
 	}
-//	if (!ft_save_paths(infos))
-//		return (0);
 	return (0);
 }
 

@@ -18,29 +18,33 @@
 
 int		ft_fill_tab_path_turn_i(t_infos *t, int n, int **t_p_t, int nb_turn_max)
 {
+	ft_putendl("fill1");
 	int i;
 	int j;
 	int to_add;
-	t_path_comp *tmp;
 
 	i = -1;
 	j = 0;
 	to_add = 0;
-	tmp = t->pc;
-	while (tmp->npc < n + 1)
-		tmp = tmp->next;
+	ft_putendl("fill2");
 	while (++i < nb_turn_max)
 	{
+		ft_putendl("fill3");
 		j = 0;
 		while (j < n + 1)
 		{
-			if (ft_length_path(tmp->tpc[j],
+			ft_putendl("fill4");
+			ft_printf("n = %d j = %d", n, j);
+			ft_putnbr(t->t_p_c[n][j]);
+			if (ft_length_path(t->tp_final[t->t_p_c[n][j]],
 						t->nb_of_box) - 1 == i + 1)
 				to_add++;
 			j++;
 		}
+		ft_putendl("fill5");
 		t_p_t[n][i] = (i > 0) ? t_p_t[n][i - 1] + to_add : to_add;
 	}
+	ft_putendl("fill6");
 	return (1);
 }
 
@@ -138,22 +142,29 @@ int		ft_resolve2(t_infos *inf, t_r *res, int **tgt, int nb_gp)
 
 int		ft_resolve(t_infos *inf, int nb_gp)
 {
+	ft_putendl("icila");
 	int **tgt;
 	int i;
 	t_r res;
+	ft_putendl("icila0");
 
-	res.nb_turn_max = ft_length_path(inf->t_p[1], inf->nb_of_box)
+	res.nb_turn_max = ft_length_path(inf->tp_final[0], inf->nb_of_box)
 					- 2 + inf->nb_of_fourmis;
 	i = -1;
+	ft_putendl("icila1");
 	inf->nb_f_left = inf->nb_of_fourmis - 1;
 	if (!(tgt = (int **)malloc(sizeof(int*) * nb_gp)))
 		return (0);
+	ft_putendl("icila2");
 	while (++i < nb_gp)
+	{
+	ft_putendl("icila3");
 		if (!(tgt[i] = (int*)malloc(sizeof(int) * res.nb_turn_max)))
 		{
 			ft_free_tab_int(tgt, i);
 			return (0);
 		}
+	}
 	if (ft_resolve2(inf, &res, tgt, nb_gp) < 0)
 	{
 		ft_free_tab_int(tgt, nb_gp);

@@ -24,10 +24,11 @@ t_infos		init_val(void)
 	infos.nb_f_left = 0;
 	infos.nb_path_max = 0;
 	infos.t_p = NULL;
+	infos.tp_final = NULL;
+	infos.tp_final_capacity = 0;
 	infos.t_p_c = NULL;
 	infos.first_ant = NULL;
 	infos.l = NULL;
-	infos.pc = NULL;
 	infos.ind_start = -1;
 	infos.ind_end = -1;
 	infos.r = 0;
