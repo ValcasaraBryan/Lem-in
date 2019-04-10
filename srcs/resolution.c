@@ -84,7 +84,7 @@ int		ft_create_ants(t_infos *i, int nb_ants_to_create)
 	while (++j < nb_ants_to_create)
 	{
 		printf("%d - %d\n", j, nb_ants_to_create);
-		if (!ft_lstadd_end(&i->first_ant, i->nb_of_fourmis - i->nb_f_left,
+		if (!i->first_ant || !ft_lstadd_end(&i->first_ant, i->nb_of_fourmis - i->nb_f_left,
 					i->t_p_c[nb_ants_to_create - 1][j], 0))
 			return (0);
 		i->nb_f_left--;

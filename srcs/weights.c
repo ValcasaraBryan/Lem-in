@@ -128,7 +128,10 @@ int		ft_put_weights(t_infos *inf)
 		j++;
 	inf->data[j].weight = 1;
 	while (++w.k < inf->data[j].nb_of_link)
+	{
 		w.tab[w.k] = inf->data[j].pipe[w.k]->n_piece;
+		inf->data[j].pipe[w.k]->W = 1;
+	}
 	while (w.tab[0] >= 0)
 	{
 		if (!ft_put_weights2(inf, &w))

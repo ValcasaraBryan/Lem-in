@@ -1,8 +1,5 @@
 #include "lem_in.h"
 
-
-
-
 void	ft_new_pc(t_path_comp **fpc)
 {
 	t_path_comp *new_pc;
@@ -253,13 +250,45 @@ int		ft_ed2(t_infos *inf, int i)
 	return (0);
 }
 
-int ft_ed(t_infos *inf)
+int		ft_is_room_on_a_path(t_infos *inf, int cr)
+{
+	int i = 0;
+	int prev = -1;
+	int j;
+
+	while (i < inf->data[cr].nb_of_link && !inf->data[cr].p_state[i])
+		i++;
+	if (i < inf->data[cr].nb_of_link)
+	{
+		i = -1;
+		while (++i < inf->data[cr].nb_of_link)
+		{
+			j = -1;
+			prev = inf->data[cr].pipe[i]->NP;
+			while (++j < inf->data[prev].nb_of_link)
+			{
+				if (inf->data[prev].pipe[j]->NP == cr && inf->data[prev].p_state[j] == 1)
+					return (prev);
+			}
+		}
+	}
+	return (-1);
+}
+
+void		ft_ed2_special(t_infos *inf, int r_to_go)
+{
+	if (ft_check_precedents(inf, inf->l->path, r_to_go)
+			&& inf->data[r_to_go].W)
+		ft_add_graph_end(inf, &inf->l, inf->l->path, r_to_go);
+}
+
+int		ft_ed(t_infos *inf)
 {
 	int i;
 	int *tmp;
 
-
 	ft_new_pc(&inf->pc);
+	i = -1;
 	i = 0;
 	if (!(tmp = ft_alloc_tab_int(inf->nb_of_box, -1)))
 		return (-1);
@@ -269,26 +298,31 @@ int ft_ed(t_infos *inf)
 	{
 		i = -1;
 		inf->data[inf->l->c_r].weight = 0;
-		while (++i < inf->data[inf->l->c_r].nb_of_link)
+		if ((inf->r = ft_is_room_on_a_path(inf, inf->l->c_r)) >= 0)
+			ft_ed2_special(inf, inf->r);
+		else
 		{
-			inf->r = ft_ed2(inf, i);
-			if (inf->r)
+			while (++i < inf->data[inf->l->c_r].nb_of_link)
 			{
-				ft_lstdel_all_graph(&inf->l);
-				if (inf->r < 0)
+				inf->r = ft_ed2(inf, i);
+				if (inf->r)
 				{
-					ft_putendl("error malloc");
-					return (-1);
-				}
-				if (inf->r == inf->nb_path_max)
-				{
-					ft_putendl("yey");
-					return (2);
-				}
-				if (inf->r > 0)
-				{
-					ft_putendl("continue");
-					return (1);
+					ft_lstdel_all_graph(&inf->l);
+					if (inf->r < 0)
+					{
+						ft_putendl("error malloc");
+						return (-1);
+					}
+					if (inf->r == inf->nb_path_max)
+					{
+						ft_putendl("yey");
+						return (2);
+					}
+					if (inf->r > 0)
+					{
+						ft_putendl("continue");
+						return (1);
+					}
 				}
 			}
 		}
