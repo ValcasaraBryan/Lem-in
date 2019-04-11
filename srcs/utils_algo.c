@@ -19,6 +19,13 @@ int		ft_min_int(int a, int b)
 	return (b);
 }
 
+int		ft_max_int(int a, int b)
+{
+	if (a > b)
+		return (a);
+	return (b);
+}
+
 int		ft_init_tab_path(t_infos *infos)
 {
 	if (!(infos->t_p = (int **)malloc(sizeof(int*))))
@@ -87,6 +94,8 @@ int		ft_init_path(t_infos *infos)
 	if (!(infos->nb_path_max = ft_update_nb_path_max(infos)))
 		return (0);
 	ft_putendl("ici3");
+	if (!(infos->t_p_c = (int**)ft_memalloc(sizeof(int*) * infos->nb_path_max)))
+		return (0);
 	while ((ret = ft_ed(infos)) > 0)
 	{
 		if (ret == 2)

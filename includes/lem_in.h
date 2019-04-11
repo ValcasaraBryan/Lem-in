@@ -25,11 +25,12 @@
 **          path_u = chemin que suit la fourmi
 **          indx = index du path auquel la fourmi se trouve
 */
+
 typedef struct			s_ants
 {
 	int					num_a;
-	int					path_u;
-	int					indx;
+	int 				path_u;
+	int 				indx;
 	struct s_ants		*next;
 }						t_ants;
 
@@ -93,13 +94,15 @@ typedef struct			s_infos
 	t_file				*file;
 	t_data				*data;
 	int					**t_p;
+	int 				**tp_final;
+	int 				tp_final_capacity;
+	int 				**t_p_c;
 	t_ants				*first_ant;
 	t_graph				*l;
-	t_path_comp			*pc;
-	int					**t_p_c;
 	int					ind_start;
 	int					ind_end;
 	int					r;
+	int 				nb_group_path;
 }						t_infos;
 /*
 **          PARTIE PARSING
@@ -214,10 +217,8 @@ int						ft_init_w(t_infos *inf, t_w *w);
 **          list_utils.c
 */
 void					ft_lstdel_start(t_ants **fa);
-int						ft_lstadd_end(t_ants **fa, int num_ant, int path,
-						int room);
-void					ft_lstadd_start(t_ants **fa, int num_ant, int path,
-						int room);
+int						ft_lstadd_end(t_ants **fa, int num_a, int path, int room);
+void					ft_lstadd_start(t_ants **fa, int num_ant, int path, int room);
 void					ft_new_lst(t_ants **fa);
 t_ants					*ft_lstdel_num_ant(t_ants **fa, int ant_to_del);
 /*
@@ -242,6 +243,7 @@ int						ft_resolve(t_infos *infos, int nbr_group_path);
 **          utils_algo.c
 */
 int						ft_min_int(int a, int b);
+int						ft_max_int(int a, int b);
 int						ft_init_tab_path(t_infos *infos);
 int						ft_init_path(t_infos *infos);
 int						*ft_alloc_tab_int(int n, int val_initial);

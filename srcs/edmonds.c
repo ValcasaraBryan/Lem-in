@@ -93,15 +93,18 @@ int		**ft_put_t_p_to_tpfinal(t_infos *inf)
 			tmp[i + n][j] = inf->t_p[i + 1][j];
 	}
 	i = -1;
+	if (!(inf->t_p_c[inf->t_p[0][0] - 1] = (int*)malloc(sizeof(int) * inf->t_p[0][0])))
+	{	
+		ft_putendl("ici on free");
+		ft_free_tab_int(tmp, inf->tp_final_capacity);
+		ft_free_tab_int(inf->t_p_c, inf->t_p[0][0] - 1);
+		return (NULL);
+	}
 	while (++i < inf->t_p[0][0])
-	{
-		if (!(inf->t_p_c[inf->t_p[0][0] - 1] = (int*)malloc(sizeof(int) * inf->t_p[0][0])))
-		{
-			ft_free_tab_int(tmp, inf->tp_final_capacity);
-			ft_free_tab_int(inf->t_p_c, inf->t_p[0][0] - 1);
-			return (NULL);
-		}
+	{	
+		ft_printf("tpc[%d][%d] = %d", inf->t_p[0][0] - 1, i, n + i);
 		inf->t_p_c[inf->t_p[0][0] - 1][i] = n + i;
+		ft_printf(" donc %d\n", inf->t_p_c[inf->t_p[0][0] - 1][i]);
 	}
 	ft_free_tab_int(inf->t_p, inf->t_p[0][0] + 1);
 	ft_free_tab_int(inf->tp_final, n);
@@ -195,7 +198,9 @@ int		ft_ed2(t_infos *inf, int i)
 			ft_putendl("on a trouvé un path");
 			ft_save_p_states(inf);
 			inf->r = ft_save_path(inf);
+			inf->nb_group_path = ft_max_int(inf->r, inf->nb_group_path);
 			inf->tp_final = ft_put_t_p_to_tpfinal(inf);
+			ft_printf("ret = %d\n", inf->r);
 			return (inf->r);
 		}
 		else
@@ -242,8 +247,6 @@ int		ft_ed(t_infos *inf)
 	int i;
 	int *tmp;
 
-	if (!(inf->t_p_c = (int**)ft_memalloc(sizeof(int*) * inf->nb_path_max)))
-		return (-1);
 	i = -1;
 	i = 0;
 	if (!(tmp = ft_alloc_tab_int(inf->nb_of_box, -1)))

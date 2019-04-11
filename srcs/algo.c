@@ -65,27 +65,25 @@ int		**ft_update_tab_path(t_infos *infos, int *tab)
 	return (tmp);
 }
 
-int		ft_algo_2(t_infos *infos)
+int		ft_algo_2(t_infos *inf)
 {
-	int nbr_group_path;
-
-	nbr_group_path = 1;
-	if (!infos->nb_path_max || !ft_init_path(infos))
+	if (!inf->nb_path_max || !ft_init_path(inf))
 	{
-		nbr_group_path = -1;
-		while (++nbr_group_path < infos->nb_of_box)
-			free(infos->data[nbr_group_path].p_state);
-		ft_free_tab_int(infos->t_p, infos->t_p[0][0] + 1);
+		inf->nb_group_path = -1;
+		while (++inf->nb_group_path < inf->nb_of_box)
+			free(inf->data[inf->nb_group_path].p_state);
+		ft_free_tab_int(inf->t_p, inf->t_p[0][0] + 1);
+	ft_putendl("icihihi");
 		return (0);
 	}
 	ft_putendl("ici");
-	if (ft_resolve(infos, nbr_group_path) <= 0)
+	if (ft_resolve(inf, inf->nb_group_path) <= 0)
 	{
-		ft_free_all(infos);
+		ft_free_all(inf);
 		return (0);
 	}
 	ft_putendl("ici3");
-	ft_free_all(infos);
+	ft_free_all(inf);
 	return (1);
 }
 

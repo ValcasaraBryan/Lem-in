@@ -14,9 +14,9 @@
 
 int		ft_next_room_is_free(t_infos *infos, int index_path, int index_room)
 {
-	if (infos->data[infos->t_p[index_path][index_room]].commands == 2)
+	if (infos->data[infos->tp_final[index_path][index_room]].commands == 2)
 		return (2);
-	if (infos->data[infos->t_p[index_path][index_room]].full == 0)
+	if (infos->data[infos->tp_final[index_path][index_room]].full == 0)
 		return (1);
 	return (0);
 }
@@ -25,19 +25,22 @@ t_ants	*ft_move_ants2(t_infos *i, int room_free, t_ants *tmp)
 {
 	if ((room_free = ft_next_room_is_free(i, tmp->path_u, tmp->indx + 1)) > 0)
 	{
-		i->data[i->t_p[tmp->path_u][tmp->indx]].full = 0;
+		i->data[i->tp_final[tmp->path_u][tmp->indx]].full = 0;
 		tmp->indx++;
 		if (room_free != 2)
-			i->data[i->t_p[tmp->path_u][tmp->indx]].full = 1;
+			i->data[i->tp_final[tmp->path_u][tmp->indx]].full = 1;
 		ft_printf("L%d-%s", tmp->num_a,
-				i->data[i->t_p[tmp->path_u][tmp->indx]].name_box);
+				i->data[i->tp_final[tmp->path_u][tmp->indx]].name_box);
 	}
+//	ft_putendl("move1");
 	if (room_free == 2)
 		tmp = ft_lstdel_num_ant(&i->first_ant, tmp->num_a);
 	else
 		tmp = tmp->next;
+//	ft_putendl("move2");
 	if (tmp)
 		ft_putchar(' ');
+//	ft_putendl("move3");
 	return (tmp);
 }
 
@@ -51,7 +54,11 @@ int		ft_move_ants(t_infos *i)
 	if (!tmp)
 		return (0);
 	while (tmp)
+	{
+//		ft_putendl("move0");
 		tmp = ft_move_ants2(i, room_free, tmp);
+//		ft_putendl("move0bis");
+	}
 	ft_putchar('\n');
 	return (1);
 }
