@@ -133,6 +133,7 @@ int		ft_save_path(t_infos *inf)
 		if (!(pathtmp = ft_alloc_tab_int(inf->nb_of_box, -1)))
 			return (-1);
 		pathtmp[0] = inf->ind_start;
+		ft_printf("%4d ", pathtmp[0]);
 		cr = inf->data[inf->ind_start].pipe[k]->NP;
 		j = 1;
 		while (inf->data[cr].C != 2)
@@ -142,9 +143,11 @@ int		ft_save_path(t_infos *inf)
 				i++;
 			if (i < inf->data[cr].nb_of_link)
 			{
-				pathtmp[j] = inf->data[cr].pipe[i]->NP;
-				cr = pathtmp[j];
-				ft_printf("%4d ", cr);
+				// pathtmp[j] = inf->data[cr].pipe[i]->NP;
+				// cr = pathtmp[j];
+				pathtmp[j] = cr;
+				cr = inf->data[cr].pipe[i]->NP;
+				ft_printf("%4d ", pathtmp[j]);
 				j++;
 			}
 			else

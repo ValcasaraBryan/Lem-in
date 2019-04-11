@@ -135,6 +135,20 @@ int		ft_resolve2(t_infos *inf, t_r *res, int **tgt, int nb_gp)
 	return (0);
 }
 
+void ft_put_tab_path_final(t_infos *inf)
+{
+	int i = -1;
+	int j;
+
+	while (++i < inf->tp_final_capacity)
+	{
+		j = -1;
+		while (inf->tp_final[i][++j] > -1)
+			ft_printf("%4d ", inf->tp_final[i][j]);
+		ft_putendl("");
+	}
+}
+
 int		ft_resolve(t_infos *inf, int nb_gp)
 {
 	ft_putendl("icila");
@@ -143,6 +157,7 @@ int		ft_resolve(t_infos *inf, int nb_gp)
 	t_r res;
 	ft_putendl("icila0");
 
+	ft_put_tab_path_final(inf);
 	res.nb_turn_max = ft_length_path(inf->tp_final[0], inf->nb_of_box)
 					- 2 + inf->nb_of_fourmis;
 	i = -1;

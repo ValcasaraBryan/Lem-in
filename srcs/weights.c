@@ -95,7 +95,7 @@ void	ft_put_weights2(t_infos *inf, t_w *w)
 	j = -1;
 	w->k = -1;
 	w->k2 = 0;
-	while (w->tab[++w->k] > 0)
+	while (w->tab[++w->k] >= 0)
 	{
 		j = -1;
 		while (++j < inf->data[w->tab[w->k]].nb_of_link)
@@ -104,8 +104,12 @@ void	ft_put_weights2(t_infos *inf, t_w *w)
 			{
 				inf->data[inf->data[w->tab[w->k]].pipe[j]->n_piece].W = 1;
 				if (inf->data[inf->data[w->tab[w->k]].pipe[j]->NP].C != 1)
-					w->tab2[w->k2++] =
+				{
+
+					w->tab2[w->k2] =
 						inf->data[w->tab[w->k]].pipe[j]->NP;
+					w->k2++;
+				}
 			}
 		}
 	}
@@ -132,6 +136,9 @@ int		ft_put_weights(t_infos *inf)
 		ft_put_weights2(inf, &w);
 	free(w.tab);
 	free(w.tab2);
+	j = -1;
+	while (++j < inf->nb_of_box)
+		ft_printf("salle [%s]  w = %d \n", inf->data[j].name_box, inf->data[j].W);
 	if (!inf->data[inf->ind_start].weight)
 		return (0);
 	return (1);
