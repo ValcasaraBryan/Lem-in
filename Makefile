@@ -17,17 +17,18 @@ NAME_BONUS = visu
 SRC =	srcs/main.c\
 		srcs/weights.c\
 		srcs/affichage.c\
+		srcs/alloc_tp_pstate_tabint.c\
 		srcs/algo.c\
+		srcs/find_paths.c\
 		srcs/ft_check_precedents.c\
 		srcs/ft_update_tab_path.c\
-		srcs/graph_utils.c\
+		srcs/utils_graph_l.c\
 		srcs/frees_algo.c\
 		srcs/utils_algo.c\
 		srcs/check_commandes.c\
 		srcs/check_file.c\
 		srcs/get_file.c\
 		srcs/init_data.c\
-		srcs/init_struct.c\
 		srcs/liberation.c\
 		srcs/list_chain.c\
 		srcs/logical_infos_box.c\
@@ -36,7 +37,8 @@ SRC =	srcs/main.c\
 		srcs/valeur_pipe.c\
 		srcs/resolution.c\
 		srcs/move_ants.c\
-		srcs/list_utils.c\
+		srcs/utils_list.c\
+		srcs/utils_edmonds.c\
 		srcs/edmonds.c
 
 SRC_BONUS = srcs_bonus/main_bonus.c\
@@ -54,18 +56,21 @@ SRC_BONUS = srcs_bonus/main_bonus.c\
 			srcs_bonus/put_square.c\
 			srcs_bonus/utils_bonus.c\
 			srcs_bonus/fct_key_hook.c\
+		srcs/main.c\
+		srcs/weights.c\
 		srcs/affichage.c\
+		srcs/alloc_tp_pstate_tabint.c\
 		srcs/algo.c\
-		srcs/graph_utils.c\
+		srcs/find_paths.c\
 		srcs/ft_check_precedents.c\
 		srcs/ft_update_tab_path.c\
+		srcs/utils_graph_l.c\
 		srcs/frees_algo.c\
 		srcs/utils_algo.c\
 		srcs/check_commandes.c\
 		srcs/check_file.c\
 		srcs/get_file.c\
 		srcs/init_data.c\
-		srcs/init_struct.c\
 		srcs/liberation.c\
 		srcs/list_chain.c\
 		srcs/logical_infos_box.c\
@@ -74,8 +79,8 @@ SRC_BONUS = srcs_bonus/main_bonus.c\
 		srcs/valeur_pipe.c\
 		srcs/resolution.c\
 		srcs/move_ants.c\
-		srcs/list_utils.c\
-		srcs/weights.c\
+		srcs/utils_list.c\
+		srcs/utils_edmonds.c\
 		srcs/edmonds.c
 
 LIB = libft/libft.a

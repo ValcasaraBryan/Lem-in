@@ -17,7 +17,6 @@
 # include "../libft/includes/get_next_line.h"
 # include "../libft/includes/ft_printf.h"
 # include "./algo.h"
-# include "./choose_path.h"
 # include "./weights.h"
 
 /*
@@ -56,12 +55,12 @@ typedef struct			s_file
 	struct s_file		*next;
 }						t_file;
 
-typedef struct	s_path_comp
+typedef struct			s_path_comp
 {
-	int 		npc;
-	int 		**tpc;
-	struct s_path_comp *next;
-}				t_path_comp;
+	int 				npc;
+	int 				**tpc;
+	struct s_path_comp	*next;
+}						t_path_comp;
 
 typedef struct			s_data
 {
@@ -178,14 +177,11 @@ int						valeur_pipe(t_infos *infos);
 int						ft_algo_2(t_infos *infos);
 int						ft_algo(t_infos *infos);
 /*
-**          choose_path.c
+**          alloc_tp....c
 */
-int						ft_compare(t_infos *infos, int *tab1, int *tab2);
-int						ft_compare_tab(t_infos *in, int *tab, int n);
-int						ft_up_index(t_infos *infos, int *t_p_c,
-						int index_to_up, int n);
-int						ft_choose_path_i(t_infos *inf, int *tpc_i, int n);
-int						ft_choose_paths(t_infos *infos);
+int						ft_init_tab_path(t_infos *infos);
+int						ft_alloue_p_states(t_infos *inf);
+int						*ft_alloc_tab_int(int n, int val_initial);
 /*
 **          frees_algo.c
 */
@@ -213,11 +209,6 @@ int						ft_add_graph_end(t_infos *inf, t_graph **fg, int *old_p,
 void					ft_new_graph(t_graph **fg);
 void					ft_graph_del_start(t_graph **fa);
 void					ft_lstdel_all_graph(t_graph **fa);
-/*
-**         	init_struct.c
-*/
-void					ft_init_c(t_infos *inf, t_c *c, int n);
-int						ft_init_w(t_infos *inf, t_w *w);
 /*
 **          list_utils.c
 */
@@ -254,12 +245,18 @@ int						ft_find_paths(t_infos *infos);
 int						*ft_alloc_tab_int(int n, int val_initial);
 int						ft_length_path(int *tab, int n);
 /*
+**          utils_edmonds.c
+*/
+int						ft_pipe_state(t_infos *inf, int r1, int r2);
+void					ft_put_pipes_to_zero(t_infos *inf, int r1, int r2);
+void					ft_put_pipe_to_one(t_infos *inf, int r1, int r2);
+/*
 **          weights.c
 */
 int						ft_put_weights(t_infos *inf);
 int						ft_save_paths(t_infos *inf);
 int						ft_save_paths2(t_infos *inf, int i);
-
+int						ft_init_w(t_infos *inf, t_w *w);
 int						ft_ed(t_infos *inf);
 
 #endif

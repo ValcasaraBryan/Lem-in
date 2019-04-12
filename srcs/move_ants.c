@@ -32,15 +32,12 @@ t_ants	*ft_move_ants2(t_infos *i, int room_free, t_ants *tmp)
 		ft_printf("L%d-%s", tmp->num_a,
 				i->data[i->tp_final[tmp->path_u][tmp->indx]].name_box);
 	}
-//	ft_putendl("move1");
 	if (room_free == 2)
 		tmp = ft_lstdel_num_ant(&i->first_ant, tmp->num_a);
 	else
 		tmp = tmp->next;
-//	ft_putendl("move2");
 	if (tmp)
 		ft_putchar(' ');
-//	ft_putendl("move3");
 	return (tmp);
 }
 

@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-int 		 ft_init_ind_start_end_and_npm(t_infos *inf)
+int		ft_init_ind_start_end_and_npm(t_infos *inf)
 {
 	int i;
 
@@ -37,7 +37,7 @@ int 		 ft_init_ind_start_end_and_npm(t_infos *inf)
 						inf->data[i].nb_of_link);
 		}
 	}
-	return(inf->nb_path_max);
+	return (inf->nb_path_max);
 }
 
 int		ft_algo(t_infos *inf)
@@ -45,7 +45,7 @@ int		ft_algo(t_infos *inf)
 	if (!ft_init_ind_start_end_and_npm(inf))
 	{
 		erase_data(inf);
-		return(0);
+		return (0);
 	}
 	if (!ft_find_paths(inf))
 	{
@@ -60,19 +60,3 @@ int		ft_algo(t_infos *inf)
 	ft_free_all(inf);
 	return (1);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

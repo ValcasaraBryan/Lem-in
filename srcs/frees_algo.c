@@ -30,9 +30,9 @@ void	ft_free_tab_int(int **tab, int height)
 
 void	ft_free_all(t_infos *infos)
 {
-	int i = -1;
-	ft_putendl("coucou");
+	int i;
 
+	i = -1;
 	while (++i < infos->nb_of_box)
 		free(infos->data[i].p_state);
 	ft_lstdel_all(&infos->first_ant);
