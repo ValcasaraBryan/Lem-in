@@ -12,101 +12,67 @@
 
 #include "lem_in.h"
 
-int		ft_update_tab_path_2(t_infos *infos, int **tmp, int *tab, t_t *t)
-{
-	int k;
-
-	k = -1;
-	if (!(tmp[t->i] = (int *)malloc(sizeof(int) * (infos->nb_of_box))))
-		return (0);
-	if (t->r == 1 && (t->i == t->n || ft_length_path(tab, infos->nb_of_box)
-		< ft_length_path(infos->t_p[t->j], infos->nb_of_box)))
-	{
-		while (++k < infos->nb_of_box)
-			tmp[t->i][k] = tab[k];
-		t->i++;
-		if (t->i <= t->n)
-			if (!(tmp[t->i] = (int *)malloc(sizeof(int) * (infos->nb_of_box))))
-				return (0);
-		k = -1;
-		t->r = 0;
-	}
-	if (t->i <= t->n)
-		while (++k < infos->nb_of_box)
-			tmp[t->i][k] = infos->t_p[t->j][k];
-	t->j++;
-	return (1);
-}
-
-int		**ft_update_tab_path(t_infos *infos, int *tab)
-{
-	t_t t;
-	int **tmp;
-
-	t.i = 0;
-	t.j = 1;
-	t.r = 1;
-	t.n = infos->t_p[0][0] + 1;
-	if (!(tmp = (int **)malloc(sizeof(int*) * (t.n + 2))))
-		return (NULL);
-	if (!(tmp[0] = (int *)malloc(sizeof(int) * 1)))
-		return (NULL);
-	while (++t.i <= t.n)
-	{
-		if (!(ft_update_tab_path_2(infos, tmp, tab, &t)))
-		{
-			ft_free_tab_int(tmp, t.i);
-			return (NULL);
-		}
-	}
-	tmp[0][0] = t.n;
-	ft_free_tab_int(infos->t_p, t.n);
-	free(tab);
-	return (tmp);
-}
-
-int		ft_algo_2(t_infos *inf)
-{
-	if (!inf->nb_path_max || !ft_init_path(inf))
-	{
-		inf->nb_group_path = -1;
-		while (++inf->nb_group_path < inf->nb_of_box)
-			free(inf->data[inf->nb_group_path].p_state);
-		ft_free_tab_int(inf->t_p, inf->t_p[0][0] + 1);
-	ft_putendl("icihihi");
-		return (0);
-	}
-	ft_putendl("ici");
-	if (ft_resolve(inf, inf->nb_group_path) <= 0)
-	{
-		ft_free_all(inf);
-		return (0);
-	}
-	ft_putendl("ici3");
-	ft_free_all(inf);
-	return (1);
-}
-
-int		ft_algo(t_infos *infos)
+int 		 ft_init_ind_start_end_and_npm(t_infos *inf)
 {
 	int i;
 
 	i = -1;
-	if (!(ft_init_tab_path(infos)))
-		return (0);
-	infos->nb_path_max = -1;
-	while (++i < infos->nb_of_box)
+	while (++i < inf->nb_of_box)
 	{
-		if (infos->data[i].commands != 0)
+		if (inf->data[i].commands == 1)
+			inf->ind_start = i;
+		if (inf->data[i].commands == 2)
+			inf->ind_end = i;
+	}
+	i = -1;
+	inf->nb_path_max = -1;
+	while (++i < inf->nb_of_box)
+	{
+		if (inf->data[i].commands != 0)
 		{
-			if (infos->nb_path_max == -1)
-				infos->nb_path_max = infos->data[i].nb_of_link;
+			if (inf->nb_path_max == -1)
+				inf->nb_path_max = inf->data[i].nb_of_link;
 			else
-				infos->nb_path_max = ft_min_int(infos->nb_path_max,
-						infos->data[i].nb_of_link);
+				inf->nb_path_max = ft_min_int(inf->nb_path_max,
+						inf->data[i].nb_of_link);
 		}
 	}
-	if (!(ft_algo_2(infos)))
+	return(inf->nb_path_max);
+}
+
+int		ft_algo(t_infos *inf)
+{
+	if (!ft_init_ind_start_end_and_npm(inf))
+	{
+		erase_data(inf);
+		return(0);
+	}
+	if (!ft_find_paths(inf))
+	{
+		erase_data(inf);
 		return (0);
+	}
+	if (!ft_resolve(inf, inf->nb_group_path))
+	{
+		ft_free_all(inf);
+		return (0);
+	}
+	ft_free_all(inf);
 	return (1);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

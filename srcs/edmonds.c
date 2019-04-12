@@ -102,9 +102,9 @@ int		**ft_put_t_p_to_tpfinal(t_infos *inf)
 	}
 	while (++i < inf->t_p[0][0])
 	{	
-		ft_printf("tpc[%d][%d] = %d", inf->t_p[0][0] - 1, i, n + i);
+//		ft_printf("tpc[%d][%d] = %d", inf->t_p[0][0] - 1, i, n + i);
 		inf->t_p_c[inf->t_p[0][0] - 1][i] = n + i;
-		ft_printf(" donc %d\n", inf->t_p_c[inf->t_p[0][0] - 1][i]);
+//		ft_printf(" donc %d\n", inf->t_p_c[inf->t_p[0][0] - 1][i]);
 	}
 	ft_free_tab_int(inf->t_p, inf->t_p[0][0] + 1);
 	ft_free_tab_int(inf->tp_final, n);
@@ -182,10 +182,8 @@ void	ft_save_p_states(t_infos *inf)
 		i++;
 	}
 	ft_put_pipe_to_one(inf, inf->l->path[i], inf->ind_end);
-	ft_putendl("ft_save_p_states end");
+//	ft_putendl("ft_save_p_states end");
 }
-
-
 
 int		ft_ed2(t_infos *inf, int i)
 {
@@ -203,7 +201,7 @@ int		ft_ed2(t_infos *inf, int i)
 			inf->r = ft_save_path(inf);
 			inf->nb_group_path = ft_max_int(inf->r, inf->nb_group_path);
 			inf->tp_final = ft_put_t_p_to_tpfinal(inf);
-			ft_printf("ret = %d\n", inf->r);
+//			ft_printf("ret = %d\n", inf->r);
 			return (inf->r);
 		}
 		else
@@ -240,9 +238,16 @@ int		ft_is_room_on_a_path(t_infos *inf, int cr)
 
 void		ft_ed2_special(t_infos *inf, int r_to_go)
 {
+	t_graph *tmp;
+
+	tmp = inf->l;
+//	ft_printf("coucou r to go = %d \n", r_to_go);
 	if (ft_check_precedents(inf, inf->l->path, r_to_go)
 			&& inf->data[r_to_go].W)
 		ft_add_graph_end(inf, &inf->l, inf->l->path, r_to_go);
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->climbe = 0;
 }
 
 int		ft_ed(t_infos *inf)
@@ -259,8 +264,10 @@ int		ft_ed(t_infos *inf)
 	while (*(&inf->l))
 	{
 		i = -1;
+//		ft_printf("room %d list climbe? %d\n",inf->l->c_r, inf->l->climbe);
 		inf->data[inf->l->c_r].weight = 0;
-		if ((inf->r = ft_is_room_on_a_path(inf, inf->l->c_r)) >= 0)
+
+		if ((inf->r = ft_is_room_on_a_path(inf, inf->l->c_r)) >= 0 && inf->l->climbe)
 			ft_ed2_special(inf, inf->r);
 		else
 		{

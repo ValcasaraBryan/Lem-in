@@ -54,11 +54,8 @@ int		ft_move_ants(t_infos *i)
 	if (!tmp)
 		return (0);
 	while (tmp)
-	{
-//		ft_putendl("move0");
 		tmp = ft_move_ants2(i, room_free, tmp);
-//		ft_putendl("move0bis");
-	}
 	ft_putchar('\n');
+	free(tmp);
 	return (1);
 }

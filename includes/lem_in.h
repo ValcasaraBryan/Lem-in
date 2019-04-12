@@ -38,6 +38,7 @@ typedef struct			s_graph
 {
 	int					*path;
 	int					c_r;
+	int 				climbe;
 	struct s_graph		*next;
 }						t_graph;
 /*
@@ -174,9 +175,6 @@ int						valeur_pipe(t_infos *infos);
 **          PARTIE ALGO
 **          algo.c
 */
-int						ft_update_tab_path_2(t_infos *infos, int **tmp,
-						int *tab, t_t *t);
-int						**ft_update_tab_path(t_infos *infos, int *tab);
 int						ft_algo_2(t_infos *infos);
 int						ft_algo(t_infos *infos);
 /*
@@ -198,7 +196,14 @@ void					ft_lstdel_all(t_ants **fa);
 **          ft_check_precedents.c
 */
 int						ft_check_precedents(t_infos *infos,
-						int *tab_path_n_piece, int n);
+int 					*tab_path_n_piece, int n);
+
+/*
+**          ft_update_tab_path.c
+*/
+int						**ft_update_tab_path(t_infos *infos, int *tab);
+int						ft_update_tab_path_2(t_infos *infos, int **tmp,
+						int *tab, t_t *t);
 /*
 **          graph_utils.c
 */
@@ -245,7 +250,7 @@ int						ft_resolve(t_infos *infos, int nbr_group_path);
 int						ft_min_int(int a, int b);
 int						ft_max_int(int a, int b);
 int						ft_init_tab_path(t_infos *infos);
-int						ft_init_path(t_infos *infos);
+int						ft_find_paths(t_infos *infos);
 int						*ft_alloc_tab_int(int n, int val_initial);
 int						ft_length_path(int *tab, int n);
 /*

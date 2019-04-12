@@ -19,6 +19,7 @@ SRC =	srcs/main.c\
 		srcs/affichage.c\
 		srcs/algo.c\
 		srcs/ft_check_precedents.c\
+		srcs/ft_update_tab_path.c\
 		srcs/graph_utils.c\
 		srcs/frees_algo.c\
 		srcs/utils_algo.c\
@@ -57,6 +58,7 @@ SRC_BONUS = srcs_bonus/main_bonus.c\
 		srcs/algo.c\
 		srcs/graph_utils.c\
 		srcs/ft_check_precedents.c\
+		srcs/ft_update_tab_path.c\
 		srcs/frees_algo.c\
 		srcs/utils_algo.c\
 		srcs/check_commandes.c\

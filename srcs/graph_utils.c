@@ -39,6 +39,7 @@ int		ft_add_graph_end(t_infos *inf, t_graph **fg, int *old_p, int room)
 		return (0);
 	new_p->path = ft_updated_path(inf, old_p, room);
 	new_p->c_r = room;
+	new_p->climbe = 1;
 	new_p->next = NULL;
 	while (*fg)
 		fg = &((*fg)->next);

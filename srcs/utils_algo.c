@@ -70,39 +70,35 @@ int ft_alloue_p_states(t_infos *inf)
 	return (1);
 }
 
-int		ft_init_path(t_infos *infos)
+void		ft_free_utils_init_path(t_infos *inf)
 {
-	int i;
+	int i = -1;
+	while (++i < inf->nb_of_box)
+		free(inf->data[i].p_state);
+	ft_free_tab_int(inf->tp_final, inf->tp_final_capacity);
+	ft_free_tab_int(inf->t_p_c, inf->nb_group_path);
+}
+
+int		ft_find_paths(t_infos *infos)
+{
 	int ret;
 
-	i = -1;
 	ret = 0;
-	while (++i < infos->nb_of_box)
-	{
-		if (infos->data[i].commands == 1)
-			infos->ind_start = i;
-		if (infos->data[i].commands == 2)
-			infos->ind_end = i;
-	}
-	ft_putendl("ici0");
-	if (!(ft_alloue_p_states(infos)))
-		return (0);
-	ft_putendl("ici1");
 	if (!ft_put_weights(infos))
 		return (0);
-	ft_putendl("ici2");
 	if (!(infos->nb_path_max = ft_update_nb_path_max(infos)))
 		return (0);
-	ft_putendl("ici3");
+	if (!(ft_alloue_p_states(infos)))
+		return (0);
 	if (!(infos->t_p_c = (int**)ft_memalloc(sizeof(int*) * infos->nb_path_max)))
 		return (0);
 	while ((ret = ft_ed(infos)) > 0)
 	{
 		if (ret == 2)
 			return (1);
-		if (!ft_put_weights(infos))
-			return (0);
+		ft_put_weights(infos);
 	}
+	ft_free_utils_init_path(infos);
 	return (0);
 }
 

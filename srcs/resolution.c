@@ -30,8 +30,8 @@ int		ft_fill_tab_path_turn_i(t_infos *t, int n, int **t_p_t, int nb_turn_max)
 		j = 0;
 		while (j < n + 1)
 		{
-			ft_printf("n = %d j = %d\n", n, j);
-			ft_putnbr(t->t_p_c[n][j]);
+//			ft_printf("n = %d j = %d\n", n, j);
+//			ft_putnbr(t->t_p_c[n][j]);
 			if (ft_length_path(t->tp_final[t->t_p_c[n][j]],
 						t->nb_of_box) - 1 == i + 1)
 				to_add++;
@@ -56,10 +56,7 @@ int		ft_find_group(t_infos *infos, int **tgt, int nb_gp, int nb_turn_max)
 	i = 0;
 	j = 0;
 	if (nb_gp == 1)
-	{
-		ft_putendl("le pb");
 		return (0);
-	}
 	while (i < nb_turn_max)
 	{
 		j = 0;
@@ -81,7 +78,7 @@ int		ft_create_ants(t_infos *i, int nb_ants_to_create)
 	j = -1;
 	while (++j < nb_ants_to_create)
 	{
-		printf("t_p_c[%d][%d] = %d \n", nb_ants_to_create, j, i->t_p_c[nb_ants_to_create - 1][j]);
+//		printf("t_p_c[%d][%d] = %d \n", nb_ants_to_create, j, i->t_p_c[nb_ants_to_create - 1][j]);
 		if (!ft_lstadd_end(&i->first_ant, i->nb_of_fourmis - i->nb_f_left,
 					i->t_p_c[nb_ants_to_create - 1][j], 0))
 			return (0);
@@ -102,22 +99,16 @@ int		ft_create_ants(t_infos *i, int nb_ants_to_create)
 
 int		ft_resolve2(t_infos *inf, t_r *res, int **tgt, int nb_gp)
 {
-	ft_putendl("LAAAAAAAAAAA");
 	int i;
 
 	i = -1;
-	ft_printf("nbgp = %d", nb_gp);
 	while (++i < nb_gp)
 		ft_fill_tab_path_turn_i(inf, i, tgt, res->nb_turn_max);
-	ft_putendl("LAAAAAAAAAAA2");
 	res->num_g = ft_find_group(inf, tgt, nb_gp, res->nb_turn_max);
-	ft_printf("\n\n\n\n\n\n\nnb de ch a empreinter = %d et nb_gp = %d \n\n\n\n\n\n", res->num_g, nb_gp);
 	if (res->num_g < 0)
 		return (-1);
-	ft_putendl("LAAAAAAAAAAA3");
 	if (!ft_create_ants(inf, res->num_g + 1))
 		return (-1);
-	ft_putendl("LAAAAAAAAAAA4");
 	ft_put_list(inf->file);
 	while (ft_move_ants(inf))
 	{
@@ -157,7 +148,7 @@ int		ft_resolve(t_infos *inf, int nb_gp)
 	t_r res;
 	ft_putendl("icila0");
 
-	ft_put_tab_path_final(inf);
+//	ft_put_tab_path_final(inf);
 	res.nb_turn_max = ft_length_path(inf->tp_final[0], inf->nb_of_box)
 					- 2 + inf->nb_of_fourmis;
 	i = -1;
@@ -168,7 +159,7 @@ int		ft_resolve(t_infos *inf, int nb_gp)
 	ft_putendl("icila2");
 	while (++i < nb_gp)
 	{
-	ft_putendl("icila3");
+		ft_putendl("icila3");
 		if (!(tgt[i] = (int*)malloc(sizeof(int) * res.nb_turn_max)))
 		{
 			ft_free_tab_int(tgt, i);
@@ -178,7 +169,7 @@ int		ft_resolve(t_infos *inf, int nb_gp)
 	if (ft_resolve2(inf, &res, tgt, nb_gp) < 0)
 	{
 		ft_free_tab_int(tgt, nb_gp);
-		return (-1);
+		return (0);
 	}
 	return (1);
 }

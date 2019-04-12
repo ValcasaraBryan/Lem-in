@@ -103,11 +103,11 @@ void	ft_put_weights2(t_infos *inf, t_w *w)
 			if (inf->data[inf->data[w->tab[w->k]].pipe[j]->n_piece].W == 0)
 			{
 				inf->data[inf->data[w->tab[w->k]].pipe[j]->n_piece].W = 1;
+//				ft_printf("la salle %d mise a %d\n", inf->data[w->tab[w->k]].pipe[j]->n_piece, 1);
 				if (inf->data[inf->data[w->tab[w->k]].pipe[j]->NP].C != 1)
 				{
-
-					w->tab2[w->k2] =
-						inf->data[w->tab[w->k]].pipe[j]->NP;
+					w->tab2[w->k2] = inf->data[w->tab[w->k]].pipe[j]->NP;
+//					ft_printf("tab2[%d] = %d\n", w->k2, w->tab2[w->k2]);
 					w->k2++;
 				}
 			}
@@ -121,24 +121,25 @@ int		ft_put_weights(t_infos *inf)
 	t_w w;
 	int j;
 
-	j = 0;
+	j = -1;
 	if (!(ft_init_w(inf, &w)))
 		return (0);
-	while (inf->data[j].commands != 2)
-		j++;
-	inf->data[j].weight = 1;
-	while (++w.k < inf->data[j].nb_of_link)
+	while (++j < inf->nb_of_box)
+		inf->data[j].W = 0;
+	inf->data[inf->ind_end].weight = 1;
+	while (++w.k < inf->data[inf->ind_end].nb_of_link)
 	{
-		w.tab[w.k] = inf->data[j].pipe[w.k]->n_piece;
-		inf->data[j].pipe[w.k]->W = 1;
+		w.tab[w.k] = inf->data[inf->ind_end].pipe[w.k]->n_piece;
+		inf->data[inf->ind_end].pipe[w.k]->W = 1;
+//		ft_printf("la salle %d mise a %d\n", inf->data[inf->ind_end].pipe[w.k]->n_piece, 1);
 	}
 	while (w.tab[0] >= 0)
 		ft_put_weights2(inf, &w);
 	free(w.tab);
 	free(w.tab2);
 	j = -1;
-	while (++j < inf->nb_of_box)
-		ft_printf("salle [%s]  w = %d \n", inf->data[j].name_box, inf->data[j].W);
+//	while (++j < inf->nb_of_box)
+//		ft_printf("salle [%s]  w = %d \n", inf->data[j].name_box, inf->data[j].W);
 	if (!inf->data[inf->ind_start].weight)
 		return (0);
 	return (1);
