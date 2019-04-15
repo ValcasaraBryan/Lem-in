@@ -33,7 +33,6 @@ int			init_data(t_infos *infos)
 		infos->data[i].full = 0;
 		infos->data[i].pipe = NULL;
 		infos->data[i].weight = 0;
-		////a free
 		infos->data[i].p_state = NULL;
 	}
 	return (1);

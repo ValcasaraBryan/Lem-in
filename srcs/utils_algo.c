@@ -12,21 +12,21 @@
 
 #include "lem_in.h"
 
-int		ft_min_int(int a, int b)
+int			ft_min_int(int a, int b)
 {
 	if (a < b)
 		return (a);
 	return (b);
 }
 
-int		ft_max_int(int a, int b)
+int			ft_max_int(int a, int b)
 {
 	if (a > b)
 		return (a);
 	return (b);
 }
 
-int		ft_init_tab_path(t_infos *infos)
+int			ft_init_tab_path(t_infos *infos)
 {
 	if (!(infos->t_p = (int **)malloc(sizeof(int*))))
 		return (0);
@@ -36,14 +36,13 @@ int		ft_init_tab_path(t_infos *infos)
 		return (0);
 	}
 	infos->t_p[0][0] = 0;
-	// infos->nb_path_max = -1;
 	return (1);
 }
 
-int		ft_update_nb_path_max(t_infos *inf)
+int			ft_update_nb_path_max(t_infos *inf)
 {
-	int i;
-	int ret;
+	int		i;
+	int		ret;
 
 	ret = 0;
 	i = -1;
@@ -53,13 +52,15 @@ int		ft_update_nb_path_max(t_infos *inf)
 	return (ret);
 }
 
-int ft_alloue_p_states(t_infos *inf)
+int			ft_alloue_p_states(t_infos *inf)
 {
-	int i = 0;
+	int		i;
 
+	i = 0;
 	while (i < inf->nb_of_box)
 	{
-		if (!(inf->data[i].p_state = ft_memalloc(sizeof(int) * inf->data[i].nb_of_link)))
+		if (!(inf->data[i].p_state = ft_memalloc(sizeof(int)
+			* inf->data[i].nb_of_link)))
 		{
 			while (--i >= 0)
 				free(inf->data[i].p_state);
@@ -72,16 +73,18 @@ int ft_alloue_p_states(t_infos *inf)
 
 void		ft_free_utils_init_path(t_infos *inf)
 {
-	int i = -1;
+	int i;
+
+	i = 0;
 	while (++i < inf->nb_of_box)
 		free(inf->data[i].p_state);
 	ft_free_tab_int(inf->tp_final, inf->tp_final_capacity);
 	ft_free_tab_int(inf->t_p_c, inf->nb_group_path);
 }
 
-int		ft_find_paths(t_infos *infos)
+int			ft_find_paths(t_infos *infos)
 {
-	int ret;
+	int		ret;
 
 	ret = 0;
 	if (!ft_put_weights(infos))
@@ -102,10 +105,10 @@ int		ft_find_paths(t_infos *infos)
 	return (0);
 }
 
-int		*ft_alloc_tab_int(int n, int val_initial)
+int			*ft_alloc_tab_int(int n, int val_initial)
 {
-	int *tab;
-	int i;
+	int		*tab;
+	int		i;
 
 	i = 0;
 	if (!(tab = (int *)malloc(sizeof(int) * n)))
@@ -118,9 +121,9 @@ int		*ft_alloc_tab_int(int n, int val_initial)
 	return (tab);
 }
 
-int		ft_length_path(int *tab, int n)
+int			ft_length_path(int *tab, int n)
 {
-	int i;
+	int		i;
 
 	i = 0;
 	if (!tab || n <= 0)

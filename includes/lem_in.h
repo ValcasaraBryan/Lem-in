@@ -257,7 +257,7 @@ int						ft_length_path(int *tab, int n);
 **          weights.c
 */
 int						ft_put_weights(t_infos *inf);
-int						ft_save_paths(t_infos *inf);
+int						ft_save_paths(t_infos *inf, int k, int nb_path_found, int cr);
 int						ft_save_paths2(t_infos *inf, int i);
 
 int						ft_ed(t_infos *inf);
