@@ -84,6 +84,7 @@ typedef struct			s_data
 **                  reporter dans t_p de 4 chemins compatibles)
 **          nb_path_max = nombre de chemins maximum
 **			l = premier element de la liste des chemis qui existent
+**			tfp = tab du nbr de fourmis a envoyer pour chaque chemin du groupe
 */
 typedef struct			s_infos
 {
@@ -104,6 +105,8 @@ typedef struct			s_infos
 	int					ind_end;
 	int					r;
 	int 				nb_group_path;
+	int 				count;
+	int					*tfp;
 }						t_infos;
 /*
 **          PARTIE PARSING

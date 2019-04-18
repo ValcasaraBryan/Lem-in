@@ -18,6 +18,7 @@ int		ft_next_room_is_free(t_infos *infos, int index_path, int index_room)
 		return (2);
 	if (infos->data[infos->tp_final[index_path][index_room]].full == 0)
 		return (1);
+	//ft_printf("\n\nblock: room used\n\n");
 	return (0);
 }
 
@@ -53,6 +54,7 @@ int		ft_move_ants(t_infos *i)
 	while (tmp)
 		tmp = ft_move_ants2(i, room_free, tmp);
 	ft_putchar('\n');
+	i->count++;
 	free(tmp);
 	return (1);
 }
