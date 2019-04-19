@@ -188,8 +188,8 @@ int			ft_resolve(t_infos *inf, int nb_gp)
 	int		i;
 	t_r		res;
 
-	ft_put_tab_path_final(inf);
-	ft_put_tab_pipes(inf);
+	// ft_put_tab_path_final(inf);
+	// ft_put_tab_pipes(inf);
 	res.nb_turn_max = ft_length_path(inf->tp_final[0], inf->nb_of_box)
 					- 2 + inf->nb_of_fourmis;
 	i = -1;

@@ -18,7 +18,7 @@ int		ft_next_room_is_free(t_infos *infos, int index_path, int index_room)
 		return (2);
 	if (infos->data[infos->tp_final[index_path][index_room]].full == 0)
 		return (1);
-	//ft_printf("\n\nblock: room used\n\n");
+	// ft_printf("\n\nblock: room used\n\n");
 	return (0);
 }
 

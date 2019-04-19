@@ -91,7 +91,7 @@ int			ft_find_paths(t_infos *infos)
 		return (0);
 	if (!(infos->nb_path_max = ft_update_nb_path_max(infos)))
 		return (0);
-	ft_printf("nb_path_max = %d\n", infos->nb_path_max);
+	// ft_printf("nb_path_max = %d\n", infos->nb_path_max);
 	if (!(ft_alloue_p_states(infos)))
 		return (0);
 	if (!(infos->t_p_c = (int**)ft_memalloc(sizeof(int*) * infos->nb_path_max)))

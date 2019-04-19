@@ -200,6 +200,7 @@ void		ft_save_p_states(t_infos *inf)
 
 int			ft_ed2(t_infos *inf, int i)
 {
+	// ft_printf("ed2 cree lien %d vers %d\n", inf->l->c_r + 1, inf->data[inf->l->c_r].pipe[i]->n_piece + 1);
 	if (ft_check_precedents(inf, inf->l->path,
 				inf->data[inf->data[inf->l->c_r].
 				pipe[i]->n_piece].n_piece)
@@ -209,9 +210,9 @@ int			ft_ed2(t_infos *inf, int i)
 	{
 		if (inf->data[inf->data[inf->l->c_r].pipe[i]->n_piece].commands == 2)
 		{
-			int k = -1;
-			while (inf->l->path[++k] > -1)
-				ft_printf("%d ", inf->l->path[k] + 1);
+			// int k = -1;
+			// while (inf->l->path[++k] > -1)
+				// ft_printf("%d ", inf->l->path[k] + 1);
 			ft_save_p_states(inf);
 			inf->r = ft_save_path(inf, 0, 0, 0);
 			inf->nb_group_path = ft_max_int(inf->r, inf->nb_group_path);
@@ -220,12 +221,15 @@ int			ft_ed2(t_infos *inf, int i)
 			return (inf->r);
 		}
 		else
+		{
+			// ft_putendl("on cree le lien");
 			ft_add_graph_end(inf, &inf->l, inf->l->path,
 					inf->data[inf->data[inf->l->c_r].pipe[i]->n_piece].n_piece);
-		int k = -1;
-		while (inf->l->path[++k] > -1)
-			ft_printf("%d ", inf->l->path[k] + 1);
-		ft_putendl("");
+		}
+		// int k = -1;
+		// while (inf->l->path[++k] > -1)
+			// ft_printf("%d ", inf->l->path[k] + 1);
+		// ft_putendl("");
 	}
 	return (0);
 }
@@ -263,16 +267,16 @@ void		ft_ed2_special(t_infos *inf, int r_to_go)
 	t_graph	*tmp;
 
 	tmp = inf->l;
-	ft_printf("ed_special salle %d\n", r_to_go + 1);
+	// ft_printf("ed_special cree lien %d vers %d\n", inf->l->c_r + 1, r_to_go + 1);
 	if (ft_check_precedents(inf, inf->l->path, r_to_go)
 			&& inf->data[r_to_go].W)
 	{
-		ft_putendl("toto");
+		// ft_putendl("on cree le lien");
 		ft_add_graph_end(inf, &inf->l, inf->l->path, r_to_go);
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->climbe = 0;
 	}
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->climbe = 0;
 }
 
 int			ft_return_ed(int val, int nb_path_max)
@@ -281,12 +285,12 @@ int			ft_return_ed(int val, int nb_path_max)
 		return (-1);
 	else if (val == nb_path_max)
 	{
-		ft_putendl("trouve nb_path_max");
+		// ft_putendl("trouve nb_path_max");
 		return (2);
 	}
 	else if (val > 0)
 	{
-		ft_printf("%d is nb path found\n", val);
+		// ft_printf("\t\t\t\t%d is nb path found\n", val);
 		return (1);
 	}
 	else
@@ -305,12 +309,13 @@ int			ft_ed(t_infos *inf)
 	while (*(&inf->l))
 	{
 		i = -1;
+		// ft_printf("\nclimbe? %d\n", inf->l->climbe);
 		if ((inf->r = ft_is_room_on_a_path(inf, inf->l->c_r)) >= 0
 			&& inf->l->climbe)
 			ft_ed2_special(inf, inf->r);
 		else
 		{
-//			inf->data[inf->l->c_r].weight = 0;
+			inf->data[inf->l->c_r].weight = 0;
 			while (++i < inf->data[inf->l->c_r].nb_of_link)
 				if ((inf->r = ft_ed2(inf, i)))
 				{
