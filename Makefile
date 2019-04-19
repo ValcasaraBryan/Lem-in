@@ -93,7 +93,7 @@ OBJET_VERIF = $(SRC_VERIF:.c=.o)
 
 INCLUDES = includes
 
-CFLAGS = -Wall -Wextra -Werror -I $(INCLUDES)#-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -I $(INCLUDES) -fsanitize=address
 
 CC = clang
 
@@ -120,14 +120,14 @@ all :
 $(OBJET) : includes/lem_in.h
 $(OBJET_BONUS) : includes/visu.h
 
-$(NAME) : $(LIB) $(OBJET)
+$(NAME) : $(LIB) $(OBJET) Makefile
 	@$(CC) $(CFLAGS) $(LIB) $(OBJET) -o $@
 
-$(NAME_BONUS) : $(LIB) $(OBJET_BONUS)
+$(NAME_BONUS) : $(LIB) $(OBJET_BONUS) Makefile
 	@$(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS) -lmlx -framework OpenGL -framework AppKit -o $@
 	@# $(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS)  /usr/X11/lib/libmlx.a -framework OpenGL -framework AppKit -o $@
 
-$(NAME_VERIF) : $(LIB) $(OBJET_VERIF)
+$(NAME_VERIF) : $(LIB) $(OBJET_VERIF) Makefile
 	@$(CC) $(CFLAGS) $(LIB) $(OBJET_VERIF) -o $@
 
 exe_one : $(NAME)

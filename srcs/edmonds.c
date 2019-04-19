@@ -258,10 +258,12 @@ void		ft_ed2_special(t_infos *inf, int r_to_go)
 	tmp = inf->l;
 	if (ft_check_precedents(inf, inf->l->path, r_to_go)
 			&& inf->data[r_to_go].W)
+	{
 		ft_add_graph_end(inf, &inf->l, inf->l->path, r_to_go);
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->climbe = 0;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->climbe = 0;
+	}
 }
 
 int			ft_return_ed(int val, int nb_path_max)
@@ -288,11 +290,12 @@ int			ft_ed(t_infos *inf)
 	while (*(&inf->l))
 	{
 		i = -1;
-		inf->data[inf->l->c_r].weight = 0;
 		if ((inf->r = ft_is_room_on_a_path(inf, inf->l->c_r)) >= 0
 			&& inf->l->climbe)
 			ft_ed2_special(inf, inf->r);
 		else
+		{
+			inf->data[inf->l->c_r].weight = 0;
 			while (++i < inf->data[inf->l->c_r].nb_of_link)
 				if ((inf->r = ft_ed2(inf, i)))
 				{
@@ -300,6 +303,7 @@ int			ft_ed(t_infos *inf)
 					if (inf->r != 0)
 						return (ft_return_ed(inf->r, inf->nb_path_max));
 				}
+		}
 		ft_graph_del_start(&inf->l);
 	}
 	return (2);
