@@ -137,7 +137,7 @@ exe : $(NAME)
 	@sh script.sh $(arg) $(arg_2)
 
 check : $(NAME_VERIF)
-	@./$(NAME_VERIF) $(arg) > sortie_check
+	@./$(NAME_VERIF) $(arg)
 
 cat :
 	cat resources/sortie_error_lem-in_correct | grep "definitely lost:" | more
