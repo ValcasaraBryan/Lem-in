@@ -18,6 +18,7 @@
 typedef struct			s_file
 {
 	char				*line;
+	int					n_line;
 	struct s_file		*next;
 }						t_file;
 
@@ -39,7 +40,8 @@ typedef struct		s_path
 {
 	struct s_path	*prev;
 	t_data			*current;
-	int				error[4];
+	int				n_line;
+	int				error[5];
 	struct s_path	*next;
 }					t_path;
 
@@ -54,9 +56,11 @@ typedef struct		s_infos
 {
 	int				flag;
 	int				nb_of_fourmis;
+	int				fourmis_to_end;
 	int				nb_of_box;
 	int				nb_of_hit;
 	int				nb_of_hit_real;
+	int				error[3];
 	t_data			*head_data;
 	t_data			*data;
 	t_file			*file;
@@ -68,8 +72,12 @@ typedef struct		s_infos
 #define	ERROR_END	1
 #define	ERROR_LINK	2
 #define	ERROR_ANTS	3
+#define	ERROR_INFOS	4
+#define ERROR_NO_ALL_ANTS	0
+#define	ERROR_ANTS_TOO_MOVE	1
+#define	ERROR_BOX			2
 
-t_file		*new_file(char *line)
+t_file		*new_file(char *line, int n_line)
 {
 	t_file	*tmp;
 
@@ -79,11 +87,12 @@ t_file		*new_file(char *line)
 	if (!(tmp = malloc(sizeof(t_file))))
 		return (NULL);
 	tmp->line = line;
+	tmp->n_line = n_line;
 	tmp->next = NULL;
 	return (tmp);
 }
 
-t_file		*add_file(t_file *file, char *line)
+t_file		*add_file(t_file *file, char *line, int n_line)
 {
 	t_file	*tmp;
 
@@ -92,11 +101,11 @@ t_file		*add_file(t_file *file, char *line)
 		tmp = file;
 		while (tmp->next)
 			tmp = tmp->next;
-		tmp->next = new_file(line);
+		tmp->next = new_file(line, n_line);
 		return (file);
 	}
 	else
-		return (new_file(line));
+		return (new_file(line, n_line));
 }
 
 t_data		*new_data(char *name, t_infos *infos)
@@ -136,12 +145,16 @@ t_data		*add_data(t_data *data, char *name, t_infos *infos)
 void		init_infos(t_infos *infos)
 {
 	infos->flag = 0;
+	infos->error[ERROR_NO_ALL_ANTS] = 0;
+	infos->error[ERROR_ANTS_TOO_MOVE] = 0;
+	infos->error[ERROR_BOX] = 0;
 	infos->head_data = NULL;
 	infos->data = NULL;
 	infos->file = NULL;
 	infos->head_ants = NULL;
 	infos->ants = NULL;
 	infos->nb_of_fourmis = 0;
+	infos->fourmis_to_end = 0;
 	infos->nb_of_box = 0;
 	infos->nb_of_hit = 0;
 	infos->nb_of_hit_real = 0;
@@ -202,7 +215,7 @@ void		add_pipe(t_infos *infos, char *name, char *name_link)
 	tmp_2->pipe = add_link(tmp_2->pipe, tmp);
 }
 
-t_path		*new_path(t_data *current)
+t_path		*new_path(t_data *current, t_infos *infos)
 {
 	t_path	*tmp;
 
@@ -212,29 +225,33 @@ t_path		*new_path(t_data *current)
 	if (!(tmp = malloc(sizeof(t_path))))
 		return (NULL);
 	tmp->prev = NULL;
-	tmp->error[0] = 0;
-	tmp->error[1] = 0;
-	tmp->error[2] = 0;
-	tmp->error[3] = 0;
+	tmp->n_line = infos->file->n_line;
+	tmp->error[ERROR_START] = 0;
+	tmp->error[ERROR_END] = 0;
+	tmp->error[ERROR_LINK] = 0;
+	tmp->error[ERROR_ANTS] = 0;
+	tmp->error[ERROR_INFOS] = (infos->error[ERROR_ANTS_TOO_MOVE]) ? 1 : 0;
 	tmp->current = current;
 	tmp->next = NULL;
 	return (tmp);
 }
 
-void		add_path(t_ants *ants, t_data *current)
+void		add_path(t_ants *ants, t_data *current, t_infos *infos)
 {
 	t_path	*tmp;
 
+	if (!current || !ants)
+		return ;
 	if (ants->path)
 	{
 		tmp = ants->path;
 		while (tmp->next)
 			tmp = tmp->next;
-		tmp->next = new_path(current);
+		tmp->next = new_path(current, infos);
 		tmp->next->prev = tmp;
 	}
 	else
-		ants->path = new_path(current);
+		ants->path = new_path(current, infos);
 }
 
 t_ants		*new_ants(int ants)
@@ -282,30 +299,18 @@ t_data		*find_data(t_infos *infos, char *str)
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->name, str) == 0)
-			break ;
+			return (tmp);
 		tmp = tmp->next;
 	}
-	return (tmp);
-}
-
-t_path		*find_path(t_infos *infos, int n_ants)
-{
-	t_ants	*tmp;
-
-	tmp = infos->ants;
-	while (tmp)
-	{
-		if (tmp->n_ants == n_ants)
-			break ;
-		tmp = tmp->next;
-	}
-	return (tmp->path);
+	return (NULL);
 }
 
 t_ants		*find_ants(t_infos *infos, int n_ants)
 {
 	t_ants	*tmp;
 
+	if (n_ants <= 0)
+		return (NULL);
 	tmp = infos->ants;
 	while (tmp)
 	{
@@ -314,25 +319,6 @@ t_ants		*find_ants(t_infos *infos, int n_ants)
 		tmp = tmp->next;
 	}
 	return (tmp);
-}
-
-void		create_ants(t_infos *infos, char **tab)
-{
-	char	**split;
-	int		i;
-
-	i = 0;
-	while (tab[i])
-	{
-		if (!(split = ft_strsplit(tab[i], '-')))
-			return ;
-		if (split && split[0] && split[1])
-		{
-			infos->ants = add_ants(infos->ants, ft_atoi(split[0] + 1));
-			add_path(find_ants(infos, ft_atoi(split[0] + 1)), find_data(infos, split[1]));
-		}
-		i++;
-	}
 }
 
 int			len_tab_str(char **tab)
@@ -343,6 +329,72 @@ int			len_tab_str(char **tab)
 	if (tab)
 		while (tab[++i]);
 	return (i);
+}
+
+int			check_commands_data(t_infos *infos, char *str, int commands)
+{
+	t_data	*tmp;
+
+	tmp = infos->data;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->name, str) == 0 && tmp->commands == commands)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
+int			check_like_box(t_infos *infos, char **tab, char **split, int i)
+{
+	char	**split_cmp;
+	int		len_tab;
+	int		j;
+
+	(void)infos;
+	len_tab = len_tab_str(tab + i) + i;
+	j = i;
+	while (++j < len_tab)
+	{
+		if (!(split_cmp = ft_strsplit(tab[j], '-')))
+			return (0);
+		if (len_tab_str(split_cmp) == 2)
+			if (ft_strcmp(split[1], split_cmp[1]) == 0)
+				if (!check_commands_data(infos, split[1], 2))
+					if (!check_commands_data(infos, split_cmp[1], 2))
+						return (0);
+	}
+	return (1);
+}
+
+void		create_ants(t_infos *infos, char **tab)
+{
+	char	**split;
+	int		n_ants;
+	
+	int		i;
+
+	i = 0;
+	n_ants = 0;
+	while (tab[i])
+	{
+		if (!(split = ft_strsplit(tab[i], '-')))
+			return ;
+		if (len_tab_str(split) == 2)
+		{
+			if (!(check_like_box(infos, tab, split, i)))
+				infos->error[ERROR_BOX] = 1;
+			// ft_printf("%d - %d\n", n_ants, ft_atoi(split[0] + 1));
+			// ft_printf("%d\n", infos->error[ERROR_ANTS_TOO_MOVE]);
+			if (!infos->error[ERROR_ANTS_TOO_MOVE])
+				infos->error[ERROR_ANTS_TOO_MOVE] = (n_ants >= ft_atoi(split[0] + 1)) ? 1 : 0;
+			// ft_printf("%d\n", infos->error[ERROR_ANTS_TOO_MOVE]);
+			n_ants = ft_atoi(split[0] + 1);
+			infos->ants = add_ants(infos->ants, n_ants);
+			add_path(find_ants(infos, n_ants), find_data(infos, split[1]), infos);
+		}
+		i++;
+	}
 }
 
 int			format(char *line, t_infos *infos)
@@ -378,7 +430,7 @@ int			add_val_data(char *line, t_infos *infos)
 
 	if (!(tab = ft_strsplit(line, ' ')))
 		return (-1);
-	if (len_tab_str(tab) == 1)
+	if (len_tab_str(tab) == 1 && tab[0][0] != 'L')
 	{
 		if (tab && ft_str_is_digit(tab[0]))
 		{
@@ -418,6 +470,7 @@ int			check_file(t_infos *infos)
 		infos->file = infos->file->next;
 	}
 	infos->head_ants = infos->ants;
+	infos->head_data = infos->data;
 	return (1);
 }
 
@@ -475,13 +528,13 @@ void		print_error(t_infos *infos)
 		while (infos->ants->path)
 		{
 			if (infos->ants->path->error[ERROR_START])
-				ft_printf("ERROR_START L%d-%s\n", infos->ants->n_ants, infos->ants->path->current->name);
+				ft_printf("Line : %d\tERROR_START\tL%d\n", infos->ants->path->n_line, infos->ants->n_ants);
 			if (infos->ants->path->error[ERROR_END])
-				ft_printf("ERROR_END   L%d-%s\n", infos->ants->n_ants, infos->ants->path->current->name);
+				ft_printf("Line : %d\tERROR_END\tL%d\n", infos->ants->path->n_line, infos->ants->n_ants);
 			if (infos->ants->path->error[ERROR_LINK])
-				ft_printf("ERROR_LINK  L%d-%s\n", infos->ants->n_ants, infos->ants->path->current->name);
+				ft_printf("Line : %d\tERROR_LINK\tL%d-%s\n", infos->ants->path->n_line, infos->ants->n_ants, infos->ants->path->current->name);
 			if (infos->ants->path->error[ERROR_ANTS])
-				ft_printf("ERROR_ANTS  L%d-%s\n", infos->ants->n_ants, infos->ants->path->current->name);
+				ft_printf("Line : %d\tERROR_ANTS\tL%d\n", infos->ants->path->n_line, infos->ants->n_ants);
 			if (!infos->ants->path->next)
 				break ;
 			infos->ants->path = infos->ants->path->next;
@@ -490,6 +543,13 @@ void		print_error(t_infos *infos)
 			infos->ants->path = infos->ants->path->prev;
 		infos->ants = infos->ants->next;
 	}
+	if (infos->error[ERROR_NO_ALL_ANTS])
+		ft_printf("ERROR_NO_ALL_ANTS\n");
+	if (infos->error[ERROR_ANTS_TOO_MOVE])
+		ft_printf("ERROR_ANTS_TOO_MOVE\n");
+	if (infos->error[ERROR_BOX])
+		ft_printf("ERROR_BOX\n");
+	ft_printf("\n");
 }
 
 int			check_log_hit(t_infos *infos)
@@ -530,9 +590,12 @@ int			check_log_hit(t_infos *infos)
 				infos->ants->path->error[ERROR_LINK] = 1;
 				error++;
 			}
-			if (infos->ants->path->next->current->commands == 2)
-				flag = 2;
 			infos->ants->path = infos->ants->path->next;
+		}
+		if (infos->ants->path->current->commands == 2 && infos->ants->n_ants <= infos->nb_of_fourmis)
+		{
+			infos->fourmis_to_end++;
+			flag = 2;
 		}
 		while (infos->ants->path->prev)
 			infos->ants->path = infos->ants->path->prev;
@@ -544,10 +607,15 @@ int			check_log_hit(t_infos *infos)
 			infos->ants->path->error[ERROR_END] = 1;
 			error++;
 		}
-		ants++;
+		if (infos->nb_of_fourmis >= ants)
+			ants++;
 		infos->ants = infos->ants->next;
 	}
 	infos->ants = infos->head_ants;
+	infos->error[ERROR_NO_ALL_ANTS] = (infos->fourmis_to_end < infos->nb_of_fourmis) ? 1 : 0;
+	error = (infos->fourmis_to_end < infos->nb_of_fourmis) ? 1 : error;
+	error = infos->error[ERROR_ANTS_TOO_MOVE] ? 1 : error;
+	error = infos->error[ERROR_BOX] ? 1 : error;
 	if (error > 0)
 		return (0);
 	else
@@ -559,12 +627,14 @@ int			ft_check(int fd)
 {
 	t_infos	infos;
 	char	*line;
+	int		n_line;
 	int		ret;
 
 	init_infos(&infos);
+	n_line = 1;
 	while ((ret = get_next_line(fd, &line)) > 0)
 	{
-		infos.file = add_file(infos.file, line);
+		infos.file = add_file(infos.file, line, n_line++);
 		add_val_data(line, &infos);
 	}
 	if (!(check_file(&infos)))
@@ -601,12 +671,13 @@ int			ft_check(int fd)
 		// ft_printf("\n");
 		// infos.ants = infos.ants->next;
 	// }
-	// infos.ants = infos.head_ants;
+	// infos.head_data = infos.data;
+	// infos.head_ants = infos.ants;
 	if (!(check_log_hit(&infos)))
 	{
 		print_error(&infos);
-		ft_printf("foumis = %d\nsalles = %d\nnombre de coup recommandé == %d\nnombre de coup real == %d\n",
-			infos.nb_of_fourmis, infos.nb_of_box, infos.nb_of_hit, infos.nb_of_hit_real);
+		ft_printf("ANTS_TO_END\t\t\t%d / %d\nHIT\t\t\t\t%d / %d\n",
+			infos.fourmis_to_end, infos.nb_of_fourmis, infos.nb_of_hit_real, infos.nb_of_hit);
 		return (0);
 	}
 	if (ret == -1)
@@ -614,8 +685,8 @@ int			ft_check(int fd)
 		ft_printf("Error GNL\n");
 		return (0);
 	}
-	ft_printf("foumis = %d\nnombre de coup recommandé == %d\nnombre de coup real == %d\n",
-			infos.nb_of_fourmis, infos.nb_of_hit, infos.nb_of_hit_real);
+	ft_printf("ANTS_TO_END\t\t\t%d / %d\nHIT\t\t\t\t%d / %s\n",
+			infos.fourmis_to_end, infos.nb_of_fourmis, infos.nb_of_hit_real, infos.nb_of_hit > 0 ? ft_itoa(infos.nb_of_hit) : "Not Precised");
 	return (1);
 }
 
