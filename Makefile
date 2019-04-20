@@ -130,10 +130,10 @@ $(NAME_BONUS) : $(LIB) $(OBJET_BONUS) Makefile
 $(NAME_VERIF) : $(LIB) $(OBJET_VERIF) Makefile
 	@$(CC) $(CFLAGS) $(LIB) $(OBJET_VERIF) -o $@
 
-exe_one : $(NAME)
+exe_one : all $(NAME)
 	@./lem-in < resources/correct/2.map
 
-exe : $(NAME)
+exe : all $(NAME)
 	@sh script.sh $(arg) $(arg_2)
 	#time ./lem-in < big_superposition_14 > coucou && make check arg=coucou
 	#time ./lem-in < big_superposition_18 > coucou && make check arg=coucou
@@ -147,17 +147,17 @@ exe : $(NAME)
 	#time ./lem-in < big_superposition_50 > coucou && make check arg=coucou
 
 check : $(NAME_VERIF)
-	@./$(NAME_VERIF) $(arg) > salut
+	@./$(NAME_VERIF) $(arg) >> $(arg_2)
 
 cat :
-	cat resources/sortie_error_lem-in_correct | grep "definitely lost:" | more
-	cat resources/sortie_error_lem-in_correct | grep "indirectly lost:" | more
-	cat resources/sortie_error_lem-in_correct | grep "possibly lost:" | more
+	cat resources/sortie_error_lem_in_correct | grep "definitely lost:" | more
+	cat resources/sortie_error_lem_in_correct | grep "indirectly lost:" | more
+	cat resources/sortie_error_lem_in_correct | grep "possibly lost:" | more
 
-	cat resources/sortie_error_lem-in_error | grep "ERROR" | more
-	cat resources/sortie_error_lem-in_error | grep "definitely lost:" | more
-	cat resources/sortie_error_lem-in_error | grep "indirectly lost:" | more
-	cat resources/sortie_error_lem-in_error | grep "possibly lost:" | more
+	cat resources/sortie_error_lem_in_error | grep "ERROR" | more
+	cat resources/sortie_error_lem_in_error | grep "definitely lost:" | more
+	cat resources/sortie_error_lem_in_error | grep "indirectly lost:" | more
+	cat resources/sortie_error_lem_in_error | grep "possibly lost:" | more
 	
 	cat resources/sortie_error_visu_error | grep "Wrong Data " | more
 	cat resources/sortie_error_visu_error | grep "definitely lost:" | more
