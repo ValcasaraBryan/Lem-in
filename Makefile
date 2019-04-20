@@ -14,6 +14,9 @@ NAME = lem-in
 
 NAME_BONUS = visu
 
+NAME_VERIF = verif/check_result
+
+
 SRC =	srcs/main.c\
 		srcs/weights.c\
 		srcs/affichage.c\
@@ -78,15 +81,19 @@ SRC_BONUS = srcs_bonus/main_bonus.c\
 		srcs/weights.c\
 		srcs/edmonds.c
 
+SRC_VERIF = verif/verif.c
+
 LIB = libft/libft.a
 
 OBJET = $(SRC:.c=.o)
 
 OBJET_BONUS = $(SRC_BONUS:.c=.o)
 
+OBJET_VERIF = $(SRC_VERIF:.c=.o)
+
 INCLUDES = includes
 
-CFLAGS = -Wall -Wextra -Werror -O1 -I $(INCLUDES) -g3 #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -I $(INCLUDES) -fsanitize=address
 
 CC = clang
 
@@ -108,22 +115,29 @@ all :
 	@make -C libft
 	@make $(NAME)
 	@make $(NAME_BONUS)
+	@make $(NAME_VERIF)
 
 $(OBJET) : includes/lem_in.h
 $(OBJET_BONUS) : includes/visu.h
 
-$(NAME) : $(LIB) $(OBJET)
+$(NAME) : $(LIB) $(OBJET) Makefile
 	@$(CC) $(CFLAGS) $(LIB) $(OBJET) -o $@
 
-$(NAME_BONUS) : $(LIB) $(OBJET_BONUS)
-	@ $(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS) -lmlx -framework OpenGL -framework AppKit -o $@
+$(NAME_BONUS) : $(LIB) $(OBJET_BONUS) Makefile
+	@$(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS) -lmlx -framework OpenGL -framework AppKit -o $@
 	@# $(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS)  /usr/X11/lib/libmlx.a -framework OpenGL -framework AppKit -o $@
 
+$(NAME_VERIF) : $(LIB) $(OBJET_VERIF) Makefile
+	@$(CC) $(CFLAGS) $(LIB) $(OBJET_VERIF) -o $@
+
 exe_one : $(NAME)
-	./lem-in < resources/correct/2.map
+	@./lem-in < resources/correct/2.map
 
 exe : $(NAME)
-	sh script.sh $(arg) $(arg_2)
+	@sh script.sh $(arg) $(arg_2)
+
+check : $(NAME_VERIF)
+	@./$(NAME_VERIF) $(arg) > salut
 
 cat :
 	cat resources/sortie_error_lem-in_correct | grep "definitely lost:" | more
@@ -144,11 +158,11 @@ map :
 	./resources/map_edit $(arg) $(arg_2) resources/$(arg_3)
 
 clean :
-	@rm -f $(OBJET) $(OBJET_BONUS)
+	@rm -f $(OBJET) $(OBJET_BONUS) $(OBJET_VERIF)
 	@make clean -C libft
 
 fclean : clean
-	@rm -f $(NAME) $(NAME_BONUS)
+	@rm -f $(NAME) $(NAME_BONUS) $(NAME_VERIF)
 	@make fclean -C libft
 
 re : fclean all
