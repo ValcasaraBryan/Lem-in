@@ -40,10 +40,10 @@ int			ft_ed2(t_infos *inf, int i)
 		if (inf->data[inf->data[inf->l->c_r].pipe[i]->n_piece].commands == 2)
 		{
 			ft_save_p_states(inf);
-			inf->r = ft_save_path(inf, 0, 0, 0);
+																inf->r = ft_save_path(inf, 0, 0, 0);
 			inf->nb_group_path = ft_max_int(inf->r, inf->nb_group_path);
-			inf->tp_final = ft_put_t_p_to_tpfinal(inf, -1,
-				inf->tp_final_capacity);
+			// inf->tp_final = ft_put_t_p_to_tpfinal(inf, -1,
+				// inf->tp_final_capacity);
 			return (inf->r);
 		}
 		else

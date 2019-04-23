@@ -105,6 +105,15 @@ typedef struct			s_data
 **			l = premier element de la liste des chemis qui existent
 **			tfp = tab du nbr de fourmis a envoyer pour chaque chemin du groupe
 */
+
+typedef struct			s_path
+{
+	struct s_path		*prev;
+	int					len;
+	int					*tab;
+	struct s_path		*next;
+}						t_path;
+
 typedef struct			s_infos
 {
 	int					nb_of_fourmis;
@@ -114,7 +123,8 @@ typedef struct			s_infos
 	int					nb_path_max;
 	t_file				*file;
 	t_data				*data;
-	int					**t_p;
+	t_path				*t_p;
+	int					tp_capacity;
 	int					**tp_final;
 	int					tp_final_capacity;
 	int					**t_p_c;
@@ -271,6 +281,7 @@ int						ft_save_path(t_infos *inf, int k, int nb_path_found, int cr);
 int						ft_min_int(int a, int b);
 int						ft_max_int(int a, int b);
 int						ft_init_tab_path(t_infos *infos);
+t_path					*ft_init_lst_path(t_path *old, int len, int *tab);
 int						*ft_alloc_tab_int(int n, int val_initial);
 int						ft_length_path(int *tab, int n);
 /*

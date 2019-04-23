@@ -37,14 +37,18 @@ int			**ft_init_tmp(t_infos *inf, int **tmp, int n)
 			tmp[i][j] = inf->tp_final[i][j];
 	}
 	i = -1;
-	while (++i < inf->t_p[0][0])
+	while (inf->t_p->next)
 	{
 		if (!(tmp = alloc_init_tmp(inf, tmp, i + n)))
 			return (NULL);
 		j = -1;
 		while (++j < inf->nb_of_box)
-			tmp[i + n][j] = inf->t_p[i + 1][j];
+			tmp[i + n][j] = inf->t_p->tab[j];
+		inf->t_p = inf->t_p->next;
+		i++;
 	}
+	while (inf->t_p->prev)
+		inf->t_p = inf->t_p->prev;
 	return (tmp);
 }
 
@@ -52,21 +56,21 @@ int			**ft_put_t_p_to_tpfinal(t_infos *inf, int i, int n)
 {
 	int		**tmp;
 
-	inf->tp_final_capacity += inf->t_p[0][0];
-	if (!(tmp = (int **)malloc(sizeof(int*) * (n + inf->t_p[0][0]))))
+	inf->tp_final_capacity += inf->tp_capacity;
+	if (!(tmp = (int **)malloc(sizeof(int*) * (n + inf->tp_capacity))))
 		return (NULL);
 	if (!(tmp = ft_init_tmp(inf, tmp, n)))
 		return (NULL);
-	if (!(inf->t_p_c[inf->t_p[0][0] - 1] = (int*)malloc(sizeof(int)
-		* inf->t_p[0][0])))
+	if (!(inf->t_p_c[inf->tp_capacity - 1] = (int*)malloc(sizeof(int)
+		* inf->tp_capacity)))
 	{
 		ft_free_tab_int(tmp, inf->tp_final_capacity);
-		ft_free_tab_int(inf->t_p_c, inf->t_p[0][0] - 1);
+		ft_free_tab_int(inf->t_p_c, inf->tp_capacity - 1);
 		return (NULL);
 	}
-	while (++i < inf->t_p[0][0])
-		inf->t_p_c[inf->t_p[0][0] - 1][i] = n + i;
-	ft_free_tab_int(inf->t_p, inf->t_p[0][0] + 1);
+	while (++i < inf->tp_capacity)
+		inf->t_p_c[inf->tp_capacity - 1][i] = n + i;
+	// ft_free_tab_int(inf->t_p, inf->tp_capacity + 1);
 	ft_free_tab_int(inf->tp_final, n);
 	return (tmp);
 }
@@ -93,12 +97,24 @@ void		ft_norm_save_path(t_infos *inf, int *pathtmp, int *cr)
 	pathtmp[j] = inf->ind_end;
 }
 
+void		print_tab(int	*tab, int len)
+{
+	int		i;
+
+	i = 0;
+	while (i < len)
+		ft_printf("%-3d ", tab[i++]);
+	ft_printf("\n");
+}
+
 int			ft_save_path(t_infos *inf, int k, int nb_path_found, int cr)
 {
 	int		*pathtmp;
 
-	if (!(ft_init_tab_path(inf)))
-		return (0);
+	// if (!(ft_init_tab_path(inf)))
+		// return (0);
+	inf->tp_capacity = 0;
+		ft_printf("before lst\n");
 	while (k < inf->data[inf->ind_start].nb_of_link)
 	{
 		while (k < inf->data[inf->ind_start].nb_of_link
@@ -111,13 +127,17 @@ int			ft_save_path(t_infos *inf, int k, int nb_path_found, int cr)
 		pathtmp[0] = inf->ind_start;
 		cr = inf->data[inf->ind_start].pipe[k]->NP;
 		ft_norm_save_path(inf, pathtmp, &cr);
-		if (!(inf->t_p = ft_update_tab_path(inf, pathtmp)))
-		{
-			free(pathtmp);
-			return (-1);
-		}
+		inf->t_p = ft_init_lst_path(inf->t_p, ft_length_path(pathtmp, inf->nb_of_box), pathtmp);
+		ft_printf("after lst\n");
 		nb_path_found++;
 		k++;
 	}
+	while (inf->t_p)
+	{
+		print_tab(inf->t_p->tab, inf->t_p->len);
+		inf->t_p = inf->t_p->next;
+	}
+
+	ft_printf("sortie\n");
 	return (nb_path_found);
 }

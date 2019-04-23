@@ -14,16 +14,10 @@ NAME = lem-in
 
 NAME_BONUS = visu
 
-<<<<<<< HEAD
-SRC =	srcs/affichage.c\
-=======
 NAME_VERIF = verif/check_result
 
-
 SRC =	srcs/main.c\
-		srcs/weights.c\
 		srcs/affichage.c\
->>>>>>> a1b9eb12e5187bbd00e059a049865797833ce25f
 		srcs/algo.c\
 		srcs/check_commandes.c\
 		srcs/check_file.c\
@@ -39,7 +33,6 @@ SRC =	srcs/main.c\
 		srcs/liberation.c\
 		srcs/list_chain.c\
 		srcs/logical_infos_box.c\
-		srcs/main.c\
 		srcs/move_ants.c\
 		srcs/parsing.c\
 		srcs/resolution.c\
@@ -107,11 +100,7 @@ OBJET_VERIF = $(SRC_VERIF:.c=.o)
 
 INCLUDES = includes
 
-<<<<<<< HEAD
-CFLAGS = -Wall -Wextra -Werror -O2 -I $(INCLUDES) -g3 #-fsanitize=address
-=======
 CFLAGS = -Wall -Wextra -Werror -I $(INCLUDES) #-fsanitize=address
->>>>>>> a1b9eb12e5187bbd00e059a049865797833ce25f
 
 CC = clang
 
@@ -149,17 +138,17 @@ $(NAME_VERIF) : $(LIB) $(OBJET_VERIF) Makefile
 	@$(CC) $(CFLAGS) $(LIB) $(OBJET_VERIF) -o $@
 
 exe_one : all $(NAME)
-	@./lem-in < resources/correct/2.map
+	@time ./lem-in < $(arg)
 
 exe : all $(NAME)
 	@sh script.sh $(arg) $(arg_2)
 	#time ./lem-in < big_superposition_14 > coucou && make check arg=coucou
-	#time ./lem-in < big_superposition_18 > coucou && make check arg=coucou
-	#time ./lem-in < big_superposition_20 > coucou && make check arg=coucou
+		#time ./lem-in < big_superposition_18 > coucou && make check arg=coucou
+		#time ./lem-in < big_superposition_20 > coucou && make check arg=coucou
 	#time ./lem-in < big_superposition_31 > coucou && make check arg=coucou
 	#time ./lem-in < big_superposition_37 > coucou && make check arg=coucou
-	#time ./lem-in < big_superposition_39 > coucou && make check arg=coucou
-	#time ./lem-in < big_superposition_43 > coucou && make check arg=coucou
+		#time ./lem-in < big_superposition_39 > coucou && make check arg=coucou
+		#time ./lem-in < big_superposition_43 > coucou && make check arg=coucou
 	#time ./lem-in < big_superposition_48 > coucou && make check arg=coucou
 	#time ./lem-in < big_superposition_49 > coucou && make check arg=coucou
 	#time ./lem-in < big_superposition_50 > coucou && make check arg=coucou

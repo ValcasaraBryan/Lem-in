@@ -26,16 +26,52 @@ int			ft_max_int(int a, int b)
 	return (b);
 }
 
+t_path		*new_path(t_path *next, int len, int *tab)
+{
+	t_path	*tmp;
+
+	if (!(tmp = malloc(sizeof(t_path))))
+		return (NULL);
+	tmp->len = len;
+	tmp->tab = tab;
+	tmp->prev = NULL;
+	tmp->next = next;
+	return (tmp);
+}
+
+t_path		*ft_init_lst_path(t_path *old, int len, int *tab)
+{
+	t_path	*tmp;
+	t_path	*swap;
+
+	if (old)
+	{
+		tmp = old;
+		while (tmp->next && tmp->len >= len)
+		{
+			ft_printf("ne rentre pas\n");
+			tmp = tmp->next;
+		}
+		swap = tmp->next;
+		tmp->next = new_path(swap, len, tab);
+		tmp->next->prev = tmp;
+		return (old);
+	}
+	else
+		return (new_path(NULL, len, tab));
+}
+
 int			ft_init_tab_path(t_infos *infos)
 {
-	if (!(infos->t_p = (int **)malloc(sizeof(int*))))
-		return (0);
-	if (!(infos->t_p[0] = (int *)malloc(sizeof(int))))
-	{
-		free(infos->t_p);
-		return (0);
-	}
-	infos->t_p[0][0] = 0;
+	// if (!(infos->t_p = (int **)malloc(sizeof(int*) * )))
+		// return (0);
+	// if (!(infos->t_p[0] = (int *)malloc(sizeof(int))))
+	// {
+		// free(infos->t_p);
+		// return (0);
+	// }
+	infos->tp_capacity = 0;
+	// infos->t_p[0][0] = 0;
 	return (1);
 }
 
