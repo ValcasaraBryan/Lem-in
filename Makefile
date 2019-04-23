@@ -14,7 +14,16 @@ NAME = lem-in
 
 NAME_BONUS = visu
 
+<<<<<<< HEAD
 SRC =	srcs/affichage.c\
+=======
+NAME_VERIF = verif/check_result
+
+
+SRC =	srcs/main.c\
+		srcs/weights.c\
+		srcs/affichage.c\
+>>>>>>> a1b9eb12e5187bbd00e059a049865797833ce25f
 		srcs/algo.c\
 		srcs/check_commandes.c\
 		srcs/check_file.c\
@@ -86,15 +95,23 @@ SRC_BONUS = srcs_bonus/main_bonus.c\
 		srcs/valeur_pipe.c\
 		srcs/weights.c
 
+SRC_VERIF = verif/verif.c
+
 LIB = libft/libft.a
 
 OBJET = $(SRC:.c=.o)
 
 OBJET_BONUS = $(SRC_BONUS:.c=.o)
 
+OBJET_VERIF = $(SRC_VERIF:.c=.o)
+
 INCLUDES = includes
 
+<<<<<<< HEAD
 CFLAGS = -Wall -Wextra -Werror -O2 -I $(INCLUDES) -g3 #-fsanitize=address
+=======
+CFLAGS = -Wall -Wextra -Werror -I $(INCLUDES) #-fsanitize=address
+>>>>>>> a1b9eb12e5187bbd00e059a049865797833ce25f
 
 CC = clang
 
@@ -116,32 +133,49 @@ all :
 	@make -C libft
 	@make $(NAME)
 	@make $(NAME_BONUS)
+	@make $(NAME_VERIF)
 
 $(OBJET) : includes/lem_in.h
 $(OBJET_BONUS) : includes/visu.h
 
-$(NAME) : $(LIB) $(OBJET)
+$(NAME) : $(LIB) $(OBJET) Makefile
 	@$(CC) $(CFLAGS) $(LIB) $(OBJET) -o $@
 
-$(NAME_BONUS) : $(LIB) $(OBJET_BONUS)
-	@ $(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS) -lmlx -framework OpenGL -framework AppKit -o $@
+$(NAME_BONUS) : $(LIB) $(OBJET_BONUS) Makefile
+	@$(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS) -lmlx -framework OpenGL -framework AppKit -o $@
 	@# $(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS)  /usr/X11/lib/libmlx.a -framework OpenGL -framework AppKit -o $@
 
-exe_one : $(NAME)
-	./lem-in < resources/correct/2.map
+$(NAME_VERIF) : $(LIB) $(OBJET_VERIF) Makefile
+	@$(CC) $(CFLAGS) $(LIB) $(OBJET_VERIF) -o $@
 
-exe : $(NAME)
-	sh script.sh $(arg) $(arg_2)
+exe_one : all $(NAME)
+	@./lem-in < resources/correct/2.map
+
+exe : all $(NAME)
+	@sh script.sh $(arg) $(arg_2)
+	#time ./lem-in < big_superposition_14 > coucou && make check arg=coucou
+	#time ./lem-in < big_superposition_18 > coucou && make check arg=coucou
+	#time ./lem-in < big_superposition_20 > coucou && make check arg=coucou
+	#time ./lem-in < big_superposition_31 > coucou && make check arg=coucou
+	#time ./lem-in < big_superposition_37 > coucou && make check arg=coucou
+	#time ./lem-in < big_superposition_39 > coucou && make check arg=coucou
+	#time ./lem-in < big_superposition_43 > coucou && make check arg=coucou
+	#time ./lem-in < big_superposition_48 > coucou && make check arg=coucou
+	#time ./lem-in < big_superposition_49 > coucou && make check arg=coucou
+	#time ./lem-in < big_superposition_50 > coucou && make check arg=coucou
+
+check : $(NAME_VERIF)
+	@./$(NAME_VERIF) $(arg) >> $(arg_2)
 
 cat :
-	cat resources/sortie_error_lem-in_correct | grep "definitely lost:" | more
-	cat resources/sortie_error_lem-in_correct | grep "indirectly lost:" | more
-	cat resources/sortie_error_lem-in_correct | grep "possibly lost:" | more
+	cat resources/sortie_error_lem_in_correct | grep "definitely lost:" | more
+	cat resources/sortie_error_lem_in_correct | grep "indirectly lost:" | more
+	cat resources/sortie_error_lem_in_correct | grep "possibly lost:" | more
 
-	cat resources/sortie_error_lem-in_error | grep "ERROR" | more
-	cat resources/sortie_error_lem-in_error | grep "definitely lost:" | more
-	cat resources/sortie_error_lem-in_error | grep "indirectly lost:" | more
-	cat resources/sortie_error_lem-in_error | grep "possibly lost:" | more
+	cat resources/sortie_error_lem_in_error | grep "ERROR" | more
+	cat resources/sortie_error_lem_in_error | grep "definitely lost:" | more
+	cat resources/sortie_error_lem_in_error | grep "indirectly lost:" | more
+	cat resources/sortie_error_lem_in_error | grep "possibly lost:" | more
 	
 	cat resources/sortie_error_visu_error | grep "Wrong Data " | more
 	cat resources/sortie_error_visu_error | grep "definitely lost:" | more
@@ -152,11 +186,11 @@ map :
 	./resources/map_edit $(arg) $(arg_2) resources/$(arg_3)
 
 clean :
-	@rm -f $(OBJET) $(OBJET_BONUS)
+	@rm -f $(OBJET) $(OBJET_BONUS) $(OBJET_VERIF)
 	@make clean -C libft
 
 fclean : clean
-	@rm -f $(NAME) $(NAME_BONUS)
+	@rm -f $(NAME) $(NAME_BONUS) $(NAME_VERIF)
 	@make fclean -C libft
 
 re : fclean all
