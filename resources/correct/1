@@ -3,8 +3,13 @@
 sale1 1 2
 ##end
 sale2 3 4
-sale3 5 4
+sale6 3 2
 sale4 6 2
+sale5 9 2
+sale3 5 4
+sale5-sale6
+sale1-sale5
+sale6-sale2
 sale1-sale3
 sale1-sale4
 sale4-sale2

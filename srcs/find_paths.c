@@ -71,7 +71,20 @@ int			ft_find_paths(t_infos *infos)
 	while ((ret = ft_ed(infos, 0, NULL)) > 0)
 	{
 		if (ret == 2)
+		{
+			// while (infos->t_p)
+			// {
+				// ft_printf("%14p <- %-14p -> %-14p : ", infos->t_p->prev, infos->t_p, infos->t_p->next);
+				// print_tab(infos->t_p->tab, infos->t_p->len);
+				// ft_printf("\t\t| len = %3d\n", infos->t_p->len);
+				// if (!infos->t_p->next)
+					// break ;
+				// infos->t_p = infos->t_p->next;
+			// }
+			// while (infos->t_p->prev)
+				// infos->t_p = infos->t_p->prev;
 			return (1);
+		}
 		ft_put_weights(infos);
 	}
 	ft_free_utils_init_path(infos);

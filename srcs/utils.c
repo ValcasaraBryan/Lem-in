@@ -47,14 +47,11 @@ t_path		*ft_init_lst_path(t_path *old, int len, int *tab)
 	if (old)
 	{
 		tmp = old;
-		while (tmp->next && tmp->len >= len)
-		{
-			ft_printf("ne rentre pas\n");
+		while (tmp->next && tmp->len < len)
 			tmp = tmp->next;
-		}
-		swap = tmp->next;
-		tmp->next = new_path(swap, len, tab);
-		tmp->next->prev = tmp;
+		swap = new_path(tmp->next, len, tab);
+		tmp->next = swap;
+		swap->prev = tmp;
 		return (old);
 	}
 	else

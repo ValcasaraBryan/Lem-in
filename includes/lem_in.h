@@ -270,6 +270,7 @@ int						ft_resolve(t_infos *infos, int nbr_group_path);
 /*
 **			save_group_paths.c
 */
+void					print_tab(int	*tab, int len);
 int						**alloc_init_tmp(t_infos *inf, int **tmp, int size);
 int						**ft_init_tmp(t_infos *inf, int **tmp, int n);
 int						**ft_put_t_p_to_tpfinal(t_infos *inf, int i, int n);
