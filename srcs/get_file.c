@@ -33,7 +33,6 @@ t_infos		init_val(void)
 	infos.ind_end = -1;
 	infos.r = 0;
 	infos.nb_group_path = 0;
-	infos.count = 0;
 	infos.tfp = NULL;
 	return (infos);
 }

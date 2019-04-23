@@ -14,30 +14,34 @@ NAME = lem-in
 
 NAME_BONUS = visu
 
-SRC =	srcs/main.c\
-		srcs/weights.c\
-		srcs/affichage.c\
+SRC =	srcs/affichage.c\
 		srcs/algo.c\
-		srcs/ft_check_precedents.c\
-		srcs/ft_update_tab_path.c\
-		srcs/graph_utils.c\
-		srcs/frees_algo.c\
-		srcs/utils_algo.c\
 		srcs/check_commandes.c\
 		srcs/check_file.c\
+		srcs/edmonds.c\
+		srcs/find_paths.c\
+		srcs/frees_algo.c\
+		srcs/ft_check_precedents.c\
+		srcs/ft_update_tab_path.c\
 		srcs/get_file.c\
+		srcs/graph_utils.c\
 		srcs/init_data.c\
 		srcs/init_struct.c\
 		srcs/liberation.c\
 		srcs/list_chain.c\
 		srcs/logical_infos_box.c\
+		srcs/main.c\
+		srcs/move_ants.c\
 		srcs/parsing.c\
+		srcs/resolution.c\
+		srcs/save_groups_paths.c\
+		srcs/utils.c\
+		srcs/utils_edmonds.c\
+		srcs/utils_list.c\
+		srcs/utils_resolution.c\
 		srcs/valeur_data.c\
 		srcs/valeur_pipe.c\
-		srcs/resolution.c\
-		srcs/move_ants.c\
-		srcs/list_utils.c\
-		srcs/edmonds.c
+		srcs/weights.c
 
 SRC_BONUS = srcs_bonus/main_bonus.c\
 			srcs_bonus/liberation_bonus.c\
@@ -56,27 +60,31 @@ SRC_BONUS = srcs_bonus/main_bonus.c\
 			srcs_bonus/fct_key_hook.c\
 		srcs/affichage.c\
 		srcs/algo.c\
-		srcs/graph_utils.c\
-		srcs/ft_check_precedents.c\
-		srcs/ft_update_tab_path.c\
-		srcs/frees_algo.c\
-		srcs/utils_algo.c\
 		srcs/check_commandes.c\
 		srcs/check_file.c\
+		srcs/edmonds.c\
+		srcs/find_paths.c\
+		srcs/frees_algo.c\
+		srcs/ft_check_precedents.c\
+		srcs/ft_update_tab_path.c\
 		srcs/get_file.c\
+		srcs/graph_utils.c\
 		srcs/init_data.c\
 		srcs/init_struct.c\
 		srcs/liberation.c\
 		srcs/list_chain.c\
 		srcs/logical_infos_box.c\
+		srcs/move_ants.c\
 		srcs/parsing.c\
+		srcs/resolution.c\
+		srcs/save_groups_paths.c\
+		srcs/utils.c\
+		srcs/utils_edmonds.c\
+		srcs/utils_list.c\
+		srcs/utils_resolution.c\
 		srcs/valeur_data.c\
 		srcs/valeur_pipe.c\
-		srcs/resolution.c\
-		srcs/move_ants.c\
-		srcs/list_utils.c\
-		srcs/weights.c\
-		srcs/edmonds.c
+		srcs/weights.c
 
 LIB = libft/libft.a
 
@@ -86,7 +94,7 @@ OBJET_BONUS = $(SRC_BONUS:.c=.o)
 
 INCLUDES = includes
 
-CFLAGS = -Wall -Wextra -Werror -O1 -I $(INCLUDES) -g3 #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -O2 -I $(INCLUDES) -g3 #-fsanitize=address
 
 CC = clang
 

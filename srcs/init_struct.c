@@ -12,15 +12,6 @@
 
 #include "lem_in.h"
 
-void	ft_init_c(t_infos *inf, t_c *c, int n)
-{
-	c->k = -1;
-	c->index_to_up = 0;
-	c->nb_path_compatible = 1;
-	c->lpm = ft_length_path(inf->t_p[n], inf->nb_of_box);
-	c->t = time(NULL);
-}
-
 int		ft_init_w(t_infos *inf, t_w *w)
 {
 	w->k = -1;
