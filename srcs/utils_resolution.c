@@ -31,6 +31,7 @@ int		ft_fill_tab_path_turn_i(t_infos *t, int n, int **t_p_t,
 		j = 0;
 		while (j < n + 1)
 		{
+			ft_printf("n = %d, j = %d, %-14p = %3d\n", n, j, t->t_p_c[n], t->t_p_c[n] ? t->t_p_c[n][j] : -2);
 			if (ft_length_path(t->tp_final[t->t_p_c[n][j]],
 						t->nb_of_box) - 1 == i + 1)
 				to_add++;

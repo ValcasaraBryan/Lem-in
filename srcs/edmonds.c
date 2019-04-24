@@ -41,8 +41,19 @@ int			ft_ed2(t_infos *inf, int i)
 		{
 			ft_save_p_states(inf);
 			inf->r = ft_save_path(inf, 0, 0, 0);
-		
+			inf->head_t_p = inf->t_p;
+			while (inf->t_p)
+			{
+				print_tab(inf->t_p->tab, inf->t_p->len);
+				ft_printf("\n");
+				if (!inf->t_p->next)
+					break ;
+				inf->tp_capacity++;
+				inf->t_p = inf->t_p->next;
+			}
+			inf->t_p = inf->head_t_p;
 			inf->nb_group_path = ft_max_int(inf->r, inf->nb_group_path);
+			ft_printf("inf->tp_capacity = %d\n", inf->tp_capacity);
 			inf->tp_final = ft_put_t_p_to_tpfinal(inf, -1,
 				inf->tp_final_capacity);
 			return (inf->r);
@@ -101,10 +112,7 @@ int			ft_ed(t_infos *inf, int i, int *tmp)
 				{
 					ft_lstdel_all_graph(&inf->l);
 					if (inf->r != 0)
-					{
-					
 						return (ft_return_ed(inf->r, inf->nb_path_max));
-					}
 				}
 		}
 		ft_graph_del_start(&inf->l);

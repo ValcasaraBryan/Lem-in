@@ -123,6 +123,7 @@ typedef struct			s_infos
 	int					nb_path_max;
 	t_file				*file;
 	t_data				*data;
+	t_path				*head_t_p;
 	t_path				*t_p;
 	int					tp_capacity;
 	int					**tp_final;
@@ -273,6 +274,7 @@ int						ft_resolve(t_infos *infos, int nbr_group_path);
 void					print_tab(int	*tab, int len);
 int						**alloc_init_tmp(t_infos *inf, int **tmp, int size);
 int						**ft_init_tmp(t_infos *inf, int **tmp, int n);
+void					free_lst_tp(t_infos *infos);
 int						**ft_put_t_p_to_tpfinal(t_infos *inf, int i, int n);
 void					ft_norm_save_path(t_infos *inf, int *pathtmp, int *cr);
 int						ft_save_path(t_infos *inf, int k, int nb_path_found, int cr);

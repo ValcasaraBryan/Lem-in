@@ -36,24 +36,35 @@ int			**ft_init_tmp(t_infos *inf, int **tmp, int n)
 		while (++j < inf->nb_of_box)
 			tmp[i][j] = inf->tp_final[i][j];
 	}
-	i = -1;
+	i = 0;
 	while (inf->t_p)
 	{
 		if (!(tmp = alloc_init_tmp(inf, tmp, i + n)))
 			return (NULL);
 		j = -1;
 		while (++j < inf->nb_of_box)
-		{
-			ft_printf("i + n = [%d][%d]\n", i + n, j);
 			tmp[i + n][j] = inf->t_p->tab[j];
-		}
 		if (!inf->t_p->next)
 			break ;
 		inf->t_p = inf->t_p->next;
 		i++;
 	}
-	ft_printf("on sort de init_tmp\n");
 	return (tmp);
+}
+
+void		free_lst_tp(t_infos *infos)
+{
+	t_path	*tmp;
+
+	if (!infos->t_p)
+		return ;
+	while (infos->t_p)
+	{
+		tmp = infos->t_p;
+		free(infos->t_p->tab);
+		infos->t_p = infos->t_p->next;
+		free(tmp);
+	}
 }
 
 int			**ft_put_t_p_to_tpfinal(t_infos *inf, int i, int n)
@@ -63,10 +74,10 @@ int			**ft_put_t_p_to_tpfinal(t_infos *inf, int i, int n)
 	inf->tp_final_capacity += inf->tp_capacity;
 	if (!(tmp = (int **)malloc(sizeof(int*) * (n + inf->tp_capacity))))
 		return (NULL);
-	ft_printf("before init_tmp\n");
+	ft_printf("inf->tp_final_capacity = %d\n", inf->tp_final_capacity);
 	if (!(tmp = ft_init_tmp(inf, tmp, n)))
 		return (NULL);
-	ft_printf("after init_tmp\n");
+	ft_printf("inf->tp_capacity = %d\n", inf->tp_capacity);
 	if (!(inf->t_p_c[inf->tp_capacity - 1] = (int*)malloc(sizeof(int)
 		* inf->tp_capacity)))
 	{
@@ -75,8 +86,11 @@ int			**ft_put_t_p_to_tpfinal(t_infos *inf, int i, int n)
 		return (NULL);
 	}
 	while (++i < inf->tp_capacity)
+	{
+		ft_printf("inf->t_p_c[%d][%d] = %d\n", inf->tp_capacity - 1, i,  n + i);
 		inf->t_p_c[inf->tp_capacity - 1][i] = n + i;
-	// ft_free_tab_int(inf->t_p, inf->tp_capacity + 1);
+	}
+	free_lst_tp(inf);
 	ft_free_tab_int(inf->tp_final, n);
 	return (tmp);
 }
@@ -118,7 +132,7 @@ int			ft_save_path(t_infos *inf, int k, int nb_path_found, int cr)
 
 	// if (!(ft_init_tab_path(inf)))
 		// return (0);
-	inf->tp_capacity = 0;
+	inf->tp_capacity = 0;  // remplace "infos->t_p[0][0] = 0;" dans init_tab_path
 	ft_printf("entree save_path\n");
 	while (k < inf->data[inf->ind_start].nb_of_link)
 	{
