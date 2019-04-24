@@ -43,7 +43,6 @@ int		ft_resolve2(t_infos *inf, t_r *res, int **tgt, int nb_gp)
 	int		i;
 
 	i = -1;
-	ft_printf("before = ft_fill_tab_path_turn_i\n");
 	while (++i < nb_gp)
 		ft_fill_tab_path_turn_i(inf, i, tgt, res->nb_turn_max);
 	res->num_g = ft_find_group(inf, tgt, nb_gp, res->nb_turn_max);
@@ -83,7 +82,6 @@ int		ft_resolve(t_infos *inf, int nb_gp)
 			ft_free_tab_int(tgt, i);
 			return (0);
 		}
-	ft_printf("enter to resolve_2\n");
 	if ((inf->r = ft_resolve2(inf, &res, tgt, nb_gp)) <= 0)
 	{
 		if (inf->r == 0)

@@ -52,7 +52,6 @@ int		ft_algo(t_infos *inf)
 		erase_data(inf);
 		return (0);
 	}
-	ft_printf("enter to resolve\n");
 	if (!ft_resolve(inf, inf->nb_group_path))
 	{
 		ft_free_all(inf);

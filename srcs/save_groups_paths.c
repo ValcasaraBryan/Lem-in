@@ -74,10 +74,8 @@ int			**ft_put_t_p_to_tpfinal(t_infos *inf, int i, int n)
 	inf->tp_final_capacity += inf->tp_capacity;
 	if (!(tmp = (int **)malloc(sizeof(int*) * (n + inf->tp_capacity))))
 		return (NULL);
-	ft_printf("inf->tp_final_capacity = %d\n", inf->tp_final_capacity);
 	if (!(tmp = ft_init_tmp(inf, tmp, n)))
 		return (NULL);
-	ft_printf("inf->tp_capacity = %d\n", inf->tp_capacity);
 	if (!(inf->t_p_c[inf->tp_capacity - 1] = (int*)malloc(sizeof(int)
 		* inf->tp_capacity)))
 	{
@@ -86,10 +84,7 @@ int			**ft_put_t_p_to_tpfinal(t_infos *inf, int i, int n)
 		return (NULL);
 	}
 	while (++i < inf->tp_capacity)
-	{
-		ft_printf("inf->t_p_c[%d][%d] = %d\n", inf->tp_capacity - 1, i,  n + i);
 		inf->t_p_c[inf->tp_capacity - 1][i] = n + i;
-	}
 	free_lst_tp(inf);
 	ft_free_tab_int(inf->tp_final, n);
 	return (tmp);
@@ -133,17 +128,13 @@ int			ft_save_path(t_infos *inf, int k, int nb_path_found, int cr)
 	// if (!(ft_init_tab_path(inf)))
 		// return (0);
 	inf->tp_capacity = 0;  // remplace "infos->t_p[0][0] = 0;" dans init_tab_path
-	ft_printf("entree save_path\n");
 	while (k < inf->data[inf->ind_start].nb_of_link)
 	{
 		while (k < inf->data[inf->ind_start].nb_of_link
 			&& inf->data[inf->ind_start].p_state[k] != 1)
 			k++;
 		if (k == inf->data[inf->ind_start].nb_of_link)
-		{
-			ft_printf("sortie save_path %d\n", nb_path_found);
 			return (nb_path_found);
-		}
 		if (!(pathtmp = ft_alloc_tab_int(inf->nb_of_box, -1)))
 			return (-1);
 		pathtmp[0] = inf->ind_start;
@@ -153,6 +144,5 @@ int			ft_save_path(t_infos *inf, int k, int nb_path_found, int cr)
 		nb_path_found++;
 		k++;
 	}
-	ft_printf("sortie save_path %d\n", nb_path_found);
 	return (nb_path_found);
 }
