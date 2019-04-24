@@ -86,6 +86,7 @@ int			**ft_put_t_p_to_tpfinal(t_infos *inf, int i, int n)
 	while (++i < inf->tp_capacity)
 		inf->t_p_c[inf->tp_capacity - 1][i] = n + i;
 	free_lst_tp(inf);
+	// ft_free_tab_int(inf->t_o, n)
 	ft_free_tab_int(inf->tp_final, n);
 	return (tmp);
 }
@@ -118,16 +119,14 @@ void		print_tab(int	*tab, int len)
 
 	i = 0;
 	while (i < len)
-		ft_printf("%-3d ", tab[i++]);
+		ft_printf("%-5d ", tab[i++]);
 }
 
 int			ft_save_path(t_infos *inf, int k, int nb_path_found, int cr)
 {
 	int		*pathtmp;
 
-	// if (!(ft_init_tab_path(inf)))
-		// return (0);
-	inf->tp_capacity = 0;  // remplace "infos->t_p[0][0] = 0;" dans init_tab_path
+	inf->tp_capacity = 0;
 	while (k < inf->data[inf->ind_start].nb_of_link)
 	{
 		while (k < inf->data[inf->ind_start].nb_of_link
@@ -141,6 +140,7 @@ int			ft_save_path(t_infos *inf, int k, int nb_path_found, int cr)
 		cr = inf->data[inf->ind_start].pipe[k]->NP;
 		ft_norm_save_path(inf, pathtmp, &cr);
 		inf->t_p = ft_init_lst_path(inf->t_p, ft_length_path(pathtmp, inf->nb_of_box), pathtmp);
+		inf->tp_capacity++;
 		nb_path_found++;
 		k++;
 	}

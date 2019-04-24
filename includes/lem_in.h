@@ -123,7 +123,6 @@ typedef struct			s_infos
 	int					nb_path_max;
 	t_file				*file;
 	t_data				*data;
-	t_path				*head_t_p;
 	t_path				*t_p;
 	int					tp_capacity;
 	int					**tp_final;

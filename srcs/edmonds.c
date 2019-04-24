@@ -41,16 +41,23 @@ int			ft_ed2(t_infos *inf, int i)
 		{
 			ft_save_p_states(inf);
 			inf->r = ft_save_path(inf, 0, 0, 0);
-			inf->head_t_p = inf->t_p;
-			while (inf->t_p)
-			{
-				inf->tp_capacity++;
-				if (!inf->t_p->next)
-					break ;
-				inf->t_p = inf->t_p->next;
-			}
-			inf->t_p = inf->head_t_p;
 			inf->nb_group_path = ft_max_int(inf->r, inf->nb_group_path);
+			// while (inf->t_p)
+			// {
+				// ft_printf("%p <- %p -> %p\n", inf->t_p->prev, inf->t_p, inf->t_p->next);
+				// print_tab(inf->t_p->tab, inf->t_p->len);
+				// ft_printf("\n");
+				// if (!inf->t_p->next)
+					// break ;
+				// inf->t_p = inf->t_p->next;
+			// }
+			// while (inf->t_p)
+			// {
+				// if (!inf->t_p->prev)
+					// break ;
+				// inf->t_p = inf->t_p->prev;
+			// }
+			// ft_printf("\n");
 			inf->tp_final = ft_put_t_p_to_tpfinal(inf, -1,
 				inf->tp_final_capacity);
 			return (inf->r);
