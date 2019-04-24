@@ -26,7 +26,7 @@ int			ft_max_int(int a, int b)
 	return (b);
 }
 
-t_path		*new_path(t_path *next, int len, int *tab)
+t_path		*new_path(t_path *prev, t_path *next, int len, int *tab)
 {
 	t_path	*tmp;
 
@@ -34,7 +34,7 @@ t_path		*new_path(t_path *next, int len, int *tab)
 		return (NULL);
 	tmp->len = len;
 	tmp->tab = tab;
-	tmp->prev = NULL;
+	tmp->prev = prev;
 	tmp->next = next;
 	return (tmp);
 }
@@ -44,29 +44,25 @@ t_path		*ft_init_lst_path(t_path *old, int len, int *tab)
 	t_path	*tmp;
 	t_path	*swap;
 
-	if (old)
+	if (old && len <= old->len)
 	{
-		if (len <= old->len)
-		{
-			tmp = new_path(old, len, tab);
-			old->prev = tmp;
-			return (tmp);
-		}
-		else
-		{
-			tmp = old;
-			while (tmp->next && len >= tmp->next->len)
-				tmp = tmp->next;
-			swap = new_path(tmp->next, len, tab);
-			if (tmp->next)
-				tmp->next->prev = swap;
-			swap->prev = tmp;
-			tmp->next = swap;
-			return (old);
-		}
+		tmp = new_path(NULL, old, len, tab);
+		old->prev = tmp;
+		return (tmp);
+	}
+	else if (old)
+	{
+		tmp = old;
+		while (tmp->next && len >= tmp->next->len)
+			tmp = tmp->next;
+		swap = new_path(tmp, tmp->next, len, tab);
+		if (tmp->next)
+			tmp->next->prev = swap;
+		tmp->next = swap;
+		return (old);
 	}
 	else
-		return (new_path(NULL, len, tab));
+		return (new_path(NULL, NULL, len, tab));
 }
 
 int			ft_init_tab_path(t_infos *infos)
