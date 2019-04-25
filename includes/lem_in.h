@@ -316,5 +316,6 @@ int						ft_nb_ants_per_path_in_group_path(t_infos *inf, int *t_p, int nbr_p);
 void					ft_switch_tabs(t_infos *inf, t_w *w);
 void					ft_put_weights2(t_infos *inf, t_w *w);
 int						ft_put_weights(t_infos *inf);
+int						len_tab_str(char **tab);
 
 #endif
