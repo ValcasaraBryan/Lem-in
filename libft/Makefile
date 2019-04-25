@@ -143,7 +143,7 @@ OBJET = $(SRC:.c=.o)
 
 INCLUDES = includes
 
-CFLAGS = -Wall -Wextra -Werror -I $(INCLUDES)  -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -I $(INCLUDES)# -fsanitize=address
 CC = gcc
 
 all : $(NAME)

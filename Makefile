@@ -100,7 +100,7 @@ OBJET_VERIF = $(SRC_VERIF:.c=.o)
 
 INCLUDES = includes
 
-CFLAGS = -Wall -Wextra -Werror -I $(INCLUDES) #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -I $(INCLUDES)# -fsanitize=address
 
 CC = gcc
 
