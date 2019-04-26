@@ -50,7 +50,7 @@ int				main(void)
 	t_data_p	p;
 
 	infos = get_file_bonus();
-	if (!infos.file)
+	if (!infos.file || infos.nb_of_fourmis <= 0)
 		erase_infos(&infos);
 	if (!(init_data(&infos)))
 	{

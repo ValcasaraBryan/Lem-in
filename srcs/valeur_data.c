@@ -22,6 +22,16 @@ int			malloc_pipe(t_infos *infos, int i, int len)
 	return (1);
 }
 
+int			len_tab_str(char **tab)
+{
+	int		i;
+
+	i = -1;
+	if (tab)
+		while (tab[++i]);
+	return (i);
+}
+
 int			valeur_data(t_infos *infos, int commande)
 {
 	char	**tmp;
@@ -35,7 +45,7 @@ int			valeur_data(t_infos *infos, int commande)
 		i++;
 	if (!(tmp = ft_strsplit(infos->file->line, ' ')))
 		return (0);
-	if (!tmp[0] || !tmp[1] || !tmp[2])
+	if (len_tab_str(tmp) != 3)
 		return (0);
 	infos->data[i].name_box = ft_strdup(tmp[0]);
 	infos->data[i].n_piece = i;

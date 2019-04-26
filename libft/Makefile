@@ -143,12 +143,12 @@ OBJET = $(SRC:.c=.o)
 
 INCLUDES = includes
 
-CFLAGS = -Wall -Wextra -Werror -I $(INCLUDES)
+CFLAGS = -Wall -Wextra -Werror -I $(INCLUDES)# -fsanitize=address
 CC = gcc
 
 all : $(NAME)
 
-$(NAME) : $(OBJET)
+$(NAME) : $(OBJET) Makefile
 	@ar rc $@ $^
 	@ranlib $@
 
