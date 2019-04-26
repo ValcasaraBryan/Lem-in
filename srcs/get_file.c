@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-t_infos		init_val(void)
+static t_infos	init_val(void)
 {
 	t_infos	infos;
 
@@ -40,7 +40,7 @@ t_infos		init_val(void)
 	return (infos);
 }
 
-t_infos		get_file(void)
+t_infos			get_file(void)
 {
 	t_infos	infos;
 	char	*line;

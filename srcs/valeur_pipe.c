@@ -46,7 +46,7 @@ int			add_link(t_infos *infos, int index_data, int index_pipe)
 	return (1);
 }
 
-int			free_rest_line(t_infos *infos)
+static int	free_rest_line(t_infos *infos)
 {
 	t_file	*tmp;
 

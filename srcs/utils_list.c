@@ -24,15 +24,6 @@ t_ants	*ft_lstdel_num_ant(t_ants **fa, int ant_to_del)
 	return (*fa);
 }
 
-void	ft_new_lst(t_ants **fa)
-{
-	t_ants *new_list;
-
-	if (!(new_list = ft_memalloc(sizeof(t_ants))))
-		return ;
-	fa = &new_list;
-}
-
 void	ft_lstadd_start(t_ants **fa, int num_a, int path, int room)
 {
 	t_ants *new_ant;

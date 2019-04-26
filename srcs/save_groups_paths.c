@@ -36,10 +36,10 @@ int			**ft_init_tmp(t_infos *inf, int **tmp, int n)
 		while (++j < inf->nb_of_box)
 			tmp[i][j] = inf->tp_final[i][j];
 	}
-	i = 0;
+	i = -1;
 	while (inf->t_p)
 	{
-		if (!(tmp = alloc_init_tmp(inf, tmp, i + n)))
+		if (!(tmp = alloc_init_tmp(inf, tmp, ++i + n)))
 			return (NULL);
 		j = -1;
 		while (++j < inf->nb_of_box)
@@ -47,26 +47,8 @@ int			**ft_init_tmp(t_infos *inf, int **tmp, int n)
 		if (!inf->t_p->next)
 			break ;
 		inf->t_p = inf->t_p->next;
-		i++;
 	}
 	return (tmp);
-}
-
-void		free_lst_tp(t_infos *infos)
-{
-	t_path	*tmp;
-
-	if (!infos->t_p)
-		return ;
-	while (infos->t_p->prev)
-		infos->t_p = infos->t_p->prev;
-	while (infos->t_p)
-	{
-		tmp = infos->t_p;
-		free(infos->t_p->tab);
-		infos->t_p = infos->t_p->next;
-		free(tmp);
-	}
 }
 
 int			**ft_put_t_p_to_tpfinal(t_infos *inf, int i, int n)
@@ -113,15 +95,6 @@ void		ft_norm_save_path(t_infos *inf, int *pathtmp, int *cr)
 		}
 	}
 	pathtmp[j] = inf->ind_end;
-}
-
-void		print_tab(int *tab, int len)
-{
-	int		i;
-
-	i = 0;
-	while (i < len)
-		ft_printf("%-5d ", tab[i++]);
 }
 
 int			ft_save_path(t_infos *inf, int k, int nb_path_found, int cr)

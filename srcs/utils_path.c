@@ -12,7 +12,24 @@
 
 #include "lem_in.h"
 
-t_path		*new_path(t_path *prev, t_path *next, int len, int *tab)
+void			free_lst_tp(t_infos *infos)
+{
+	t_path	*tmp;
+
+	if (!infos->t_p)
+		return ;
+	while (infos->t_p->prev)
+		infos->t_p = infos->t_p->prev;
+	while (infos->t_p)
+	{
+		tmp = infos->t_p;
+		free(infos->t_p->tab);
+		infos->t_p = infos->t_p->next;
+		free(tmp);
+	}
+}
+
+static t_path	*new_path(t_path *prev, t_path *next, int len, int *tab)
 {
 	t_path	*tmp;
 
@@ -25,7 +42,7 @@ t_path		*new_path(t_path *prev, t_path *next, int len, int *tab)
 	return (tmp);
 }
 
-t_path		*ft_init_lst_path(t_path *old, int len, int *tab)
+t_path			*ft_init_lst_path(t_path *old, int len, int *tab)
 {
 	t_path	*tmp;
 	t_path	*swap;

@@ -41,9 +41,9 @@ SRC =	srcs/main.c\
 		srcs/utils_edmonds.c\
 		srcs/utils_list.c\
 		srcs/utils_resolution.c\
+		srcs/utils_path.c\
 		srcs/valeur_data.c\
 		srcs/valeur_pipe.c\
-		srcs/utils_path.c\
 		srcs/weights.c
 
 SRC_BONUS = srcs_bonus/main_bonus.c\
@@ -84,6 +84,7 @@ SRC_BONUS = srcs_bonus/main_bonus.c\
 		srcs/utils.c\
 		srcs/utils_edmonds.c\
 		srcs/utils_list.c\
+		srcs/utils_path.c\
 		srcs/utils_resolution.c\
 		srcs/valeur_data.c\
 		srcs/valeur_pipe.c\
