@@ -17,7 +17,7 @@ void		ft_save_p_states(t_infos *inf)
 	int		i;
 
 	i = 0;
-	while (i < inf->nb_of_box && inf->l->path[i + 1] > -1)
+	while (i < inf->l->lenp - 1)
 	{
 		if (ft_pipe_state(inf, inf->l->path[i + 1], inf->l->path[i]))
 			ft_put_pipes_to_zero(inf, inf->l->path[i + 1], inf->l->path[i]);
@@ -42,22 +42,6 @@ int			ft_ed2(t_infos *inf, int i)
 			ft_save_p_states(inf);
 			inf->r = ft_save_path(inf, 0, 0, 0);
 			inf->nb_group_path = ft_max_int(inf->r, inf->nb_group_path);
-			// while (inf->t_p)
-			// {
-				// ft_printf("%p <- %p -> %p\n", inf->t_p->prev, inf->t_p, inf->t_p->next);
-				// print_tab(inf->t_p->tab, inf->t_p->len);
-				// ft_printf("\n");
-				// if (!inf->t_p->next)
-					// break ;
-				// inf->t_p = inf->t_p->next;
-			// }
-			// while (inf->t_p)
-			// {
-				// if (!inf->t_p->prev)
-					// break ;
-				// inf->t_p = inf->t_p->prev;
-			// }
-			// ft_printf("\n");
 			inf->tp_final = ft_put_t_p_to_tpfinal(inf, -1,
 				inf->tp_final_capacity);
 			return (inf->r);

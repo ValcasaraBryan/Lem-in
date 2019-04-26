@@ -20,6 +20,8 @@
 # define C commands
 # define NP n_piece
 # define I inf
+# define BUFFSIZE 100000
+# define PTOUSEMAX 300
 
 typedef struct			s_w
 {
@@ -48,6 +50,7 @@ typedef struct			s_graph
 	int					*path;
 	int					c_r;
 	int					climbe;
+	int 				lenp;
 	struct s_graph		*next;
 }						t_graph;
 /*
@@ -135,6 +138,10 @@ typedef struct			s_infos
 	int					r;
 	int					nb_group_path;
 	int					*tfp;
+	int 				count;
+	int					**altab_adress;
+	int					alnb;
+	int 				alp2use;
 }						t_infos;
 /*
 **          PARTIE PARSING
@@ -243,7 +250,7 @@ int						ft_update_tab_path_2(t_infos *infos, int **tmp,
 /*
 **          graph_utils.c
 */
-int						*ft_updated_path(t_infos *inf, int *old_p, int room);
+int						*ft_updated_path(t_infos *inf, int *old_p, int room, int lenp);
 int						ft_add_graph_end(t_infos *inf, t_graph **fg, int *old_p,
 						int room);
 void					ft_new_graph(t_graph **fg);

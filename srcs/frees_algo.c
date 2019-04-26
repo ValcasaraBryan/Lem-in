@@ -35,6 +35,8 @@ void	ft_free_all(t_infos *infos)
 	i = -1;
 	while (++i < infos->nb_of_box)
 		free(infos->data[i].p_state);
+//	ft_putendl("on free");
+	ft_free_tab_int(infos->altab_adress, PTOUSEMAX + 1);
 	ft_lstdel_all(&infos->first_ant);
 	ft_lstdel_all_graph(&infos->l);
 	ft_free_tab_int(infos->tp_final, infos->tp_final_capacity);

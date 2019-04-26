@@ -57,6 +57,7 @@ int		ft_algo(t_infos *inf)
 		ft_free_all(inf);
 		return (0);
 	}
+	ft_printf("nb de malloc = %d", inf->count);
 	ft_free_all(inf);
 	return (1);
 }

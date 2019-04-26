@@ -49,17 +49,23 @@ void		ft_free_utils_init_path(t_infos *inf)
 	int i;
 
 	i = 0;
+	//ft_putendl("on free la");
 	while (++i < inf->nb_of_box)
 		free(inf->data[i].p_state);
 	ft_free_tab_int(inf->tp_final, inf->tp_final_capacity);
 	ft_free_tab_int(inf->t_p_c, inf->nb_group_path);
+	ft_free_tab_int(inf->altab_adress, PTOUSEMAX);
 }
+
+void ft_init_monmalloc(t_infos *inf);
 
 int			ft_find_paths(t_infos *infos)
 {
 	int		ret;
 
 	ret = 0;
+
+	ft_init_monmalloc(infos);
 	if (!ft_put_weights(infos))
 		return (0);
 	if (!(infos->nb_path_max = ft_update_nb_path_max(infos)))
