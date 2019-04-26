@@ -26,9 +26,10 @@ int			len_tab_str(char **tab)
 {
 	int		i;
 
-	i = -1;
+	i = 0;
 	if (tab)
-		while (tab[++i]);
+		while (tab[i])
+			i++;
 	return (i);
 }
 
