@@ -12,6 +12,12 @@
 
 #include "lem_in.h"
 
+static int	free_tmp(char ***tmp, int retourn)
+{
+	free_tab_str(tmp);
+	return (retourn);
+}
+
 int			parsing_line(t_infos *infos, char *line, int etapes)
 {
 	char	**tmp;
@@ -32,13 +38,9 @@ int			parsing_line(t_infos *infos, char *line, int etapes)
 	&& ft_str_is_digit(tmp[2]))
 	{
 		if (tmp[0][0] == 'L')
-		{
-			free_tab_str(&tmp);
-			return (0);
-		}
+			return (free_tmp(&tmp, 0));
 		infos->nb_of_box++;
-		free_tab_str(&tmp);
-		return (1);
+		return (free_tmp(&tmp, 1));
 	}
 	return (parsing_pipe_line(infos, &tmp));
 }
