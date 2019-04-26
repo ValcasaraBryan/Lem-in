@@ -25,7 +25,6 @@ SRC =	srcs/main.c\
 		srcs/find_paths.c\
 		srcs/frees_algo.c\
 		srcs/ft_check_precedents.c\
-		srcs/ft_update_tab_path.c\
 		srcs/get_file.c\
 		srcs/graph_utils.c\
 		srcs/init_data.c\
@@ -69,7 +68,6 @@ SRC_BONUS = srcs_bonus/main_bonus.c\
 		srcs/find_paths.c\
 		srcs/frees_algo.c\
 		srcs/ft_check_precedents.c\
-		srcs/ft_update_tab_path.c\
 		srcs/get_file.c\
 		srcs/graph_utils.c\
 		srcs/init_data.c\
