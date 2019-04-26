@@ -115,7 +115,7 @@ void		ft_norm_save_path(t_infos *inf, int *pathtmp, int *cr)
 	pathtmp[j] = inf->ind_end;
 }
 
-void		print_tab(int	*tab, int len)
+void		print_tab(int *tab, int len)
 {
 	int		i;
 
@@ -141,7 +141,8 @@ int			ft_save_path(t_infos *inf, int k, int nb_path_found, int cr)
 		pathtmp[0] = inf->ind_start;
 		cr = inf->data[inf->ind_start].pipe[k]->NP;
 		ft_norm_save_path(inf, pathtmp, &cr);
-		inf->t_p = ft_init_lst_path(inf->t_p, ft_length_path(pathtmp, inf->nb_of_box), pathtmp);
+		inf->t_p = ft_init_lst_path(inf->t_p,
+			ft_length_path(pathtmp, inf->nb_of_box), pathtmp);
 		inf->tp_capacity++;
 		nb_path_found++;
 		k++;

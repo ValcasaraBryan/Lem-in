@@ -138,7 +138,6 @@ typedef struct			s_infos
 	int					r;
 	int					nb_group_path;
 	int					*tfp;
-	int 				count;
 	int					**altab_adress;
 	int					alnb;
 	int 				alp2use;
@@ -267,6 +266,13 @@ int						ft_next_room_is_free(t_infos *infos, int index_path,
 						int index_room);
 t_ants					*ft_move_ants2(t_infos *i, int room_free, t_ants *tmp);
 int						ft_move_ants(t_infos *i);
+
+
+/*
+**          monalloc.c
+*/
+int						ft_init_monmalloc(t_infos *inf);
+int						*monalloc(t_infos *inf, int lenp);
 /*
 **          resolution.c
 */

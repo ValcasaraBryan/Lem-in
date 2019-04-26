@@ -34,7 +34,6 @@ t_infos		init_val(void)
 	infos.r = 0;
 	infos.nb_group_path = 0;
 	infos.tfp = NULL;
-	infos.count = 0;
 	infos.altab_adress = NULL;
 	infos.alnb = 0;
 	infos.alp2use = 0;

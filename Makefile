@@ -34,6 +34,7 @@ SRC =	srcs/main.c\
 		srcs/list_chain.c\
 		srcs/logical_infos_box.c\
 		srcs/move_ants.c\
+		srcs/monalloc.c\
 		srcs/parsing.c\
 		srcs/resolution.c\
 		srcs/save_groups_paths.c\
@@ -77,6 +78,7 @@ SRC_BONUS = srcs_bonus/main_bonus.c\
 		srcs/list_chain.c\
 		srcs/logical_infos_box.c\
 		srcs/move_ants.c\
+		srcs/monalloc.c\
 		srcs/parsing.c\
 		srcs/resolution.c\
 		srcs/save_groups_paths.c\
