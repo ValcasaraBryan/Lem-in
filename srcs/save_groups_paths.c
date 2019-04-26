@@ -58,6 +58,8 @@ void		free_lst_tp(t_infos *infos)
 
 	if (!infos->t_p)
 		return ;
+	while (infos->t_p->prev)
+		infos->t_p = infos->t_p->prev;
 	while (infos->t_p)
 	{
 		tmp = infos->t_p;
@@ -79,6 +81,7 @@ int			**ft_put_t_p_to_tpfinal(t_infos *inf, int i, int n)
 	if (!(inf->t_p_c[inf->tp_capacity - 1] = (int*)malloc(sizeof(int)
 		* inf->tp_capacity)))
 	{
+		free_lst_tp(inf);
 		ft_free_tab_int(tmp, inf->tp_final_capacity);
 		ft_free_tab_int(inf->t_p_c, inf->tp_capacity - 1);
 		return (NULL);
@@ -86,7 +89,6 @@ int			**ft_put_t_p_to_tpfinal(t_infos *inf, int i, int n)
 	while (++i < inf->tp_capacity)
 		inf->t_p_c[inf->tp_capacity - 1][i] = n + i;
 	free_lst_tp(inf);
-	// ft_free_tab_int(inf->t_o, n)
 	ft_free_tab_int(inf->tp_final, n);
 	return (tmp);
 }
