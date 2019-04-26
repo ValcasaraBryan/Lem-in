@@ -43,6 +43,7 @@ SRC =	srcs/main.c\
 		srcs/utils_resolution.c\
 		srcs/valeur_data.c\
 		srcs/valeur_pipe.c\
+		srcs/utils_path.c\
 		srcs/weights.c
 
 SRC_BONUS = srcs_bonus/main_bonus.c\
