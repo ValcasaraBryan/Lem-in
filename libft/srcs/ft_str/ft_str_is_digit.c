@@ -20,7 +20,7 @@ int			ft_str_is_digit(char *str)
 		return (0);
 	i = -1;
 	while (str[++i])
-		if (!(ft_isdigit(str[i])) || str[i] != '+' || str[i] != '-')
+		if (!(ft_isdigit(str[i])) && str[i] != '+' && str[i] != '-')
 			return (0);
 	return (1);
 }
