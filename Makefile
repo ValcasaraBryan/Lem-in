@@ -143,8 +143,8 @@ exe_one : all $(NAME)
 	@time ./lem-in < $(arg)
 
 exe : all $(NAME)
-	# arg=error 93
-	# arg=correct 305
+	# arg=error (93)
+	# arg=correct (305)
 	@sh script.sh $(arg) $(arg_2)
 
 check : $(NAME_VERIF)
