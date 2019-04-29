@@ -144,6 +144,8 @@ exe_one : all $(NAME)
 
 exe : all $(NAME)
 	@sh script.sh $(arg) $(arg_2)
+	# arg=error 93
+	# arg=correct 305
 
 check : $(NAME_VERIF)
 	@./$(NAME_VERIF) $(arg) >> $(arg_2)
