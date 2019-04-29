@@ -49,6 +49,7 @@ int		ft_algo(t_infos *inf)
 	}
 	if (!ft_find_paths(inf))
 	{
+		ft_free_utils_init_path(inf);
 		erase_data(inf);
 		return (0);
 	}
