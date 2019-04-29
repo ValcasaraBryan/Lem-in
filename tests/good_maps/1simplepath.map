@@ -1,0 +1,12 @@
+2
+##start
+a 0 0
+##end
+e 0 0
+b 0 0
+c 0 0
+d 0 0
+a-b
+b-c
+c-d
+d-e

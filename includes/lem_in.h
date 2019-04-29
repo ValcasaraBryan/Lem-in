@@ -20,8 +20,9 @@
 # define C commands
 # define NP n_piece
 # define I inf
-# define BUFFSIZE 100000
-# define PTOUSEMAX 300
+# define BUFFSIZE	100000
+# define PTOUSEMAX	300
+# define MAX_INT	2147483647
 
 typedef struct			s_w
 {

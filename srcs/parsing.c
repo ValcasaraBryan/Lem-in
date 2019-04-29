@@ -102,8 +102,8 @@ int			add_pipe(t_infos *infos, t_file *file)
 				return (1);
 			if (!(tab = ft_strsplit(file->line, '-')))
 				return (0);
-			if (!tab[0] || !tab[1])
-				return (0);
+			if (len_tab_str(tab) != 2)
+				return (free_tmp(&tab, 0));
 			index_data = ft_find_str_in_tab(infos, tab[0]);
 			index_pipe = ft_find_str_in_tab(infos, tab[1]);
 			free_tab_str(&tab);

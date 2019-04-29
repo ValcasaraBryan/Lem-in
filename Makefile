@@ -144,13 +144,6 @@ exe_one : all $(NAME)
 
 exe : all $(NAME)
 	@sh script.sh $(arg) $(arg_2)
-	#time ./lem-in < big_superposition_14 > coucou && make check arg=coucou
-	#time ./lem-in < big_superposition_18 > coucou && make check arg=coucou
-	#time ./lem-in < big_superposition_20 > coucou && make check arg=coucou
-	#time ./lem-in < big_superposition_37 > coucou && make check arg=coucou
-	#time ./lem-in < big_superposition_39 > coucou && make check arg=coucou
-	#time ./lem-in < big_superposition_43 > coucou && make check arg=coucou
-	#time ./lem-in < big_superposition_49 > coucou && make check arg=coucou
 
 check : $(NAME_VERIF)
 	@./$(NAME_VERIF) $(arg) >> $(arg_2)

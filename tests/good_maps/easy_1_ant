@@ -1,0 +1,11 @@
+1
+##start
+a 2 3
+b 3 4
+k 8 8
+##end
+c 4 5
+a-b
+b-c
+c-a
+k-b
