@@ -76,6 +76,5 @@ int			ft_find_paths(t_infos *infos)
 			return (1);
 		ft_put_weights(infos);
 	}
-	ft_free_utils_init_path(infos);
 	return (0);
 }

@@ -21,7 +21,8 @@
 # define NP n_piece
 # define I inf
 # define BUFFSIZE 100000
-# define PTOUSEMAX 300
+# define PTOUSEMAX 50
+//# define PTOUSEMAX 300
 
 typedef struct			s_w
 {
