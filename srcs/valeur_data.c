@@ -52,11 +52,8 @@ int			valeur_data(t_infos *infos, int commande)
 	infos->data[i].n_piece = i;
 	infos->data[i].nb_of_link = 0;
 	infos->data[i].commands = commande;
-	if (len_tab_str(tmp) == 3)
-	{
-		infos->data[i].coor_x = (ft_atoll(tmp[1]) <= MAX_INT) ? ft_atoi(tmp[1]) : 0;
-		infos->data[i].coor_y = (ft_atoll(tmp[2]) <= MAX_INT) ? ft_atoi(tmp[2]) : 0;
-	}
+	infos->data[i].coor_x = ft_atoll(tmp[1]) <= MAX_INT ? ft_atoi(tmp[1]) : 0;
+	infos->data[i].coor_y = ft_atoll(tmp[2]) <= MAX_INT ? ft_atoi(tmp[2]) : 0;
 	free_tab_str(&tmp);
 	return (1);
 }

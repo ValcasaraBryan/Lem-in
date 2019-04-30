@@ -145,6 +145,8 @@ exe_one : all $(NAME)
 exe : all $(NAME)
 	# arg=error (93)
 	# arg=correct (305)
+	# arg=visu arg_2=correct (63)
+	# arg=visu arg_2=error (92)
 	@sh script.sh $(arg) $(arg_2)
 
 check : $(NAME_VERIF)
