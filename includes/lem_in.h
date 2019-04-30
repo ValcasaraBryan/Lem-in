@@ -220,6 +220,7 @@ int						ft_ed(t_infos *inf, int i, int *tmp);
 int						ft_update_nb_path_max(t_infos *inf);
 int						ft_alloue_p_states(t_infos *inf);
 void					ft_free_utils_init_path(t_infos *inf);
+int						ft_ed_norm(t_infos *inf, int *tmp);
 int						ft_find_paths(t_infos *infos);
 /*
 **          frees_algo.c
@@ -281,6 +282,7 @@ int						ft_min_int(int a, int b);
 int						ft_max_int(int a, int b);
 int						*ft_alloc_tab_int(int n, int val_initial);
 int						ft_length_path(int *tab, int n);
+int						ft_str_max_int(char *str);
 /*
 **          utils_edmonds.c
 */

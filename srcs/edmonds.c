@@ -47,9 +47,11 @@ int			ft_ed2(t_infos *inf, int i)
 			return (inf->r);
 		}
 		else
+		{
 			if (!(ft_add_graph_end(inf, &inf->l, inf->l->path,
-					inf->data[inf->data[inf->l->c_r].pipe[i]->n_piece].n_piece)))
+			inf->data[inf->data[inf->l->c_r].pipe[i]->n_piece].n_piece)))
 				return (-1);
+		}
 	}
 	return (0);
 }
@@ -85,14 +87,8 @@ int			ft_return_ed(int val, int nb_path_max)
 
 int			ft_ed(t_infos *inf, int i, int *tmp)
 {
-	if (!(tmp = ft_alloc_tab_int(inf->nb_of_box, -1)))
+	if (!ft_ed_norm(inf, tmp))
 		return (-1);
-	if (!(ft_add_graph_end(inf, &inf->l, tmp, inf->ind_start)))
-	{
-		free(tmp);
-		return (-1);
-	}
-	free(tmp);
 	while (*(&inf->l))
 	{
 		i = -1;

@@ -53,3 +53,16 @@ int			ft_length_path(int *tab, int n)
 		i++;
 	return (i);
 }
+
+int			ft_str_max_int(char *str)
+{
+	long long	s;
+
+	if (!str)
+		return (0);
+	s = ft_atoll(str);
+	if (s > 0 && s <= MAX_INT)
+		return (1);
+	else
+		return (0);
+}

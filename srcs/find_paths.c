@@ -56,6 +56,19 @@ void		ft_free_utils_init_path(t_infos *inf)
 	ft_free_tab_int(inf->altab_adress, PTOUSEMAX);
 }
 
+int			ft_ed_norm(t_infos *inf, int *tmp)
+{
+	if (!(tmp = ft_alloc_tab_int(inf->nb_of_box, -1)))
+		return (0);
+	if (!(ft_add_graph_end(inf, &inf->l, tmp, inf->ind_start)))
+	{
+		free(tmp);
+		return (0);
+	}
+	free(tmp);
+	return (1);
+}
+
 int			ft_find_paths(t_infos *infos)
 {
 	int		ret;
