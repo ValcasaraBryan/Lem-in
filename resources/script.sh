@@ -152,7 +152,7 @@ then
 		$leak ./lem-in < resources/correct/correct_genc_5 2>> $lem_in_correct | ./visu 2>> $visu_correct
 		ma_fonction
 	else [ "$2" = "error" ]
-		$leak ./lem-in < resources/error/impossible.txt 2>$lem_in_error | $leak ./visu 2>> $visu_error
+		$leak ./lem-in < resources/error/impossible.txt 2>$lem_in_error | $leak ./visu 2> $visu_error
 		$leak ./lem-in < resources/error/err_no_path.map 2>> $lem_in_error | $leak ./visu 2>> $visu_error
 		$leak ./lem-in < resources/error/map_offi_no_way 2>> $lem_in_error | $leak ./visu 2>> $visu_error
 		$leak ./lem-in < resources/error/new_map 2>> $lem_in_error | $leak ./visu 2>> $visu_error

@@ -146,8 +146,8 @@ exe : all $(NAME)
 	# arg=error (93)
 	# arg=correct (305)
 	# arg=visu arg_2=correct (63)
-	# arg=visu arg_2=error (92)
-	@sh script.sh $(arg) $(arg_2)
+	# arg=visu arg_2=error (93)
+	@sh resources/script.sh $(arg) $(arg_2)
 
 check : $(NAME_VERIF)
 	@./$(NAME_VERIF) $(arg) >> $(arg_2)
@@ -166,9 +166,6 @@ cat :
 	cat resources/sortie_error_visu_error | grep "definitely lost:" | more
 	cat resources/sortie_error_visu_error | grep "indirectly lost:" | more
 	cat resources/sortie_error_visu_error | grep "possibly lost:" | more
-
-map :
-	./resources/map_edit $(arg) $(arg_2) resources/$(arg_3)
 
 clean :
 	@rm -f $(OBJET) $(OBJET_BONUS) $(OBJET_VERIF)
