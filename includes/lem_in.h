@@ -6,7 +6,7 @@
 /*   By: brvalcas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 18:08:40 by brvalcas          #+#    #+#             */
-/*   Updated: 2019/01/21 18:08:41 by brvalcas         ###   ########.fr       */
+/*   Updated: 2019/04/30 17:27:15 by glebouch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # define NP n_piece
 # define I inf
 # define BUFFSIZE	100000
-# define PTOUSEMAX	300
+# define PTOUSEMAX	50
 # define MAX_INT	2147483647
 
 typedef struct			s_w
@@ -211,7 +211,7 @@ int						ft_algo(t_infos *infos);
 */
 void					ft_save_p_states(t_infos *inf);
 int						ft_ed2(t_infos *inf, int i);
-void					ft_ed2_special(t_infos *inf, int r_to_go);
+int						ft_ed2_special(t_infos *inf, int r_to_go);
 int						ft_return_ed(int val, int nb_path_max);
 int						ft_ed(t_infos *inf, int i, int *tmp);
 /*

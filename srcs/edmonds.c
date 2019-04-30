@@ -47,13 +47,14 @@ int			ft_ed2(t_infos *inf, int i)
 			return (inf->r);
 		}
 		else
-			ft_add_graph_end(inf, &inf->l, inf->l->path,
-					inf->data[inf->data[inf->l->c_r].pipe[i]->n_piece].n_piece);
+			if (!(ft_add_graph_end(inf, &inf->l, inf->l->path,
+					inf->data[inf->data[inf->l->c_r].pipe[i]->n_piece].n_piece)))
+				return (-1);
 	}
 	return (0);
 }
 
-void		ft_ed2_special(t_infos *inf, int r_to_go)
+int			ft_ed2_special(t_infos *inf, int r_to_go)
 {
 	t_graph	*tmp;
 
@@ -61,11 +62,13 @@ void		ft_ed2_special(t_infos *inf, int r_to_go)
 	if (ft_check_precedents(inf, inf->l->path, r_to_go)
 			&& inf->data[r_to_go].W)
 	{
-		ft_add_graph_end(inf, &inf->l, inf->l->path, r_to_go);
+		if (!(ft_add_graph_end(inf, &inf->l, inf->l->path, r_to_go)))
+			return (0);
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->climbe = 0;
 	}
+	return (1);
 }
 
 int			ft_return_ed(int val, int nb_path_max)
@@ -84,14 +87,21 @@ int			ft_ed(t_infos *inf, int i, int *tmp)
 {
 	if (!(tmp = ft_alloc_tab_int(inf->nb_of_box, -1)))
 		return (-1);
-	ft_add_graph_end(inf, &inf->l, tmp, inf->ind_start);
+	if (!(ft_add_graph_end(inf, &inf->l, tmp, inf->ind_start)))
+	{
+		free(tmp);
+		return (-1);
+	}
 	free(tmp);
 	while (*(&inf->l))
 	{
 		i = -1;
 		if ((inf->r = ft_is_room_on_a_path(inf, inf->l->c_r)) >= 0
 			&& inf->l->climbe)
-			ft_ed2_special(inf, inf->r);
+		{
+			if (!(ft_ed2_special(inf, inf->r)))
+				return (0);
+		}
 		else
 		{
 			inf->data[inf->l->c_r].weight = 0;

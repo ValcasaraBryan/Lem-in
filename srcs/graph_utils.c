@@ -39,6 +39,7 @@ int		ft_add_graph_end(t_infos *inf, t_graph **fg, int *old_p, int room)
 		new_p->lenp = 1;
 	else
 		new_p->lenp = inf->l->lenp + 1;
+
 	if (!(new_p->path = ft_updated_path(inf, old_p, room, new_p->lenp)))
 	{
 		free(new_p);

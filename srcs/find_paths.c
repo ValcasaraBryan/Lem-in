@@ -76,5 +76,7 @@ int			ft_find_paths(t_infos *infos)
 			return (1);
 		ft_put_weights(infos);
 	}
+	if (ret == 0)
+		ft_lstdel_all_graph(&infos->l);
 	return (0);
 }

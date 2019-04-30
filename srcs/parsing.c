@@ -26,7 +26,7 @@ int			parsing_line(t_infos *infos, char *line, int etapes)
 	if (!line)
 		return (0);
 	if (etapes == 0 && line[0] != '#')
-		return ((ft_str_is_digit(line) && ft_atoi(line) > 0) <= 0 ? 0 : 1);
+		return ((ft_str_is_digit(line) && ft_atoi(line) > 0) <= 0 && ft_atoll(line) <= MAX_INT ? 0 : 1);
 	if (ft_strcmp(line, "##start") == 0 || ft_strcmp(line, "##end") == 0)
 		return (1);
 	if (line[0] == '#')
