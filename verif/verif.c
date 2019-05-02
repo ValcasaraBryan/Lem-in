@@ -77,6 +77,20 @@ typedef struct		s_infos
 #define	ERROR_ANTS_TOO_MOVE	1
 #define	ERROR_BOX			2
 
+static int	ft_str_is_digit_two(char *str)
+{
+	int		i;
+
+	if (!str)
+		return (0);
+	i = -1;
+	while (str[++i])
+		if (!(ft_isdigit(str[i])))
+			return (0);
+	return (1);
+}
+
+
 t_file		*new_file(char *line, int n_line)
 {
 	t_file	*tmp;
@@ -410,7 +424,7 @@ int			format(char *line, t_infos *infos)
 			return (-1);
 		if (len_tab_str(pipe) == 2)
 			add_pipe(infos, ft_strdup(pipe[0]), ft_strdup(pipe[1]));
-		else if (len_tab_str(pipe) == 1 && ft_str_is_digit(tab[0]))
+		else if (len_tab_str(pipe) == 1 && ft_str_is_digit_two(tab[0]))
 			return (1);
 		else
 			return (0);
@@ -432,7 +446,7 @@ int			add_val_data(char *line, t_infos *infos)
 		return (-1);
 	if (len_tab_str(tab) == 1 && tab[0][0] != 'L')
 	{
-		if (tab && ft_str_is_digit(tab[0]))
+		if (tab && ft_str_is_digit_two(tab[0]))
 		{
 			infos->nb_of_fourmis = ft_atoi(tab[0]);
 			return (1);
