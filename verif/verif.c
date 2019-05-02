@@ -720,9 +720,9 @@ int		main(int argc, char **argv)
 			return (0);
 		}
 		if (!(ft_check(fd)))
-			ft_printf("\nFiles is not correct\n");
+			ft_printf("\nFiles is not correct\n-----------------------------------\n");
 		else
-			ft_printf("\nFiles is correct\n");
+			ft_printf("\nFiles is correct\n-----------------------------------\n");
 	}
 	return (0);
 }
