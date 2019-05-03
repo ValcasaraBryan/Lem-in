@@ -48,6 +48,29 @@ static t_infos	returne(t_infos *infos, char **line)
 	return (*infos);
 }
 
+static int		check_ants(char *line)
+{
+	char	**tmp;
+
+	if (!(tmp = ft_strsplit(line, ' ')))
+		return (0);
+	if (len_tab_str(tmp) > 1)
+	{
+		free_tab_str(&tmp);
+		return (0);
+	}
+	free_tab_str(&tmp);
+	if (!(tmp = ft_strsplit(line, '-')))
+		return (0);
+	if (len_tab_str(tmp) > 1)
+	{
+		free_tab_str(&tmp);
+		return (0);
+	}
+	free_tab_str(&tmp);
+	return (1);
+}
+
 t_infos			get_file(void)
 {
 	t_infos	infos;
@@ -61,14 +84,14 @@ t_infos			get_file(void)
 	{
 		if (!(parsing_line(&infos, line, etapes)))
 			return (returne(&infos, &line));
-		if (etapes == 0 && line[0] != '#')
+		if (etapes == 0 && line && line[0] != '#' && check_ants(line))
 		{
 			infos.nb_of_fourmis = ft_atoi(line);
-			if (infos.nb_of_fourmis <= 0)
-				return (returne(&infos, &line));
 			etapes++;
 		}
 		infos.file = add_file(infos.file, line);
 	}
+	if (infos.nb_of_fourmis <= 0)
+		return (returne(&infos, &line));
 	return (infos);
 }

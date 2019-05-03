@@ -47,7 +47,10 @@ int			valeur_data(t_infos *infos, int commande)
 	if (!(tmp = ft_strsplit(infos->file->line, ' ')))
 		return (0);
 	if (len_tab_str(tmp) != 3)
+	{
+		free_tab_str(&tmp);
 		return (0);
+	}
 	infos->data[i].name_box = ft_strdup(tmp[0]);
 	infos->data[i].n_piece = i;
 	infos->data[i].nb_of_link = 0;
