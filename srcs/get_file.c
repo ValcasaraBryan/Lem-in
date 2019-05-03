@@ -40,6 +40,14 @@ static t_infos	init_val(void)
 	return (infos);
 }
 
+static t_infos	returne(t_infos *infos, char **line)
+{
+	free_line(line);
+	get_next_line(0, NULL);
+	erase_infos(infos);
+	return (*infos);
+}
+
 t_infos			get_file(void)
 {
 	t_infos	infos;
@@ -52,15 +60,12 @@ t_infos			get_file(void)
 	while (get_next_line(0, &line) > 0)
 	{
 		if (!(parsing_line(&infos, line, etapes)))
-		{
-			free_line(&line);
-			get_next_line(0, NULL);
-			erase_infos(&infos);
-			break ;
-		}
+			return (returne(&infos, &line));
 		if (etapes == 0 && line[0] != '#')
 		{
 			infos.nb_of_fourmis = ft_atoi(line);
+			if (infos.nb_of_fourmis <= 0)
+				return (returne(&infos, &line));
 			etapes++;
 		}
 		infos.file = add_file(infos.file, line);
