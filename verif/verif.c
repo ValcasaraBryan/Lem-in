@@ -716,13 +716,13 @@ int		main(int argc, char **argv)
 	{
 		if ((fd = open(argv[argc - 1], O_RDONLY)) == -1)
 		{
-			ft_printf("Files does'nt exist\n");
+			ft_printf("File does'nt exist\n");
 			return (0);
 		}
 		if (!(ft_check(fd)))
-			ft_printf("\nFiles is not correct\n-----------------------------------\n");
+			ft_printf("\nFile is not correct\n-----------------------------------\n");
 		else
-			ft_printf("\nFiles is correct\n-----------------------------------\n");
+			ft_printf("\nFile is correct\n-----------------------------------\n");
 	}
 	return (0);
 }
