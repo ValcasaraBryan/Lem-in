@@ -16,12 +16,12 @@
 # include "../libft/includes/libft.h"
 # include "../libft/includes/get_next_line.h"
 # include "../libft/includes/ft_printf.h"
-# define W weight
-# define C commands
-# define NP n_piece
-# define I inf
+# define W			weight
+# define C			commands
+# define NP			n_piece
+# define I			inf
 # define BUFFSIZE	100000
-# define PTOUSEMAX	50
+# define PTOUSEMAX	150
 # define MAX_INT	2147483647
 
 typedef struct			s_w
@@ -154,8 +154,7 @@ int						skip_commentaire(t_infos *infos, t_file *head);
 int						init_check_order(t_infos *infos, int check_order);
 int						step_check(t_infos *infos, t_file *head,
 						int check_order, int commande);
-int						check_file(t_infos *infos, int commande,
-						int check_order);
+int						check_file(t_infos *inf, int commande, int c);
 /*
 **          get_file.c
 */
