@@ -14,28 +14,37 @@ NAME = lem-in
 
 NAME_BONUS = visu
 
+NAME_VERIF = verif/check_result
+
 SRC =	srcs/main.c\
 		srcs/affichage.c\
 		srcs/algo.c\
-		srcs/choose_path.c\
-		srcs/ft_search_path.c\
-		srcs/ft_check_precedents.c\
-		srcs/graph_utils.c\
-		srcs/frees_algo.c\
-		srcs/utils_algo.c\
 		srcs/check_commandes.c\
 		srcs/check_file.c\
+		srcs/edmonds.c\
+		srcs/find_paths.c\
+		srcs/frees_algo.c\
+		srcs/ft_check_precedents.c\
 		srcs/get_file.c\
+		srcs/graph_utils.c\
 		srcs/init_data.c\
+		srcs/init_struct.c\
 		srcs/liberation.c\
 		srcs/list_chain.c\
 		srcs/logical_infos_box.c\
+		srcs/move_ants.c\
+		srcs/monalloc.c\
 		srcs/parsing.c\
+		srcs/resolution.c\
+		srcs/save_groups_paths.c\
+		srcs/utils.c\
+		srcs/utils_edmonds.c\
+		srcs/utils_list.c\
+		srcs/utils_resolution.c\
+		srcs/utils_path.c\
 		srcs/valeur_data.c\
 		srcs/valeur_pipe.c\
-		srcs/resolution.c\
-		srcs/move_ants.c\
-		srcs/list_utils.c
+		srcs/weights.c
 
 SRC_BONUS = srcs_bonus/main_bonus.c\
 			srcs_bonus/liberation_bonus.c\
@@ -54,25 +63,34 @@ SRC_BONUS = srcs_bonus/main_bonus.c\
 			srcs_bonus/fct_key_hook.c\
 		srcs/affichage.c\
 		srcs/algo.c\
-		srcs/choose_path.c\
-		srcs/graph_utils.c\
-		srcs/ft_search_path.c\
-		srcs/ft_check_precedents.c\
-		srcs/frees_algo.c\
-		srcs/utils_algo.c\
 		srcs/check_commandes.c\
 		srcs/check_file.c\
+		srcs/edmonds.c\
+		srcs/find_paths.c\
+		srcs/frees_algo.c\
+		srcs/ft_check_precedents.c\
 		srcs/get_file.c\
+		srcs/graph_utils.c\
 		srcs/init_data.c\
+		srcs/init_struct.c\
 		srcs/liberation.c\
 		srcs/list_chain.c\
 		srcs/logical_infos_box.c\
+		srcs/move_ants.c\
+		srcs/monalloc.c\
 		srcs/parsing.c\
+		srcs/resolution.c\
+		srcs/save_groups_paths.c\
+		srcs/utils.c\
+		srcs/utils_edmonds.c\
+		srcs/utils_list.c\
+		srcs/utils_path.c\
+		srcs/utils_resolution.c\
 		srcs/valeur_data.c\
 		srcs/valeur_pipe.c\
-		srcs/resolution.c\
-		srcs/move_ants.c\
-		srcs/list_utils.c
+		srcs/weights.c
+
+SRC_VERIF = verif/verif.c
 
 LIB = libft/libft.a
 
@@ -80,13 +98,15 @@ OBJET = $(SRC:.c=.o)
 
 OBJET_BONUS = $(SRC_BONUS:.c=.o)
 
+OBJET_VERIF = $(SRC_VERIF:.c=.o)
+
 INCLUDES = includes
 
-CFLAGS = -Wall -Wextra -Werror -I $(INCLUDES)# -g3 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -I $(INCLUDES)# -fsanitize=address
 
 CC = gcc
 
-leak= valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all# --show-leak-kinds=definite
+leak = valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all# --show-leak-kinds=definite
 
 arg = 0
 arg_2 = 0
@@ -104,47 +124,55 @@ all :
 	@make -C libft
 	@make $(NAME)
 	@make $(NAME_BONUS)
+	@make $(NAME_VERIF)
 
 $(OBJET) : includes/lem_in.h
 $(OBJET_BONUS) : includes/visu.h
 
-$(NAME) : $(LIB) $(OBJET)
+$(NAME) : $(LIB) $(OBJET) Makefile
 	@$(CC) $(CFLAGS) $(LIB) $(OBJET) -o $@
 
-$(NAME_BONUS) : $(LIB) $(OBJET_BONUS)
-	@ $(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS) -lmlx -framework OpenGL -framework AppKit -o $@
+$(NAME_BONUS) : $(LIB) $(OBJET_BONUS) Makefile
+	@$(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS) -lmlx -framework OpenGL -framework AppKit -o $@
 	@# $(CC) $(CFLAGS) $(LIB) $(OBJET_BONUS)  /usr/X11/lib/libmlx.a -framework OpenGL -framework AppKit -o $@
 
-exe_one : $(NAME)
-	./lem-in < resources/correct/2.map
+$(NAME_VERIF) : $(LIB) $(OBJET_VERIF) Makefile
+	@$(CC) $(CFLAGS) $(LIB) $(OBJET_VERIF) -o $@
 
-exe : $(NAME)
-	sh script.sh $(arg) $(arg_2)
+exe_one : all $(NAME)
+	@time ./lem-in < $(arg)
+
+exe : all $(NAME)
+	# arg=error (93)
+	# arg=correct (305)
+	# arg=visu arg_2=correct (63)
+	# arg=visu arg_2=error (93)
+	@sh resources/script.sh $(arg) $(arg_2)
+
+check : $(NAME_VERIF)
+	@./$(NAME_VERIF) $(arg) >> $(arg_2)
 
 cat :
-	cat resources/sortie_error_lem-in_correct | grep "definitely lost:" | more
-	cat resources/sortie_error_lem-in_correct | grep "indirectly lost:" | more
-	cat resources/sortie_error_lem-in_correct | grep "possibly lost:" | more
+	cat resources/sortie_error_lem_in_correct | grep "definitely lost:" | more
+	cat resources/sortie_error_lem_in_correct | grep "indirectly lost:" | more
+	cat resources/sortie_error_lem_in_correct | grep "possibly lost:" | more
 
-	cat resources/sortie_error_lem-in_error | grep "ERROR" | more
-	cat resources/sortie_error_lem-in_error | grep "definitely lost:" | more
-	cat resources/sortie_error_lem-in_error | grep "indirectly lost:" | more
-	cat resources/sortie_error_lem-in_error | grep "possibly lost:" | more
+	cat resources/sortie_error_lem_in_error | grep "ERROR" | more
+	cat resources/sortie_error_lem_in_error | grep "definitely lost:" | more
+	cat resources/sortie_error_lem_in_error | grep "indirectly lost:" | more
+	cat resources/sortie_error_lem_in_error | grep "possibly lost:" | more
 	
 	cat resources/sortie_error_visu_error | grep "Wrong Data " | more
 	cat resources/sortie_error_visu_error | grep "definitely lost:" | more
 	cat resources/sortie_error_visu_error | grep "indirectly lost:" | more
 	cat resources/sortie_error_visu_error | grep "possibly lost:" | more
 
-map :
-	./resources/map_edit $(arg) $(arg_2) resources/$(arg_3)
-
 clean :
-	@rm -f $(OBJET) $(OBJET_BONUS)
+	@rm -f $(OBJET) $(OBJET_BONUS) $(OBJET_VERIF)
 	@make clean -C libft
 
 fclean : clean
-	@rm -f $(NAME) $(NAME_BONUS)
+	@rm -f $(NAME) $(NAME_BONUS) $(NAME_VERIF)
 	@make fclean -C libft
 
 re : fclean all

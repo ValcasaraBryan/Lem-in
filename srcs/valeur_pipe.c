@@ -46,7 +46,7 @@ int			add_link(t_infos *infos, int index_data, int index_pipe)
 	return (1);
 }
 
-int			free_rest_line(t_infos *infos)
+static int	free_rest_line(t_infos *infos)
 {
 	t_file	*tmp;
 
@@ -74,7 +74,7 @@ int			valeur_pipe(t_infos *infos)
 		return (0);
 	if (!(tab = ft_strsplit(infos->file->line, '-')))
 		return (0);
-	if (!tab[0] || !tab[1] || ft_strcmp(tab[0], tab[1]) == 0)
+	if (len_tab_str(tab) != 2 || ft_strcmp(tab[0], tab[1]) == 0)
 		return (norm_valeur_pipe(&tab, 0));
 	index_data = ft_find_str_in_tab(infos, tab[0]);
 	index_pipe = ft_find_str_in_tab(infos, tab[1]);

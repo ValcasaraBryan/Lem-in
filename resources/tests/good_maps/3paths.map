@@ -1,0 +1,26 @@
+5
+##start
+start 0 0
+##end
+end 0 0
+short0 0 0
+long0 0 0
+long1 0 0
+long2 0 0
+long3 0 0
+long4 0 0
+long5 0 0
+med0 0 0
+med1 0 0
+start-short0
+short0-end
+start-long0
+long0-long1
+long1-long2
+long2-long3
+long3-long4
+long4-long5
+long5-end
+start-med0
+med0-med1
+med1-end

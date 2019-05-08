@@ -1,6 +1,25 @@
-1
+42
 ##start
 sale1 1 2
 ##end
 sale2 3 4
-sale1-sale2
+sale3 5 4
+sale4 6 2
+sale5 9 2
+sale6 3 2
+#sale7 7 4
+#sale8 8 4
+#sale9 9 4
+#sale10 10 4
+#sale7-sale1
+#sale8-sale7
+#sale8-sale9
+#sale9-sale10
+#sale10-sale2
+sale5-sale6
+sale1-sale5
+sale6-sale2
+sale1-sale3
+sale1-sale4
+sale4-sale2
+sale3-sale2

@@ -12,6 +12,12 @@
 
 #include "lem_in.h"
 
+static int	free_tmp(char ***tmp, int retourn)
+{
+	free_tab_str(tmp);
+	return (retourn);
+}
+
 int			parsing_line(t_infos *infos, char *line, int etapes)
 {
 	char	**tmp;
@@ -20,22 +26,21 @@ int			parsing_line(t_infos *infos, char *line, int etapes)
 	if (!line)
 		return (0);
 	if (etapes == 0 && line[0] != '#')
-		return ((ft_str_is_digit(line) && ft_atoi(line) > 0) <= 0 ? 0 : 1);
+		return (ft_str_is_digit(line) && !ft_str_max_int(line) ? 0 : 1);
 	if (ft_strcmp(line, "##start") == 0 || ft_strcmp(line, "##end") == 0)
 		return (1);
 	if (line[0] == '#')
 		return (1);
 	if (!(tmp = ft_strsplit(line, ' ')))
 		return (0);
-	if (tmp[0] && tmp[1] && tmp[2] && !tmp[3]
+	if (len_tab_str(tmp) == 3
 	&& ft_str_is_digit(tmp[1])
 	&& ft_str_is_digit(tmp[2]))
 	{
 		if (tmp[0][0] == 'L')
-			return (0);
+			return (free_tmp(&tmp, 0));
 		infos->nb_of_box++;
-		free_tab_str(&tmp);
-		return (1);
+		return (free_tmp(&tmp, 1));
 	}
 	return (parsing_pipe_line(infos, &tmp));
 }
@@ -69,7 +74,7 @@ int			parsing_pipe_line(t_infos *infos, char ***tab)
 			free_tab_str(tab);
 			return (0);
 		}
-		if (pipe[0] && pipe[1] && !pipe[2])
+		if (len_tab_str(pipe) != 3)
 		{
 			infos->nb_of_pipe++;
 			free_tab_str(tab);
@@ -97,8 +102,8 @@ int			add_pipe(t_infos *infos, t_file *file)
 				return (1);
 			if (!(tab = ft_strsplit(file->line, '-')))
 				return (0);
-			if (!tab[0] || !tab[1])
-				return (0);
+			if (len_tab_str(tab) != 2)
+				return (free_tmp(&tab, 0));
 			index_data = ft_find_str_in_tab(infos, tab[0]);
 			index_pipe = ft_find_str_in_tab(infos, tab[1]);
 			free_tab_str(&tab);

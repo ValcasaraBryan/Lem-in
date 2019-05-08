@@ -17,7 +17,7 @@ int		ft_check_precedents(t_infos *infos, int *tab_path_n_piece, int n)
 	int i;
 
 	i = 0;
-	while (i < infos->nb_of_box)
+	while (i < infos->l->lenp)
 	{
 		if (tab_path_n_piece[i] == n)
 			return (0);

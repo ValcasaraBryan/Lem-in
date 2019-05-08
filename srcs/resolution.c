@@ -12,73 +12,17 @@
 
 #include "lem_in.h"
 
-/*
-** t_p_t = tab_path_turn, t = infos
-*/
-
-int		ft_fill_tab_path_turn_i(t_infos *t, int n, int **t_p_t, int nb_turn_max)
+int		ft_create_ants(t_infos *i, int nbr_p)
 {
-	int i;
-	int j;
-	int to_add;
-
-	i = -1;
-	j = 0;
-	to_add = 0;
-	while (++i < nb_turn_max)
-	{
-		j = 0;
-		while (j < n + 1)
-		{
-			if (ft_length_path(t->t_p[t->t_p_c[n][j]],
-						t->nb_of_box) - 1 == i + 1)
-				to_add++;
-			j++;
-		}
-		t_p_t[n][i] = (i > 0) ? t_p_t[n][i - 1] + to_add : to_add;
-	}
-	return (1);
-}
-
-/*
-**	nb_gp = nombre de groupes qu'on a pu former de 0 a n chemins possibles
-**	tgt = tableau qui contient le nb de fourmis arrivées en fonction du
-**			groupe de path et du tour
-*/
-
-int		ft_find_group(t_infos *infos, int **tgt, int nb_gp, int nb_turn_max)
-{
-	int i;
-	int j;
-
-	i = 0;
-	j = 0;
-	if (nb_gp == 1)
-		return (0);
-	while (i < nb_turn_max)
-	{
-		j = 0;
-		while (j < nb_gp)
-		{
-			if (infos->nb_f_left + 1 <= tgt[j][i])
-				return (j);
-			j++;
-		}
-		i++;
-	}
-	return (-1);
-}
-
-int		ft_create_ants(t_infos *i, int nb_ants_to_create)
-{
-	int j;
+	int		j;
 
 	j = -1;
-	while (++j < nb_ants_to_create)
+	while (++j < nbr_p && i->tfp[j] > 0)
 	{
 		if (!ft_lstadd_end(&i->first_ant, i->nb_of_fourmis - i->nb_f_left,
-					i->t_p_c[nb_ants_to_create - 1][j], 0))
+					i->t_p_c[nbr_p - 1][j], 0))
 			return (0);
+		i->tfp[j]--;
 		i->nb_f_left--;
 	}
 	return (1);
@@ -96,40 +40,37 @@ int		ft_create_ants(t_infos *i, int nb_ants_to_create)
 
 int		ft_resolve2(t_infos *inf, t_r *res, int **tgt, int nb_gp)
 {
-	int i;
+	int		i;
 
 	i = -1;
 	while (++i < nb_gp)
 		ft_fill_tab_path_turn_i(inf, i, tgt, res->nb_turn_max);
 	res->num_g = ft_find_group(inf, tgt, nb_gp, res->nb_turn_max);
+	ft_free_tab_int(tgt, nb_gp);
 	if (res->num_g < 0)
 		return (-1);
-	if (!ft_create_ants(inf, res->num_g + 1))
+	if (!ft_nb_ants_per_path_in_group_path(inf, inf->t_p_c[res->num_g],
+		res->num_g + 1))
 		return (-1);
+	if (!ft_create_ants(inf, res->num_g + 1))
+		return (0);
 	ft_put_list(inf->file);
 	while (ft_move_ants(inf))
 	{
 		if (inf->nb_f_left >= 0)
-		{
-			res->num_g = ft_find_group(inf, tgt, \
-					nb_gp, res->nb_turn_max);
-			if (res->num_g < 0)
-				return (-1);
 			if (!ft_create_ants(inf, res->num_g + 1))
-				return (-1);
-		}
+				return (0);
 	}
-	ft_free_tab_int(tgt, nb_gp);
-	return (0);
+	return (1);
 }
 
 int		ft_resolve(t_infos *inf, int nb_gp)
 {
-	int **tgt;
-	int i;
-	t_r res;
+	int		**tgt;
+	int		i;
+	t_r		res;
 
-	res.nb_turn_max = ft_length_path(inf->t_p[1], inf->nb_of_box)
+	res.nb_turn_max = ft_length_path(inf->tp_final[0], inf->nb_of_box)
 					- 2 + inf->nb_of_fourmis;
 	i = -1;
 	inf->nb_f_left = inf->nb_of_fourmis - 1;
@@ -141,10 +82,12 @@ int		ft_resolve(t_infos *inf, int nb_gp)
 			ft_free_tab_int(tgt, i);
 			return (0);
 		}
-	if (ft_resolve2(inf, &res, tgt, nb_gp) < 0)
+	if ((inf->r = ft_resolve2(inf, &res, tgt, nb_gp)) <= 0)
 	{
-		ft_free_tab_int(tgt, nb_gp);
-		return (-1);
+		if (inf->r == 0)
+			free(inf->tfp);
+		return (0);
 	}
+	free(inf->tfp);
 	return (1);
 }

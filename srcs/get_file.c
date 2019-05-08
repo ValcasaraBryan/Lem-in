@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-t_infos		init_val(void)
+static t_infos	init_val(void)
 {
 	t_infos	infos;
 
@@ -24,14 +24,54 @@ t_infos		init_val(void)
 	infos.nb_f_left = 0;
 	infos.nb_path_max = 0;
 	infos.t_p = NULL;
+	infos.tp_final = NULL;
+	infos.tp_final_capacity = 0;
 	infos.t_p_c = NULL;
 	infos.first_ant = NULL;
 	infos.l = NULL;
-	infos.jpp = 0;
+	infos.ind_start = -1;
+	infos.ind_end = -1;
+	infos.r = 0;
+	infos.nb_group_path = 0;
+	infos.tfp = NULL;
+	infos.altab_adress = NULL;
+	infos.alnb = 0;
+	infos.alp2use = 0;
 	return (infos);
 }
 
-t_infos		get_file(void)
+static t_infos	returne(t_infos *infos, char **line)
+{
+	free_line(line);
+	get_next_line(0, NULL);
+	erase_infos(infos);
+	return (*infos);
+}
+
+static int		check_ants(char *line)
+{
+	char	**tmp;
+
+	if (!(tmp = ft_strsplit(line, ' ')))
+		return (0);
+	if (len_tab_str(tmp) > 1)
+	{
+		free_tab_str(&tmp);
+		return (0);
+	}
+	free_tab_str(&tmp);
+	if (!(tmp = ft_strsplit(line, '-')))
+		return (0);
+	if (len_tab_str(tmp) > 1)
+	{
+		free_tab_str(&tmp);
+		return (0);
+	}
+	free_tab_str(&tmp);
+	return (1);
+}
+
+t_infos			get_file(void)
 {
 	t_infos	infos;
 	char	*line;
@@ -43,18 +83,15 @@ t_infos		get_file(void)
 	while (get_next_line(0, &line) > 0)
 	{
 		if (!(parsing_line(&infos, line, etapes)))
-		{
-			free_line(&line);
-			get_next_line(0, NULL);
-			erase_infos(&infos);
-			break ;
-		}
-		if (etapes == 0 && line[0] != '#')
+			return (returne(&infos, &line));
+		if (etapes == 0 && line && line[0] != '#' && check_ants(line))
 		{
 			infos.nb_of_fourmis = ft_atoi(line);
 			etapes++;
 		}
 		infos.file = add_file(infos.file, line);
 	}
+	if (infos.nb_of_fourmis <= 0)
+		return (returne(&infos, &line));
 	return (infos);
 }
